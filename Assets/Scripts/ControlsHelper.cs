@@ -5,6 +5,8 @@ using static LevelHelper;
 
 public class ControlsHelper : MonoBehaviour
 {
+
+    public GameObject WorldMapCanvas; //for activating it on click
     // Start is called before the first frame update
 
 
@@ -32,9 +34,19 @@ public class ControlsHelper : MonoBehaviour
 
 
 
-    public void OvermapButton()
+    public void OpenOvermapButton()
     {
 
+        WorldMapCanvas.SetActive(true);
+        Debug.Log("CLICKED OVERMAP BUTTON.");
+        GameManager.SoundManagerRef.PlaySoundByName("clickButton");
+    }
+
+    public void CloseOvermapButton()
+    {
+
+        WorldMapCanvas.SetActive(false);
+        Debug.Log("CLICKED closeOVERMAP BUTTON.");
         GameManager.SoundManagerRef.PlaySoundByName("clickButton");
     }
 

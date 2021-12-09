@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SoundManager
+public class SoundManager : MonoBehaviour
 {
     Dictionary<string, AudioClip> soundEffectList = new Dictionary<string, AudioClip>();
     Dictionary<string, AudioClip> backgroundMusic = new Dictionary<string, AudioClip>();
-    public AudioSource audioSource;
+    public AudioSource sfxSource;
+    public GameObject soundtrackObj;
+    private AudioSource soundtrackSource;
     //sounds
     [Space(10)]
     public AudioClip hit1;
@@ -20,7 +22,8 @@ public class SoundManager
     // Start is called before the first frame update
     void Start()
     {
-        audioSource = GameObject.Find("Main Camera").GetComponent<AudioSource>();
+        soundtrackSource = soundtrackObj.GetComponent<AudioSource>();
+        sfxSource = GameObject.Find("Main Camera").GetComponent<AudioSource>();
         GameManager.SoundManagerRef = this;
         soundEffectList.Add("hit1", hit1); //add em like this
     }
@@ -38,24 +41,24 @@ public class SoundManager
         AudioClip temp = null;
         if (soundEffectList.TryGetValue(soundID, out temp))
         {
-            audioSource.PlayOneShot(temp);
+            sfxSource.PlayOneShot(temp);
         }
     }
 
     public void ChangeSoundtrack(AudioClip ost)
     {//for soundtracks
-        audioSource.clip = ost;
+        soundtrackSource.clip = ost;
         
     }
 
     public void StartSoundtrack()
     {
-        audioSource.Play();
+        soundtrackSource.Play();
     }
 
     public void StopSoundtrack()
     {
-        audioSource.Stop();
+        soundtrackSource.Stop();
     }
 
 }

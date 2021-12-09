@@ -22,10 +22,9 @@ public class LevelHelper : MonoBehaviour
     void Start()
     {
 
-            GameManager.backgroundObject = BackgroundCube;
+        GameManager.backgroundObject = BackgroundCube;
         
         GenerateLevels();
-        // GameManager.lvlManager= this; not needed yet
     }
 
     private void GenerateLevels()
@@ -113,7 +112,7 @@ public class LevelHelper : MonoBehaviour
         public List<MapLevel> nextLevels; //tracks levels that succeed this one on the map
 
 
-        public Material levelBackground;
+        public Material levelBackgroundMaterial;
         public AudioClip levelSoundtrack;
         public LevelHelper lvlmanager;
 
@@ -130,7 +129,7 @@ public class LevelHelper : MonoBehaviour
             this.EnemyType = enemyTypes;
             this.startingDifficulty = startDiff;
             this.difficultyIncreasePerRoom = diffIncrement;
-            this.levelBackground = background;
+            this.levelBackgroundMaterial = background;
             this.levelSoundtrack = soundtrack;
             this.isCampfire = Campfire;
 
