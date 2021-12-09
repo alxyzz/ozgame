@@ -8,6 +8,7 @@ public class ControlsHelper : MonoBehaviour
 
     public GameObject WorldMapCanvas; //for activating it on click
     public GameObject WorldCanvasLevelPrefab;
+    public GameObject SelectedChar;
     // Start is called before the first frame update
 
 

@@ -39,19 +39,17 @@ public class OvermapGenerator : MonoBehaviour
 
     public class OverMap
     {//overmap class.
-        public MapRow[] Rows;//i am surprised this works
+        public MapRow[] Rows = new MapRow[4];//i am surprised this works
 
-
-
-        //todo  - put starting and ending level at required places
         public void GenerateOvermap()
-        {//.Rank for the number of dimensions. In the case this is 2, .GetLength(0) for the number of rows, .GetLength(1) for the number of columns. 
+        {
+           
             bool RowCountAlternatorBool = true;
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; Rows.Length-1 < 3; i++)
             {//loops through each level in each rank and chooses a random template type to apply
-                if (Rows[i] != null)
-                {
-                    Rows[i] = new MapRow();
+                //if (Rows[i] != null) return;
+                MapRow bobbyTheRow = new MapRow();
+                Rows[i] = bobbyTheRow;
                     if (RowCountAlternatorBool)
                     {
                         Rows[i].Initialize(3);
@@ -68,16 +66,18 @@ public class OvermapGenerator : MonoBehaviour
                         int listIndex = Random.Range(0, GameManager.levelTemplates.Count + 1); //0-based list? some find it quite cringe.
                         Rows[i].levels[y] = LevelFromTemplate(GameManager.levelTemplates[listIndex]);//rolls a random template for the level
                     }
-                }
+                
                 
                
             }
-            LinkMaps();
+            //LinkMaps();
         }
 
 
         public void LinkMaps()
         {
+
+
             if (GameManager.currentLevel == null)
             {
                 Debug.Log("GameManager's current level is null...");
