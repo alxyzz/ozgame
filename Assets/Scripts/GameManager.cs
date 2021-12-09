@@ -45,8 +45,9 @@ public static class GameManager
     //party
     public static List<Character> allChars = new List<Character>(); //all chars on current level
     public static List<Character> playerParty = new List<Character>(); //all player party chars
+    public static List<GameObject> playerPartyMemberObjects = new List<GameObject>();
     public static List<Character> enemyParty = new List<Character>(); //all enemy chars
-
+    public static List<GameObject> enemyPartyMemberObjects = new List<GameObject>();
     //items
 
 
@@ -71,10 +72,9 @@ public static class GameManager
     //char dies? dead for rest of the run, traits and items go to inventory
 
     //also add trait mixing mechanics
-    //also! ALLOW TRAIT SWITCHING AT CAMPFIREs - do grid based overmap first.
+    //also! ALLOW TRAIT SWITCHING AT CAMPFIREs - do overmap first
 
 
-    //TO DO - ADD GRID BASED OVERMAP FOR GOING FROM LEVEL TO LEVEL
     public static GameObject backgroundObject; //just a reference to the cube that the background is painted on
 
 
@@ -144,8 +144,12 @@ public static class GameManager
         {
             Debug.Log("currentLevel is Null.");
         }
-        SoundManagerRef.StopSoundtrack();
+        //SoundManagerRef.StopSoundtrack();
         currentLevel = ToThisLevel;
+        if (currentLevel != null)
+        {
+            Debug.Log("currentLevel is not Null anymore.");
+        }
         //backgroundObject.GetComponent<Renderer>().material = currentLevel.levelBackgroundMaterial;
         //SoundManagerRef.ChangeSoundtrack(currentLevel.levelSoundtrack);
         //SoundManagerRef.StartSoundtrack();
