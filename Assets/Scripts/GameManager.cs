@@ -5,6 +5,7 @@ using UnityEngine;
 using static ItemHelper;
 using static LevelHelper;
 using static TraitHelper;
+using static OvermapGenerator;
 
 public static class GameManager
 {
@@ -28,15 +29,17 @@ public static class GameManager
     private static float partyXP; //implement scaling for levelling up if we decide on actually having it. quadratic or linear?
 
     //levels
-    public static int maxLevelsAmount = 3; //maximum amount of map levels
-    public static int RankAmount;//amount of level rows, not counting the first and the last.
+    //public static int maxLevelsAmount = 3; //maximum amount of map levels
+    //public static int RowAmount = 4;//amount of level rows, not counting the first and the last.
+
     public static MapLevel currentLevel; //current level duh sillypants
     public static List<MapLevel> levelTemplates = new List<MapLevel>(); //templates for various level types
-    public static OvermapGenerator overmapGeneratorRef; //the overmap generator object, it assigns itself at start
 
+    public static OvermapGenerator overmapGeneratorRef; //the overmap generator object, it assigns itself at start
+    public static OverMap gameOvermap;
 
     public static MapLevel startingLevel;
-    public static MapLevel lastLevel;
+    public static MapLevel finalLevel;
 
 
     //party
@@ -127,14 +130,27 @@ public static class GameManager
     }
 
 
+    static void BuildWorldmap()
+    {
+        ControlsHelperRef.BuildWorldCanvas();
+
+
+    }
+
+
     public static void Travel(MapLevel ToThisLevel)
     {//is there anything better than a nice durum kebab with extra scharf/spicy sauce?
-
+        if (currentLevel == null)
+        {
+            Debug.Log("currentLevel is Null.");
+        }
         SoundManagerRef.StopSoundtrack();
         currentLevel = ToThisLevel;
-        backgroundObject.GetComponent<Renderer>().material = currentLevel.levelBackgroundMaterial;
-        SoundManagerRef.ChangeSoundtrack(currentLevel.levelSoundtrack);
-        SoundManagerRef.StartSoundtrack();
+        //backgroundObject.GetComponent<Renderer>().material = currentLevel.levelBackgroundMaterial;
+        //SoundManagerRef.ChangeSoundtrack(currentLevel.levelSoundtrack);
+        //SoundManagerRef.StartSoundtrack();
+        //currentLevel.visited = true;
+        BuildWorldmap();
 
     }
 

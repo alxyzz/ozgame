@@ -11,6 +11,10 @@ public class LevelHelper : MonoBehaviour
     //set up level template assets here.
     public GameObject BackgroundCube;
     public AudioSource SoundtrackPlayer;
+    public Sprite campfireSprite;
+    public Sprite shopSprite;
+    public Sprite BossSprite;
+
     [Space(10)]
     public Material DarkForestMat;
     public AudioClip DarkForestSound;
@@ -106,6 +110,7 @@ public class LevelHelper : MonoBehaviour
         public float startingDifficulty; //the difficulty it starts at.
         public float difficultyIncreasePerRoom; //how much the difficulty increases after every room.
 
+        public bool visited;
 
         public int levelRank; //from the beginning to the end, the rank goes from 0 to the maximum amount of levels we decide on.
         public List<MapLevel> previousLevels; //tracks levels that precede this one on the map

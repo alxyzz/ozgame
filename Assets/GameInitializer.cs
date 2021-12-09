@@ -4,15 +4,25 @@ using UnityEngine;
 
 public class GameInitializer : MonoBehaviour
 {
+
+    
     // Start is called before the first frame update
     void Start()
     {
-        GameManager.Travel(GameManager.startingLevel);
+        StartCoroutine(initMap());
     }
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+
+
+    IEnumerator initMap()
+    {
+       
+        GameManager.Travel(GameManager.startingLevel);
+        yield return new WaitForSecondsRealtime(3f);
     }
 }

@@ -6,7 +6,7 @@ public class SoundManager : MonoBehaviour
 {
     Dictionary<string, AudioClip> soundEffectList = new Dictionary<string, AudioClip>();
     Dictionary<string, AudioClip> backgroundMusic = new Dictionary<string, AudioClip>();
-    public AudioSource sfxSource;
+    private AudioSource sfxSource;
     public GameObject soundtrackObj;
     private AudioSource soundtrackSource;
     //sounds
