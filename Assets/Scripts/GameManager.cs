@@ -38,8 +38,8 @@ public static class GameManager
 
     public static OvermapGenerator overmapGeneratorRef; //the overmap generator object, it assigns itself at start
     public static OverMap gameOvermap;
-    public static List<MapIconScript> mapIcons = new List<MapIconScript>();
-    public static MapIconScript currentMapIcon;
+    public static List<MapIconScript> mapIcons = new List<MapIconScript>(); //all map icons in the game
+    public static MapIconScript currentMapIcon; 
 
     public static MapLevel startingLevel;
     public static MapLevel finalLevel;
@@ -94,9 +94,9 @@ public static class GameManager
 
     public static void PassTurn()
     {//player pressed the Next button to let actions play out and let enemies act
+        StartOfTurn();
         StatusEffectsProc(); //burns, poison, etc
         DoQueuedActions(); //player character attacks, uses abilities, potions, etc
-        StartOfTurn();
         DoEnemyActions();
     }
 

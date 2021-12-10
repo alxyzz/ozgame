@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using static EntityHelper;
+using static TraitHelper;
 
 public class CharacterScript : MonoBehaviour
 {
@@ -11,11 +12,11 @@ public class CharacterScript : MonoBehaviour
     public string characterstringID;
     public string charName;
     public string charDesc;
-    public string charTrait;
+    public Trait charTrait;
     public Sprite charAvatar;
+    //the previous are just for testing, we'll grab the stuff from the char reference below 
     public Character associatedCharacter;
     public float inflateStep = 0.01f;
-    bool done = false;
 
     // Start is called before the first frame update
     void Start()
@@ -38,8 +39,11 @@ public class CharacterScript : MonoBehaviour
 
     void AssumeIdentity(Character charac)
     {
-
-
+        isEnemy = !charac.isPlayerPartyMember;
+        charName = charac.entityName;
+        charDesc = charac.entityDescription;
+        charTrait = charac.charTrait;
+        charAvatar = charac.charSprite;
     }
 
 
@@ -72,7 +76,10 @@ public class CharacterScript : MonoBehaviour
         {
             charactDescript.text = charDesc;
             charactName.text = charName;
-            charactTitle.text = charTrait;
+            if (charTrait != null)
+            {
+                charactTitle.text = charTrait.traitName;
+            }
             charactAvatar.sprite = charAvatar;
         }
         else
@@ -93,8 +100,11 @@ public class CharacterScript : MonoBehaviour
 
     void OnMouseEnter()
     {
-        ToggleCharDetails(true);
-        transform.localScale = new Vector3(1.1f, 1.1f, 1f);
+        
+            ToggleCharDetails(true);
+            transform.localScale = new Vector3(1.1f, 1.1f, 1f);
+        
+        
         //show text on bottom of screen
     }
 
@@ -103,8 +113,10 @@ public class CharacterScript : MonoBehaviour
 
     void OnMouseExit()
     {
-        ToggleCharDetails(false);
+        
+            ToggleCharDetails(false);
         transform.localScale = new Vector3(1f, 1f, 1f);
+        
     }
 
 
