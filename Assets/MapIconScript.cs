@@ -1,23 +1,38 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using static LevelHelper;
 
 public class MapIconScript : MonoBehaviour
 {
+
+    public bool isStart;
+    public bool isEnd;
+
     public List<MapIconScript> moveableToIcons = new List<MapIconScript>();
     private MapLevel relatedMapLevel;
     bool clickedOnce;
 
+    public string description;
+    public string nameee;
+
     public Color SelectedColor;
     Color normalColor;
+
+    public float MaxDistanceToLink;
 
     // Start is called before the first frame update
     void Start()
     {
-        normalColor = this.gameObject.GetComponent<Image>().color;
         GameManager.mapIcons.Add(this);
+        if (isStart)
+        {
+            GameManager.currentMapIcon = this;
+        }
+        normalColor = this.gameObject.GetComponent<Image>().color;
+        FindClosestAbove();
     }
 
     // Update is called once per frame
@@ -41,7 +56,7 @@ public class MapIconScript : MonoBehaviour
 
     }
 
-    private void OnMouseDown()
+    public void OnClick()
     {
         if (GameManager.currentMapIcon.moveableToIcons.Contains(this))
         {
@@ -58,6 +73,18 @@ public class MapIconScript : MonoBehaviour
             }
             //move there
         }
+    }
+
+    private void OnMouseEnter()
+    {
+        GameManager.uiMan.worldmapName.GetComponent<TextMeshProUGUI>().text = nameee;
+        GameManager.uiMan.worldmapDescription.GetComponent<TextMeshProUGUI>().text = description;
+    }
+
+    private void OnMouseExit()
+    {
+        GameManager.uiMan.worldmapName.GetComponent<TextMeshProUGUI>().text = "";
+        GameManager.uiMan.worldmapDescription.GetComponent<TextMeshProUGUI>().text = "";
     }
 
 
@@ -87,10 +114,16 @@ public class MapIconScript : MonoBehaviour
         return johnnyLevel;
     }
 
-    private void FindClosest()
+    private void FindClosestAbove()
     {
         //find all icons in range by tag "mapIcon"
-        
+        foreach (MapIconScript item in GameManager.mapIcons)
+        {
+            if ((item.transform.position.y > this.transform.position.y) && (item.transform.position.x != this.transform.position.x))
+            {
+
+            }
+        }
     }
 
     private void LinkToClosest(List<GameObject> closestIcons)

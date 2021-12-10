@@ -68,6 +68,12 @@ public class EntityHelper : MonoBehaviour
         private int baseHealth;
         private int baseDamage;
 
+        public int defense;
+        public int damage;
+        public int luck;
+        public int mana;
+
+
         public void TakeDamage(int dmg, string attackverb, Character attacker, bool critical)
         { //runs when being hit
             if (critical)
