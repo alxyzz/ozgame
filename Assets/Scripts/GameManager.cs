@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using static ItemHelper;
+using static EntityHelper;
 using static LevelHelper;
 using static TraitHelper;
 using static OvermapGenerator;
@@ -23,6 +23,7 @@ public static class GameManager
     //User Interface
     public static UserInterfaceHelper uiMan;
 
+
     //game state
     private static int turnNumber;
     private static int gold;
@@ -37,6 +38,8 @@ public static class GameManager
 
     public static OvermapGenerator overmapGeneratorRef; //the overmap generator object, it assigns itself at start
     public static OverMap gameOvermap;
+    public static List<MapIconScript> mapIcons = new List<MapIconScript>();
+    public static MapIconScript currentMapIcon;
 
     public static MapLevel startingLevel;
     public static MapLevel finalLevel;

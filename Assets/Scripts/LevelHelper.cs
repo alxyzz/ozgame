@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
-using static ItemHelper;
+using static EntityHelper;
 using static TraitHelper;
 
 public class LevelHelper : MonoBehaviour
@@ -49,7 +49,10 @@ public class LevelHelper : MonoBehaviour
     }
 
 
-
+    private MapLevel GetRandomLevel()
+    {
+        return GameManager.levelTemplates[UnityEngine.Random.Range(0, GameManager.levelTemplates.Count + 1)];//rolls a random template for the level
+    }
 
 
     public class Merchant

@@ -4,7 +4,7 @@ using UnityEngine;
 using static GameManager;
 using static TraitHelper;
 
-public class ItemHelper : MonoBehaviour
+public class EntityHelper : MonoBehaviour
 {
     private void Start()
     {
@@ -56,13 +56,15 @@ public class ItemHelper : MonoBehaviour
         public int ID;
         public string entityName;
         public string entityDescription;
+
         public bool isPlayerPartyMember;
+
         public Trait charTrait;
         public Sprite charSprite;
-        public int health;
 
         public StatusEffect currentStatusEffect;
 
+        public int currentHealth;
         private int baseHealth;
         private int baseDamage;
 
@@ -72,7 +74,7 @@ public class ItemHelper : MonoBehaviour
             { //make this red and bigger
                 GameManager.GameLog("Critical strike!");
             }
-           // GameManager.GameLog(this.entityName + " the " + charTrait.name + " has been " + attackverb + "ed by " + attacker.entityName + "for " + dmg + " damage!");
+           GameManager.GameLog(this.entityName + " the " + charTrait.name + " has been " + attackverb + "ed by " + attacker.entityName + "for " + dmg + " damage!");
 
         }
 
@@ -112,6 +114,11 @@ public class ItemHelper : MonoBehaviour
         public void gotKilled(Character killer)
         {
             //GameLog(killed.charName + "has been vanquished!");
+            if (isPlayerPartyMember)
+            {
+                playerParty.Remove(allChars.Find(x => x.GetID() == this.ID));
+            }
+            enemyParty.Remove(allChars.Find(x => x.GetID() == this.ID));
             allChars.Remove(allChars.Find(x => x.GetID() == this.ID));
             Destroy(this);
         }
