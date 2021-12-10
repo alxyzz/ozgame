@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class UserInterfaceHelper : MonoBehaviour
 {
-
     public GameObject selectedCharAvatar; //we will replace this object's image with the currently selected character's avatar
     public GameObject selectedCharName;
     public GameObject selectedCharTraitDesc;
@@ -23,7 +22,7 @@ public class UserInterfaceHelper : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        GameManager.uiMan = this;
+        DataHolder.uiMan = this;
     }
 
     // Update is called once per frame
@@ -31,6 +30,9 @@ public class UserInterfaceHelper : MonoBehaviour
     {
         
     }
+
+
+
 
     IEnumerator darksequence()
     {
@@ -50,8 +52,6 @@ public class UserInterfaceHelper : MonoBehaviour
             darkText.GetComponent<Image>().color = b;
             yield return new WaitForSecondsRealtime(travelMicroDelay);
         }
-
-
     }
 
     public void TravelLoadingSequence()

@@ -46,7 +46,7 @@ public class TraitHelper : MonoBehaviour
 
         private void Start()
         {
-            GameManager.traitList.Add(this);
+            DataHolder.traitList.Add(this);
         }
         public string GetName()
         {

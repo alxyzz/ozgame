@@ -26,10 +26,12 @@ public class MapIconScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        GameManager.mapIcons.Add(this);
+
+        DataHolder.mapIcons.Add(this);
+        Randomize();
         if (isStart)
         {
-            GameManager.currentMapIcon = this;
+            DataHolder.currentMapIcon = this;
         }
         normalColor = this.gameObject.GetComponent<Image>().color;
         FindClosestAbove();
@@ -40,13 +42,29 @@ public class MapIconScript : MonoBehaviour
     {
         
     }
-    IEnumerator delayLoading()
+
+    void Randomize()
     {
+        MapLevel mappyTheLevel;
+        try
+        {
+            mappyTheLevel = LevelFromTemplate(DataHolder.levelTemplates[Random.Range(1, DataHolder.levelTemplates.Count + 1)]);
+            relatedMapLevel = mappyTheLevel;
+        }
+        catch (System.Exception)
+        {
+            mappyTheLevel = new MapLevel("Weird Place", "A plane of nothingness.", "Something is wrong.", 3, "Gods", 1f, 1f, null, null, false);
+            relatedMapLevel = mappyTheLevel;
+            throw;
+        }
+        
+       
+        //this must: grab a template from the list, apply it
+        //randomize name, enemy amount, get description based on that
 
-            yield return new WaitForSecondsRealtime(2f);
 
-            
     }
+
     IEnumerator unclick()
     {
 
@@ -58,7 +76,7 @@ public class MapIconScript : MonoBehaviour
 
     public void OnClick()
     {
-        if (GameManager.currentMapIcon.moveableToIcons.Contains(this))
+        if (DataHolder.currentMapIcon.moveableToIcons.Contains(this))
         {
             if (!clickedOnce) //so doubleclick to travel
             {
@@ -77,23 +95,23 @@ public class MapIconScript : MonoBehaviour
 
     private void OnMouseEnter()
     {
-        GameManager.uiMan.worldmapName.GetComponent<TextMeshProUGUI>().text = nameee;
-        GameManager.uiMan.worldmapDescription.GetComponent<TextMeshProUGUI>().text = description;
+        DataHolder.uiMan.worldmapName.GetComponent<TextMeshProUGUI>().text = nameee;
+        DataHolder.uiMan.worldmapDescription.GetComponent<TextMeshProUGUI>().text = description;
     }
 
     private void OnMouseExit()
     {
-        GameManager.uiMan.worldmapName.GetComponent<TextMeshProUGUI>().text = "";
-        GameManager.uiMan.worldmapDescription.GetComponent<TextMeshProUGUI>().text = "";
+        DataHolder.uiMan.worldmapName.GetComponent<TextMeshProUGUI>().text = "";
+        DataHolder.uiMan.worldmapDescription.GetComponent<TextMeshProUGUI>().text = "";
     }
 
 
     private void MoveToIcon()
     {//we assume everything in order and proper checks have been previously made
-        GameManager.currentMapIcon = this;
-        GameManager.Travel(relatedMapLevel);
-        GameManager.ControlsHelperRef.CloseOvermapButton();
-        GameManager.uiMan.TravelLoadingSequence();
+        DataHolder.currentMapIcon = this;
+        DataHolder.Travel(relatedMapLevel);
+        DataHolder.ControlsHelperRef.CloseOvermapButton();
+        DataHolder.uiMan.TravelLoadingSequence();
     }
 
     public MapLevel LevelFromTemplate(MapLevel p)
@@ -117,17 +135,38 @@ public class MapIconScript : MonoBehaviour
     private void FindClosestAbove()
     {
         //find all icons in range by tag "mapIcon"
-        foreach (MapIconScript item in GameManager.mapIcons)
+        foreach (MapIconScript item in DataHolder.mapIcons)
         {
             if ((item.transform.position.y > this.transform.position.y) && (item.transform.position.x != this.transform.position.x))
             {
-
+                if ((item.transform.position.y - this.transform.position.y) <= MaxDistanceToLink)
+                {
+                    StartCoroutine(delayLoading(item));
+                }
+                
             }
         }
     }
 
-    private void LinkToClosest(List<GameObject> closestIcons)
+    private void LinkTo(MapIconScript closestIcon)
     {
+        moveableToIcons.Add(closestIcon);
+        relatedMapLevel.nextLevels.Add(closestIcon.relatedMapLevel);
         //draw a line to the closest ones and allow moving towards them. do not allow moving towards ones on the same x level or ones already visited.
+        var go = new GameObject();
+        var lr = go.AddComponent<LineRenderer>();
+
+        lr.SetPosition(0, this.transform.position);
+        lr.SetPosition(1, closestIcon.transform.position);
+        lr.startWidth = 5f;
+        lr.endWidth = 5f;
+    }
+
+    IEnumerator delayLoading(MapIconScript item)
+    {
+
+        yield return new WaitForSecondsRealtime(1f);
+        LinkTo(item);
+
     }
 }

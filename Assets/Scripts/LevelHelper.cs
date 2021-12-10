@@ -3,57 +3,49 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
-using static EntityHelper;
+using static Entity;
 using static TraitHelper;
 
-public class LevelHelper : MonoBehaviour
+public class LevelHelper
 {
     //set up level template assets here.
-    public GameObject BackgroundCube;
-    public AudioSource SoundtrackPlayer;
-    public Sprite campfireSprite;
-    public Sprite shopSprite;
-    public Sprite BossSprite;
-
-    [Space(10)]
-    public Material DarkForestMat;
-    public AudioClip DarkForestSound;
-    [Space(10)]
-    public Material CatacombsMat;
+    public Material testmat;
+    public AudioClip testsound;
 
 
-    // Start is called before the first frame update
-    void Start()
-    {
 
-        GameManager.backgroundObject = BackgroundCube;
-        
-        GenerateLevels();
-    }
 
-    private void GenerateLevels()
+
+
+    // 
+
+    public void GenerateLevels()
     {
         //Creates level templates, gives them references to assets, puts the level in GameManager's level list.
         //
         //ScriptableObject.CreateInstance("GameLevel");
 
         //set up level template variables here.
-        MapLevel darkforest = new MapLevel("Dark Forest", "A dark, scary forest.", "Travellers would be wise not to tarry along...", 3, "Beasts", 1f, 1f, DarkForestMat, DarkForestSound, false);
-        darkforest.soundplayerReference = SoundtrackPlayer;
-        darkforest.backgroundReference = BackgroundCube;
-        GameManager.levelTemplates.Add(darkforest); //adds the template to the global list
+
+        MapLevel darkForest = new MapLevel("Dark Forest", "A dark, scary forest.", "Travellers would be wise not to tarry along...", 3, "Beasts", 1f, 1f, testmat, testsound, false);
+        DataHolder.levelTemplates.Add("darkforest", darkForest); //adds the template to the global list
+
+        MapLevel tomb = new MapLevel("Abandoned Town", "This town is empty...", "It smells weird.", 3, "Doppelgangers", 1f, 1f, DarkForestMat, DarkForestSound, false);
+        DataHolder.levelTemplates.Add("tomb",tomb);
 
 
 
-        GameManager.levelsInitDone = true; //to keep track of this, so we don't somehow generate the Overmap before initializing the templates
+        DataHolder.levelsInitDone = true; //to keep track of this, so we don't somehow generate the Overmap before initializing the templates
     }
 
 
     private MapLevel GetRandomLevel()
     {
-        return GameManager.levelTemplates[UnityEngine.Random.Range(0, GameManager.levelTemplates.Count + 1)];//rolls a random template for the level
+        List<string> keyList = new List<string>(DataHolder.levelTemplates.Keys);
+        string randomKey = keyList[UnityEngine.Random.Range(0, keyList.Count + 1)];
+        Debug.Log("Fetched random t1 trait: " + randomKey);
+        return DataHolder.levelTemplates[randomKey];
     }
-
 
     public class Merchant
     {
@@ -67,9 +59,6 @@ public class LevelHelper : MonoBehaviour
         public Merchant()
         {
 
-
-
-
         }
 
 
@@ -82,14 +71,14 @@ public class LevelHelper : MonoBehaviour
         public void GenerateStock()
         {
             string debug = "";
-            for (int i = 0; i < GameManager.ShopItemCount; i++)
+            for (int i = 0; i < DataHolder.ShopItemCount; i++)
             {
-                Item b = GameManager.allItems[UnityEngine.Random.Range(1, GameManager.allItems.Count + 1)];
+                Item b = DataHolder.MainLoop.EntityLoader.FetchRandomItem();
                 ItemStock.Add(b);//just pick a random item
                 debug += b.itemName + ", ";
             }
-
-            soldTrait = GameManager.t1traitList[UnityEngine.Random.Range(1, GameManager.t1traitList.Count + 1)];//just pick a random trait
+            
+            soldTrait = DataHolder.MainLoop.EntityLoader.FetchRandomTrait();
             debug += "and the trait of " + soldTrait.traitName;
             Debug.Log(this.merchantName + " has generated their stock: " + debug);
 
@@ -98,7 +87,6 @@ public class LevelHelper : MonoBehaviour
 
 
     }
-
 
 
     public class MapLevel 
@@ -119,14 +107,8 @@ public class LevelHelper : MonoBehaviour
         public List<MapLevel> previousLevels; //tracks levels that precede this one on the map
         public List<MapLevel> nextLevels; //tracks levels that succeed this one on the map
 
-
         public Material levelBackgroundMaterial;
         public AudioClip levelSoundtrack;
-        public LevelHelper lvlmanager;
-
-        public GameObject backgroundReference;
-        public AudioSource soundplayerReference;
-
 
         public MapLevel(string name, string blurb, string desc, int roomcount, string enemyTypes, float startDiff, float diffIncrement, Material background, AudioClip soundtrack, bool Campfire)
         {//class constructor

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using static EntityHelper;
+using static Entity;
 using static TraitHelper;
 
 public class CharacterScript : MonoBehaviour
@@ -14,20 +14,34 @@ public class CharacterScript : MonoBehaviour
     public string charDesc;
     public Trait charTrait;
     public Sprite charAvatar;
-    //the previous are just for testing, we'll grab the stuff from the char reference below 
+    //the previous are just for testing, we'll grab the stuff from the char reference below later
     public Character associatedCharacter;
     public float inflateStep = 0.01f;
 
     // Start is called before the first frame update
     void Start()
     {
+        if (associatedCharacter != null)
+        {
+            associatedCharacter.currentCharObj = this;
+        }
+       
         if (!isEnemy)
         {
-            GameManager.playerPartyMemberObjects.Add(gameObject);
+            DataHolder.playerPartyMemberObjects.Add(gameObject);
         }
         else
         {
-            GameManager.enemyPartyMemberObjects.Add(gameObject);
+            DataHolder.enemyPartyMemberObjects.Add(gameObject);
+        }
+    }
+
+
+    void CheckCharacterExistence()
+    {
+        if (associatedCharacter != null)
+        {
+            associatedCharacter.currentCharObj = this;
         }
     }
 
@@ -37,30 +51,21 @@ public class CharacterScript : MonoBehaviour
         
     }
 
-    void AssumeIdentity(Character charac)
-    {
-        isEnemy = !charac.isPlayerPartyMember;
-        charName = charac.entityName;
-        charDesc = charac.entityDescription;
-        charTrait = charac.charTrait;
-        charAvatar = charac.charSprite;
-    }
-
-
     void OnMouseDown()
     {
        
-        if (GameManager.ControlsHelperRef.SelectedChar == null)
+        if (DataHolder.ControlsHelperRef.SelectedChar == null)
         {
-            GameManager.ControlsHelperRef.SelectedChar = gameObject;
+            DataHolder.ControlsHelperRef.SelectedChar = gameObject;
         }
-        else if (GameManager.ControlsHelperRef.SelectedChar != gameObject)
+        else if (DataHolder.ControlsHelperRef.SelectedChar != gameObject)
         {
+
             //SwapWith(GameManager.ControlsHelperRef.SelectedChar);
         }
-        else if (GameManager.ControlsHelperRef.SelectedChar == gameObject)
+        else if (DataHolder.ControlsHelperRef.SelectedChar == gameObject)
         {
-            GameManager.ControlsHelperRef.SelectedChar = null;
+            DataHolder.ControlsHelperRef.SelectedChar = null;
         }
     }
 
@@ -68,10 +73,10 @@ public class CharacterScript : MonoBehaviour
 
     void ToggleCharDetails(bool tr)
     {
-        TextMeshProUGUI charactDescript = GameManager.uiMan.selectedCharDescription.GetComponent<TextMeshProUGUI>();
-        TextMeshProUGUI charactName = GameManager.uiMan.selectedCharName.GetComponent<TextMeshProUGUI>();
-        Image charactAvatar = GameManager.uiMan.selectedCharAvatar.GetComponent<Image>();
-        TextMeshProUGUI charactTitle = GameManager.uiMan.selectedCharTraitDesc.GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI charactDescript = DataHolder.uiMan.selectedCharDescription.GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI charactName = DataHolder.uiMan.selectedCharName.GetComponent<TextMeshProUGUI>();
+        Image charactAvatar = DataHolder.uiMan.selectedCharAvatar.GetComponent<Image>();
+        TextMeshProUGUI charactTitle = DataHolder.uiMan.selectedCharTraitDesc.GetComponent<TextMeshProUGUI>();
         if (tr)
         {
             charactDescript.text = charDesc;

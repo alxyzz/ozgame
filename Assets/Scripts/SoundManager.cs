@@ -9,7 +9,7 @@ public class SoundManager : MonoBehaviour
     private AudioSource sfxSource;
     public GameObject soundtrackObj;
     private AudioSource soundtrackSource;
-    //sounds
+    //sounds, add em here
     [Space(10)]
     public AudioClip hit1;
     public AudioClip hit2;
@@ -24,7 +24,7 @@ public class SoundManager : MonoBehaviour
     {
         soundtrackSource = soundtrackObj.GetComponent<AudioSource>();
         sfxSource = GameObject.Find("Main Camera").GetComponent<AudioSource>();
-        GameManager.SoundManagerRef = this;
+        DataHolder.SoundManagerRef = this;
         soundEffectList.Add("hit1", hit1); //add em like this
     }
 

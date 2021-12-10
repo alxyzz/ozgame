@@ -14,13 +14,13 @@ public class ControlsHelper : MonoBehaviour
 
     private void Start()
     {
-        GameManager.ControlsHelperRef = this;
+        DataHolder.ControlsHelperRef = this;
     }
 
     //sends the pass turn button click to GameMaster, which is a static function & can't be chosen for the button dropdown function call thing coz you need it attached to an object.
     public void SendPlayClick()
     {
-        GameManager.PassTurn();
+        DataHolder.PassTurn();
         //add a click sound here
 
 
@@ -40,7 +40,7 @@ public class ControlsHelper : MonoBehaviour
     public void SendPauseClick()
     {
 
-        GameManager.SoundManagerRef.PlaySoundByName("clickButton");
+        DataHolder.SoundManagerRef.PlaySoundByName("clickButton");
     }
 
 
@@ -51,7 +51,7 @@ public class ControlsHelper : MonoBehaviour
 
         WorldMapCanvas.SetActive(true);
         //Debug.Log("CLICKED OVERMAP BUTTON.");
-        GameManager.SoundManagerRef.PlaySoundByName("clickButton");
+        DataHolder.SoundManagerRef.PlaySoundByName("clickButton");
     }
 
     public void CloseOvermapButton()
@@ -59,22 +59,22 @@ public class ControlsHelper : MonoBehaviour
 
         WorldMapCanvas.SetActive(false);
        // Debug.Log("CLICKED closeOVERMAP BUTTON.");
-        GameManager.SoundManagerRef.PlaySoundByName("clickButton");
+        DataHolder.SoundManagerRef.PlaySoundByName("clickButton");
     }
 
     public void ClickedLevel(MapLevel clickyyy)
     {
-        if (clickyyy != GameManager.currentLevel)
+        if (clickyyy != DataHolder.currentLevel)
         {//we go there if possible
-            if (GameManager.currentLevel.nextLevels.Contains(clickyyy))
+            if (DataHolder.currentLevel.nextLevels.Contains(clickyyy))
             {//oh yeeeeee
 
-                GameManager.SoundManagerRef.PlaySoundByName("clickButton");
+                DataHolder.SoundManagerRef.PlaySoundByName("clickButton");
             }
             else
             {
                 //failure
-                GameManager.SoundManagerRef.PlaySoundByName("failure");
+                DataHolder.SoundManagerRef.PlaySoundByName("failure");
             }
         }
 
