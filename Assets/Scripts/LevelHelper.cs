@@ -32,7 +32,7 @@ public class LevelHelper
 
         //set up level template variables here.
 
-        MapLevel darkForest = new MapLevel("Dark Forest", "A dark, scary forest.", "Travellers would be wise to hurry along..", 3, "Beasts", 1f, 1f, testmat, testsound, false);
+        MapLevel darkForest = new MapLevel("Dark Forest", "A dark, very scary forest.", "Travellers would be wise to hurry along..", 3, "Beasts", 1f, 1f, testmat, testsound, false);
         Storagestuff.levelTemplates.Add("darkforest", darkForest); //adds the template to the global list
 
         MapLevel town = new MapLevel("Abandoned Town", "This town is empty...", "It smells weird.", 3, "Doppelgangers", 1f, 1f, testmat, testsound, false);
