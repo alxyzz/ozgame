@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,12 +18,68 @@ public class UserInterfaceHelper : MonoBehaviour
     public GameObject darkText;
     public float travelMicroDelay;
     public float transparencyIncrement;
+
+    public GameObject GameUI;
+    public GameObject MainMenuBack;
+    public GameObject MainMenuStart;
+    public GameObject MainMenuExit;
+    public GameObject MainMenuExitYes;
+    public GameObject MainMenuExitSure;
+    public GameObject MainMenuExitNo;
+
+
+    public void ClickSendPause()
+    {
+        MainMenuBack.SetActive(true);
+        MainMenuStart.SetActive(true);
+        MainMenuExit.SetActive(true);
+        GameUI.SetActive(false);
+        Storagestuff.SoundManagerRef.PlaySoundByName("clickButton");
+        
+    }
+
+    public void ClickStartGame()
+    {
+        Storagestuff.SoundManagerRef.PlaySoundByName("clickButton");
+        //MainMenuStart.GetComponent<TextMeshProUGUI>().text = "Continue";
+        MainMenuStart.SetActive(false);
+        MainMenuExit.SetActive(false);
+        MainMenuBack.SetActive(false);
+        GameUI.SetActive(true);
+    }
+
+    public void ClickExitGame()
+    {
+        Storagestuff.SoundManagerRef.PlaySoundByName("clickButton");
+        MainMenuStart.SetActive(false);
+        MainMenuExit.SetActive(false);
+        MainMenuExitYes.SetActive(true);
+        MainMenuExitSure.SetActive(true);
+        MainMenuExitNo.SetActive(true);
+}
+
+    public void ClickExitYes()
+    {
+        Storagestuff.SoundManagerRef.PlaySoundByName("clickButton");
+        Application.Quit();
+    }
+
+    public void ClickExitNo()
+    {
+        Storagestuff.SoundManagerRef.PlaySoundByName("clickButton");
+        MainMenuStart.SetActive(true);
+        MainMenuExit.SetActive(true);
+        MainMenuExitYes.SetActive(false);
+        MainMenuExitSure.SetActive(false);
+        MainMenuExitNo.SetActive(false);
+    }
+
     //if we decide wether we should allow characters to have more than one trait, rework this to display the trait icons in a list/row
 
     // Start is called before the first frame update
     void Start()
     {
-        DataHolder.uiMan = this;
+        Storagestuff.uiMan = this;
     }
 
     // Update is called once per frame

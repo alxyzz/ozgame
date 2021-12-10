@@ -28,11 +28,11 @@ public class CharacterScript : MonoBehaviour
        
         if (!isEnemy)
         {
-            DataHolder.playerPartyMemberObjects.Add(gameObject);
+            Storagestuff.playerPartyMemberObjects.Add(gameObject);
         }
         else
         {
-            DataHolder.enemyPartyMemberObjects.Add(gameObject);
+            Storagestuff.enemyPartyMemberObjects.Add(gameObject);
         }
     }
 
@@ -54,18 +54,18 @@ public class CharacterScript : MonoBehaviour
     void OnMouseDown()
     {
        
-        if (DataHolder.ControlsHelperRef.SelectedChar == null)
+        if (Storagestuff.ControlsHelperRef.SelectedChar == null)
         {
-            DataHolder.ControlsHelperRef.SelectedChar = gameObject;
+            Storagestuff.ControlsHelperRef.SelectedChar = gameObject;
         }
-        else if (DataHolder.ControlsHelperRef.SelectedChar != gameObject)
+        else if (Storagestuff.ControlsHelperRef.SelectedChar != gameObject)
         {
 
             //SwapWith(GameManager.ControlsHelperRef.SelectedChar);
         }
-        else if (DataHolder.ControlsHelperRef.SelectedChar == gameObject)
+        else if (Storagestuff.ControlsHelperRef.SelectedChar == gameObject)
         {
-            DataHolder.ControlsHelperRef.SelectedChar = null;
+            Storagestuff.ControlsHelperRef.SelectedChar = null;
         }
     }
 
@@ -73,10 +73,10 @@ public class CharacterScript : MonoBehaviour
 
     void ToggleCharDetails(bool tr)
     {
-        TextMeshProUGUI charactDescript = DataHolder.uiMan.selectedCharDescription.GetComponent<TextMeshProUGUI>();
-        TextMeshProUGUI charactName = DataHolder.uiMan.selectedCharName.GetComponent<TextMeshProUGUI>();
-        Image charactAvatar = DataHolder.uiMan.selectedCharAvatar.GetComponent<Image>();
-        TextMeshProUGUI charactTitle = DataHolder.uiMan.selectedCharTraitDesc.GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI charactDescript = Storagestuff.uiMan.selectedCharDescription.GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI charactName = Storagestuff.uiMan.selectedCharName.GetComponent<TextMeshProUGUI>();
+        Image charactAvatar = Storagestuff.uiMan.selectedCharAvatar.GetComponent<Image>();
+        TextMeshProUGUI charactTitle = Storagestuff.uiMan.selectedCharTraitDesc.GetComponent<TextMeshProUGUI>();
         if (tr)
         {
             charactDescript.text = charDesc;

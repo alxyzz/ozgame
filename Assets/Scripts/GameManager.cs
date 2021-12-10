@@ -11,9 +11,9 @@ public class GameManager : MonoBehaviour
     public RefHolder RefStore;
 
     // Start is called before the first frame update
-    void Start()
+    void StartGame()
     {
-        DataHolder.MainLoop = this;
+        Storagestuff.MainLoop = this;
         SoundLoader = gameObject.GetComponent<SoundManager>();
         LevelLoader = gameObject.GetComponent<LevelHelper>();
         RefStore = gameObject.GetComponent<RefHolder>();

@@ -27,24 +27,24 @@ public class LevelHelper
 
         //set up level template variables here.
 
-        MapLevel darkForest = new MapLevel("Dark Forest", "A dark, scary forest.", "Travellers would be wise not to tarry along...", 3, "Beasts", 1f, 1f, testmat, testsound, false);
-        DataHolder.levelTemplates.Add("darkforest", darkForest); //adds the template to the global list
+        MapLevel darkForest = new MapLevel("Dark Forest", "A dark, scary forest.", "Travellers would be wise to hurry along..", 3, "Beasts", 1f, 1f, testmat, testsound, false);
+        Storagestuff.levelTemplates.Add("darkforest", darkForest); //adds the template to the global list
 
-        MapLevel tomb = new MapLevel("Abandoned Town", "This town is empty...", "It smells weird.", 3, "Doppelgangers", 1f, 1f, DarkForestMat, DarkForestSound, false);
-        DataHolder.levelTemplates.Add("tomb",tomb);
+        MapLevel tomb = new MapLevel("Abandoned Town", "This town is empty...", "It smells weird.", 3, "Doppelgangers", 1f, 1f, testmat, testsound, false);
+        Storagestuff.levelTemplates.Add("tomb",tomb);
 
 
 
-        DataHolder.levelsInitDone = true; //to keep track of this, so we don't somehow generate the Overmap before initializing the templates
+        Storagestuff.levelsInitDone = true; //to keep track of this, so we don't somehow generate the Overmap before initializing the templates
     }
 
 
     private MapLevel GetRandomLevel()
     {
-        List<string> keyList = new List<string>(DataHolder.levelTemplates.Keys);
+        List<string> keyList = new List<string>(Storagestuff.levelTemplates.Keys);
         string randomKey = keyList[UnityEngine.Random.Range(0, keyList.Count + 1)];
-        Debug.Log("Fetched random t1 trait: " + randomKey);
-        return DataHolder.levelTemplates[randomKey];
+        Debug.Log("Fetched random level: " + randomKey);
+        return Storagestuff.levelTemplates[randomKey];
     }
 
     public class Merchant
@@ -71,14 +71,14 @@ public class LevelHelper
         public void GenerateStock()
         {
             string debug = "";
-            for (int i = 0; i < DataHolder.ShopItemCount; i++)
+            for (int i = 0; i < Storagestuff.ShopItemCount; i++)
             {
-                Item b = DataHolder.MainLoop.EntityLoader.FetchRandomItem();
+                Item b = Storagestuff.MainLoop.EntityLoader.FetchRandomItem();
                 ItemStock.Add(b);//just pick a random item
                 debug += b.itemName + ", ";
             }
             
-            soldTrait = DataHolder.MainLoop.EntityLoader.FetchRandomTrait();
+            soldTrait = Storagestuff.MainLoop.EntityLoader.FetchRandomTrait();
             debug += "and the trait of " + soldTrait.traitName;
             Debug.Log(this.merchantName + " has generated their stock: " + debug);
 

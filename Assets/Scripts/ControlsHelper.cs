@@ -14,13 +14,13 @@ public class ControlsHelper : MonoBehaviour
 
     private void Start()
     {
-        DataHolder.ControlsHelperRef = this;
+        Storagestuff.ControlsHelperRef = this;
     }
 
     //sends the pass turn button click to GameMaster, which is a static function & can't be chosen for the button dropdown function call thing coz you need it attached to an object.
     public void SendPlayClick()
     {
-        DataHolder.PassTurn();
+        Storagestuff.PassTurn();
         //add a click sound here
 
 
@@ -37,11 +37,7 @@ public class ControlsHelper : MonoBehaviour
 
 
 
-    public void SendPauseClick()
-    {
-
-        DataHolder.SoundManagerRef.PlaySoundByName("clickButton");
-    }
+    
 
 
 
@@ -51,7 +47,7 @@ public class ControlsHelper : MonoBehaviour
 
         WorldMapCanvas.SetActive(true);
         //Debug.Log("CLICKED OVERMAP BUTTON.");
-        DataHolder.SoundManagerRef.PlaySoundByName("clickButton");
+        Storagestuff.SoundManagerRef.PlaySoundByName("clickButton");
     }
 
     public void CloseOvermapButton()
@@ -59,22 +55,22 @@ public class ControlsHelper : MonoBehaviour
 
         WorldMapCanvas.SetActive(false);
        // Debug.Log("CLICKED closeOVERMAP BUTTON.");
-        DataHolder.SoundManagerRef.PlaySoundByName("clickButton");
+        Storagestuff.SoundManagerRef.PlaySoundByName("clickButton");
     }
 
     public void ClickedLevel(MapLevel clickyyy)
     {
-        if (clickyyy != DataHolder.currentLevel)
+        if (clickyyy != Storagestuff.currentLevel)
         {//we go there if possible
-            if (DataHolder.currentLevel.nextLevels.Contains(clickyyy))
+            if (Storagestuff.currentLevel.nextLevels.Contains(clickyyy))
             {//oh yeeeeee
 
-                DataHolder.SoundManagerRef.PlaySoundByName("clickButton");
+                Storagestuff.SoundManagerRef.PlaySoundByName("clickButton");
             }
             else
             {
                 //failure
-                DataHolder.SoundManagerRef.PlaySoundByName("failure");
+                Storagestuff.SoundManagerRef.PlaySoundByName("failure");
             }
         }
 

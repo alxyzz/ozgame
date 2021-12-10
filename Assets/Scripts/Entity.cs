@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static DataHolder;
+using static Storagestuff;
 using static TraitHelper;
 
 public class Entity : MonoBehaviour
@@ -42,7 +42,7 @@ public class Entity : MonoBehaviour
     {//fetches a random t1 trait
         List<string> keyList = new List<string>(allConsumables.Keys);
         string randomKey = keyList[Random.Range(0, keyList.Count + 1)];
-        Debug.Log("Fetched random t1 trait: " + randomKey);
+        Debug.Log("Fetched random item: " + randomKey);
         return allConsumables[randomKey];
 
     }
@@ -52,7 +52,7 @@ public class Entity : MonoBehaviour
     {//fetches a random t1 trait
         List<string> keyList = new List<string>(traitList.Keys);
         string randomKey = keyList[Random.Range(0, keyList.Count + 1)];
-        Debug.Log("Fetched random t1 trait: " + randomKey);
+        Debug.Log("Fetched random trait: " + randomKey);
         return traitList[randomKey];
 
     }
@@ -117,9 +117,9 @@ public class Entity : MonoBehaviour
         { //runs when being hit
             if (critical)
             { //make this red and bigger
-                DataHolder.GameLog("Critical strike!");
+                Storagestuff.GameLog("Critical strike!");
             }
-           DataHolder.GameLog(this.id + " the " + charTrait.name + " has been " + attackverb + "ed by " + attacker.id + "for " + dmg + " damage!");
+           Storagestuff.GameLog(this.id + " the " + charTrait.name + " has been " + attackverb + "ed by " + attacker.id + "for " + dmg + " damage!");
 
         }
 
@@ -135,13 +135,13 @@ public class Entity : MonoBehaviour
         {
             if (isPlayerPartyMember)
             {
-                Character b = DataHolder.enemyParty[Random.Range(0, DataHolder.enemyParty.Count)];
+                Character b = Storagestuff.enemyParty[Random.Range(0, Storagestuff.enemyParty.Count)];
                 //b.TakeDamage();
                 b.CheckHealth(this);
             }
             else
             {
-                Character d = DataHolder.playerParty[Random.Range(0, DataHolder.playerParty.Count)];
+                Character d = Storagestuff.playerParty[Random.Range(0, Storagestuff.playerParty.Count)];
                 //d.TakeDamage();
                 d.CheckHealth(this);
             }

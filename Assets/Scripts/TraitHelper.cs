@@ -44,10 +44,7 @@ public class TraitHelper : MonoBehaviour
 
 
 
-        private void Start()
-        {
-            DataHolder.traitList.Add(this);
-        }
+
         public string GetName()
         {
             return traitName;

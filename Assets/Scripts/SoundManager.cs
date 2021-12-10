@@ -24,7 +24,7 @@ public class SoundManager : MonoBehaviour
     {
         soundtrackSource = soundtrackObj.GetComponent<AudioSource>();
         sfxSource = GameObject.Find("Main Camera").GetComponent<AudioSource>();
-        DataHolder.SoundManagerRef = this;
+        Storagestuff.SoundManagerRef = this;
         soundEffectList.Add("hit1", hit1); //add em like this
     }
 
