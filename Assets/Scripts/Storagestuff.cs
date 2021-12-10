@@ -17,9 +17,6 @@ public static class Storagestuff
     public static Sprite MhopSprite;
     public static Sprite MossSprite;
     [Space(10)]
-    public static Material MatDarkForest;
-    public static AudioClip SoundDarkForest;
-    [Space(10)]
     public static Material MatCatacombs;
 
 

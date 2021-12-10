@@ -11,6 +11,11 @@ public class LevelHelper
     //set up level template assets here.
     public Material testmat;
     public AudioClip testsound;
+    public Material townBackground;
+    public AudioClip townSoundTrack;
+    public Material mushroomForestBackground;
+    public AudioClip mushroomForestSoundTrack;
+
 
 
 
@@ -30,8 +35,8 @@ public class LevelHelper
         MapLevel darkForest = new MapLevel("Dark Forest", "A dark, scary forest.", "Travellers would be wise to hurry along..", 3, "Beasts", 1f, 1f, testmat, testsound, false);
         Storagestuff.levelTemplates.Add("darkforest", darkForest); //adds the template to the global list
 
-        MapLevel tomb = new MapLevel("Abandoned Town", "This town is empty...", "It smells weird.", 3, "Doppelgangers", 1f, 1f, testmat, testsound, false);
-        Storagestuff.levelTemplates.Add("tomb",tomb);
+        MapLevel town = new MapLevel("Abandoned Town", "This town is empty...", "It smells weird.", 3, "Doppelgangers", 1f, 1f, testmat, testsound, false);
+        Storagestuff.levelTemplates.Add("town", town);
 
 
 
