@@ -9,6 +9,7 @@ public class UserInterfaceHelper : MonoBehaviour
     public GameObject selectedCharName;
     public GameObject selectedCharTraitDesc;
     public GameObject selectedCharTraitIcon;
+    public GameObject selectedCharDescription;
     //if we decide wether we should allow characters to have more than one trait, rework this to display the trait icons in a list/row
 
     // Start is called before the first frame update
