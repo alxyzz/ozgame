@@ -1,10 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static Storagestuff;
+using static MainData;
 using static TraitHelper;
 
-public class Entity : MonoBehaviour
+public class EntitiesDefinition : MonoBehaviour
 {
     //link all entity assets here. sounds, sprites, etc.
     //we will later have a version for each animation, but for now this is fine
@@ -13,9 +13,9 @@ public class Entity : MonoBehaviour
     public Sprite LionSprite;
     public Sprite FourthProtagonistSprite;
     [Space(10)]
-    public Sprite DwarfSprite;
-    public Sprite FlyingMonkeySprite;
-    public Sprite SampleEnemySprite;
+    public Sprite Enemy1Sprite;
+    public Sprite Enemy2Sprite;
+    public Sprite Enemy3Sprite;
 
 
     public Sprite HealthPotionSprite;
@@ -114,7 +114,7 @@ public class Entity : MonoBehaviour
     public class Character : MonoBehaviour
     {
         public int charID;
-        public string id;
+        public string charName;
         public string entityDescription;
         public CharacterScript currentCharObj;
         public bool isPlayerPartyMember;
@@ -133,16 +133,27 @@ public class Entity : MonoBehaviour
         public int luck;
         public int mana;
 
+        public bool hasActedThisTurn;
 
-        public void TakeDamage(int dmg, string attackverb, Character attacker, bool critical)
+        public string attackverb;
+        public void TakeDamageFromCharacter(int dmg, string attackverb, Character attacker, bool critical)
         { //runs when being hit
             if (critical)
             { //make this red and bigger
-                Storagestuff.GameLog("Critical strike!");
+                MainData.MainLoop.GameLog("Critical strike!");
             }
-           Storagestuff.GameLog(this.id + " the " + charTrait.name + " has been " + attackverb + "ed by " + attacker.id + "for " + dmg + " damage!");
+           MainData.MainLoop.GameLog(this.charName + " the " + charTrait.name + " has been " + attackverb + "ed by " + attacker.charName + "for " + dmg + " damage!");
 
         }
+
+        public void TakeDamage(int dmg)
+        { //generic take damage function
+            currentHealth -= dmg;
+            MainData.MainLoop.GameLog(this.charName + " the " + charTrait.name + " is hurt " + "for " + dmg + " damage!");
+
+        }
+
+
 
         //public void GainStatusEffect (StatusEffect statusEffect, int turns)
         //{
@@ -152,17 +163,40 @@ public class Entity : MonoBehaviour
 
         //}
 
+
+        public void ApplyCondition(string type, int duration)
+        {
+            switch (type)
+            {
+                case "poison":
+                    this.currentStatusEffect = new StatusEffect(type, "This being is affected by  substances that can cause injury or death.", duration);
+                    break;
+                case "burn":
+                    this.currentStatusEffect = new StatusEffect(type, "This being is on fire.", duration);
+                    break;
+                case "heal":
+                    this.currentStatusEffect = new StatusEffect(type, "Wether as an effect of natural biology or magical forces, this being is currently regaining health at an enhanced rate.", duration);
+                    break;
+                case "regeneration":
+                    this.currentStatusEffect = new StatusEffect(type, "Wether as an effect of natural biology or magical forces, this being is currently regenerating at a highly enhanced rate.", duration);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+
         public void AttackRandom()
         {
             if (isPlayerPartyMember)
             {
-                Character b = Storagestuff.enemyParty[Random.Range(0, Storagestuff.enemyParty.Count)];
+                Character b = MainData.enemyParty[Random.Range(0, MainData.enemyParty.Count)];
                 //b.TakeDamage();
                 b.CheckHealth(this);
             }
             else
             {
-                Character d = Storagestuff.playerParty[Random.Range(0, Storagestuff.playerParty.Count)];
+                Character d = MainData.playerParty[Random.Range(0, MainData.playerParty.Count)];
                 //d.TakeDamage();
                 d.CheckHealth(this);
             }
@@ -200,6 +234,14 @@ public class Entity : MonoBehaviour
         public string type;
         public string description;
         public int turnsRemaining;
+
+        public StatusEffect(string type, string description, int turnsRemaining)
+        {
+            this.type = type;
+            this.description = description;
+            this.turnsRemaining = turnsRemaining;
+        }
+
     }
 
 }

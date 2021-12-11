@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using static Entity;
+using static EntitiesDefinition;
 using static TraitHelper;
 
 public class CharacterScript : MonoBehaviour
@@ -28,11 +28,11 @@ public class CharacterScript : MonoBehaviour
        
         if (!isEnemy)
         {
-            Storagestuff.playerPartyMemberObjects.Add(gameObject);
+            MainData.playerPartyMemberObjects.Add(gameObject);
         }
         else
         {
-            Storagestuff.enemyPartyMemberObjects.Add(gameObject);
+            MainData.enemyPartyMemberObjects.Add(gameObject);
         }
     }
 
@@ -50,48 +50,49 @@ public class CharacterScript : MonoBehaviour
     }
 
 
-
-    void CheckCharacterExistence()
-    {
-        if (associatedCharacter != null)
-        {
-            associatedCharacter.currentCharObj = this;
-        }
+    public void Attack(CharacterScript target)
+    {//add dodging
+        target.associatedCharacter.TakeDamageFromCharacter(associatedCharacter.damage, associatedCharacter.attackverb, associatedCharacter, false);
 
     }
 
-    // Update is called once per frame
-    void Update()
+
+
+
+
+
+
+    public void GotClicked()
     {
+
+
+    }
+
+
+
+
+
+
+
+
+    public void SwapWith(CharacterScript target)
+    {
+        if (!target.isEnemy)
+        {
+            Vector3 targetPosition = target.transform.position;
+            target.transform.position = this.transform.position;
+            this.transform.position = targetPosition;
+        }
         
     }
 
-    void OnMouseDown()
+
+    void DisplayCharacterInformation(bool tr)
     {
-       
-        if (Storagestuff.ControlsHelperRef.SelectedChar == null)
-        {
-            Storagestuff.ControlsHelperRef.SelectedChar = gameObject;
-        }
-        else if (Storagestuff.ControlsHelperRef.SelectedChar != gameObject)
-        {
-
-            //SwapWith(GameManager.ControlsHelperRef.SelectedChar);
-        }
-        else if (Storagestuff.ControlsHelperRef.SelectedChar == gameObject)
-        {
-            Storagestuff.ControlsHelperRef.SelectedChar = null;
-        }
-    }
-
-
-
-    void ToggleCharDetails(bool tr)
-    {
-        TextMeshProUGUI charactDescript = Storagestuff.uiMan.selectedCharDescription.GetComponent<TextMeshProUGUI>();
-        TextMeshProUGUI charactName = Storagestuff.uiMan.selectedCharName.GetComponent<TextMeshProUGUI>();
-        Image charactAvatar = Storagestuff.uiMan.selectedCharAvatar.GetComponent<Image>();
-        TextMeshProUGUI charactTitle = Storagestuff.uiMan.selectedCharTraitDesc.GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI charactDescript = MainData.uiMan.selectedCharDescription.GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI charactName = MainData.uiMan.selectedCharName.GetComponent<TextMeshProUGUI>();
+        Image charactAvatar = MainData.uiMan.selectedCharAvatar.GetComponent<Image>();
+        TextMeshProUGUI charactTitle = MainData.uiMan.selectedCharTraitDesc.GetComponent<TextMeshProUGUI>();
         if (tr)
         {
             charactDescript.text = charDesc;
@@ -112,16 +113,13 @@ public class CharacterScript : MonoBehaviour
     }
 
 
-    void SwapWith()
-    {
 
-    }
 
 
     void OnMouseEnter()
     {
         
-            ToggleCharDetails(true);
+            DisplayCharacterInformation(true);
             transform.localScale = new Vector3(1.1f, 1.1f, 1f);
         
         
@@ -134,7 +132,7 @@ public class CharacterScript : MonoBehaviour
     void OnMouseExit()
     {
         
-            ToggleCharDetails(false);
+            DisplayCharacterInformation(false);
         transform.localScale = new Vector3(1f, 1f, 1f);
         
     }

@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using static Entity;
+using static EntitiesDefinition;
 using static LevelHelper;
 using static TraitHelper;
 
-public static class Storagestuff
+public static class MainData
 {
     public static GameManager MainLoop;
 
@@ -21,7 +21,7 @@ public static class Storagestuff
 
 
 
-    public static RefHolder references;
+    public static PositionHolder references;
 
 
     //controls
@@ -38,9 +38,8 @@ public static class Storagestuff
 
 
     //game state
-    private static int turnNumber;
-    private static int gold;
-    private static float partyXP; //implement scaling for levelling up if we decide on actually having it. quadratic or linear?
+    public static int turnNumber;
+    public static int gold;
 
     //levels
 
@@ -118,91 +117,30 @@ public static class Storagestuff
 
 
 
+    
 
 
-    public static void GameLog(string text)
-    {
-        GameLogObject.text += "\n" + text;
+    
 
-    }
+    
 
 
-    public static void PassTurn()
-    {//player pressed the Next button to let actions play out and let enemies act
-        StartOfTurn();
-        StatusEffectsProc(); //burns, poison, etc
-        DoQueuedActions(); //player character attacks, uses abilities, potions, etc
-        DoEnemyActions();
-    }
+    
+    
 
 
-    static void StatusEffectsProc()
-    {
+    
 
 
-    }
-
-    static void StartOfTurn()
-    {
-        Debug.Log("Turn " + turnNumber.ToString());
-
-
-    }
-
-
-    static void EndOfturn()
-    {
-        if (enemyParty.Count == 0)
-        {
-            GameLog("You have vanquished the enemies.");
-
-        }
-
-
-    }
-    static void DoQueuedActions()
-    {
+    
 
 
 
-    }
+
+    
 
 
-    static void BuildWorldmap()
-    {
-        ControlsHelperRef.BuildWorldCanvas();
-
-
-    }
-
-
-    public static void Travel(MapLevel ToThisLevel)
-    {//is there anything better than a nice durum kebab with extra scharf/spicy sauce?
-        if (currentLevel == null)
-        {
-            Debug.Log("currentLevel is Null.");
-        }
-        //SoundManagerRef.StopSoundtrack();
-        currentLevel = ToThisLevel;
-        if (currentLevel != null)
-        {
-            Debug.Log("currentLevel is not Null anymore.");
-        }
-        //backgroundObject.GetComponent<Renderer>().material = currentLevel.levelBackgroundMaterial;
-        //SoundManagerRef.ChangeSoundtrack(currentLevel.levelSoundtrack);
-        //SoundManagerRef.StartSoundtrack();
-        //currentLevel.visited = true;
-        BuildWorldmap();
-
-    }
-
-   
-
-
-    public static void DoEnemyActions()
-    {//do these after player acts
-
-    }
+    
 
 
 

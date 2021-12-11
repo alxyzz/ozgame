@@ -27,11 +27,11 @@ public class MapIconScript : MonoBehaviour
     void Start()
     {
 
-        Storagestuff.mapIcons.Add(this);
+        MainData.mapIcons.Add(this);
         //Randomize();
         if (isStart)
         {
-            Storagestuff.currentMapIcon = this;
+            MainData.currentMapIcon = this;
         }
         normalColor = this.gameObject.GetComponent<Image>().color;
         FindClosestAbove();
@@ -76,7 +76,7 @@ public class MapIconScript : MonoBehaviour
 
     public void OnClick()
     {
-        if (Storagestuff.currentMapIcon.moveableToIcons.Contains(this))
+        if (MainData.currentMapIcon.moveableToIcons.Contains(this))
         {
             if (!clickedOnce) //so doubleclick to travel
             {
@@ -95,23 +95,23 @@ public class MapIconScript : MonoBehaviour
 
     private void OnMouseEnter()
     {
-        Storagestuff.uiMan.worldmapName.GetComponent<TextMeshProUGUI>().text = nameee;
-        Storagestuff.uiMan.worldmapDescription.GetComponent<TextMeshProUGUI>().text = description;
+        MainData.uiMan.worldmapName.GetComponent<TextMeshProUGUI>().text = nameee;
+        MainData.uiMan.worldmapDescription.GetComponent<TextMeshProUGUI>().text = description;
     }
 
     private void OnMouseExit()
     {
-        Storagestuff.uiMan.worldmapName.GetComponent<TextMeshProUGUI>().text = "";
-        Storagestuff.uiMan.worldmapDescription.GetComponent<TextMeshProUGUI>().text = "";
+        MainData.uiMan.worldmapName.GetComponent<TextMeshProUGUI>().text = "";
+        MainData.uiMan.worldmapDescription.GetComponent<TextMeshProUGUI>().text = "";
     }
 
 
     private void MoveToIcon()
     {//we assume everything in order and proper checks have been previously made
-        Storagestuff.currentMapIcon = this;
-        Storagestuff.Travel(relatedMapLevel);
-        Storagestuff.ControlsHelperRef.CloseOvermapButton();
-        Storagestuff.uiMan.TravelLoadingSequence();
+        MainData.currentMapIcon = this;
+        MainData.MainLoop.Travel(relatedMapLevel);
+        MainData.ControlsHelperRef.CloseOvermapButton();
+        MainData.uiMan.TravelLoadingSequence();
     }
 
     public MapLevel LevelFromTemplate(MapLevel p)
@@ -135,7 +135,7 @@ public class MapIconScript : MonoBehaviour
     private void FindClosestAbove()
     {
         //find all icons in range by tag "mapIcon"
-        foreach (MapIconScript item in Storagestuff.mapIcons)
+        foreach (MapIconScript item in MainData.mapIcons)
         {
             if ((item.transform.position.y > this.transform.position.y) && (item.transform.position.x != this.transform.position.x))
             {

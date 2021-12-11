@@ -7,7 +7,7 @@ public class BackgroundObjectScript : MonoBehaviour
     //simply designates the object it is attached to as the background object, on which level aesthetics are placed
     void Start()
     {
-        Storagestuff.backgroundObject = this.gameObject;   
+        MainData.backgroundObject = this.gameObject;   
     }
 
 }

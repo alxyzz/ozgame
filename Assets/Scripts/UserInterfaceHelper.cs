@@ -12,6 +12,10 @@ public class UserInterfaceHelper : MonoBehaviour
     public GameObject selectedCharTraitIcon;
     public GameObject selectedCharDescription;
     [Space(10)]
+    public GameObject ConsumableSlot1;
+    public GameObject ConsumableSlot2;
+    public GameObject ConsumableSlot3;
+    [Space(10)]
     public GameObject worldmapDescription;
     public GameObject worldmapName;
     [Space(10)]
@@ -44,16 +48,16 @@ public class UserInterfaceHelper : MonoBehaviour
         MainMenuStart.SetActive(true);
         MainMenuExit.SetActive(true);
         GameUI.SetActive(false);
-        Storagestuff.SoundManagerRef.PlayClickSound();
+        MainData.SoundManagerRef.PlayClickSound();
         
     }
 
     public void ClickStartGame()
     {
 
-        Storagestuff.SoundManagerRef.PlayClickSound();
-
-        //MainMenuStart.GetComponent<TextMeshProUGUI>().text = "Continue";
+        MainData.SoundManagerRef.PlayClickSound();
+        MainData.SoundManagerRef.ChangeSoundtrack(MainData.SoundManagerRef.MainTheme);
+        MainMenuStart.GetComponentInChildren<TextMeshProUGUI>().text = "Continue";
         MainMenuStart.SetActive(false);
         MainMenuExit.SetActive(false);
         MainMenuBack.SetActive(false);
@@ -62,7 +66,7 @@ public class UserInterfaceHelper : MonoBehaviour
 
     public void ClickExitGame()
     {
-        Storagestuff.SoundManagerRef.PlayClickSound();
+        MainData.SoundManagerRef.PlayClickSound();
         MainMenuStart.SetActive(false);
         MainMenuExit.SetActive(false);
         MainMenuExitYes.SetActive(true);
@@ -70,15 +74,18 @@ public class UserInterfaceHelper : MonoBehaviour
         MainMenuExitNo.SetActive(true);
 }
 
+
+
+
     public void ClickExitYes()
     {
-        Storagestuff.SoundManagerRef.PlayClickSound();
+        MainData.SoundManagerRef.PlayClickSound();
         Application.Quit();
     }
 
     public void ClickExitNo()
     {
-        Storagestuff.SoundManagerRef.PlayClickSound();
+        MainData.SoundManagerRef.PlayClickSound();
         MainMenuStart.SetActive(true);
         MainMenuExit.SetActive(true);
         MainMenuExitYes.SetActive(false);
@@ -91,7 +98,7 @@ public class UserInterfaceHelper : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Storagestuff.uiMan = this;
+        MainData.uiMan = this;
     }
 
     // Update is called once per frame

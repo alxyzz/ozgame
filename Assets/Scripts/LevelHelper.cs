@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
-using static Entity;
+using static EntitiesDefinition;
 using static TraitHelper;
 
 public class LevelHelper : MonoBehaviour
@@ -33,23 +33,23 @@ public class LevelHelper : MonoBehaviour
         //set up level template variables here.
 
         MapLevel darkForest = new MapLevel("Dark Forest", "A dark, very scary forest.", "Travellers would be wise to hurry along..", 3, "Beasts", 1f, 1f, testmat, testsound, false);
-        Storagestuff.levelTemplates.Add("darkforest", darkForest); //adds the template to the global list
+        MainData.levelTemplates.Add("darkforest", darkForest); //adds the template to the global list
 
         MapLevel town = new MapLevel("Abandoned Town", "This town is empty...", "It smells weird.", 3, "Doppelgangers", 1f, 1f, testmat, testsound, false);
-        Storagestuff.levelTemplates.Add("town", town);
+        MainData.levelTemplates.Add("town", town);
 
 
 
-        Storagestuff.levelsInitDone = true; //to keep track of this, so we don't somehow generate the Overmap before initializing the templates
+        MainData.levelsInitDone = true; //to keep track of this, so we don't somehow generate the Overmap before initializing the templates
     }
 
 
     private MapLevel GetRandomLevel()
     {
-        List<string> keyList = new List<string>(Storagestuff.levelTemplates.Keys);
+        List<string> keyList = new List<string>(MainData.levelTemplates.Keys);
         string randomKey = keyList[UnityEngine.Random.Range(0, keyList.Count + 1)];
         Debug.Log("Fetched random level: " + randomKey);
-        return Storagestuff.levelTemplates[randomKey];
+        return MainData.levelTemplates[randomKey];
     }
 
     public class Merchant
@@ -76,14 +76,14 @@ public class LevelHelper : MonoBehaviour
         public void GenerateStock()
         {
             string debug = "";
-            for (int i = 0; i < Storagestuff.ShopItemCount; i++)
+            for (int i = 0; i < MainData.ShopItemCount; i++)
             {
-                Item b = Storagestuff.MainLoop.EntityLoader.FetchRandomItem();
+                Item b = MainData.MainLoop.EntityDefComponent.FetchRandomItem();
                 ItemStock.Add(b);//just pick a random item
                 debug += b.itemName + ", ";
             }
             
-            soldTrait = Storagestuff.MainLoop.EntityLoader.FetchRandomTrait();
+            soldTrait = MainData.MainLoop.EntityDefComponent.FetchRandomTrait();
             debug += "and the trait of " + soldTrait.traitName;
             Debug.Log(this.merchantName + " has generated their stock: " + debug);
 

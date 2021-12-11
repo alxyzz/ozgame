@@ -14,13 +14,13 @@ public class ControlsHelper : MonoBehaviour
 
     private void Start()
     {
-        Storagestuff.ControlsHelperRef = this;
+        MainData.ControlsHelperRef = this;
     }
 
     //sends the pass turn button click to GameMaster, which is a static function & can't be chosen for the button dropdown function call thing coz you need it attached to an object.
     public void SendPlayClick()
     {
-        Storagestuff.PassTurn();
+        MainData.MainLoop.PassTurn();
         //add a click sound here
 
 
@@ -47,7 +47,7 @@ public class ControlsHelper : MonoBehaviour
 
         WorldMapCanvas.SetActive(true);
         //Debug.Log("CLICKED OVERMAP BUTTON.");
-        Storagestuff.SoundManagerRef.PlayClickSound();
+        MainData.SoundManagerRef.PlayClickSound();
     }
 
     public void CloseOvermapButton()
@@ -55,22 +55,22 @@ public class ControlsHelper : MonoBehaviour
 
         WorldMapCanvas.SetActive(false);
         // Debug.Log("CLICKED closeOVERMAP BUTTON.");
-        Storagestuff.SoundManagerRef.PlayClickSound();
+        MainData.SoundManagerRef.PlayClickSound();
     }
 
     public void ClickedLevel(MapLevel clickyyy)
     {
-        if (clickyyy != Storagestuff.currentLevel)
+        if (clickyyy != MainData.currentLevel)
         {//we go there if possible
-            if (Storagestuff.currentLevel.nextLevels.Contains(clickyyy))
+            if (MainData.currentLevel.nextLevels.Contains(clickyyy))
             {//oh yeeeeee
 
-                Storagestuff.SoundManagerRef.PlayClickSound();
+                MainData.SoundManagerRef.PlayClickSound();
             }
             else
             {
                 //failure
-                Storagestuff.SoundManagerRef.PlayFailureSound();
+                MainData.SoundManagerRef.PlayFailureSound();
             }
         }
 
