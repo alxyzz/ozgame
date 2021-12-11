@@ -37,12 +37,27 @@ public class CharacterScript : MonoBehaviour
     }
 
 
+
+    //make a different button for this
+    
+    public void Die()
+    {
+        //play death animation
+        //GameLog.DeathLog(associatedCharacter.charName + " has died.");
+        //associatedCharacter = null;
+        //strip away all images, names, etc. set to inactive.
+
+    }
+
+
+
     void CheckCharacterExistence()
     {
         if (associatedCharacter != null)
         {
             associatedCharacter.currentCharObj = this;
         }
+
     }
 
     // Update is called once per frame

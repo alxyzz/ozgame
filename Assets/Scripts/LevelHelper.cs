@@ -6,7 +6,7 @@ using UnityEngine;
 using static Entity;
 using static TraitHelper;
 
-public class LevelHelper
+public class LevelHelper : MonoBehaviour
 {
     //set up level template assets here.
     public Material testmat;

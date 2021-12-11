@@ -4,16 +4,18 @@ using UnityEngine;
 
 public class SoundManager : MonoBehaviour
 {
-    Dictionary<string, AudioClip> soundEffectList = new Dictionary<string, AudioClip>();
-    Dictionary<string, AudioClip> backgroundMusic = new Dictionary<string, AudioClip>();
-    private AudioSource sfxSource;
+
+    public AudioSource sfxSource;
     public GameObject soundtrackObj;
     private AudioSource soundtrackSource;
     //sounds, add em here
     [Space(10)]
+    public AudioClip TitleSong;
+    public AudioClip MainTheme;
+    [Space(10)]
     public AudioClip hit1;
-    public AudioClip hit2;
-    public AudioClip hit3;
+    public AudioClip click;
+    public AudioClip failure;
     public AudioClip hit4;
     public AudioClip hit5;
 
@@ -24,8 +26,8 @@ public class SoundManager : MonoBehaviour
     {
         soundtrackSource = soundtrackObj.GetComponent<AudioSource>();
         sfxSource = GameObject.Find("Main Camera").GetComponent<AudioSource>();
-        Storagestuff.SoundManagerRef = this;
-        soundEffectList.Add("hit1", hit1); //add em like this
+        
+        
     }
 
     // Update is called once per frame
@@ -34,27 +36,23 @@ public class SoundManager : MonoBehaviour
         
     }
 
+    public void PlayFailureSound()
+    {
+        sfxSource.PlayOneShot(failure);
+    }
 
+    public void PlayClickSound()
+    {
+        sfxSource.PlayOneShot(click);
 
-    public void PlaySoundByName(string soundID)
-    {//meant for repetitively used, short sounds, like attack/miss sounds or monster mutterings
-        AudioClip temp = null;
-        if (soundEffectList.TryGetValue(soundID, out temp))
-        {
-            sfxSource.PlayOneShot(temp);
-        }
     }
 
     public void ChangeSoundtrack(AudioClip ost)
     {//for soundtracks
         soundtrackSource.clip = ost;
-        
-    }
-
-    public void StartSoundtrack()
-    {
         soundtrackSource.Play();
     }
+
 
     public void StopSoundtrack()
     {

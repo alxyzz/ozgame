@@ -6,6 +6,27 @@ using static TraitHelper;
 
 public class Entity : MonoBehaviour
 {
+    //link all entity assets here. sounds, sprites, etc.
+    //we will later have a version for each animation, but for now this is fine
+    public Sprite ScarecrowSprite;
+    public Sprite TinManSprite;
+    public Sprite LionSprite;
+    public Sprite FourthProtagonistSprite;
+    [Space(10)]
+    public Sprite DwarfSprite;
+    public Sprite FlyingMonkeySprite;
+    public Sprite SampleEnemySprite;
+
+
+    public Sprite HealthPotionSprite;
+    public Sprite SharpeningStoneSprite;
+    public Sprite HealingMushroomSprite;
+
+
+
+
+
+
     public void GenerateParty()
     {
 

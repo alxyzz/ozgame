@@ -47,15 +47,15 @@ public class ControlsHelper : MonoBehaviour
 
         WorldMapCanvas.SetActive(true);
         //Debug.Log("CLICKED OVERMAP BUTTON.");
-        Storagestuff.SoundManagerRef.PlaySoundByName("clickButton");
+        Storagestuff.SoundManagerRef.PlayClickSound();
     }
 
     public void CloseOvermapButton()
     {
 
         WorldMapCanvas.SetActive(false);
-       // Debug.Log("CLICKED closeOVERMAP BUTTON.");
-        Storagestuff.SoundManagerRef.PlaySoundByName("clickButton");
+        // Debug.Log("CLICKED closeOVERMAP BUTTON.");
+        Storagestuff.SoundManagerRef.PlayClickSound();
     }
 
     public void ClickedLevel(MapLevel clickyyy)
@@ -65,12 +65,12 @@ public class ControlsHelper : MonoBehaviour
             if (Storagestuff.currentLevel.nextLevels.Contains(clickyyy))
             {//oh yeeeeee
 
-                Storagestuff.SoundManagerRef.PlaySoundByName("clickButton");
+                Storagestuff.SoundManagerRef.PlayClickSound();
             }
             else
             {
                 //failure
-                Storagestuff.SoundManagerRef.PlaySoundByName("failure");
+                Storagestuff.SoundManagerRef.PlayFailureSound();
             }
         }
 

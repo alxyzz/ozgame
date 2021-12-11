@@ -28,19 +28,31 @@ public class UserInterfaceHelper : MonoBehaviour
     public GameObject MainMenuExitNo;
 
 
+
+
+
+    public void ClickTesting()
+    {
+        Debug.Log("I HAVE BEEN CLICKED. WHO DARES?");
+    }
+
+
+
     public void ClickSendPause()
     {
         MainMenuBack.SetActive(true);
         MainMenuStart.SetActive(true);
         MainMenuExit.SetActive(true);
         GameUI.SetActive(false);
-        Storagestuff.SoundManagerRef.PlaySoundByName("clickButton");
+        Storagestuff.SoundManagerRef.PlayClickSound();
         
     }
 
     public void ClickStartGame()
     {
-        Storagestuff.SoundManagerRef.PlaySoundByName("clickButton");
+
+        Storagestuff.SoundManagerRef.PlayClickSound();
+
         //MainMenuStart.GetComponent<TextMeshProUGUI>().text = "Continue";
         MainMenuStart.SetActive(false);
         MainMenuExit.SetActive(false);
@@ -50,7 +62,7 @@ public class UserInterfaceHelper : MonoBehaviour
 
     public void ClickExitGame()
     {
-        Storagestuff.SoundManagerRef.PlaySoundByName("clickButton");
+        Storagestuff.SoundManagerRef.PlayClickSound();
         MainMenuStart.SetActive(false);
         MainMenuExit.SetActive(false);
         MainMenuExitYes.SetActive(true);
@@ -60,13 +72,13 @@ public class UserInterfaceHelper : MonoBehaviour
 
     public void ClickExitYes()
     {
-        Storagestuff.SoundManagerRef.PlaySoundByName("clickButton");
+        Storagestuff.SoundManagerRef.PlayClickSound();
         Application.Quit();
     }
 
     public void ClickExitNo()
     {
-        Storagestuff.SoundManagerRef.PlaySoundByName("clickButton");
+        Storagestuff.SoundManagerRef.PlayClickSound();
         MainMenuStart.SetActive(true);
         MainMenuExit.SetActive(true);
         MainMenuExitYes.SetActive(false);
