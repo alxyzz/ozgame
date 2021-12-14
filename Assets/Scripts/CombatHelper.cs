@@ -27,6 +27,7 @@ public class CombatHelper : MonoBehaviour
 
         foreach (Character item in combatants)//goes from 0 to length-1, always
         {
+            MainData.MainLoop.SoundManagerComponent.sfxSource.PlayOneShot(item.turnSound); //plays the character specific noise/vocalization
             if (item.isPlayerPartyMember)
             {
                 DoPlayerCharacterTurn(item);
@@ -44,8 +45,11 @@ public class CombatHelper : MonoBehaviour
     {
         //what do we do here?
         //first off, move the player character to the designated spot
+        MoveToActiveSpot(pc);
         //then, pop up an icon with either attacking or using the trait from the character
+        //PopUpActionButtons(); //pop up the action menu
         //enable controls over items and such
+        MainData.controlsEnabled = true;
         //player can click an enemy to highlight it
 
     }

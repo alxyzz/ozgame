@@ -25,7 +25,6 @@ public static class MainData
 
 
     //controls
-    public static ControlsHelper ControlsHelperRef;
     public static bool controlsEnabled;
 
     public static bool levelsInitDone = false;//todo - loading time

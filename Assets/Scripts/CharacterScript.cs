@@ -8,25 +8,21 @@ using static TraitHelper;
 
 public class CharacterScript : MonoBehaviour
 {
-    public bool isEnemy;
-    public string characterstringID;
-    public string charName;
-    public string charDesc;
-    public Trait charTrait;
-    public Sprite charAvatar;
     //the previous are just for testing, we'll grab the stuff from the char reference below later
     public Character associatedCharacter;
     public float inflateStep = 0.01f;
+    public SpriteRenderer spriteRenderer;
 
     // Start is called before the first frame update
     void Start()
     {
+        spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
         if (associatedCharacter != null)
         {
             associatedCharacter.currentCharObj = this;
         }
        
-        if (!isEnemy)
+        if (associatedCharacter.isPlayerPartyMember)
         {
             MainData.playerPartyMemberObjects.Add(gameObject);
         }
@@ -57,26 +53,18 @@ public class CharacterScript : MonoBehaviour
     }
 
 
-    public void SetupCharacterAfterTemplate(Character template)
+    public void Death()
     {
-        associatedCharacter = template;
-        isEnemy = !associatedCharacter.isPlayerPartyMember;
-        charName = associatedCharacter.charName;
-        charDesc = associatedCharacter.entityDescription;
-        charTrait = associatedCharacter.charTrait;
-        charAvatar = associatedCharacter.charAvatar;
+        spriteRenderer.sprite = null;
+        associatedCharacter = null;
 
     }
 
-    //public bool isEnemy;
-    //public string characterstringID;
-    //public string charName;
-    //public string charDesc;
-    //public Trait charTrait;
-    //public Sprite charAvatar;
-    ////the previous are just for testing, we'll grab the stuff from the char reference below later
-    //public Character associatedCharacter;
-
+    public void SetupCharacterAfterTemplate(Character template)
+    {
+        associatedCharacter = template;
+        spriteRenderer.sprite = associatedCharacter.charSprite;
+    }
 
     public void GotClicked()
     {
@@ -94,7 +82,7 @@ public class CharacterScript : MonoBehaviour
 
     public void SwapWith(CharacterScript target)
     {
-        if (!target.isEnemy)
+        if (target.associatedCharacter.isPlayerPartyMember)
         {
             Vector3 targetPosition = target.transform.position;
             target.transform.position = this.transform.position;
@@ -104,21 +92,21 @@ public class CharacterScript : MonoBehaviour
     }
 
 
-    void DisplayCharacterInformation(bool tr)
+    void RefreshCharacterScript(bool show)
     {
         TextMeshProUGUI charactDescript = MainData.uiMan.selectedCharDescription.GetComponent<TextMeshProUGUI>();
         TextMeshProUGUI charactName = MainData.uiMan.selectedCharName.GetComponent<TextMeshProUGUI>();
         Image charactAvatar = MainData.uiMan.selectedCharAvatar.GetComponent<Image>();
         TextMeshProUGUI charactTitle = MainData.uiMan.selectedCharTraitDesc.GetComponent<TextMeshProUGUI>();
-        if (tr)
+        if (show)
         {
-            charactDescript.text = charDesc;
-            charactName.text = charName;
-            if (charTrait != null)
+            charactDescript.text = associatedCharacter.entityDescription;
+            charactName.text = associatedCharacter.charName;
+            if (associatedCharacter.charTrait != null)
             {
-                charactTitle.text = charTrait.traitName;
+                charactTitle.text = associatedCharacter.charTrait.traitName;
             }
-            charactAvatar.sprite = charAvatar;
+            charactAvatar.sprite = associatedCharacter.charAvatar;
         }
         else
         {
@@ -136,7 +124,7 @@ public class CharacterScript : MonoBehaviour
     void OnMouseEnter()
     {
         
-            DisplayCharacterInformation(true);
+            RefreshCharacterScript(true);
             transform.localScale = new Vector3(1.1f, 1.1f, 1f);
         
         
@@ -158,7 +146,7 @@ public class CharacterScript : MonoBehaviour
     void OnMouseExit()
     {
         
-            DisplayCharacterInformation(false);
+            RefreshCharacterScript(false);
         transform.localScale = new Vector3(1f, 1f, 1f);
         
     }
