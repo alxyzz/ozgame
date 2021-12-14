@@ -23,17 +23,71 @@ public class EntitiesDefinition : MonoBehaviour
     public Sprite HealingMushroomSprite;
 
 
+    /// <summary>
+    /// A function to define a new being, allied or enemy, and add it into the dictionary based on the characterID string.
+    /// </summary>
+    /// <param name="characterID">All lowercase string for the entity desired, to be identified with in the dictionary.</param>
+    /// <param name="charName">The proper capitalized name for the entity.</param>
+    /// <param name="charDesc">A flavourful description.</param>
+    /// <param name="attackVerb">The verb used when attacking, shown in the log.</param>
+    /// <param name="isPlayer">Wether it is part of the player's party, or an enemy.</param>
+    /// <param name="baseHP">The base health maximum value, before to any modifiers</param>
+    /// <param name="baseDMG">The base damage value, before any modifiers.</param>
+    /// <param name="baseSPD">The base speed value, before any modifiers.</param>
+
+    /// <param name="Defense"></param>
+    /// <param name="Luck"></param>
+    /// <param name="Mana"></param>
+    /// <param name="newCharTurnSound"></param>
+    /// <param name="newCharSprite"></param>
+    /// <param name="newCharAvatar"></param>
+    /// <returns></returns>
+    public void CreateCreature(string characterID, string charName, string charDesc, string attackVerb, bool isPlayer, int baseHP, int baseDMG, int baseSPD, int Defense,  int Luck, int Mana, AudioClip newCharTurnSound, Sprite newCharSprite, Sprite newCharAvatar)
+    {
+        Character newCharacterDefinition = new Character();
+        newCharacterDefinition.charType = characterID; //something like "goblin_spear", "tin_man" or "scarecrow" for the dictionary. 
+        newCharacterDefinition.charName = charName;
+        newCharacterDefinition.entityDescription = charDesc;
+        newCharacterDefinition.attackverb = attackVerb;
+
+        newCharacterDefinition.isPlayerPartyMember = isPlayer;
 
 
+        newCharacterDefinition.turnSound = newCharTurnSound;
+        newCharacterDefinition.charSprite = newCharSprite;
+        newCharacterDefinition.charAvatar = newCharAvatar;
+
+        
+
+        newCharacterDefinition.baseHealth = baseHP;
+        newCharacterDefinition.baseDamage = baseDMG;
+        newCharacterDefinition.baseSpeed = baseSPD;
+
+        newCharacterDefinition.currentHealth = baseHP;
+        newCharacterDefinition.mana = Mana;
+
+        newCharacterDefinition.luck = Luck;
+        newCharacterDefinition.damage = baseDMG;
+        newCharacterDefinition.speed = baseSPD; //to be recalculated later whenever a modifier gets applied.
+        newCharacterDefinition.defense = Defense;
+
+
+        newCharacterDefinition.hasActedThisTurn = false;
+
+        MainData.characterTypes.Add(characterID, newCharacterDefinition);
+    }
 
 
     public void DefinePartyMembers()
     {
+        //string characterID, string charName, string charDesc, string attackVerb, bool isPlayer, int baseHP, int baseDMG, int baseSPD, int Defense,  int Luck, int Mana, AudioClip newCharTurnSound, Sprite newCharSprite, Sprite newCharAvatar)
+        CreateCreature("scarecrow", "Scarecrow", "Lacks a heart and is driven to obtain it.", "rends", true, 100, 25, 1, 1, 2, 100, null, null, ScarecrowSprite);
 
 
 
 
     }
+
 
     public void DefineMonsters()
     {
@@ -113,22 +167,24 @@ public class EntitiesDefinition : MonoBehaviour
     [System.Serializable]
     public class Character : MonoBehaviour
     {
-        public int charID;
+        public string charType; //something like "goblin_spear", "tin_man" or "scarecrow" for the dictionary. 
         public string charName;
         public string entityDescription;
         public CharacterScript currentCharObj;
         public bool isPlayerPartyMember;
 
         public Trait charTrait;
+        public AudioClip turnSound;
         public Sprite charSprite;
         public Sprite charAvatar;
 
         public StatusEffect currentStatusEffect;
 
         public int currentHealth;
-        private int baseHealth;
-        private int baseDamage;
 
+        public int baseHealth;
+        public int baseDamage;
+        public int baseSpeed;
 
         public int speed; //NOTE - RECOMPUTE THIS BEFORE EVERY TURN TO TRACK TRAITS CHANGING IT
         public int defense;
@@ -136,7 +192,7 @@ public class EntitiesDefinition : MonoBehaviour
         public int luck;
         public int mana;
 
-        public bool hasActedThisTurn;
+        public bool hasActedThisTurn = false;
 
         public string attackverb;
 
@@ -209,7 +265,7 @@ public class EntitiesDefinition : MonoBehaviour
                     this.currentStatusEffect = new StatusEffect(type, "Wether as an effect of natural biology or magical forces, this being is currently regaining health at an enhanced rate.", duration);
                     break;
                 case "regeneration":
-                    this.currentStatusEffect = new StatusEffect(type, "Wether as an effect of natural biology or magical forces, this being is currently regenerating at a highly enhanced rate.", duration);
+                    this.currentStatusEffect = new StatusEffect(type, "Wether as an effect of natural biology or magical forces, "+ this.charName +" is currently regenerating at a highly enhanced rate.", duration);
                     break;
                 default:
                     break;
@@ -235,15 +291,16 @@ public class EntitiesDefinition : MonoBehaviour
             //GameLog(killed.charName + "has been vanquished!");
             if (isPlayerPartyMember)
             {
-                playerParty.Remove(allChars.Find(x => x.GetID() == this.charID));
+                playerParty.Remove(allChars.Find(x => x.GetID() == this.charType));
             }
-            enemyParty.Remove(allChars.Find(x => x.GetID() == this.charID));
-            allChars.Remove(allChars.Find(x => x.GetID() == this.charID));
+
+            enemyParty.Remove(allChars.Find(x => x.GetID() == this.charType));
+            allChars.Remove(allChars.Find(x => x.GetID() == this.charType));
             Destroy(this);
         }
-        public int GetID()
+        public string GetID()
         {
-            return charID;
+            return charType;
         }
     }
 

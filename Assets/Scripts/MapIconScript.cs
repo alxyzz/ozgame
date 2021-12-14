@@ -110,7 +110,7 @@ public class MapIconScript : MonoBehaviour
     {//we assume everything in order and proper checks have been previously made
         MainData.currentMapIcon = this;
         MainData.MainLoop.Travel(relatedMapLevel);
-        MainData.ControlsHelperRef.CloseOvermapButton();
+        MainData.MainLoop.UserInterfaceHelperComponent.ClickMapClose();
         MainData.uiMan.TravelLoadingSequence();
     }
 

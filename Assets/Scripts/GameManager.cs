@@ -12,7 +12,6 @@ public class GameManager : MonoBehaviour
     public LevelHelper LevelHelperComponent;
     public SoundManager SoundManagerComponent;
     public PositionHolder PositionHolderComponent;
-    public ControlsHelper ControlsHelperComponent;
     public EventLogging EventLoggingComponent;
     public UserInterfaceHelper UserInterfaceHelperComponent;
     public CombatHelper CombatHelperComponent;
