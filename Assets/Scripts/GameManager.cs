@@ -1,155 +1,162 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
-using static EntityHelper;
+using static EntitiesDefinition;
 using static LevelHelper;
-using static TraitHelper;
-using static OvermapGenerator;
 
-public static class GameManager
+public class GameManager : MonoBehaviour
 {
+    public bool gameStarted = false;
+    public LayerMask IgnoreMe;
+    public EntitiesDefinition EntityDefComponent;
+    public LevelHelper LevelHelperComponent;
+    public SoundManager SoundManagerComponent;
+    public PositionHolder PositionHolderComponent;
+    public ControlsHelper ControlsHelperComponent;
+    public EventLogging EventLoggingComponent;
+    public UserInterfaceHelper UserInterfaceHelperComponent;
+    public CombatHelper CombatHelperComponent;
+   
 
-
-    //controls
-    public static ControlsHelper ControlsHelperRef;
-
-    public static bool levelsInitDone = false;//todo - loading time
-    //todo - intro with a short story
-
-    //sound
-    public static SoundManager SoundManagerRef;
-
-    //User Interface
-    public static UserInterfaceHelper uiMan;
-
-
-    //game state
-    private static int turnNumber;
-    private static int gold;
-    private static float partyXP; //implement scaling for levelling up if we decide on actually having it. quadratic or linear?
-
-    //levels
-    //public static int maxLevelsAmount = 3; //maximum amount of map levels
-    //public static int RowAmount = 4;//amount of level rows, not counting the first and the last.
-
-    public static MapLevel currentLevel; //current level duh sillypants
-    public static List<MapLevel> levelTemplates = new List<MapLevel>(); //templates for various level types
-
-    public static OvermapGenerator overmapGeneratorRef; //the overmap generator object, it assigns itself at start
-    public static OverMap gameOvermap;
-    public static List<MapIconScript> mapIcons = new List<MapIconScript>(); //all map icons in the game
-    public static MapIconScript currentMapIcon; 
-
-    public static MapLevel startingLevel;
-    public static MapLevel finalLevel;
-
-
-    //party
-    public static List<Character> allChars = new List<Character>(); //all chars on current level
-    public static List<Character> playerParty = new List<Character>(); //all player party chars
-    public static List<GameObject> playerPartyMemberObjects = new List<GameObject>();
-    public static List<Character> enemyParty = new List<Character>(); //all enemy chars
-    public static List<GameObject> enemyPartyMemberObjects = new List<GameObject>();
-    //items
-
-
-    //log
-    public static TextMeshPro GameLogObject; //the game's log
-
-    //items, inventory, traits
-    public static DesignerTuningInterface itemManager; //script that allows easy value tweaking for designers
-    public static List<Item> inventory = new List<Item>(); //items in possession
-    public static List<Item> allItems = new List<Item>(); // ALL possible items
-
-    public static List<Trait> traitInventory = new List<Trait>(); //traits in player inventory
-    public static List<Trait> traitList; //all possible traits
-    public static List<Trait> t1traitList = new List<Trait>(); //all possible tier one traits
-    public static List<Trait> t2traitList = new List<Trait>(); //all possible tier two traits
-
-    //shop/merchant
-    public static int ShopItemCount = 3; //the maximum amount of items offered by a shop/merchant
-
-    //make a trait recipe menu + a visibility hiding script based on already tried combinations
-
-    //char dies? dead for rest of the run, traits and items go to inventory
-
-    //also add trait mixing mechanics
-    //also! ALLOW TRAIT SWITCHING AT CAMPFIREs - do overmap first
-
-
-    public static GameObject backgroundObject; //just a reference to the cube that the background is painted on
-
-
-
-
-
-
-    public static void GameLog(string text)
+    // Start is called before the first frame update
+    void Start()//loads stuff up
     {
-        GameLogObject.text += "\n" + text;
 
-    }
-
-
-    public static void PassTurn()
-    {//player pressed the Next button to let actions play out and let enemies act
-        StartOfTurn();
-        StatusEffectsProc(); //burns, poison, etc
-        DoQueuedActions(); //player character attacks, uses abilities, potions, etc
-        DoEnemyActions();
-    }
+        UserInterfaceHelperComponent.GameUI.SetActive(false);//so i don't have to toggle em whenever i wanna test out something else
+        UserInterfaceHelperComponent.MainMenuBack.SetActive(true);
+        MainData.MainLoop = this;
+        MainData.SoundManagerRef = SoundManagerComponent;
 
 
-    static void StatusEffectsProc()
-    {
+        
+        
+        //call things from here from now on
+        //StartLoading(); //blacks screen out
+
+
+
+        LevelHelperComponent.GenerateLevels(); //set up templates
+        EntityDefComponent.DefineTraits();
+        EntityDefComponent.DefinePartyMembers(); //set up characters
+        EntityDefComponent.DefineMonsters();//define all entities here
+        EntityDefComponent.DefineConsumables(); 
+       // BuildParty(); just assigns the party characters to each party slot
+        //compile map data
+        //get every child MapIconScript component of mapicon parent object
+        //run the LinkMaps() function from each
+
+        //compile 
+        //finish up
+        //StopLoading(); //restores vision
 
 
     }
 
-    static void StartOfTurn()
+    public void Update()
     {
-        Debug.Log("Turn " + turnNumber.ToString());
+        if (Input.GetMouseButtonDown(0)){
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
 
-
+            if (Physics.Raycast(ray, out hit, ~IgnoreMe))
+            {
+                if (hit.transform.tag == "character")
+                {
+                    CharacterScript hitChar = hit.transform.gameObject.GetComponent<CharacterScript>();
+                    hitChar.GotClicked();
+                    Debug.Log("This is a character, this is "+ hit.transform.name);
+                }
+                else
+                {
+                    Debug.Log("This isn't a character, this is "+ hit.transform.name);
+                }
+            }
+        }
     }
 
 
-    static void EndOfturn()
+    public void PassTurn()
     {
-        if (enemyParty.Count == 0)
+        //play new turn sound here
+        MainData.turnNumber++;
+        Debug.Log("Turn " + MainData.turnNumber.ToString());
+        ApplyEffectToAll(); //burns, poison, etc
+       
+        //"Start of turn turnnumber"
+        if (MainData.enemyParty.Count >= 1) //if there's no enemy there's no need to fight
         {
-            GameLog("You have vanquished the enemies.");
+            
+            CombatHelperComponent.InitiateCombatTurn();
+            //HighlightPauseButton();
+            PassTurn();
+        }
+        else
+        {
+            MainData.turnNumber = 0;
+            Debug.Log("All enemies have been vanquished.");
+            //Highlight Map button
+        }
+    }
 
+
+    public void ApplyEffectToAll()
+    {//applies the status effect, if any, to every creature on map.
+        foreach (Character item in MainData.allChars)
+        {
+            if (item.currentStatusEffect != null)
+            {
+                
+                //what do we do here?
+                //easy, just check the type of status effect ( a string )
+                //then decide what to do based on what type it is
+                switch (item.currentStatusEffect.type)
+                {
+                    case "poison":
+                        //AnimateParticles(EntityDefinition.poisonParticle); we will later have element-specific particles, dunno
+                        item.TakeDamage(-1);
+                        break;
+                    case "burn"://a stronger poisonlike Damage over Time (DOT) effect
+                        item.TakeDamage(-5);
+                        break;
+                    case "heal":
+                        item.TakeDamage(-1);
+                        break;
+                    case "regeneration": //a stronger heal over time effect
+                        item.TakeDamage(-5);
+                        break;
+                    //case "admired": //stat boost while it's on
+                    //    item.TakeDamage(-5);
+                    //    break;
+                    default:
+                        Debug.Log("Unknown status effect proc'd on "+ item.name);
+                        break;
+                }
+                item.currentStatusEffect.turnsRemaining--;
+                if (item.currentStatusEffect.turnsRemaining <= 0)
+                {
+                    item.currentStatusEffect = null;
+                }
+
+
+            }
         }
 
-
-    }
-    static void DoQueuedActions()
-    {
-
-
-
     }
 
 
-    static void BuildWorldmap()
-    {
-        ControlsHelperRef.BuildWorldCanvas();
+
+    // Update is called once per frame
 
 
-    }
-
-
-    public static void Travel(MapLevel ToThisLevel)
-    {//is there anything better than a nice durum kebab with extra scharf/spicy sauce?
-        if (currentLevel == null)
+    public void Travel(MapLevel ToThisLevel)
+    {//im hungry
+        if (MainData.currentLevel == null)
         {
             Debug.Log("currentLevel is Null.");
         }
         //SoundManagerRef.StopSoundtrack();
-        currentLevel = ToThisLevel;
-        if (currentLevel != null)
+        MainData.currentLevel = ToThisLevel;
+        if (MainData.currentLevel != null)
         {
             Debug.Log("currentLevel is not Null anymore.");
         }
@@ -157,18 +164,30 @@ public static class GameManager
         //SoundManagerRef.ChangeSoundtrack(currentLevel.levelSoundtrack);
         //SoundManagerRef.StartSoundtrack();
         //currentLevel.visited = true;
-        BuildWorldmap();
+
+        //black out screen whiles setting up things.
+
+
+
+        
+        
+        RefreshWorldMap();
 
     }
 
-   
 
 
-    public static void DoEnemyActions()
-    {//do these after player acts
+
+    static void RefreshWorldMap()
+    {
+       // ControlsHelperScript.BuildWorldCanvas();
+
 
     }
 
+    public void GameLog(string text)
+    {
+        //ControlsHelperScript.text += "\n" + text;
 
-
+    }
 }

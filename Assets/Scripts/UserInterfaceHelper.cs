@@ -1,16 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class UserInterfaceHelper : MonoBehaviour
 {
-
     public GameObject selectedCharAvatar; //we will replace this object's image with the currently selected character's avatar
     public GameObject selectedCharName;
     public GameObject selectedCharTraitDesc;
     public GameObject selectedCharTraitIcon;
     public GameObject selectedCharDescription;
+    [Space(10)]
+    public GameObject ConsumableSlot1;
+    public GameObject ConsumableSlot2;
+    public GameObject ConsumableSlot3;
     [Space(10)]
     public GameObject worldmapDescription;
     public GameObject worldmapName;
@@ -18,12 +22,87 @@ public class UserInterfaceHelper : MonoBehaviour
     public GameObject darkText;
     public float travelMicroDelay;
     public float transparencyIncrement;
+
+    public GameObject GameUI;
+    public GameObject MainMenuBack;
+    public GameObject MainMenuStart;
+    public GameObject MainMenuExit;
+    public GameObject MainMenuExitYes;
+    public GameObject MainMenuExitSure;
+    public GameObject MainMenuExitNo;
+
+
+
+
+
+    public void ClickTesting()
+    {
+        Debug.Log("I HAVE BEEN CLICKED. WHO DARES?");
+    }
+
+
+
+    public void ClickSendPause()
+    {
+        MainMenuBack.SetActive(true);
+        MainMenuStart.SetActive(true);
+        MainMenuExit.SetActive(true);
+        GameUI.SetActive(false);
+        MainData.SoundManagerRef.PlayClickSound();
+        
+    }
+
+    public void ClickStartGame()
+    {
+        MainData.SoundManagerRef.PlayClickSound();
+        if (!MainData.MainLoop.gameStarted)
+        {
+            
+            MainData.SoundManagerRef.ChangeSoundtrack(MainData.SoundManagerRef.MainTheme);
+        }
+        MainMenuStart.GetComponentInChildren<TextMeshProUGUI>().text = "Continue";
+        MainMenuStart.SetActive(false);
+        MainMenuExit.SetActive(false);
+        MainMenuBack.SetActive(false);
+        GameUI.SetActive(true);
+        MainData.MainLoop.gameStarted = true;
+    }
+
+    public void ClickExitGame()
+    {
+        MainData.SoundManagerRef.PlayClickSound();
+        MainMenuStart.SetActive(false);
+        MainMenuExit.SetActive(false);
+        MainMenuExitYes.SetActive(true);
+        MainMenuExitSure.SetActive(true);
+        MainMenuExitNo.SetActive(true);
+}
+
+
+
+
+    public void ClickExitYes()
+    {
+        MainData.SoundManagerRef.PlayClickSound();
+        Application.Quit();
+    }
+
+    public void ClickExitNo()
+    {
+        MainData.SoundManagerRef.PlayClickSound();
+        MainMenuStart.SetActive(true);
+        MainMenuExit.SetActive(true);
+        MainMenuExitYes.SetActive(false);
+        MainMenuExitSure.SetActive(false);
+        MainMenuExitNo.SetActive(false);
+    }
+
     //if we decide wether we should allow characters to have more than one trait, rework this to display the trait icons in a list/row
 
     // Start is called before the first frame update
     void Start()
     {
-        GameManager.uiMan = this;
+        MainData.uiMan = this;
     }
 
     // Update is called once per frame
@@ -31,6 +110,9 @@ public class UserInterfaceHelper : MonoBehaviour
     {
         
     }
+
+
+
 
     IEnumerator darksequence()
     {
@@ -50,8 +132,6 @@ public class UserInterfaceHelper : MonoBehaviour
             darkText.GetComponent<Image>().color = b;
             yield return new WaitForSecondsRealtime(travelMicroDelay);
         }
-
-
     }
 
     public void TravelLoadingSequence()
