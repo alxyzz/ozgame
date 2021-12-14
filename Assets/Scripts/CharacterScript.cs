@@ -57,14 +57,31 @@ public class CharacterScript : MonoBehaviour
     }
 
 
+    public void SetupCharacterAfterTemplate(Character template)
+    {
+        associatedCharacter = template;
+        isEnemy = !associatedCharacter.isPlayerPartyMember;
+        charName = associatedCharacter.charName;
+        charDesc = associatedCharacter.entityDescription;
+        charTrait = associatedCharacter.charTrait;
+        charAvatar = associatedCharacter.charAvatar;
 
+    }
 
-
+    //public bool isEnemy;
+    //public string characterstringID;
+    //public string charName;
+    //public string charDesc;
+    //public Trait charTrait;
+    //public Sprite charAvatar;
+    ////the previous are just for testing, we'll grab the stuff from the char reference below later
+    //public Character associatedCharacter;
 
 
     public void GotClicked()
     {
-
+        //highlight this character
+        //track selection in maindata or gamemanager
 
     }
 
@@ -126,6 +143,15 @@ public class CharacterScript : MonoBehaviour
         //show text on bottom of screen
     }
 
+
+    private void OnMouseOver()
+    {
+        if(Input.GetKeyDown(KeyCode.Mouse0))
+        {
+
+            GotClicked();
+        }
+    }
 
 
 

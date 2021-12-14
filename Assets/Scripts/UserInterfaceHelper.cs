@@ -54,14 +54,18 @@ public class UserInterfaceHelper : MonoBehaviour
 
     public void ClickStartGame()
     {
-
         MainData.SoundManagerRef.PlayClickSound();
-        MainData.SoundManagerRef.ChangeSoundtrack(MainData.SoundManagerRef.MainTheme);
+        if (!MainData.MainLoop.gameStarted)
+        {
+            
+            MainData.SoundManagerRef.ChangeSoundtrack(MainData.SoundManagerRef.MainTheme);
+        }
         MainMenuStart.GetComponentInChildren<TextMeshProUGUI>().text = "Continue";
         MainMenuStart.SetActive(false);
         MainMenuExit.SetActive(false);
         MainMenuBack.SetActive(false);
         GameUI.SetActive(true);
+        MainData.MainLoop.gameStarted = true;
     }
 
     public void ClickExitGame()

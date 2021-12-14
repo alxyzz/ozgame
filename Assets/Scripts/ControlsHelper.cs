@@ -35,18 +35,11 @@ public class ControlsHelper : MonoBehaviour
     }
 
 
-
-
-    
-
-
-
-
     public void OpenOvermapButton()
     {
 
         WorldMapCanvas.SetActive(true);
-        //Debug.Log("CLICKED OVERMAP BUTTON.");
+        Debug.Log("CLICKED OVERMAP-open BUTTON.");
         MainData.SoundManagerRef.PlayClickSound();
     }
 
@@ -54,7 +47,7 @@ public class ControlsHelper : MonoBehaviour
     {
 
         WorldMapCanvas.SetActive(false);
-        // Debug.Log("CLICKED closeOVERMAP BUTTON.");
+         Debug.Log("CLICKED closeOVERMAP BUTTON.");
         MainData.SoundManagerRef.PlayClickSound();
     }
 

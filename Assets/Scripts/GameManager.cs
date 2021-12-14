@@ -6,6 +6,7 @@ using static LevelHelper;
 
 public class GameManager : MonoBehaviour
 {
+    public bool gameStarted = false;
     public LayerMask IgnoreMe;
     public EntitiesDefinition EntityDefComponent;
     public LevelHelper LevelHelperComponent;
@@ -14,6 +15,8 @@ public class GameManager : MonoBehaviour
     public ControlsHelper ControlsHelperComponent;
     public EventLogging EventLoggingComponent;
     public UserInterfaceHelper UserInterfaceHelperComponent;
+    public CombatHelper CombatHelperComponent;
+   
 
     // Start is called before the first frame update
     void Start()//loads stuff up
@@ -33,12 +36,15 @@ public class GameManager : MonoBehaviour
 
 
         LevelHelperComponent.GenerateLevels(); //set up templates
-        EntityDefComponent.GenerateTraits();
-        EntityDefComponent.GenerateParty(); //set up characters
-        EntityDefComponent.GenerateMonsters();
-        EntityDefComponent.GenerateConsumables();
+        EntityDefComponent.DefineTraits();
+        EntityDefComponent.DefinePartyMembers(); //set up characters
+        EntityDefComponent.DefineMonsters();//define all entities here
+        EntityDefComponent.DefineConsumables(); 
+       // BuildParty(); just assigns the party characters to each party slot
         //compile map data
-        //setup overmap icons
+        //get every child MapIconScript component of mapicon parent object
+        //run the LinkMaps() function from each
+
         //compile 
         //finish up
         //StopLoading(); //restores vision
@@ -69,29 +75,29 @@ public class GameManager : MonoBehaviour
     }
 
 
-
     public void PassTurn()
-    {//player pressed the Next button to let actions play out and let enemies act
+    {
+        //play new turn sound here
+        MainData.turnNumber++;
         Debug.Log("Turn " + MainData.turnNumber.ToString());
         ApplyEffectToAll(); //burns, poison, etc
-        //actions apply immediately upon doing them so it's more pleasant to watch
-        DoEnemyActions();
-    }
-
-
-
-    static void EndOfturn()
-    {
-        if (MainData.enemyParty.Count == 0)
+       
+        //"Start of turn turnnumber"
+        if (MainData.enemyParty.Count >= 1) //if there's no enemy there's no need to fight
         {
-            //GameLog("You have vanquished the enemies.");
-
+            
+            CombatHelperComponent.InitiateCombatTurn();
+            //HighlightPauseButton();
+            PassTurn();
         }
-
-
+        else
+        {
+            MainData.turnNumber = 0;
+            Debug.Log("All enemies have been vanquished.");
+            //Highlight Map button
+        }
     }
 
-    
 
     public void ApplyEffectToAll()
     {//applies the status effect, if any, to every creature on map.
@@ -118,6 +124,9 @@ public class GameManager : MonoBehaviour
                     case "regeneration": //a stronger heal over time effect
                         item.TakeDamage(-5);
                         break;
+                    //case "admired": //stat boost while it's on
+                    //    item.TakeDamage(-5);
+                    //    break;
                     default:
                         Debug.Log("Unknown status effect proc'd on "+ item.name);
                         break;
@@ -140,7 +149,7 @@ public class GameManager : MonoBehaviour
 
 
     public void Travel(MapLevel ToThisLevel)
-    {//is there anything better than a nice durum kebab with extra scharf/spicy sauce?
+    {//im hungry
         if (MainData.currentLevel == null)
         {
             Debug.Log("currentLevel is Null.");
@@ -155,17 +164,24 @@ public class GameManager : MonoBehaviour
         //SoundManagerRef.ChangeSoundtrack(currentLevel.levelSoundtrack);
         //SoundManagerRef.StartSoundtrack();
         //currentLevel.visited = true;
+
+        //black out screen whiles setting up things.
+
+
+
+        
+        
         RefreshWorldMap();
 
     }
+
+
+
+
     static void RefreshWorldMap()
     {
        // ControlsHelperScript.BuildWorldCanvas();
 
-
-    }
-    public static void DoEnemyActions()
-    {//do these after player acts
 
     }
 

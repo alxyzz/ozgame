@@ -27,7 +27,7 @@ public class EntitiesDefinition : MonoBehaviour
 
 
 
-    public void GenerateParty()
+    public void DefinePartyMembers()
     {
 
 
@@ -35,12 +35,12 @@ public class EntitiesDefinition : MonoBehaviour
 
     }
 
-    public void GenerateMonsters()
+    public void DefineMonsters()
     {
 
     }
 
-    public void GenerateConsumables()
+    public void DefineConsumables()
     {
 
     }
@@ -51,7 +51,7 @@ public class EntitiesDefinition : MonoBehaviour
 
 
     }
-    public void GenerateTraits()
+    public void DefineTraits()
     {//generates traits, stores them all in a dictionary in the dataholder
        
 
@@ -121,6 +121,7 @@ public class EntitiesDefinition : MonoBehaviour
 
         public Trait charTrait;
         public Sprite charSprite;
+        public Sprite charAvatar;
 
         public StatusEffect currentStatusEffect;
 
@@ -128,6 +129,8 @@ public class EntitiesDefinition : MonoBehaviour
         private int baseHealth;
         private int baseDamage;
 
+
+        public int speed; //NOTE - RECOMPUTE THIS BEFORE EVERY TURN TO TRACK TRAITS CHANGING IT
         public int defense;
         public int damage;
         public int luck;
@@ -136,6 +139,29 @@ public class EntitiesDefinition : MonoBehaviour
         public bool hasActedThisTurn;
 
         public string attackverb;
+
+        public CharacterScript selfScriptRef;
+
+
+        public void RecalculateSpeed() // maybe make it recompute all traits later 
+        {//another thing to watch out for is wether the monster copy from the dictionary is really a copy or a reference. dont want to change the dictionary entry (in case of being a ref)
+
+
+        }
+
+        public bool CheckTrait(string b)
+        {
+            if (this.charTrait.name == b)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+
         public void TakeDamageFromCharacter(int dmg, string attackverb, Character attacker, bool critical)
         { //runs when being hit
             if (critical)
@@ -143,33 +169,38 @@ public class EntitiesDefinition : MonoBehaviour
                 MainData.MainLoop.GameLog("Critical strike!");
             }
            MainData.MainLoop.GameLog(this.charName + " the " + charTrait.name + " has been " + attackverb + "ed by " + attacker.charName + "for " + dmg + " damage!");
-
+            currentHealth -= dmg; //INCORPORATE ARMOR CALCULATION HERE
+            if (currentHealth <= 0)
+            {
+                gotKilled(attacker);
+            }
         }
 
         public void TakeDamage(int dmg)
         { //generic take damage function
             currentHealth -= dmg;
             MainData.MainLoop.GameLog(this.charName + " the " + charTrait.name + " is hurt " + "for " + dmg + " damage!");
-
+            if (currentHealth <= 0)
+            {
+                gotKilled();
+            }
         }
 
 
 
-        //public void GainStatusEffect (StatusEffect statusEffect, int turns)
-        //{
-        //    statusEffect.Afflicted = this;
-        //    statusEffect.Turns = turns;
+        public void GainStatusEffect (StatusEffect statusEffect, int turns)
+        {
+            this.currentStatusEffect = statusEffect;
+            this.currentStatusEffect.turnsRemaining = turns;
+        }
 
 
-        //}
-
-
-        public void ApplyCondition(string type, int duration)
+        public void StatusEffectProc(string type, int duration)
         {
             switch (type)
             {
                 case "poison":
-                    this.currentStatusEffect = new StatusEffect(type, "This being is affected by  substances that can cause injury or death.", duration);
+                    this.currentStatusEffect = new StatusEffect(type, "This being is affected by substances that can cause injury or death.", duration);
                     break;
                 case "burn":
                     this.currentStatusEffect = new StatusEffect(type, "This being is on fire.", duration);
@@ -184,34 +215,22 @@ public class EntitiesDefinition : MonoBehaviour
                     break;
             }
         }
-
-
         public void AttackRandom()
         {
             if (isPlayerPartyMember)
             {
                 Character b = MainData.enemyParty[Random.Range(0, MainData.enemyParty.Count)];
                 //b.TakeDamage();
-                b.CheckHealth(this);
+
             }
             else
             {
                 Character d = MainData.playerParty[Random.Range(0, MainData.playerParty.Count)];
                 //d.TakeDamage();
-                d.CheckHealth(this);
+
             }
         }
-        /// <summary>
-        /// the function is called once per turn to make sure damaging status effects apply, but is also called with a Character parameter after an attack.
-        /// </summary>
-        /// <param name="hitter"></param>
-        public void CheckHealth(Character hitter = null)
-        {
-
-
-
-        }
-        public void gotKilled(Character killer)
+        public void gotKilled(Character killer = null)
         {
             //GameLog(killed.charName + "has been vanquished!");
             if (isPlayerPartyMember)

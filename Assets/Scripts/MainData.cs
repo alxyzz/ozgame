@@ -18,7 +18,7 @@ public static class MainData
     public static Sprite MossSprite;
     [Space(10)]
     public static Material MatCatacombs;
-
+    public static DesignerTuningInterface itemManager; //script that allows easy value tweaking for designers
 
 
     public static PositionHolder references;
@@ -26,6 +26,7 @@ public static class MainData
 
     //controls
     public static ControlsHelper ControlsHelperRef;
+    public static bool controlsEnabled;
 
     public static bool levelsInitDone = false;//todo - loading time
     //todo - intro with a short story
@@ -92,7 +93,7 @@ public static class MainData
     public static TextMeshPro GameLogObject; //the game's log
 
     //items, inventory, traits
-    public static DesignerTuningInterface itemManager; //script that allows easy value tweaking for designers
+    
     public static List<Item> equipmentInventory = new List<Item>(); //items in possession
     public static List<Item> consumableInventory = new List<Item>(); //items in possession
 
