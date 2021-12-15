@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static MainData;
@@ -31,7 +32,7 @@ public class EntitiesDefinition : MonoBehaviour
     /// <param name="charDesc">A flavourful description.</param>
     /// <param name="attackVerb">The verb used when attacking, shown in the log.</param>
     /// <param name="isPlayer">Wether it is part of the player's party, or an enemy.</param>
-    /// <param name="baseHP">The base health maximum value, before to any modifiers</param>
+    /// <param name="baseHP">The base health maximum value, before to any modifiers.</param>
     /// <param name="baseDMG">The base damage value, before any modifiers.</param>
     /// <param name="baseSPD">The base speed value, before any modifiers.</param>
 
@@ -81,9 +82,13 @@ public class EntitiesDefinition : MonoBehaviour
     public void DefinePartyMembers()
     {
         //string characterID, string charName, string charDesc, string attackVerb, bool isPlayer, int baseHP, int baseDMG, int baseSPD, int Defense,  int Luck, int Mana, AudioClip newCharTurnSound, Sprite newCharSprite, Sprite newCharAvatar)
-        CreateCreature("scarecrow", "Scarecrow", "Lacks a heart and is driven to obtain it.", "rends", true, 100, 25, 1, 1, 2, 100, null, null, ScarecrowSprite);
+        CreateCreature("scarecrow", "Scarecrow", "Lacks a brain and is driven to obtain it.", "rends", true, 100, 25, 1, 1, 2, 100, null, null, ScarecrowSprite);
 
+        CreateCreature("tin_man", "Tin Man", "Lacks a heart and will do anything to get it.", "bashes", true, 100, 25, 1, 1, 2, 100, null, null, ScarecrowSprite);
 
+        CreateCreature("lion", "Lion", "His lack of courage is apparent.", "eviscerates", true, 100, 25, 1, 1, 2, 100, null, null, ScarecrowSprite);
+
+        CreateCreature("dorothy", "Homesick", "Wants to go home...", "strikes", true, 100, 25, 1, 1, 2, 100, null, null, ScarecrowSprite);
 
 
     }
@@ -98,6 +103,26 @@ public class EntitiesDefinition : MonoBehaviour
     {
 
     }
+
+    public void BuildParty()
+    {
+
+        //this takes the needed template, applies it to the charscript in the party slot, then calls the refresh method
+        CharacterScript slot1ref = MainData.MainLoop.PositionHolderComponent.PartySlot1.GetComponent<CharacterScript>();
+        
+
+        CharacterScript slot2ref = MainData.MainLoop.PositionHolderComponent.PartySlot2.GetComponent<CharacterScript>();
+        CharacterScript slot3ref = MainData.MainLoop.PositionHolderComponent.PartySlot3.GetComponent<CharacterScript>();
+        CharacterScript slot4ref = MainData.MainLoop.PositionHolderComponent.PartySlot4.GetComponent<CharacterScript>();
+
+
+        slot1ref.SetupCharacterAfterTemplate(MainData.characterTypes["scarecrow"]);
+        slot1ref.SetupCharacterAfterTemplate(MainData.characterTypes["tin_man"]);
+        slot1ref.SetupCharacterAfterTemplate(MainData.characterTypes["lion"]);
+        slot1ref.SetupCharacterAfterTemplate(MainData.characterTypes["dorothy"]);
+
+    }
+
     public void GenerateEquipment()
     {//generates traits, stores them all in a dictionary in the dataholder
 
@@ -116,7 +141,7 @@ public class EntitiesDefinition : MonoBehaviour
     public Item FetchRandomItem()
     {//fetches a random t1 trait
         List<string> keyList = new List<string>(allConsumables.Keys);
-        string randomKey = keyList[Random.Range(0, keyList.Count + 1)];
+        string randomKey = keyList[UnityEngine.Random.Range(0, keyList.Count + 1)];
         Debug.Log("Fetched random item: " + randomKey);
         return allConsumables[randomKey];
 
@@ -126,7 +151,7 @@ public class EntitiesDefinition : MonoBehaviour
     public Trait FetchRandomTrait()
     {//fetches a random t1 trait
         List<string> keyList = new List<string>(traitList.Keys);
-        string randomKey = keyList[Random.Range(0, keyList.Count + 1)];
+        string randomKey = keyList[UnityEngine.Random.Range(0, keyList.Count + 1)];
         Debug.Log("Fetched random trait: " + randomKey);
         return traitList[randomKey];
 
@@ -134,7 +159,7 @@ public class EntitiesDefinition : MonoBehaviour
     public Trait FetchRandomT1Trait()
     {//fetches a random t1 trait
         List<string> keyList = new List<string>(t1traitList.Keys);
-        string randomKey = keyList[Random.Range(0,keyList.Count+1)];
+        string randomKey = keyList[UnityEngine.Random.Range(0,keyList.Count+1)];
         Debug.Log("Fetched random t1 trait: " + randomKey);
         return t1traitList[randomKey];
 
@@ -143,7 +168,7 @@ public class EntitiesDefinition : MonoBehaviour
     public Trait FetchRandomT2Trait()
     {//fetches a random t1 trait
         List<string> keyList = new List<string>(t2traitList.Keys);
-        string randomKey = keyList[Random.Range(0, keyList.Count + 1)];
+        string randomKey = keyList[UnityEngine.Random.Range(0, keyList.Count + 1)];
         Debug.Log("Fetched random t2 trait: " + randomKey);
         return t2traitList[randomKey];
 
@@ -165,7 +190,7 @@ public class EntitiesDefinition : MonoBehaviour
 
 
     [System.Serializable]
-    public class Character : MonoBehaviour
+    public class Character : MonoBehaviour//, ICloneable
     {
         public string charType; //something like "goblin_spear", "tin_man" or "scarecrow" for the dictionary. 
         public string charName;
@@ -191,7 +216,7 @@ public class EntitiesDefinition : MonoBehaviour
         public int damage;
         public int luck;
         public int mana;
-
+        private bool canAct = true;
         public bool hasActedThisTurn = false;
 
         public string attackverb;
@@ -199,12 +224,17 @@ public class EntitiesDefinition : MonoBehaviour
         public CharacterScript selfScriptRef;
 
 
+        public bool CheckIfCanAct()
+        {
+            return canAct;
+        }
+
+
         public void RecalculateSpeed() // maybe make it recompute all traits later 
         {//another thing to watch out for is wether the monster copy from the dictionary is really a copy or a reference. dont want to change the dictionary entry (in case of being a ref)
 
 
         }
-
         public bool CheckTrait(string b)
         {
             if (this.charTrait.name == b)
@@ -216,16 +246,14 @@ public class EntitiesDefinition : MonoBehaviour
                 return false;
             }
         }
-
-
-        public void TakeDamageFromCharacter(int dmg, string attackverb, Character attacker, bool critical)
-        { //runs when being hit
-            if (critical)
-            { //make this red and bigger
-                MainData.MainLoop.GameLog("Critical strike!");
-            }
-           MainData.MainLoop.GameLog(this.charName + " the " + charTrait.name + " has been " + attackverb + "ed by " + attacker.charName + "for " + dmg + " damage!");
-            currentHealth -= dmg; //INCORPORATE ARMOR CALCULATION HERE
+        public void TakeDamageFromCharacter(Character attacker)
+        { 
+            //if (critical)
+            //{ //make this red and bigger
+            //    MainData.MainLoop.GameLog("Critical strike!");
+            //}
+           MainData.MainLoop.GameLog(this.charName + " the " + charTrait.name + " has been " +attacker.attackverb + "ed by " + attacker.charName + "for " + attacker.damage + " damage!");
+            currentHealth -= (attacker.damage - defense); //INCORPORATE ARMOR CALCULATION HERE 
             if (currentHealth <= 0)
             {
                 gotKilled(attacker);
@@ -275,13 +303,13 @@ public class EntitiesDefinition : MonoBehaviour
         {
             if (isPlayerPartyMember)
             {
-                Character b = MainData.enemyParty[Random.Range(0, MainData.enemyParty.Count)];
+                Character b = MainData.enemyParty[UnityEngine.Random.Range(0, MainData.enemyParty.Count)];
                 //b.TakeDamage();
 
             }
             else
             {
-                Character d = MainData.playerParty[Random.Range(0, MainData.playerParty.Count)];
+                Character d = MainData.playerParty[UnityEngine.Random.Range(0, MainData.playerParty.Count)];
                 //d.TakeDamage();
 
             }
@@ -289,19 +317,37 @@ public class EntitiesDefinition : MonoBehaviour
         public void gotKilled(Character killer = null)
         {
             //GameLog(killed.charName + "has been vanquished!");
-            if (isPlayerPartyMember)
-            {
-                playerParty.Remove(allChars.Find(x => x.GetID() == this.charType));
-            }
+            //if (isPlayerPartyMember)
+            //{
+            //    playerParty.Remove(allChars.Find(x => x.GetID() == this.charType));
+            //}
+            canAct = false;
+            MainData.casualties.Add(this);
+            selfScriptRef.Die();
 
-            enemyParty.Remove(allChars.Find(x => x.GetID() == this.charType));
-            allChars.Remove(allChars.Find(x => x.GetID() == this.charType));
-            Destroy(this);
+
         }
+
+
+        public void DeleteTheVanquished()
+        {
+            
+                enemyParty.Remove(allChars.Find(x => x.GetID() == this.charType));
+                allChars.Remove(allChars.Find(x => x.GetID() == this.charType));
+                selfScriptRef.associatedCharacter = null; // this should get the garbage collector to remove it, if nothing else references it
+                selfScriptRef.Die();
+                Destroy(this);
+            
+        }
+
+
+
         public string GetID()
         {
             return charType;
         }
+
+        
     }
 
 
