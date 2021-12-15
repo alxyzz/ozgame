@@ -62,12 +62,15 @@ public static class MainData
 
     //party
     public static List<Character> allChars = new List<Character>(); //all chars on current level
-
+    public static List<Character> casualties = new List<Character>(); //all dead chars from current level. in future perhaps put them on a graveyard menu or something
     public static List<Character> playerParty = new List<Character>(); //all player party chars
     public static List<GameObject> playerPartyMemberObjects = new List<GameObject>();
 
     public static List<Character> enemyParty = new List<Character>(); //all enemy chars
     public static List<GameObject> enemyPartyMemberObjects = new List<GameObject>();
+
+
+
 
 
     //dicts

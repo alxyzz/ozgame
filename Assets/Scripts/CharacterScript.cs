@@ -8,11 +8,11 @@ using static TraitHelper;
 
 public class CharacterScript : MonoBehaviour
 {
-    //the previous are just for testing, we'll grab the stuff from the char reference below later
+    [HideInInspector]
     public Character associatedCharacter;
-    public float inflateStep = 0.01f;
+    public float expandOnMouseOver = 0.01f;
     public SpriteRenderer spriteRenderer;
-
+    public bool isEnemyCharacter;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,7 +22,7 @@ public class CharacterScript : MonoBehaviour
             associatedCharacter.currentCharObj = this;
         }
        
-        if (associatedCharacter.isPlayerPartyMember)
+        if (!isEnemyCharacter)
         {
             MainData.playerPartyMemberObjects.Add(gameObject);
         }
@@ -36,40 +36,34 @@ public class CharacterScript : MonoBehaviour
 
     //make a different button for this
     
-    public void Die()
+    public void Die() //visually show character has died
     {
-        //play death animation
-        //GameLog.DeathLog(associatedCharacter.charName + " has died.");
-        //associatedCharacter = null;
-        //strip away all images, names, etc. set to inactive.
+        associatedCharacter = null;
+        spriteRenderer.sprite = null;
 
     }
 
 
     public void Attack(CharacterScript target)
     {//add dodging
-        target.associatedCharacter.TakeDamageFromCharacter(associatedCharacter.damage, associatedCharacter.attackverb, associatedCharacter, false);
+        target.associatedCharacter.TakeDamageFromCharacter(associatedCharacter);
 
     }
-
-
-    public void Death()
-    {
-        spriteRenderer.sprite = null;
-        associatedCharacter = null;
-
-    }
-
     public void SetupCharacterAfterTemplate(Character template)
     {
-        associatedCharacter = template;
+        associatedCharacter = Instantiate(template); ; //This. I love this.
+        Debug.Log("Instantiated a cope of " + template.charName);
         spriteRenderer.sprite = associatedCharacter.charSprite;
     }
 
     public void GotClicked()
     {
         //highlight this character
-        //track selection in maindata or gamemanager
+        //track selection
+        Debug.Log(this.associatedCharacter.charName + "got clicked and was selected during combat.");
+        MainData.MainLoop.CombatHelperComponent.activeTarget = this;
+
+
 
     }
 

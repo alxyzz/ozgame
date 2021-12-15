@@ -23,6 +23,10 @@ public class PositionHolder : MonoBehaviour
     public GameObject CampfireSpot2;
     public GameObject CampfireSpot3;
     public GameObject CampfireSpot4;
+    [Space(15)]
+    public GameObject EnemySpot1;
+    public GameObject EnemySpot2;
+    public GameObject EnemySpot3;
 
 
     public GameObject EnemySpawnBoundaryLeft;//enemies spawn between these

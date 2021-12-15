@@ -38,8 +38,9 @@ public class GameManager : MonoBehaviour
         EntityDefComponent.DefineTraits();
         EntityDefComponent.DefinePartyMembers(); //set up characters
         EntityDefComponent.DefineMonsters();//define all entities here
-        EntityDefComponent.DefineConsumables(); 
-       // BuildParty(); just assigns the party characters to each party slot
+        EntityDefComponent.DefineConsumables();
+        EntityDefComponent.BuildParty();
+        PositionHolderComponent.PrepPartyPlaces();
         //compile map data
         //get every child MapIconScript component of mapicon parent object
         //run the LinkMaps() function from each
@@ -127,7 +128,7 @@ public class GameManager : MonoBehaviour
                     //    item.TakeDamage(-5);
                     //    break;
                     default:
-                        Debug.Log("Unknown status effect proc'd on "+ item.name);
+                        Debug.Log("Unknown status effect proc'd on "+ item.charName);
                         break;
                 }
                 item.currentStatusEffect.turnsRemaining--;
