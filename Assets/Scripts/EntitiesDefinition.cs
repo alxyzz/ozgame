@@ -151,8 +151,39 @@ public class EntitiesDefinition : MonoBehaviour
 
     public void DefineMonsters()
     {
+        CreateCreature("evilcrow", //characterID
+                       "George", // charName
+                       "Lacks a brain and is driven to obtain yours.", // charDesc
+                       "rends", //verb used when attacking
+                       false, //is it a player character(true), or is it an enemy(false)?
+                       100, //the base HP value
+                       25, // the base damage value
+                       1, //base speed, higher is better
+                       1, //defense
+                       2, //luck
+                       100, //mana
+                       null, //sound for when it is this character's turn to act
+                       ScarecrowSprite, //character's sprite 
+                       null); //character's avatar sprite
+    }
+
+    public void SpawnEnemyTest()
+    {
+
+        //this takes the needed template, applies it to the charscript in the party slot, then calls the refresh method
+        CharacterScript slotref = MainData.MainLoop.PositionHolderComponent.EnemySpot1.GetComponent<CharacterScript>();
+
+
+        slotref.SetupCharacterByTemplate(MainData.characterTypes["evilcrow"]);
+
 
     }
+
+
+
+
+
+
 
     public void DefineConsumables()
     {
@@ -169,10 +200,10 @@ public class EntitiesDefinition : MonoBehaviour
         CharacterScript slot4ref = MainData.MainLoop.PositionHolderComponent.PartySlot4.GetComponent<CharacterScript>();
 
 
-        slot1ref.SetupCharacterAfterTemplate(MainData.characterTypes["scarecrow"]);
-        slot2ref.SetupCharacterAfterTemplate(MainData.characterTypes["tin_man"]);
-        slot3ref.SetupCharacterAfterTemplate(MainData.characterTypes["lion"]);
-        slot4ref.SetupCharacterAfterTemplate(MainData.characterTypes["dorothy"]);
+        slot1ref.SetupCharacterByTemplate(MainData.characterTypes["scarecrow"]);
+        slot2ref.SetupCharacterByTemplate(MainData.characterTypes["tin_man"]);
+        slot3ref.SetupCharacterByTemplate(MainData.characterTypes["lion"]);
+        slot4ref.SetupCharacterByTemplate(MainData.characterTypes["dorothy"]);
 
     }
 

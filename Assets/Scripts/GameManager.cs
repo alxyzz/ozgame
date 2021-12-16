@@ -41,6 +41,10 @@ public class GameManager : MonoBehaviour
         EntityDefComponent.DefineConsumables();
         EntityDefComponent.BuildParty();
         PositionHolderComponent.PrepPartyPlaces();
+
+        //we are technically ready for combat testing right now
+
+
         //compile map data
         //get every child MapIconScript component of mapicon parent object
         //run the LinkMaps() function from each
@@ -77,6 +81,7 @@ public class GameManager : MonoBehaviour
 
     public void PassTurn()
     {
+
         //play new turn sound here
         MainData.turnNumber++;
         Debug.Log("Turn " + MainData.turnNumber.ToString());
@@ -94,6 +99,8 @@ public class GameManager : MonoBehaviour
         {
             MainData.turnNumber = 0;
             Debug.Log("All enemies have been vanquished.");
+            Debug.Log("Spawning new enemies.");
+            EntityDefComponent.SpawnEnemyTest();
             //Highlight Map button
         }
     }

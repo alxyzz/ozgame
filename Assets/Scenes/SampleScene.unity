@@ -800,7 +800,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &54596430
 Transform:
   m_ObjectHideFlags: 0
@@ -3358,6 +3358,7 @@ MonoBehaviour:
   MainMenuExitYes: {fileID: 796587587}
   MainMenuExitSure: {fileID: 56658195}
   MainMenuExitNo: {fileID: 1176577091}
+  PassTurnButton: {fileID: 1967223598}
   WorldMapCanvas: {fileID: 0}
   WorldCanvasLevelPrefab: {fileID: 0}
   SelectedChar: {fileID: 0}
@@ -4880,7 +4881,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &768112016
 Transform:
   m_ObjectHideFlags: 0
@@ -5441,7 +5442,7 @@ GameObject:
   - component: {fileID: 835900148}
   - component: {fileID: 835900150}
   m_Layer: 5
-  m_Name: Panel
+  m_Name: mainMenuBackgroundPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10981,7 +10982,7 @@ GameObject:
   - component: {fileID: 1967223601}
   - component: {fileID: 1967223600}
   m_Layer: 5
-  m_Name: Button
+  m_Name: PassTurnButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11050,13 +11051,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 11500000, guid: ee77ff8f229278e4a831821e160cbcfe, type: 3}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+      - m_Target: {fileID: 462129127}
+        m_TargetAssemblyTypeName: UserInterfaceHelper, Assembly-CSharp
+        m_MethodName: ClickPassTurn
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 

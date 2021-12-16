@@ -42,9 +42,9 @@ public class CharacterScript : MonoBehaviour
 
     }
 
-    public void SetupCharacterAfterTemplate(Character template)
+    public void SetupCharacterByTemplate(Character template)
     {
-        associatedCharacter = new Character();
+        associatedCharacter = Character.CreateInstance<Character>();
         associatedCharacter.attackverb = template.attackverb;
         associatedCharacter.baseDamage = template.baseDamage;
         associatedCharacter.baseHealth = template.baseHealth;
@@ -58,7 +58,7 @@ public class CharacterScript : MonoBehaviour
         associatedCharacter.currentHealth = template.currentHealth;
         associatedCharacter.damage = template.damage;
         associatedCharacter.defense = template.defense;
-        associatedCharacter.entityDescription = template.attackverb;
+        associatedCharacter.entityDescription = template.entityDescription;
         associatedCharacter.isPlayerPartyMember = !isEnemyCharacter;
         associatedCharacter.luck = template.luck;
         associatedCharacter.mana = template.mana;
@@ -69,13 +69,17 @@ public class CharacterScript : MonoBehaviour
 
         Debug.Log("Made a cope of " + template.charName);
         spriteRenderer.sprite = associatedCharacter.charSprite;
+        if (isEnemyCharacter)
+        {
+            spriteRenderer.flipX = true;
+        }
     }
 
     public void GotClicked()
     {
         //highlight this character
         //track selection
-        Debug.Log(this.associatedCharacter.charName + "got clicked and was selected during combat.");
+        Debug.Log(this.associatedCharacter.charName + " got clicked and was selected during combat.");
         MainData.MainLoop.CombatHelperComponent.activeTarget = this;
 
 
