@@ -96,6 +96,11 @@ public class CharacterScript : MonoBehaviour
 
     void RefreshCharacterScript(bool show)
     {
+        if (associatedCharacter == null)
+        {
+            Debug.Log(this.name + "Associated character null at RefreshCharacterScript()");
+            return;
+        }
         TextMeshProUGUI charactDescript = MainData.uiMan.selectedCharDescription.GetComponent<TextMeshProUGUI>();
         TextMeshProUGUI charactName = MainData.uiMan.selectedCharName.GetComponent<TextMeshProUGUI>();
         Image charactAvatar = MainData.uiMan.selectedCharAvatar.GetComponent<Image>();
