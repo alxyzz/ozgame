@@ -95,7 +95,7 @@ public class UserInterfaceHelper : MonoBehaviour
 
     public void ClickStartGame()
     {
-        MainData.SoundManagerRef.PlayClickSound();
+        //MainData.SoundManagerRef.PlayClickSound();
         if (!MainData.MainLoop.gameStarted)
         {
             

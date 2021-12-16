@@ -20,7 +20,7 @@ public class CharacterScript : MonoBehaviour
         {
             associatedCharacter.selfScriptRef = this;
         }
-       
+
         if (!isEnemyCharacter)
         {
             MainData.playerPartyMemberObjects.Add(gameObject);
@@ -34,7 +34,7 @@ public class CharacterScript : MonoBehaviour
 
 
     //make a different button for this
-    
+
     public void Die() //visually show character has died
     {
         associatedCharacter = null;
@@ -42,12 +42,6 @@ public class CharacterScript : MonoBehaviour
 
     }
 
-
-    public void Attack(CharacterScript target)
-    {//add dodging
-        target.associatedCharacter.TakeDamageFromCharacter(associatedCharacter);
-
-    }
     public void SetupCharacterAfterTemplate(Character template)
     {
         associatedCharacter = new Character();
@@ -88,23 +82,16 @@ public class CharacterScript : MonoBehaviour
 
     }
 
+    //public void SwapWith(CharacterScript target)
+    //{
+    //    if (target.associatedCharacter.isPlayerPartyMember)
+    //    {
+    //        Vector3 targetPosition = target.transform.position;
+    //        target.transform.position = this.transform.position;
+    //        this.transform.position = targetPosition;
+    //    }
 
-
-
-
-
-
-
-    public void SwapWith(CharacterScript target)
-    {
-        if (target.associatedCharacter.isPlayerPartyMember)
-        {
-            Vector3 targetPosition = target.transform.position;
-            target.transform.position = this.transform.position;
-            this.transform.position = targetPosition;
-        }
-        
-    }
+    //}
 
 
     void RefreshCharacterScript(bool show)
@@ -121,7 +108,11 @@ public class CharacterScript : MonoBehaviour
             {
                 charactTitle.text = associatedCharacter.charTrait.traitName;
             }
-            charactAvatar.sprite = associatedCharacter.charAvatar;
+            if (associatedCharacter.charAvatar != null)
+            {
+                charactAvatar.sprite = associatedCharacter.charAvatar;
+            }
+            
         }
         else
         {
@@ -137,47 +128,36 @@ public class CharacterScript : MonoBehaviour
 
 
     void OnMouseEnter()
-    {
-        
-            RefreshCharacterScript(true);
-            transform.localScale = new Vector3(1.1f, 1.1f, 1f);
-        
-        
-        //show text on bottom of screen
+    {//shows the details of hovered character
+        RefreshCharacterScript(true);
+        transform.localScale = new Vector3(1.1f, 1.1f, 1f);
     }
 
 
     private void OnMouseOver()
     {
-        if(Input.GetKeyDown(KeyCode.Mouse0))
-        {
-
-            GotClicked();
-        }
+        if (Input.GetKeyDown(KeyCode.Mouse0)) { GotClicked(); }
     }
-
-
 
     void OnMouseExit()
     {
-        
-            RefreshCharacterScript(false);
+        RefreshCharacterScript(false);
         transform.localScale = new Vector3(1f, 1f, 1f);
-        
+
     }
 
 
-        
-        
 
-    
-   
-        
-            
-        
 
-        
 
-    
+
+
+
+
+
+
+
+
+
 
 }

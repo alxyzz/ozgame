@@ -47,7 +47,8 @@ public class EntitiesDefinition : MonoBehaviour
     /// <returns></returns>
     public void CreateCreature(string characterID, string charName, string charDesc, string attackVerb, bool isPlayer, int baseHP, int baseDMG, int baseSPD, int Defense,  int Luck, int Mana, AudioClip newCharTurnSound, Sprite newCharSprite, Sprite newCharAvatar)
     {
-        Character newCharacterDefinition = new Character();
+        Character newCharacterDefinition = Character.CreateInstance<Character>();
+
         newCharacterDefinition.charType = characterID; //something like "goblin_spear", "tin_man" or "scarecrow" for the dictionary. 
         newCharacterDefinition.charName = charName;
         newCharacterDefinition.entityDescription = charDesc;
@@ -84,15 +85,67 @@ public class EntitiesDefinition : MonoBehaviour
     public void DefinePartyMembers()
     {
         //string characterID, string charName, string charDesc, string attackVerb, bool isPlayer, int baseHP, int baseDMG, int baseSPD, int Defense,  int Luck, int Mana, AudioClip newCharTurnSound, Sprite newCharSprite, Sprite newCharAvatar)
-        CreateCreature("scarecrow", "Scarecrow", "Lacks a brain and is driven to obtain it.", "rends", true, 100, 25, 1, 1, 2, 100, null, null, ScarecrowSprite);
+        CreateCreature("scarecrow", //characterID
+                       "Scarecrow", // charName
+                       "Lacks a brain and is driven to obtain it.", // charDesc
+                       "rends", //verb used when attacking
+                       true, //is it a player character(true), or is it an enemy(false)?
+                       100, //the base HP value
+                       25, // the base damage value
+                       1, //base speed, higher is better
+                       1, //defense
+                       2, //luck
+                       100, //mana
+                       null, //sound for when it is this character's turn to act
+                       ScarecrowSprite, //character's sprite 
+                       null); //character's avatar sprite
 
-        CreateCreature("tin_man", "Tin Man", "Lacks a heart and will do anything to get it.", "bashes", true, 100, 25, 1, 1, 2, 100, null, null, ScarecrowSprite);
+        CreateCreature("tin_man",
+                       "Tin Man",
+                       "Lacks a heart and will do anything to get it.",
+                       "bashes",
+                       true,
+                       100,
+                       25,
+                       1,
+                       1,
+                       2,
+                       100,
+                       null,
+                       ScarecrowSprite,
+                       null);
 
-        CreateCreature("lion", "Lion", "His lack of courage is apparent.", "eviscerates", true, 100, 25, 1, 1, 2, 100, null, null, ScarecrowSprite);
+        CreateCreature("lion",
+                       "Lion",
+                       "His lack of courage is apparent.",
+                       "eviscerates",
+                       true,
+                       100,
+                       25,
+                       1,
+                       1,
+                       2,
+                       100,
+                       null,
+                       ScarecrowSprite,
+                       null);
 
-        CreateCreature("dorothy", "Homesick", "Wants to go home...", "strikes", true, 100, 25, 1, 1, 2, 100, null, null, ScarecrowSprite);
+        CreateCreature("dorothy",
+                       "Homesick",
+                       "Wants to go home...",
+                       "strikes",
+                       true,
+                       100,
+                       25,
+                       1,
+                       1,
+                       2,
+                       100,
+                       null,
+                       ScarecrowSprite,
+                       null);
 
-
+        
     }
 
 
@@ -190,7 +243,7 @@ public class EntitiesDefinition : MonoBehaviour
 
 
     [System.Serializable]
-    public class Character : MonoBehaviour
+    public class Character : ScriptableObject
     {
         public string charType; //something like "goblin_spear", "tin_man" or "scarecrow" for the dictionary. 
         public string charName;
