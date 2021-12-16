@@ -54,24 +54,24 @@ public class GameManager : MonoBehaviour
 
     public void Update()
     {
-        if (Input.GetMouseButtonDown(0)){
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
+        //if (Input.GetMouseButtonDown(0)){
+        //    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        //    RaycastHit hit;
 
-            if (Physics.Raycast(ray, out hit, ~IgnoreMe))
-            {
-                if (hit.transform.tag == "character")
-                {
-                    CharacterScript hitChar = hit.transform.gameObject.GetComponent<CharacterScript>();
-                    hitChar.GotClicked();
-                    Debug.Log("This is a character, this is "+ hit.transform.name);
-                }
-                else
-                {
-                    Debug.Log("This isn't a character, this is "+ hit.transform.name);
-                }
-            }
-        }
+        //    if (Physics.Raycast(ray, out hit, ~IgnoreMe))
+        //    {
+        //        if (hit.transform.tag == "character")
+        //        {
+        //            CharacterScript hitChar = hit.transform.gameObject.GetComponent<CharacterScript>();
+        //            hitChar.GotClicked();
+        //            Debug.Log("This is a character, this is "+ hit.transform.name);
+        //        }
+        //        else
+        //        {
+        //            Debug.Log("This isn't a character, this is "+ hit.transform.name);
+        //        }
+        //    }
+        //}
     }
 
 

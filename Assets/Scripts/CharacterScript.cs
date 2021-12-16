@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,7 +18,7 @@ public class CharacterScript : MonoBehaviour
         spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
         if (associatedCharacter != null)
         {
-            associatedCharacter.currentCharObj = this;
+            associatedCharacter.selfScriptRef = this;
         }
        
         if (!isEnemyCharacter)
@@ -51,8 +50,30 @@ public class CharacterScript : MonoBehaviour
     }
     public void SetupCharacterAfterTemplate(Character template)
     {
-        associatedCharacter = Instantiate(template); ; //This. I love this.
-        Debug.Log("Instantiated a cope of " + template.charName);
+        associatedCharacter = new Character();
+        associatedCharacter.attackverb = template.attackverb;
+        associatedCharacter.baseDamage = template.baseDamage;
+        associatedCharacter.baseHealth = template.baseHealth;
+        associatedCharacter.baseSpeed = template.baseSpeed;
+        associatedCharacter.charAvatar = template.charAvatar;
+        associatedCharacter.charName = template.charName;
+        associatedCharacter.charSprite = template.charSprite;
+        associatedCharacter.charTrait = template.charTrait;
+        associatedCharacter.charType = template.charType;
+        associatedCharacter.selfScriptRef = this;
+        associatedCharacter.currentHealth = template.currentHealth;
+        associatedCharacter.damage = template.damage;
+        associatedCharacter.defense = template.defense;
+        associatedCharacter.entityDescription = template.attackverb;
+        associatedCharacter.isPlayerPartyMember = !isEnemyCharacter;
+        associatedCharacter.luck = template.luck;
+        associatedCharacter.mana = template.mana;
+        associatedCharacter.turnSound = template.turnSound;
+        associatedCharacter.speed = template.speed;
+
+
+
+        Debug.Log("Made a cope of " + template.charName);
         spriteRenderer.sprite = associatedCharacter.charSprite;
     }
 

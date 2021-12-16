@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 using static MainData;
 using static TraitHelper;
@@ -109,17 +111,15 @@ public class EntitiesDefinition : MonoBehaviour
 
         //this takes the needed template, applies it to the charscript in the party slot, then calls the refresh method
         CharacterScript slot1ref = MainData.MainLoop.PositionHolderComponent.PartySlot1.GetComponent<CharacterScript>();
-        
-
         CharacterScript slot2ref = MainData.MainLoop.PositionHolderComponent.PartySlot2.GetComponent<CharacterScript>();
         CharacterScript slot3ref = MainData.MainLoop.PositionHolderComponent.PartySlot3.GetComponent<CharacterScript>();
         CharacterScript slot4ref = MainData.MainLoop.PositionHolderComponent.PartySlot4.GetComponent<CharacterScript>();
 
 
         slot1ref.SetupCharacterAfterTemplate(MainData.characterTypes["scarecrow"]);
-        slot1ref.SetupCharacterAfterTemplate(MainData.characterTypes["tin_man"]);
-        slot1ref.SetupCharacterAfterTemplate(MainData.characterTypes["lion"]);
-        slot1ref.SetupCharacterAfterTemplate(MainData.characterTypes["dorothy"]);
+        slot2ref.SetupCharacterAfterTemplate(MainData.characterTypes["tin_man"]);
+        slot3ref.SetupCharacterAfterTemplate(MainData.characterTypes["lion"]);
+        slot4ref.SetupCharacterAfterTemplate(MainData.characterTypes["dorothy"]);
 
     }
 
@@ -190,12 +190,12 @@ public class EntitiesDefinition : MonoBehaviour
 
 
     [System.Serializable]
-    public class Character : MonoBehaviour//, ICloneable
+    public class Character : MonoBehaviour
     {
         public string charType; //something like "goblin_spear", "tin_man" or "scarecrow" for the dictionary. 
         public string charName;
         public string entityDescription;
-        public CharacterScript currentCharObj;
+        public CharacterScript selfScriptRef;
         public bool isPlayerPartyMember;
 
         public Trait charTrait;
@@ -220,8 +220,6 @@ public class EntitiesDefinition : MonoBehaviour
         public bool hasActedThisTurn = false;
 
         public string attackverb;
-
-        public CharacterScript selfScriptRef;
 
 
         public bool CheckIfCanAct()
@@ -325,7 +323,7 @@ public class EntitiesDefinition : MonoBehaviour
             MainData.casualties.Add(this);
             selfScriptRef.Die();
 
-
+            Destroy(this);
         }
 
 
@@ -336,7 +334,7 @@ public class EntitiesDefinition : MonoBehaviour
                 allChars.Remove(allChars.Find(x => x.GetID() == this.charType));
                 selfScriptRef.associatedCharacter = null; // this should get the garbage collector to remove it, if nothing else references it
                 selfScriptRef.Die();
-                Destroy(this);
+                //Destroy(this);
             
         }
 
@@ -349,7 +347,16 @@ public class EntitiesDefinition : MonoBehaviour
 
         
     }
-
+    //public static T DeepClone<T>(T obj)
+    //{
+    //    using (var ms = new MemoryStream())
+    //    {
+    //        var formatter = new BinaryFormatter();
+    //        formatter.Serialize(ms, obj);
+    //        ms.Position = 0;
+    //        return (T)formatter.Deserialize(ms);
+    //    }
+    //}
 
     public class StatusEffect
     {
