@@ -24,14 +24,17 @@ public class UserInterfaceHelper : MonoBehaviour
     public float travelMicroDelay;
     public float transparencyIncrement;
 
-    public GameObject GameUI;
+    public GameObject GameUI; //Canvas of the entire game activity area.
+    [Space(15)]
     public GameObject MainMenuBack;
     public GameObject MainMenuStart;
     public GameObject MainMenuExit;
     public GameObject MainMenuExitYes;
     public GameObject MainMenuExitSure;
     public GameObject MainMenuExitNo;
-
+    [Space(10)]
+    public GameObject PassTurnButton;
+    
     [Space(15)]
     public GameObject WorldMapCanvas; //for activating it on click
     public GameObject WorldCanvasLevelPrefab; //prefab of a singular icon  on the overmap
@@ -95,11 +98,11 @@ public class UserInterfaceHelper : MonoBehaviour
 
     public void ClickStartGame()
     {
-        MainData.SoundManagerRef.PlayClickSound();
+        //MainData.MainLoop.SoundManagerComponent.PlayClickSound();
         if (!MainData.MainLoop.gameStarted)
         {
-            
-            MainData.SoundManagerRef.ChangeSoundtrack(MainData.SoundManagerRef.MainTheme);
+
+            //MainData.MainLoop.SoundManagerComponent.ChangeSoundtrack(MainData.SoundManagerRef.MainTheme);
         }
         MainMenuStart.GetComponentInChildren<TextMeshProUGUI>().text = "Continue";
         MainMenuStart.SetActive(false);

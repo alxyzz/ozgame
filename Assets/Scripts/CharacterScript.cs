@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,9 +18,9 @@ public class CharacterScript : MonoBehaviour
         spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
         if (associatedCharacter != null)
         {
-            associatedCharacter.currentCharObj = this;
+            associatedCharacter.selfScriptRef = this;
         }
-       
+
         if (!isEnemyCharacter)
         {
             MainData.playerPartyMemberObjects.Add(gameObject);
@@ -35,7 +34,7 @@ public class CharacterScript : MonoBehaviour
 
 
     //make a different button for this
-    
+
     public void Die() //visually show character has died
     {
         associatedCharacter = null;
@@ -43,51 +42,69 @@ public class CharacterScript : MonoBehaviour
 
     }
 
-
-    public void Attack(CharacterScript target)
-    {//add dodging
-        target.associatedCharacter.TakeDamageFromCharacter(associatedCharacter);
-
-    }
-    public void SetupCharacterAfterTemplate(Character template)
+    public void SetupCharacterByTemplate(Character template)
     {
-        associatedCharacter = Instantiate(template); ; //This. I love this.
-        Debug.Log("Instantiated a cope of " + template.charName);
+        associatedCharacter = Character.CreateInstance<Character>();
+        associatedCharacter.attackverb = template.attackverb;
+        associatedCharacter.baseDamage = template.baseDamage;
+        associatedCharacter.baseHealth = template.baseHealth;
+        associatedCharacter.baseSpeed = template.baseSpeed;
+        associatedCharacter.charAvatar = template.charAvatar;
+        associatedCharacter.charName = template.charName;
+        associatedCharacter.charSprite = template.charSprite;
+        associatedCharacter.charTrait = template.charTrait;
+        associatedCharacter.charType = template.charType;
+        associatedCharacter.selfScriptRef = this;
+        associatedCharacter.currentHealth = template.currentHealth;
+        associatedCharacter.damage = template.damage;
+        associatedCharacter.defense = template.defense;
+        associatedCharacter.entityDescription = template.entityDescription;
+        associatedCharacter.isPlayerPartyMember = !isEnemyCharacter;
+        associatedCharacter.luck = template.luck;
+        associatedCharacter.mana = template.mana;
+        associatedCharacter.turnSound = template.turnSound;
+        associatedCharacter.speed = template.speed;
+
+
+
+        Debug.Log("Made a cope of " + template.charName);
         spriteRenderer.sprite = associatedCharacter.charSprite;
+        if (isEnemyCharacter)
+        {
+            spriteRenderer.flipX = true;
+        }
     }
 
     public void GotClicked()
     {
         //highlight this character
         //track selection
-        Debug.Log(this.associatedCharacter.charName + "got clicked and was selected during combat.");
+        Debug.Log(this.associatedCharacter.charName + " got clicked and was selected during combat.");
         MainData.MainLoop.CombatHelperComponent.activeTarget = this;
 
 
 
     }
 
+    //public void SwapWith(CharacterScript target)
+    //{
+    //    if (target.associatedCharacter.isPlayerPartyMember)
+    //    {
+    //        Vector3 targetPosition = target.transform.position;
+    //        target.transform.position = this.transform.position;
+    //        this.transform.position = targetPosition;
+    //    }
 
-
-
-
-
-
-
-    public void SwapWith(CharacterScript target)
-    {
-        if (target.associatedCharacter.isPlayerPartyMember)
-        {
-            Vector3 targetPosition = target.transform.position;
-            target.transform.position = this.transform.position;
-            this.transform.position = targetPosition;
-        }
-        
-    }
+    //}
 
 
     void RefreshCharacterScript(bool show)
     {
+        if (associatedCharacter == null)
+        {
+            Debug.Log(this.name + "Associated character null at RefreshCharacterScript()");
+            return;
+        }
         TextMeshProUGUI charactDescript = MainData.uiMan.selectedCharDescription.GetComponent<TextMeshProUGUI>();
         TextMeshProUGUI charactName = MainData.uiMan.selectedCharName.GetComponent<TextMeshProUGUI>();
         Image charactAvatar = MainData.uiMan.selectedCharAvatar.GetComponent<Image>();
@@ -100,7 +117,11 @@ public class CharacterScript : MonoBehaviour
             {
                 charactTitle.text = associatedCharacter.charTrait.traitName;
             }
-            charactAvatar.sprite = associatedCharacter.charAvatar;
+            if (associatedCharacter.charAvatar != null)
+            {
+                charactAvatar.sprite = associatedCharacter.charAvatar;
+            }
+            
         }
         else
         {
@@ -116,47 +137,36 @@ public class CharacterScript : MonoBehaviour
 
 
     void OnMouseEnter()
-    {
-        
-            RefreshCharacterScript(true);
-            transform.localScale = new Vector3(1.1f, 1.1f, 1f);
-        
-        
-        //show text on bottom of screen
+    {//shows the details of hovered character
+        RefreshCharacterScript(true);
+        transform.localScale = new Vector3(1.1f, 1.1f, 1f);
     }
 
 
     private void OnMouseOver()
     {
-        if(Input.GetKeyDown(KeyCode.Mouse0))
-        {
-
-            GotClicked();
-        }
+        if (Input.GetKeyDown(KeyCode.Mouse0)) { GotClicked(); }
     }
-
-
 
     void OnMouseExit()
     {
-        
-            RefreshCharacterScript(false);
+        RefreshCharacterScript(false);
         transform.localScale = new Vector3(1f, 1f, 1f);
-        
+
     }
 
 
-        
-        
 
-    
-   
-        
-            
-        
 
-        
 
-    
+
+
+
+
+
+
+
+
+
 
 }

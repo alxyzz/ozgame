@@ -41,6 +41,10 @@ public class GameManager : MonoBehaviour
         EntityDefComponent.DefineConsumables();
         EntityDefComponent.BuildParty();
         PositionHolderComponent.PrepPartyPlaces();
+
+        //we are technically ready for combat testing right now
+
+
         //compile map data
         //get every child MapIconScript component of mapicon parent object
         //run the LinkMaps() function from each
@@ -54,29 +58,30 @@ public class GameManager : MonoBehaviour
 
     public void Update()
     {
-        if (Input.GetMouseButtonDown(0)){
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
+        //if (Input.GetMouseButtonDown(0)){
+        //    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        //    RaycastHit hit;
 
-            if (Physics.Raycast(ray, out hit, ~IgnoreMe))
-            {
-                if (hit.transform.tag == "character")
-                {
-                    CharacterScript hitChar = hit.transform.gameObject.GetComponent<CharacterScript>();
-                    hitChar.GotClicked();
-                    Debug.Log("This is a character, this is "+ hit.transform.name);
-                }
-                else
-                {
-                    Debug.Log("This isn't a character, this is "+ hit.transform.name);
-                }
-            }
-        }
+        //    if (Physics.Raycast(ray, out hit, ~IgnoreMe))
+        //    {
+        //        if (hit.transform.tag == "character")
+        //        {
+        //            CharacterScript hitChar = hit.transform.gameObject.GetComponent<CharacterScript>();
+        //            hitChar.GotClicked();
+        //            Debug.Log("This is a character, this is "+ hit.transform.name);
+        //        }
+        //        else
+        //        {
+        //            Debug.Log("This isn't a character, this is "+ hit.transform.name);
+        //        }
+        //    }
+        //}
     }
 
 
     public void PassTurn()
     {
+
         //play new turn sound here
         MainData.turnNumber++;
         Debug.Log("Turn " + MainData.turnNumber.ToString());
@@ -94,6 +99,8 @@ public class GameManager : MonoBehaviour
         {
             MainData.turnNumber = 0;
             Debug.Log("All enemies have been vanquished.");
+            Debug.Log("Spawning new enemies.");
+            EntityDefComponent.SpawnEnemyTest();
             //Highlight Map button
         }
     }

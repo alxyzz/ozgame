@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 using static MainData;
 using static TraitHelper;
@@ -45,7 +47,8 @@ public class EntitiesDefinition : MonoBehaviour
     /// <returns></returns>
     public void CreateCreature(string characterID, string charName, string charDesc, string attackVerb, bool isPlayer, int baseHP, int baseDMG, int baseSPD, int Defense,  int Luck, int Mana, AudioClip newCharTurnSound, Sprite newCharSprite, Sprite newCharAvatar)
     {
-        Character newCharacterDefinition = new Character();
+        Character newCharacterDefinition = Character.CreateInstance<Character>();
+
         newCharacterDefinition.charType = characterID; //something like "goblin_spear", "tin_man" or "scarecrow" for the dictionary. 
         newCharacterDefinition.charName = charName;
         newCharacterDefinition.entityDescription = charDesc;
@@ -82,22 +85,105 @@ public class EntitiesDefinition : MonoBehaviour
     public void DefinePartyMembers()
     {
         //string characterID, string charName, string charDesc, string attackVerb, bool isPlayer, int baseHP, int baseDMG, int baseSPD, int Defense,  int Luck, int Mana, AudioClip newCharTurnSound, Sprite newCharSprite, Sprite newCharAvatar)
-        CreateCreature("scarecrow", "Scarecrow", "Lacks a brain and is driven to obtain it.", "rends", true, 100, 25, 1, 1, 2, 100, null, null, ScarecrowSprite);
+        CreateCreature("scarecrow", //characterID
+                       "Scarecrow", // charName
+                       "Lacks a brain and is driven to obtain it.", // charDesc
+                       "rends", //verb used when attacking
+                       true, //is it a player character(true), or is it an enemy(false)?
+                       100, //the base HP value
+                       25, // the base damage value
+                       1, //base speed, higher is better
+                       1, //defense
+                       2, //luck
+                       100, //mana
+                       null, //sound for when it is this character's turn to act
+                       ScarecrowSprite, //character's sprite 
+                       null); //character's avatar sprite
 
-        CreateCreature("tin_man", "Tin Man", "Lacks a heart and will do anything to get it.", "bashes", true, 100, 25, 1, 1, 2, 100, null, null, ScarecrowSprite);
+        CreateCreature("tin_man",
+                       "Tin Man",
+                       "Lacks a heart and will do anything to get it.",
+                       "bashes",
+                       true,
+                       100,
+                       25,
+                       1,
+                       1,
+                       2,
+                       100,
+                       null,
+                       ScarecrowSprite,
+                       null);
 
-        CreateCreature("lion", "Lion", "His lack of courage is apparent.", "eviscerates", true, 100, 25, 1, 1, 2, 100, null, null, ScarecrowSprite);
+        CreateCreature("lion",
+                       "Lion",
+                       "His lack of courage is apparent.",
+                       "eviscerates",
+                       true,
+                       100,
+                       25,
+                       1,
+                       1,
+                       2,
+                       100,
+                       null,
+                       ScarecrowSprite,
+                       null);
 
-        CreateCreature("dorothy", "Homesick", "Wants to go home...", "strikes", true, 100, 25, 1, 1, 2, 100, null, null, ScarecrowSprite);
+        CreateCreature("dorothy",
+                       "Homesick",
+                       "Wants to go home...",
+                       "strikes",
+                       true,
+                       100,
+                       25,
+                       1,
+                       1,
+                       2,
+                       100,
+                       null,
+                       ScarecrowSprite,
+                       null);
 
-
+        
     }
 
 
     public void DefineMonsters()
     {
+        CreateCreature("evilcrow", //characterID
+                       "George", // charName
+                       "Lacks a brain and is driven to obtain yours.", // charDesc
+                       "rends", //verb used when attacking
+                       false, //is it a player character(true), or is it an enemy(false)?
+                       100, //the base HP value
+                       25, // the base damage value
+                       1, //base speed, higher is better
+                       1, //defense
+                       2, //luck
+                       100, //mana
+                       null, //sound for when it is this character's turn to act
+                       ScarecrowSprite, //character's sprite 
+                       null); //character's avatar sprite
+    }
+
+    public void SpawnEnemyTest()
+    {
+
+        //this takes the needed template, applies it to the charscript in the party slot, then calls the refresh method
+        CharacterScript slotref = MainData.MainLoop.PositionHolderComponent.EnemySpot1.GetComponent<CharacterScript>();
+
+
+        slotref.SetupCharacterByTemplate(MainData.characterTypes["evilcrow"]);
+
 
     }
+
+
+
+
+
+
 
     public void DefineConsumables()
     {
@@ -109,17 +195,15 @@ public class EntitiesDefinition : MonoBehaviour
 
         //this takes the needed template, applies it to the charscript in the party slot, then calls the refresh method
         CharacterScript slot1ref = MainData.MainLoop.PositionHolderComponent.PartySlot1.GetComponent<CharacterScript>();
-        
-
         CharacterScript slot2ref = MainData.MainLoop.PositionHolderComponent.PartySlot2.GetComponent<CharacterScript>();
         CharacterScript slot3ref = MainData.MainLoop.PositionHolderComponent.PartySlot3.GetComponent<CharacterScript>();
         CharacterScript slot4ref = MainData.MainLoop.PositionHolderComponent.PartySlot4.GetComponent<CharacterScript>();
 
 
-        slot1ref.SetupCharacterAfterTemplate(MainData.characterTypes["scarecrow"]);
-        slot1ref.SetupCharacterAfterTemplate(MainData.characterTypes["tin_man"]);
-        slot1ref.SetupCharacterAfterTemplate(MainData.characterTypes["lion"]);
-        slot1ref.SetupCharacterAfterTemplate(MainData.characterTypes["dorothy"]);
+        slot1ref.SetupCharacterByTemplate(MainData.characterTypes["scarecrow"]);
+        slot2ref.SetupCharacterByTemplate(MainData.characterTypes["tin_man"]);
+        slot3ref.SetupCharacterByTemplate(MainData.characterTypes["lion"]);
+        slot4ref.SetupCharacterByTemplate(MainData.characterTypes["dorothy"]);
 
     }
 
@@ -190,12 +274,12 @@ public class EntitiesDefinition : MonoBehaviour
 
 
     [System.Serializable]
-    public class Character : MonoBehaviour//, ICloneable
+    public class Character : ScriptableObject
     {
         public string charType; //something like "goblin_spear", "tin_man" or "scarecrow" for the dictionary. 
         public string charName;
         public string entityDescription;
-        public CharacterScript currentCharObj;
+        public CharacterScript selfScriptRef;
         public bool isPlayerPartyMember;
 
         public Trait charTrait;
@@ -220,8 +304,6 @@ public class EntitiesDefinition : MonoBehaviour
         public bool hasActedThisTurn = false;
 
         public string attackverb;
-
-        public CharacterScript selfScriptRef;
 
 
         public bool CheckIfCanAct()
@@ -325,7 +407,7 @@ public class EntitiesDefinition : MonoBehaviour
             MainData.casualties.Add(this);
             selfScriptRef.Die();
 
-
+            Destroy(this);
         }
 
 
@@ -336,7 +418,7 @@ public class EntitiesDefinition : MonoBehaviour
                 allChars.Remove(allChars.Find(x => x.GetID() == this.charType));
                 selfScriptRef.associatedCharacter = null; // this should get the garbage collector to remove it, if nothing else references it
                 selfScriptRef.Die();
-                Destroy(this);
+                //Destroy(this);
             
         }
 
@@ -349,7 +431,16 @@ public class EntitiesDefinition : MonoBehaviour
 
         
     }
-
+    //public static T DeepClone<T>(T obj)
+    //{
+    //    using (var ms = new MemoryStream())
+    //    {
+    //        var formatter = new BinaryFormatter();
+    //        formatter.Serialize(ms, obj);
+    //        ms.Position = 0;
+    //        return (T)formatter.Deserialize(ms);
+    //    }
+    //}
 
     public class StatusEffect
     {

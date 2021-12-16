@@ -191,6 +191,7 @@ public class CombatHelper : MonoBehaviour
 
     private void MoveToActiveSpot(Character chara)
     {
+        Debug.Log("MOVING "  +chara.charName +  " TO ACTIVE SPOT");
         CurrentActiveCharacter = chara.selfScriptRef; //stores the reference to character's physical form
         InitialActiveCharacterPositionCoordinates = chara.selfScriptRef.transform.position;
         while (Vector3.Distance(chara.selfScriptRef.transform.position, ActiveCharSpot.transform.position) > closenessMargin)
@@ -213,6 +214,7 @@ public class CombatHelper : MonoBehaviour
     {
 
         //Character toBeAttacked = MainData.playerParty[Random.Range(0, MainData.playerParty.Count + 1)];
+        MoveToActiveSpot(npc);
         StartCoroutine(AttackVisuals(npc.selfScriptRef));
 
 
