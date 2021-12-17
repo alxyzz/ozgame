@@ -67,7 +67,7 @@ public class CharacterScript : MonoBehaviour
 
 
 
-        Debug.Log("Made a cope of " + template.charName);
+        Debug.Log("Made a cope of " + template.charName + ".");
         spriteRenderer.sprite = associatedCharacter.charSprite;
         if (isEnemyCharacter)
         {
@@ -77,12 +77,25 @@ public class CharacterScript : MonoBehaviour
 
 
 
+
+
+
     public void GotClicked()
     {
+        Debug.Log(this.associatedCharacter.charName + " got clicked and was selected during combat.");
+        if (!this.associatedCharacter.isPlayerPartyMember)
+        {//if it's not a party member, we select it as a target so we can attack it.
+            MainData.MainLoop.CombatHelperComponent.activeTarget = this;
+            MainData.MainLoop.CombatHelperComponent.HighlightCheck();
+            return;
+        }
         //highlight this character
         //track selection
-        Debug.Log(this.associatedCharacter.charName + " got clicked and was selected during combat.");
-        //MainData.MainLoop.CombatHelperComponent.activeTarget = this;
+       
+
+            
+        
+        
         if (MainData.MainLoop.CombatHelperComponent.CurrentActiveCharacter != this)
         {
             MainData.MainLoop.CombatHelperComponent.MoveToActiveSpot(associatedCharacter);

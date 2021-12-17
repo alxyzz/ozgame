@@ -41,7 +41,8 @@ public class UserInterfaceHelper : MonoBehaviour
     public GameObject WorldMapCanvas; //for activating it on click
     public GameObject WorldCanvasLevelPrefab; //prefab of a singular icon  on the overmap
     public GameObject SelectedChar;
-
+    [Space(10)]
+    public GameObject CombatHighlightObject;
 
     /// <summary>
     /// Menu Buttons

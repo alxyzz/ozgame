@@ -16,10 +16,7 @@ public class CombatHelper : MonoBehaviour
     public GameObject ActiveCharSpot; //where the character that is attacking will move.
 
     // Update is called once per frame
-    void Update()
-    {
-        
-    }
+
 
 
     public void InitiateCombatTurn()
@@ -207,28 +204,67 @@ public class CombatHelper : MonoBehaviour
 
     }
 
+
     public void MoveToActiveSpot(Character chara)
     {
         Debug.Log("MOVING "  +chara.charName +  " TO ACTIVE SPOT");
         CurrentActiveCharacter = chara.selfScriptRef; //stores the reference to character's physical form
         InitialActiveCharacterPositionCoordinates = chara.selfScriptRef.transform.position;
-        while (Vector3.Distance(chara.selfScriptRef.transform.position, ActiveCharSpot.transform.position) > closenessMargin)
+        //while (Vector3.Distance(chara.selfScriptRef.transform.position, ActiveCharSpot.transform.position) > closenessMargin)
+        //{
+        //    chara.selfScriptRef.transform.position = Vector3.MoveTowards(chara.selfScriptRef.transform.position, ActiveCharSpot.transform.position, activationMovingSpeed * Time.deltaTime);
+        //}
+        StartCoroutine(movetospot(chara));
+        
+        
+    }
+
+
+    public void HighlightCheck()
+    {
+        //highlights the current target
+        if (activeTarget != null)
         {
-            chara.selfScriptRef.transform.position = Vector3.Lerp(chara.selfScriptRef.transform.position, ActiveCharSpot.transform.position, activationMovingSpeed * Time.deltaTime);
+            MainData.MainLoop.UserInterfaceHelperComponent.CombatHighlightObject.transform.position = activeTarget.transform.position;
+            MainData.MainLoop.UserInterfaceHelperComponent.CombatHighlightObject.SetActive(true);
         }
-        if (!CurrentActiveCharacter.isEnemyCharacter)
+        else
         {
-            ToggleCombatButtomVisibility(true);
+            MainData.MainLoop.UserInterfaceHelperComponent.CombatHighlightObject.SetActive(false);
         }
+       
+    }
+
+    private bool someoneIsMoving; //so we don't get people clicking two characters quickly and bugging stuff out
+    public float delayBetweenMovement;
+
+    IEnumerator movetospot(Character Chara)
+    {
+        if (!someoneIsMoving && CurrentActiveCharacter == null)
+        {
+            someoneIsMoving = true;
+            while (Vector3.Distance(Chara.selfScriptRef.transform.position, ActiveCharSpot.transform.position) > closenessMargin)
+            {
+                Chara.selfScriptRef.transform.position = Vector3.MoveTowards(Chara.selfScriptRef.transform.position, ActiveCharSpot.transform.position, activationMovingSpeed * Time.deltaTime);
+                yield return new WaitForSecondsRealtime(delayBetweenMovement);
+            }
+            if (!CurrentActiveCharacter.isEnemyCharacter)
+            {
+                ToggleCombatButtomVisibility(true);
+            }
+            someoneIsMoving = false;
+        }
+        
+        
         
     }
 
     public void ReturnFromActiveSpot(Character chara)
     {
-
+        HighlightCheck();
         while (Vector3.Distance(chara.selfScriptRef.transform.position, InitialActiveCharacterPositionCoordinates) > closenessMargin)
         {
-            chara.selfScriptRef.transform.position = Vector3.Lerp(chara.selfScriptRef.transform.position, InitialActiveCharacterPositionCoordinates, activationMovingSpeed * Time.deltaTime);
+            chara.selfScriptRef.transform.position = Vector3.MoveTowards(chara.selfScriptRef.transform.position, InitialActiveCharacterPositionCoordinates, activationMovingSpeed * Time.deltaTime);
         }
         if (!CurrentActiveCharacter.isEnemyCharacter)
         {

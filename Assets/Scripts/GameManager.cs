@@ -75,6 +75,13 @@ public class GameManager : MonoBehaviour
         //        }
         //    }
         //}
+
+        if (Input.GetKeyDown(KeyCode.Mouse0)) 
+        {
+
+            CombatHelperComponent.HighlightCheck();
+
+        }
     }
 
 
