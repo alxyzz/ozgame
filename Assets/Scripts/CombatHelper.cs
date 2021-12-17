@@ -8,7 +8,7 @@ public class CombatHelper : MonoBehaviour
     public float closenessMargin;
     public float activationMovingSpeed;
 
-    private CharacterScript CurrentActiveCharacter; //each enemy on the level is composed of the game object, holding the script, associated with a Character instance that holds stats, names, descriptions etc
+    public CharacterScript CurrentActiveCharacter; //each enemy on the level is composed of the game object, holding the script, associated with a Character instance that holds stats, names, descriptions etc
 
     public CharacterScript activeTarget; //player's target
 
@@ -60,10 +60,7 @@ public class CombatHelper : MonoBehaviour
 
 
 
-    public void ShowCombatActions()
-    {
-        //show the 2 buttons up near the char
-    }
+
 
     public void ClickTraitAbility()
     {
@@ -77,7 +74,7 @@ public class CombatHelper : MonoBehaviour
         
         if (activeTarget == null)
         {
-            MainData.MainLoop.SoundManagerComponent.PlayFailureSound();
+            //MainData.MainLoop.SoundManagerComponent.PlayFailureSound();
             return;
         }
         StartCoroutine(AttackVisuals(CurrentActiveCharacter));
@@ -85,6 +82,21 @@ public class CombatHelper : MonoBehaviour
     }
 
 
+    private void ToggleCombatButtomVisibility(bool togg)
+    {
+        if (togg)
+        {
+            MainData.MainLoop.UserInterfaceHelperComponent.AbilityButton.SetActive(true);
+            MainData.MainLoop.UserInterfaceHelperComponent.AttackButton.SetActive(true);
+        }
+        else
+        {
+            MainData.MainLoop.UserInterfaceHelperComponent.AbilityButton.SetActive(false);
+            MainData.MainLoop.UserInterfaceHelperComponent.AttackButton.SetActive(false);
+        }
+
+
+    }
 
     public IEnumerator HitKnockback(CharacterScript toAnimate)
     {
@@ -189,7 +201,7 @@ public class CombatHelper : MonoBehaviour
 
     }
 
-    private void MoveToActiveSpot(Character chara)
+    public void MoveToActiveSpot(Character chara)
     {
         Debug.Log("MOVING "  +chara.charName +  " TO ACTIVE SPOT");
         CurrentActiveCharacter = chara.selfScriptRef; //stores the reference to character's physical form
@@ -198,16 +210,27 @@ public class CombatHelper : MonoBehaviour
         {
             chara.selfScriptRef.transform.position = Vector3.Lerp(chara.selfScriptRef.transform.position, ActiveCharSpot.transform.position, activationMovingSpeed * Time.deltaTime);
         }
+        if (!CurrentActiveCharacter.isEnemyCharacter)
+        {
+            ToggleCombatButtomVisibility(true);
+        }
+        
     }
 
-    private void ReturnFromActiveSpot(Character chara)
+    public void ReturnFromActiveSpot(Character chara)
     {
 
         while (Vector3.Distance(chara.selfScriptRef.transform.position, InitialActiveCharacterPositionCoordinates) > closenessMargin)
         {
             chara.selfScriptRef.transform.position = Vector3.Lerp(chara.selfScriptRef.transform.position, InitialActiveCharacterPositionCoordinates, activationMovingSpeed * Time.deltaTime);
         }
+        if (!CurrentActiveCharacter.isEnemyCharacter)
+        {
+            ToggleCombatButtomVisibility(false);
+        }
         CurrentActiveCharacter = null;
+
+
     }
 
     public void DoEnemyCharacterTurn(Character npc)

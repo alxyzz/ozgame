@@ -95,14 +95,14 @@ public class MapIconScript : MonoBehaviour
 
     private void OnMouseEnter()
     {
-        MainData.uiMan.worldmapName.GetComponent<TextMeshProUGUI>().text = nameee;
-        MainData.uiMan.worldmapDescription.GetComponent<TextMeshProUGUI>().text = description;
+        MainData.MainLoop.UserInterfaceHelperComponent.worldmapName.GetComponent<TextMeshProUGUI>().text = nameee;
+        MainData.MainLoop.UserInterfaceHelperComponent.worldmapDescription.GetComponent<TextMeshProUGUI>().text = description;
     }
 
     private void OnMouseExit()
     {
-        MainData.uiMan.worldmapName.GetComponent<TextMeshProUGUI>().text = "";
-        MainData.uiMan.worldmapDescription.GetComponent<TextMeshProUGUI>().text = "";
+        MainData.MainLoop.UserInterfaceHelperComponent.worldmapName.GetComponent<TextMeshProUGUI>().text = "";
+        MainData.MainLoop.UserInterfaceHelperComponent.worldmapDescription.GetComponent<TextMeshProUGUI>().text = "";
     }
 
 
@@ -111,7 +111,7 @@ public class MapIconScript : MonoBehaviour
         MainData.currentMapIcon = this;
         MainData.MainLoop.Travel(relatedMapLevel);
         MainData.MainLoop.UserInterfaceHelperComponent.ClickMapClose();
-        MainData.uiMan.TravelLoadingSequence();
+        MainData.MainLoop.UserInterfaceHelperComponent.TravelLoadingSequence();
     }
 
     public MapLevel LevelFromTemplate(MapLevel p)

@@ -6,6 +6,7 @@ using static LevelHelper;
 
 public class GameManager : MonoBehaviour
 {
+    public UIParallax BackgroundParallaxObject;
     public bool gameStarted = false;
     public LayerMask IgnoreMe;
     public EntitiesDefinition EntityDefComponent;
@@ -21,18 +22,13 @@ public class GameManager : MonoBehaviour
     void Start()//loads stuff up
     {
 
-        UserInterfaceHelperComponent.GameUI.SetActive(false);//so i don't have to toggle em whenever i wanna test out something else
-        UserInterfaceHelperComponent.MainMenuBack.SetActive(true);
+        
+        
         MainData.MainLoop = this;
         MainData.SoundManagerRef = SoundManagerComponent;
-
-
-        
         
         //call things from here from now on
         //StartLoading(); //blacks screen out
-
-
 
         LevelHelperComponent.GenerateLevels(); //set up templates
         EntityDefComponent.DefineTraits();
@@ -42,7 +38,10 @@ public class GameManager : MonoBehaviour
         EntityDefComponent.BuildParty();
         PositionHolderComponent.PrepPartyPlaces();
 
-        //we are technically ready for combat testing right now
+        UserInterfaceHelperComponent.GameUI.SetActive(false);
+        UserInterfaceHelperComponent.MainMenuBack.SetActive(true); //opens up the main menu
+        UserInterfaceHelperComponent.MenuCanvas.SetActive(true);
+
 
 
         //compile map data

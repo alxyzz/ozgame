@@ -75,13 +75,23 @@ public class CharacterScript : MonoBehaviour
         }
     }
 
+
+
     public void GotClicked()
     {
         //highlight this character
         //track selection
         Debug.Log(this.associatedCharacter.charName + " got clicked and was selected during combat.");
-        MainData.MainLoop.CombatHelperComponent.activeTarget = this;
-
+        //MainData.MainLoop.CombatHelperComponent.activeTarget = this;
+        if (MainData.MainLoop.CombatHelperComponent.CurrentActiveCharacter != this)
+        {
+            MainData.MainLoop.CombatHelperComponent.MoveToActiveSpot(associatedCharacter);
+        }
+        else
+        {
+            MainData.MainLoop.CombatHelperComponent.ReturnFromActiveSpot(associatedCharacter);
+        }
+        
 
 
     }
@@ -105,10 +115,10 @@ public class CharacterScript : MonoBehaviour
             Debug.Log(this.name + "Associated character null at RefreshCharacterScript()");
             return;
         }
-        TextMeshProUGUI charactDescript = MainData.uiMan.selectedCharDescription.GetComponent<TextMeshProUGUI>();
-        TextMeshProUGUI charactName = MainData.uiMan.selectedCharName.GetComponent<TextMeshProUGUI>();
-        Image charactAvatar = MainData.uiMan.selectedCharAvatar.GetComponent<Image>();
-        TextMeshProUGUI charactTitle = MainData.uiMan.selectedCharTraitDesc.GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI charactDescript = MainData.MainLoop.UserInterfaceHelperComponent.selectedCharDescription.GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI charactName = MainData.MainLoop.UserInterfaceHelperComponent.selectedCharName.GetComponent<TextMeshProUGUI>();
+        Image charactAvatar = MainData.MainLoop.UserInterfaceHelperComponent.selectedCharAvatar.GetComponent<Image>();
+        TextMeshProUGUI charactTitle = MainData.MainLoop.UserInterfaceHelperComponent.selectedCharTraitDesc.GetComponent<TextMeshProUGUI>();
         if (show)
         {
             charactDescript.text = associatedCharacter.entityDescription;

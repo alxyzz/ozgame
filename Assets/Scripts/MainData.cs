@@ -33,10 +33,6 @@ public static class MainData
     //sound
     public static SoundManager SoundManagerRef;
 
-    //User Interface
-    public static UserInterfaceHelper uiMan;
-
-
     //game state
     public static int turnNumber;
     public static int gold;
