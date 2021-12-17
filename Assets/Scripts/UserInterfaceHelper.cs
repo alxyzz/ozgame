@@ -27,25 +27,122 @@ public class UserInterfaceHelper : MonoBehaviour
     public GameObject GameUI; //Canvas of the entire game activity area.
     [Space(15)]
     public GameObject MainMenuBack;
-    public GameObject MainMenuStart;
-    public GameObject MainMenuExit;
-    public GameObject MainMenuExitYes;
-    public GameObject MainMenuExitSure;
-    public GameObject MainMenuExitNo;
+    public GameObject ExitConfirmationCanvas;
+    public GameObject SettingsCanvas;
+    public GameObject MenuCanvas;
+    public GameObject SettingsParallaxButton; //just so we can change the text
+    public GameObject MainMenuStart;//for changing the text for subsequent menu opening from Start to Continue
     [Space(10)]
     public GameObject PassTurnButton;
-    
+    public GameObject AttackButton;
+    public GameObject AbilityButton;
+
     [Space(15)]
     public GameObject WorldMapCanvas; //for activating it on click
     public GameObject WorldCanvasLevelPrefab; //prefab of a singular icon  on the overmap
     public GameObject SelectedChar;
 
 
+    /// <summary>
+    /// Menu Buttons
+    /// </summary>
+
+    public void ClickSendPause()
+    {
+        MainMenuBack.SetActive(true);
+        MenuCanvas.SetActive(true);
+        GameUI.SetActive(false);
+        MainData.SoundManagerRef.PlayClickSound();
+
+    }
+
+    public void ClickStartGame()
+    {
+        //MainData.MainLoop.SoundManagerComponent.PlayClickSound();
+        if (!MainData.MainLoop.gameStarted)
+        {
+
+            //MainData.MainLoop.SoundManagerComponent.ChangeSoundtrack(MainData.SoundManagerRef.MainTheme);
+        }
+        MainMenuStart.GetComponentInChildren<TextMeshProUGUI>().text = "Continue";
+        MenuCanvas.SetActive(false);
+        MainMenuBack.SetActive(false);
+        GameUI.SetActive(true);
+        MainData.MainLoop.gameStarted = true;
+    }
+
+    public void ClickExitGame()
+    {
+        MainData.SoundManagerRef.PlayClickSound();
+        MenuCanvas.SetActive(false);
+
+        ExitConfirmationCanvas.SetActive(true);
+    }
+
+
+
+
+    public void ClickExitYes()
+    {
+        MainData.SoundManagerRef.PlayClickSound();
+        Application.Quit();
+    }
+
+    public void ClickExitNo()
+    {
+        MainData.SoundManagerRef.PlayClickSound();
+        ExitConfirmationCanvas.SetActive(false);
+        MenuCanvas.SetActive(true);
+
+
+
+    }
+    public void ClickMenuSettings()
+    {
+        MenuCanvas.SetActive(false);
+        SettingsCanvas.SetActive(true);
+
+    }
+    
+
+
+    public void ClickSettingsBack()
+    {
+        MenuCanvas.SetActive(true);
+        SettingsCanvas.SetActive(false);
+
+
+
+    }
+
+    public void ClickSettingsParallax()
+    {
+        if (MainData.MainLoop.BackgroundParallaxObject.ParallaxSetting)
+        {
+            MainData.MainLoop.BackgroundParallaxObject.ParallaxSetting = false;
+            SettingsParallaxButton.GetComponentInChildren<TextMeshProUGUI>().text = "Parallax - Off";
+        }
+        else
+        {
+            MainData.MainLoop.BackgroundParallaxObject.ParallaxSetting = true;
+            SettingsParallaxButton.GetComponentInChildren<TextMeshProUGUI>().text = "Parallax - On";
+        }
+        
+
+
+    }
+
+
+
+    /// <summary>
+    /// in-game buttons
+    /// </summary>
+
+
     public void ClickTesting()
     {
         Debug.Log("I HAVE BEEN CLICKED. WHO DARES?");
     }
-
 
     public void ClickPassTurn()
     {
@@ -67,7 +164,7 @@ public class UserInterfaceHelper : MonoBehaviour
             else
             {
                 //failure
-                MainData.SoundManagerRef.PlayFailureSound();
+                //MainData.SoundManagerRef.PlayFailureSound();
             }
         }
 
@@ -86,75 +183,9 @@ public class UserInterfaceHelper : MonoBehaviour
         Debug.Log("CLICKED OVERMAP-open BUTTON.");
         MainData.SoundManagerRef.PlayClickSound();
     }
-    public void ClickSendPause()
-    {
-        MainMenuBack.SetActive(true);
-        MainMenuStart.SetActive(true);
-        MainMenuExit.SetActive(true);
-        GameUI.SetActive(false);
-        MainData.SoundManagerRef.PlayClickSound();
-        
-    }
+  
 
-    public void ClickStartGame()
-    {
-        //MainData.MainLoop.SoundManagerComponent.PlayClickSound();
-        if (!MainData.MainLoop.gameStarted)
-        {
-
-            //MainData.MainLoop.SoundManagerComponent.ChangeSoundtrack(MainData.SoundManagerRef.MainTheme);
-        }
-        MainMenuStart.GetComponentInChildren<TextMeshProUGUI>().text = "Continue";
-        MainMenuStart.SetActive(false);
-        MainMenuExit.SetActive(false);
-        MainMenuBack.SetActive(false);
-        GameUI.SetActive(true);
-        MainData.MainLoop.gameStarted = true;
-    }
-
-    public void ClickExitGame()
-    {
-        MainData.SoundManagerRef.PlayClickSound();
-        MainMenuStart.SetActive(false);
-        MainMenuExit.SetActive(false);
-        MainMenuExitYes.SetActive(true);
-        MainMenuExitSure.SetActive(true);
-        MainMenuExitNo.SetActive(true);
-}
-
-
-
-
-    public void ClickExitYes()
-    {
-        MainData.SoundManagerRef.PlayClickSound();
-        Application.Quit();
-    }
-
-    public void ClickExitNo()
-    {
-        MainData.SoundManagerRef.PlayClickSound();
-        MainMenuStart.SetActive(true);
-        MainMenuExit.SetActive(true);
-        MainMenuExitYes.SetActive(false);
-        MainMenuExitSure.SetActive(false);
-        MainMenuExitNo.SetActive(false);
-    }
-
-    //if we decide wether we should allow characters to have more than one trait, rework this to display the trait icons in a list/row
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        MainData.uiMan = this;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
+    //NOTE - combat buttons are handled in CombatHelper.cs
 
 
 

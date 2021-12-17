@@ -92,7 +92,7 @@ public class EntitiesDefinition : MonoBehaviour
                        true, //is it a player character(true), or is it an enemy(false)?
                        100, //the base HP value
                        25, // the base damage value
-                       1, //base speed, higher is better
+                       2, //base speed, higher is better
                        1, //defense
                        2, //luck
                        100, //mana
@@ -103,49 +103,49 @@ public class EntitiesDefinition : MonoBehaviour
         CreateCreature("tin_man",
                        "Tin Man",
                        "Lacks a heart and will do anything to get it.",
-                       "bashes",
-                       true,
-                       100,
-                       25,
-                       1,
-                       1,
-                       2,
-                       100,
-                       null,
-                       ScarecrowSprite,
-                       null);
+                       "rends", //verb used when attacking
+                       true, //is it a player character(true), or is it an enemy(false)?
+                       100, //the base HP value
+                       25, // the base damage value
+                       6, //base speed, higher is better
+                       1, //defense
+                       2, //luck
+                       100, //mana
+                       null, //sound for when it is this character's turn to act
+                       ScarecrowSprite, //character's sprite 
+                       null); //character's avatar sprite
 
         CreateCreature("lion",
                        "Lion",
                        "His lack of courage is apparent.",
-                       "eviscerates",
-                       true,
-                       100,
-                       25,
-                       1,
-                       1,
-                       2,
-                       100,
-                       null,
-                       ScarecrowSprite,
-                       null);
+                       "rends", //verb used when attacking
+                       true, //is it a player character(true), or is it an enemy(false)?
+                       100, //the base HP value
+                       25, // the base damage value
+                       4, //base speed, higher is better
+                       1, //defense
+                       2, //luck
+                       100, //mana
+                       null, //sound for when it is this character's turn to act
+                       ScarecrowSprite, //character's sprite 
+                       null); //character's avatar sprite
 
         CreateCreature("dorothy",
                        "Homesick",
                        "Wants to go home...",
-                       "strikes",
-                       true,
-                       100,
-                       25,
-                       1,
-                       1,
-                       2,
-                       100,
-                       null,
-                       ScarecrowSprite,
-                       null);
+                      "rends", //verb used when attacking
+                       true, //is it a player character(true), or is it an enemy(false)?
+                       100, //the base HP value
+                       25, // the base damage value
+                       3, //base speed, higher is better
+                       1, //defense
+                       2, //luck
+                       100, //mana
+                       null, //sound for when it is this character's turn to act
+                       ScarecrowSprite, //character's sprite 
+                       null); //character's avatar sprite
 
-        
+
     }
 
 
@@ -158,7 +158,7 @@ public class EntitiesDefinition : MonoBehaviour
                        false, //is it a player character(true), or is it an enemy(false)?
                        100, //the base HP value
                        25, // the base damage value
-                       1, //base speed, higher is better
+                       10, //base speed, higher is better
                        1, //defense
                        2, //luck
                        100, //mana

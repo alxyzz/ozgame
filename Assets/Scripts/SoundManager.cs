@@ -38,12 +38,30 @@ public class SoundManager : MonoBehaviour
 
     public void PlayFailureSound()
     {
-        sfxSource.PlayOneShot(failure);
+        //try
+        //{
+        //    sfxSource.PlayOneShot(failure);
+        //}
+        //catch (System.Exception)
+        //{
+
+        //    throw;
+        //}
+        
     }
 
     public void PlayClickSound()
     {
-        sfxSource.PlayOneShot(click);
+        //try
+        //{
+        //    sfxSource.PlayOneShot(click);
+        //}
+        //catch (System.Exception)
+        //{
+
+        //    throw;
+        //}
+        
 
     }
 
