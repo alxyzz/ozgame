@@ -45,7 +45,7 @@ public class EntitiesDefinition : MonoBehaviour
     /// <param name="newCharSprite"></param>
     /// <param name="newCharAvatar"></param>
     /// <returns></returns>
-    public void CreateCreature(string characterID, string charName, string charDesc, string attackVerb, bool isPlayer, int baseHP, int baseDMG, int baseSPD, int Defense,  int Luck, int Mana, AudioClip newCharTurnSound, Sprite newCharSprite, Sprite newCharAvatar)
+    public void MakeTemplateMob(string characterID, string charName, string charDesc, string attackVerb, bool isPlayer, int baseHP, int baseDMG, int baseSPD, int Defense,  int Luck, int Mana, AudioClip newCharTurnSound, Sprite newCharSprite, Sprite newCharAvatar)
     {
         Character newCharacterDefinition = Character.CreateInstance<Character>();
 
@@ -82,10 +82,10 @@ public class EntitiesDefinition : MonoBehaviour
     }
 
 
-    public void DefinePartyMembers()
+    public void DefinePC()
     {
         //string characterID, string charName, string charDesc, string attackVerb, bool isPlayer, int baseHP, int baseDMG, int baseSPD, int Defense,  int Luck, int Mana, AudioClip newCharTurnSound, Sprite newCharSprite, Sprite newCharAvatar)
-        CreateCreature("scarecrow", //characterID
+        MakeTemplateMob("scarecrow", //characterID
                        "Scarecrow", // charName
                        "Lacks a brain and is driven to obtain it.", // charDesc
                        "rends", //verb used when attacking
@@ -100,7 +100,7 @@ public class EntitiesDefinition : MonoBehaviour
                        ScarecrowSprite, //character's sprite 
                        null); //character's avatar sprite
 
-        CreateCreature("tin_man",
+        MakeTemplateMob("tin_man",
                        "Tin Man",
                        "Lacks a heart and will do anything to get it.",
                        "rends", //verb used when attacking
@@ -115,7 +115,7 @@ public class EntitiesDefinition : MonoBehaviour
                        ScarecrowSprite, //character's sprite 
                        null); //character's avatar sprite
 
-        CreateCreature("lion",
+        MakeTemplateMob("lion",
                        "Lion",
                        "His lack of courage is apparent.",
                        "rends", //verb used when attacking
@@ -130,7 +130,7 @@ public class EntitiesDefinition : MonoBehaviour
                        ScarecrowSprite, //character's sprite 
                        null); //character's avatar sprite
 
-        CreateCreature("dorothy",
+        MakeTemplateMob("dorothy",
                        "Homesick",
                        "Wants to go home...",
                       "rends", //verb used when attacking
@@ -149,9 +149,9 @@ public class EntitiesDefinition : MonoBehaviour
     }
 
 
-    public void DefineMonsters()
+    public void DefineNPC()
     {
-        CreateCreature("evilcrow", //characterID
+        MakeTemplateMob("evilcrow", //characterID
                        "George", // charName
                        "Lacks a brain and is driven to obtain yours.", // charDesc
                        "rends", //verb used when attacking

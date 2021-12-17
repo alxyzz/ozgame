@@ -32,8 +32,8 @@ public class GameManager : MonoBehaviour
 
         LevelHelperComponent.GenerateLevels(); //set up templates
         EntityDefComponent.DefineTraits();
-        EntityDefComponent.DefinePartyMembers(); //set up characters
-        EntityDefComponent.DefineMonsters();//define all entities here
+        EntityDefComponent.DefinePC(); //set up characters
+        EntityDefComponent.DefineNPC();//define all entities here
         EntityDefComponent.DefineConsumables();
         EntityDefComponent.BuildParty();
         PositionHolderComponent.PrepPartyPlaces();

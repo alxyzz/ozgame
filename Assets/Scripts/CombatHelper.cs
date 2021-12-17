@@ -65,7 +65,13 @@ public class CombatHelper : MonoBehaviour
     public void ClickTraitAbility()
     {
 
-
+        switch (CurrentActiveCharacter.associatedCharacter.charTrait.traitName)
+        {
+            case "blahblah"://so yeah this is where active traits go
+                break;
+            default:
+                break;
+        }
 
     }
 
