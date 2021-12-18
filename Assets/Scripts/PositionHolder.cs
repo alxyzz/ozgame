@@ -18,17 +18,15 @@ public class PositionHolder : MonoBehaviour
     public Vector3 PartySlot3InitialPos;
     [HideInInspector]
     public Vector3 PartySlot4InitialPos;
-
+    [Space(15)]
+    public GameObject PartyHolder;
+    [Space(15)]
     public GameObject CampfireSpot1;
     public GameObject CampfireSpot2;
     public GameObject CampfireSpot3;
     public GameObject CampfireSpot4;
     [Space(15)]
-    public GameObject EnemySpot1;
-    public GameObject EnemySpot2;
-    public GameObject EnemySpot3;
-
-
+    public GameObject EnemyPrefab;
     public GameObject EnemySpawnBoundaryLeft;//enemies spawn between these
     public GameObject EnemySpawnBoundaryRight;
 

@@ -22,8 +22,8 @@ public class GameManager : MonoBehaviour
     void Start()//loads stuff up
     {
 
-        
-        
+
+        UserInterfaceHelperComponent.CombatHighlightObject.SetActive(false);
         MainData.MainLoop = this;
         MainData.SoundManagerRef = SoundManagerComponent;
         
@@ -41,7 +41,8 @@ public class GameManager : MonoBehaviour
         UserInterfaceHelperComponent.GameUI.SetActive(false);
         UserInterfaceHelperComponent.MainMenuBack.SetActive(true); //opens up the main menu
         UserInterfaceHelperComponent.MenuCanvas.SetActive(true);
-
+        EntityDefComponent.SpawnEnemyTest(4);
+        
 
 
         //compile map data
@@ -76,12 +77,12 @@ public class GameManager : MonoBehaviour
         //    }
         //}
 
-        if (Input.GetKeyDown(KeyCode.Mouse0)) 
-        {
+        //if (Input.GetKeyDown(KeyCode.Mouse0)) 
+        //{
 
-            CombatHelperComponent.HighlightCheck();
+        //    CombatHelperComponent.HighlightCheck();
 
-        }
+        //}
     }
 
 
@@ -94,19 +95,19 @@ public class GameManager : MonoBehaviour
         ApplyEffectToAll(); //burns, poison, etc
        
         //"Start of turn turnnumber"
-        if (MainData.enemyParty.Count >= 1) //if there's no enemy there's no need to fight
+        if (MainData.enemyParty.Count > 0) //if there's no enemy there's no need to fight
         {
             
             CombatHelperComponent.InitiateCombatTurn();
-            //HighlightPauseButton();
-            PassTurn();
+
         }
         else
         {
             MainData.turnNumber = 0;
             Debug.Log("All enemies have been vanquished.");
             Debug.Log("Spawning new enemies.");
-            EntityDefComponent.SpawnEnemyTest();
+            //PurgeStatusEffects();
+            EntityDefComponent.SpawnEnemyTest(1);
             //Highlight Map button
         }
     }

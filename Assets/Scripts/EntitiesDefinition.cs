@@ -92,7 +92,7 @@ public class EntitiesDefinition : MonoBehaviour
                        true, //is it a player character(true), or is it an enemy(false)?
                        100, //the base HP value
                        25, // the base damage value
-                       2, //base speed, higher is better
+                       20, //base speed, higher is better
                        1, //defense
                        2, //luck
                        100, //mana
@@ -107,7 +107,7 @@ public class EntitiesDefinition : MonoBehaviour
                        true, //is it a player character(true), or is it an enemy(false)?
                        100, //the base HP value
                        25, // the base damage value
-                       6, //base speed, higher is better
+                       60, //base speed, higher is better
                        1, //defense
                        2, //luck
                        100, //mana
@@ -122,7 +122,7 @@ public class EntitiesDefinition : MonoBehaviour
                        true, //is it a player character(true), or is it an enemy(false)?
                        100, //the base HP value
                        25, // the base damage value
-                       4, //base speed, higher is better
+                       40, //base speed, higher is better
                        1, //defense
                        2, //luck
                        100, //mana
@@ -137,7 +137,7 @@ public class EntitiesDefinition : MonoBehaviour
                        true, //is it a player character(true), or is it an enemy(false)?
                        100, //the base HP value
                        25, // the base damage value
-                       3, //base speed, higher is better
+                       30, //base speed, higher is better
                        1, //defense
                        2, //luck
                        100, //mana
@@ -158,7 +158,7 @@ public class EntitiesDefinition : MonoBehaviour
                        false, //is it a player character(true), or is it an enemy(false)?
                        100, //the base HP value
                        25, // the base damage value
-                       10, //base speed, higher is better
+                       100, //base speed, higher is better
                        1, //defense
                        2, //luck
                        100, //mana
@@ -167,14 +167,25 @@ public class EntitiesDefinition : MonoBehaviour
                        null); //character's avatar sprite
     }
 
-    public void SpawnEnemyTest()
-    {
+    public void SpawnEnemyTest(int times)
+    {//creates new enemies between the two boundaries
+        for (int i = 1; i <= times; i++)
+        {
+            float distance = MainData.MainLoop.PositionHolderComponent.EnemySpawnBoundaryRight.transform.position.x- MainData.MainLoop.PositionHolderComponent.EnemySpawnBoundaryLeft.transform.position.x ;
+            GameObject b = Instantiate(
+            MainData.MainLoop.PositionHolderComponent.EnemyPrefab,
+            new Vector3(((distance/times) * i), MainData.MainLoop.PositionHolderComponent.EnemySpawnBoundaryLeft.transform.position.y, MainData.MainLoop.PositionHolderComponent.EnemySpawnBoundaryLeft.transform.position.z), Quaternion.identity,
+            MainData.MainLoop.PositionHolderComponent.PartyHolder.transform);
+            CharacterScript d = b.GetComponent<CharacterScript>();
+            MainData.enemyPartyMemberObjects.Add(b);
+            d.SetupCharacterByTemplate(MainData.characterTypes["evilcrow"]);
+            // StartCoroutine(MainData.MainLoop.CombatHelperComponent.AttackRandomEnemy(slotref));
+        }
+        //Now, prettify them.
+        foreach (GameObject item in MainData.enemyPartyMemberObjects)
+        {
 
-        //this takes the needed template, applies it to the charscript in the party slot, then calls the refresh method
-        CharacterScript slotref = MainData.MainLoop.PositionHolderComponent.EnemySpot1.GetComponent<CharacterScript>();
-
-
-        slotref.SetupCharacterByTemplate(MainData.characterTypes["evilcrow"]);
+        }
 
 
     }
@@ -204,7 +215,10 @@ public class EntitiesDefinition : MonoBehaviour
         slot2ref.SetupCharacterByTemplate(MainData.characterTypes["tin_man"]);
         slot3ref.SetupCharacterByTemplate(MainData.characterTypes["lion"]);
         slot4ref.SetupCharacterByTemplate(MainData.characterTypes["dorothy"]);
-
+        foreach (Character item in MainData.playerParty)
+        {
+            item.RecalculateThreatFromStats();
+        }
     }
 
     public void GenerateEquipment()
@@ -276,6 +290,10 @@ public class EntitiesDefinition : MonoBehaviour
     [System.Serializable]
     public class Character : ScriptableObject
     {
+
+        public float threatFromStats;
+        public float Threat = 0;
+
         public string charType; //something like "goblin_spear", "tin_man" or "scarecrow" for the dictionary. 
         public string charName;
         public string entityDescription;
@@ -311,6 +329,12 @@ public class EntitiesDefinition : MonoBehaviour
             return canAct;
         }
 
+        public void RecalculateThreatFromStats()
+        {
+            threatFromStats = ((((currentHealth + damage) / 2) / speed) * 100);
+        }
+
+
 
         public void RecalculateSpeed() // maybe make it recompute all traits later 
         {//another thing to watch out for is wether the monster copy from the dictionary is really a copy or a reference. dont want to change the dictionary entry (in case of being a ref)
@@ -329,13 +353,12 @@ public class EntitiesDefinition : MonoBehaviour
             }
         }
         public void TakeDamageFromCharacter(Character attacker)
-        { 
-            //if (critical)
-            //{ //make this red and bigger
-            //    MainData.MainLoop.GameLog("Critical strike!");
-            //}
-           MainData.MainLoop.GameLog(this.charName + " the " + charTrait.name + " has been " +attacker.attackverb + "ed by " + attacker.charName + "for " + attacker.damage + " damage!");
+        {
+
+            Debug.Log(this.charName + " the " + charTrait.name + " has been " + attacker.attackverb + "ed by " + attacker.charName + "for " + attacker.damage + " damage!");
+            
             currentHealth -= (attacker.damage - defense); //INCORPORATE ARMOR CALCULATION HERE 
+            attacker.Threat += (attacker.damage - defense);
             if (currentHealth <= 0)
             {
                 gotKilled(attacker);
@@ -381,21 +404,8 @@ public class EntitiesDefinition : MonoBehaviour
                     break;
             }
         }
-        public void AttackRandom()
-        {
-            if (isPlayerPartyMember)
-            {
-                Character b = MainData.enemyParty[UnityEngine.Random.Range(0, MainData.enemyParty.Count)];
-                //b.TakeDamage();
 
-            }
-            else
-            {
-                Character d = MainData.playerParty[UnityEngine.Random.Range(0, MainData.playerParty.Count)];
-                //d.TakeDamage();
 
-            }
-        }
         public void gotKilled(Character killer = null)
         {
             //GameLog(killed.charName + "has been vanquished!");

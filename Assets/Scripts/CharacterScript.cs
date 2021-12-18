@@ -65,14 +65,19 @@ public class CharacterScript : MonoBehaviour
         associatedCharacter.turnSound = template.turnSound;
         associatedCharacter.speed = template.speed;
 
-
-
-        Debug.Log("Made a cope of " + template.charName + ".");
         spriteRenderer.sprite = associatedCharacter.charSprite;
         if (isEnemyCharacter)
         {
+            Debug.Log("Added a new enemy character - " + associatedCharacter.charName);
             spriteRenderer.flipX = true;
+            MainData.enemyParty.Add(associatedCharacter);
         }
+        else
+        {
+            Debug.Log("Added a new player character - " + associatedCharacter.charName);
+            MainData.playerParty.Add(associatedCharacter);
+        }
+        MainData.allChars.Add(associatedCharacter);
     }
 
 
@@ -82,44 +87,45 @@ public class CharacterScript : MonoBehaviour
 
     public void GotClicked()
     {
-        Debug.Log(this.associatedCharacter.charName + " got clicked and was selected during combat.");
+
+
+
+
+
+        
         if (!this.associatedCharacter.isPlayerPartyMember)
         {//if it's not a party member, we select it as a target so we can attack it.
-            MainData.MainLoop.CombatHelperComponent.activeTarget = this;
-            MainData.MainLoop.CombatHelperComponent.HighlightCheck();
-            return;
-        }
-        //highlight this character
-        //track selection
-       
+            if (MainData.MainLoop.CombatHelperComponent.activeTarget == this)
+            {
+                MainData.MainLoop.CombatHelperComponent.activeTarget = null;
+            }
+            else
+            {
+                Debug.Log(this.associatedCharacter.charName + " got clicked and was selected during combat.");
+                MainData.MainLoop.CombatHelperComponent.activeTarget = this;
+            }
 
+        }
+        //else if (MainData.MainLoop.CombatHelperComponent.CurrentlyActiveChar == null)
+        //{//if there is no active char and we click an allied char, it becomes the active char
             
-        
-        
-        if (MainData.MainLoop.CombatHelperComponent.CurrentActiveCharacter != this)
-        {
-            MainData.MainLoop.CombatHelperComponent.MoveToActiveSpot(associatedCharacter);
-        }
-        else
-        {
-            MainData.MainLoop.CombatHelperComponent.ReturnFromActiveSpot(associatedCharacter);
-        }
+        //    MainData.MainLoop.CombatHelperComponent.MoveToActiveSpot(this); 
+        //}
+        //else if (MainData.MainLoop.CombatHelperComponent.CurrentlyActiveChar == this)
+        //{//if we are clicking the active char, it goes back.
+        //    MainData.MainLoop.CombatHelperComponent.ReturnFromActiveSpot();
+        //}
+        //else
+        //{
+        //    //if it gets here it means another character is currently active.
+        //    //make failure sound.
+        //}
+
         
 
 
+        MainData.MainLoop.CombatHelperComponent.HighlightCheck();
     }
-
-    //public void SwapWith(CharacterScript target)
-    //{
-    //    if (target.associatedCharacter.isPlayerPartyMember)
-    //    {
-    //        Vector3 targetPosition = target.transform.position;
-    //        target.transform.position = this.transform.position;
-    //        this.transform.position = targetPosition;
-    //    }
-
-    //}
-
 
     void RefreshCharacterScript(bool show)
     {
@@ -144,7 +150,7 @@ public class CharacterScript : MonoBehaviour
             {
                 charactAvatar.sprite = associatedCharacter.charAvatar;
             }
-            
+
         }
         else
         {
@@ -154,11 +160,6 @@ public class CharacterScript : MonoBehaviour
             charactAvatar.sprite = null;
         }
     }
-
-
-
-
-
     void OnMouseEnter()
     {//shows the details of hovered character
         RefreshCharacterScript(true);
