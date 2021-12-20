@@ -115,6 +115,9 @@ public class LevelHelper : MonoBehaviour
         public Material levelBackgroundMaterial;
         public AudioClip levelSoundtrack;
 
+        public Tuple<float, List<Character>> enemyEncounters;
+
+
         public MapLevel(string name, string blurb, string desc, int roomcount, string enemyTypes, float startDiff, float diffIncrement, Material background, AudioClip soundtrack, bool Campfire)
         {//class constructor
             this.levelName = name;

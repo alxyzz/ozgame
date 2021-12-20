@@ -19,12 +19,13 @@ public class EntitiesDefinition : MonoBehaviour
     public Sprite Enemy1Sprite;
     public Sprite Enemy2Sprite;
     public Sprite Enemy3Sprite;
-
+    [Space(10)]
 
     public Sprite HealthPotionSprite;
     public Sprite SharpeningStoneSprite;
     public Sprite HealingMushroomSprite;
-
+    [Space(10)]
+    public GameObject EnemyPrefab;
 
     /// <summary>
     /// A function to define a new being, allied or enemy, and add it into the dictionary based on the characterID string.
@@ -45,7 +46,7 @@ public class EntitiesDefinition : MonoBehaviour
     /// <param name="newCharSprite"></param>
     /// <param name="newCharAvatar"></param>
     /// <returns></returns>
-    public void CreateCreature(string characterID, string charName, string charDesc, string attackVerb, bool isPlayer, int baseHP, int baseDMG, int baseSPD, int Defense,  int Luck, int Mana, AudioClip newCharTurnSound, Sprite newCharSprite, Sprite newCharAvatar)
+    public void MakeTemplateMob(string characterID, string charName, string charDesc, string attackVerb, bool isPlayer, int baseHP, int baseDMG, int baseSPD, int Defense, int Luck, int Mana, AudioClip newCharTurnSound, Sprite newCharSprite, Sprite newCharAvatar)
     {
         Character newCharacterDefinition = Character.CreateInstance<Character>();
 
@@ -61,7 +62,7 @@ public class EntitiesDefinition : MonoBehaviour
         newCharacterDefinition.charSprite = newCharSprite;
         newCharacterDefinition.charAvatar = newCharAvatar;
 
-        
+
 
         newCharacterDefinition.baseHealth = baseHP;
         newCharacterDefinition.baseDamage = baseDMG;
@@ -82,17 +83,17 @@ public class EntitiesDefinition : MonoBehaviour
     }
 
 
-    public void DefinePartyMembers()
+    public void DefinePC()
     {
         //string characterID, string charName, string charDesc, string attackVerb, bool isPlayer, int baseHP, int baseDMG, int baseSPD, int Defense,  int Luck, int Mana, AudioClip newCharTurnSound, Sprite newCharSprite, Sprite newCharAvatar)
-        CreateCreature("scarecrow", //characterID
+        MakeTemplateMob("scarecrow", //characterID
                        "Scarecrow", // charName
                        "Lacks a brain and is driven to obtain it.", // charDesc
                        "rends", //verb used when attacking
                        true, //is it a player character(true), or is it an enemy(false)?
                        100, //the base HP value
                        25, // the base damage value
-                       2, //base speed, higher is better
+                       20, //base speed, higher is better
                        1, //defense
                        2, //luck
                        100, //mana
@@ -100,14 +101,14 @@ public class EntitiesDefinition : MonoBehaviour
                        ScarecrowSprite, //character's sprite 
                        null); //character's avatar sprite
 
-        CreateCreature("tin_man",
+        MakeTemplateMob("tin_man",
                        "Tin Man",
                        "Lacks a heart and will do anything to get it.",
                        "rends", //verb used when attacking
                        true, //is it a player character(true), or is it an enemy(false)?
                        100, //the base HP value
                        25, // the base damage value
-                       6, //base speed, higher is better
+                       60, //base speed, higher is better
                        1, //defense
                        2, //luck
                        100, //mana
@@ -115,14 +116,14 @@ public class EntitiesDefinition : MonoBehaviour
                        ScarecrowSprite, //character's sprite 
                        null); //character's avatar sprite
 
-        CreateCreature("lion",
+        MakeTemplateMob("lion",
                        "Lion",
                        "His lack of courage is apparent.",
                        "rends", //verb used when attacking
                        true, //is it a player character(true), or is it an enemy(false)?
                        100, //the base HP value
                        25, // the base damage value
-                       4, //base speed, higher is better
+                       40, //base speed, higher is better
                        1, //defense
                        2, //luck
                        100, //mana
@@ -130,14 +131,14 @@ public class EntitiesDefinition : MonoBehaviour
                        ScarecrowSprite, //character's sprite 
                        null); //character's avatar sprite
 
-        CreateCreature("dorothy",
-                       "Homesick",
+        MakeTemplateMob("dorothy",
+                       "Dorothy",
                        "Wants to go home...",
                       "rends", //verb used when attacking
                        true, //is it a player character(true), or is it an enemy(false)?
                        100, //the base HP value
                        25, // the base damage value
-                       3, //base speed, higher is better
+                       30, //base speed, higher is better
                        1, //defense
                        2, //luck
                        100, //mana
@@ -149,16 +150,16 @@ public class EntitiesDefinition : MonoBehaviour
     }
 
 
-    public void DefineMonsters()
+    public void DefineNPC()
     {
-        CreateCreature("evilcrow", //characterID
+        MakeTemplateMob("evilcrow", //characterID
                        "George", // charName
                        "Lacks a brain and is driven to obtain yours.", // charDesc
                        "rends", //verb used when attacking
                        false, //is it a player character(true), or is it an enemy(false)?
                        100, //the base HP value
                        25, // the base damage value
-                       10, //base speed, higher is better
+                       100, //base speed, higher is better
                        1, //defense
                        2, //luck
                        100, //mana
@@ -168,15 +169,25 @@ public class EntitiesDefinition : MonoBehaviour
     }
 
     public void SpawnEnemyTest()
-    {
+    {//creates new enemies between the two boundaries
 
-        //this takes the needed template, applies it to the charscript in the party slot, then calls the refresh method
-        CharacterScript slotref = MainData.MainLoop.PositionHolderComponent.EnemySpot1.GetComponent<CharacterScript>();
+        GameObject leftborder = MainData.MainLoop.PositionHolderComponent.EnemySpawnBoundaryLeft;
+        GameObject rightborder = MainData.MainLoop.PositionHolderComponent.EnemySpawnBoundaryRight;
 
+        GameObject b = Instantiate(EnemyPrefab, new Vector3(UnityEngine.Random.Range(leftborder.transform.position.x, rightborder.transform.position.x),
+            rightborder.transform.position.y, 0), Quaternion.identity, MainData.MainLoop.backgroundObject.transform);
 
-        slotref.SetupCharacterByTemplate(MainData.characterTypes["evilcrow"]);
+        MainData.enemyPartyMemberObjects.Add(b);
 
+        b.transform.position = new Vector3();
 
+        CharacterScript d = b.GetComponent<CharacterScript>();
+
+        d.SetupCharacterByTemplate(MainData.characterTypes["evilcrow"]);
+
+        // StartCoroutine(MainData.MainLoop.CombatHelperComponent.AttackRandomEnemy(slotref));
+
+        MainData.MainLoop.EventLoggingComponent.LogGray("Some enemies have arrived.");
     }
 
 
@@ -204,7 +215,10 @@ public class EntitiesDefinition : MonoBehaviour
         slot2ref.SetupCharacterByTemplate(MainData.characterTypes["tin_man"]);
         slot3ref.SetupCharacterByTemplate(MainData.characterTypes["lion"]);
         slot4ref.SetupCharacterByTemplate(MainData.characterTypes["dorothy"]);
-
+        foreach (Character item in MainData.playerParty)
+        {
+            item.RecalculateThreatFromStats();
+        }
     }
 
     public void GenerateEquipment()
@@ -216,7 +230,7 @@ public class EntitiesDefinition : MonoBehaviour
     }
     public void DefineTraits()
     {//generates traits, stores them all in a dictionary in the dataholder
-       
+
 
 
 
@@ -243,7 +257,7 @@ public class EntitiesDefinition : MonoBehaviour
     public Trait FetchRandomT1Trait()
     {//fetches a random t1 trait
         List<string> keyList = new List<string>(t1traitList.Keys);
-        string randomKey = keyList[UnityEngine.Random.Range(0,keyList.Count+1)];
+        string randomKey = keyList[UnityEngine.Random.Range(0, keyList.Count + 1)];
         Debug.Log("Fetched random t1 trait: " + randomKey);
         return t1traitList[randomKey];
 
@@ -276,6 +290,10 @@ public class EntitiesDefinition : MonoBehaviour
     [System.Serializable]
     public class Character : ScriptableObject
     {
+
+        public float threatFromStats;
+        public float Threat = 0;
+
         public string charType; //something like "goblin_spear", "tin_man" or "scarecrow" for the dictionary. 
         public string charName;
         public string entityDescription;
@@ -295,7 +313,7 @@ public class EntitiesDefinition : MonoBehaviour
         public int baseDamage;
         public int baseSpeed;
 
-        public int speed; //NOTE - RECOMPUTE THIS BEFORE EVERY TURN TO TRACK TRAITS CHANGING IT
+        public int speed; //NOTE - RECOMPUTE THESE BEFORE EVERY TURN TO TRACK TRAITS CHANGING IT
         public int defense;
         public int damage;
         public int luck;
@@ -310,6 +328,12 @@ public class EntitiesDefinition : MonoBehaviour
         {
             return canAct;
         }
+
+        public void RecalculateThreatFromStats()
+        {
+            threatFromStats = ((((currentHealth + damage) / 2) / speed) * 100);
+        }
+
 
 
         public void RecalculateSpeed() // maybe make it recompute all traits later 
@@ -329,13 +353,14 @@ public class EntitiesDefinition : MonoBehaviour
             }
         }
         public void TakeDamageFromCharacter(Character attacker)
-        { 
-            //if (critical)
-            //{ //make this red and bigger
-            //    MainData.MainLoop.GameLog("Critical strike!");
-            //}
-           MainData.MainLoop.GameLog(this.charName + " the " + charTrait.name + " has been " +attacker.attackverb + "ed by " + attacker.charName + "for " + attacker.damage + " damage!");
+        {
+
+            Debug.Log(attacker.charName + attacker.attackverb + " the " + charName + " for " + attacker.damage + " damage");
+
+            MainData.MainLoop.EventLoggingComponent.Log(attacker.charName + attacker.attackverb + " the " + charName + " for " + attacker.damage + " damage");
+
             currentHealth -= (attacker.damage - defense); //INCORPORATE ARMOR CALCULATION HERE 
+            attacker.Threat += (attacker.damage - defense);
             if (currentHealth <= 0)
             {
                 gotKilled(attacker);
@@ -354,7 +379,7 @@ public class EntitiesDefinition : MonoBehaviour
 
 
 
-        public void GainStatusEffect (StatusEffect statusEffect, int turns)
+        public void GainStatusEffect(StatusEffect statusEffect, int turns)
         {
             this.currentStatusEffect = statusEffect;
             this.currentStatusEffect.turnsRemaining = turns;
@@ -375,27 +400,14 @@ public class EntitiesDefinition : MonoBehaviour
                     this.currentStatusEffect = new StatusEffect(type, "Wether as an effect of natural biology or magical forces, this being is currently regaining health at an enhanced rate.", duration);
                     break;
                 case "regeneration":
-                    this.currentStatusEffect = new StatusEffect(type, "Wether as an effect of natural biology or magical forces, "+ this.charName +" is currently regenerating at a highly enhanced rate.", duration);
+                    this.currentStatusEffect = new StatusEffect(type, "Wether as an effect of natural biology or magical forces, " + this.charName + " is currently regenerating at a highly enhanced rate.", duration);
                     break;
                 default:
                     break;
             }
         }
-        public void AttackRandom()
-        {
-            if (isPlayerPartyMember)
-            {
-                Character b = MainData.enemyParty[UnityEngine.Random.Range(0, MainData.enemyParty.Count)];
-                //b.TakeDamage();
 
-            }
-            else
-            {
-                Character d = MainData.playerParty[UnityEngine.Random.Range(0, MainData.playerParty.Count)];
-                //d.TakeDamage();
 
-            }
-        }
         public void gotKilled(Character killer = null)
         {
             //GameLog(killed.charName + "has been vanquished!");
@@ -413,13 +425,13 @@ public class EntitiesDefinition : MonoBehaviour
 
         public void DeleteTheVanquished()
         {
-            
-                enemyParty.Remove(allChars.Find(x => x.GetID() == this.charType));
-                allChars.Remove(allChars.Find(x => x.GetID() == this.charType));
-                selfScriptRef.associatedCharacter = null; // this should get the garbage collector to remove it, if nothing else references it
-                selfScriptRef.Die();
-                //Destroy(this);
-            
+
+            enemyParty.Remove(allChars.Find(x => x.GetID() == this.charType));
+            allChars.Remove(allChars.Find(x => x.GetID() == this.charType));
+            selfScriptRef.associatedCharacter = null; // this should get the garbage collector to remove it, if nothing else references it
+            selfScriptRef.Die();
+            //Destroy(this);
+
         }
 
 
@@ -429,7 +441,7 @@ public class EntitiesDefinition : MonoBehaviour
             return charType;
         }
 
-        
+
     }
     //public static T DeepClone<T>(T obj)
     //{
