@@ -16,24 +16,25 @@ public class GameManager : MonoBehaviour
     public EventLogging EventLoggingComponent;
     public UserInterfaceHelper UserInterfaceHelperComponent;
     public CombatHelper CombatHelperComponent;
+    public GameObject backgroundObject;
    
 
     // Start is called before the first frame update
     void Start()//loads stuff up
     {
 
-        
-        
+
+        UserInterfaceHelperComponent.CombatHighlightObject.SetActive(false);
         MainData.MainLoop = this;
         MainData.SoundManagerRef = SoundManagerComponent;
-        
+
         //call things from here from now on
         //StartLoading(); //blacks screen out
-
+        EventLoggingComponent.TMPComponent.text = "";
         LevelHelperComponent.GenerateLevels(); //set up templates
         EntityDefComponent.DefineTraits();
-        EntityDefComponent.DefinePartyMembers(); //set up characters
-        EntityDefComponent.DefineMonsters();//define all entities here
+        EntityDefComponent.DefinePC(); //set up characters
+        EntityDefComponent.DefineNPC();//define all entities here
         EntityDefComponent.DefineConsumables();
         EntityDefComponent.BuildParty();
         PositionHolderComponent.PrepPartyPlaces();
@@ -41,7 +42,8 @@ public class GameManager : MonoBehaviour
         UserInterfaceHelperComponent.GameUI.SetActive(false);
         UserInterfaceHelperComponent.MainMenuBack.SetActive(true); //opens up the main menu
         UserInterfaceHelperComponent.MenuCanvas.SetActive(true);
-
+        //EntityDefComponent.SpawnEnemyTest();
+        
 
 
         //compile map data
@@ -75,6 +77,13 @@ public class GameManager : MonoBehaviour
         //        }
         //    }
         //}
+
+        //if (Input.GetKeyDown(KeyCode.Mouse0)) 
+        //{
+
+        //    CombatHelperComponent.HighlightCheck();
+
+        //}
     }
 
 
@@ -84,21 +93,22 @@ public class GameManager : MonoBehaviour
         //play new turn sound here
         MainData.turnNumber++;
         Debug.Log("Turn " + MainData.turnNumber.ToString());
+        EventLoggingComponent.LogDanger("Start of turn " + MainData.turnNumber.ToString() + ".");
         ApplyEffectToAll(); //burns, poison, etc
        
         //"Start of turn turnnumber"
-        if (MainData.enemyParty.Count >= 1) //if there's no enemy there's no need to fight
+        if (MainData.enemyParty.Count > 0) //if there's no enemy there's no need to fight
         {
             
             CombatHelperComponent.InitiateCombatTurn();
-            //HighlightPauseButton();
-            PassTurn();
+
         }
         else
         {
             MainData.turnNumber = 0;
             Debug.Log("All enemies have been vanquished.");
             Debug.Log("Spawning new enemies.");
+            //PurgeStatusEffects();
             EntityDefComponent.SpawnEnemyTest();
             //Highlight Map button
         }
