@@ -131,7 +131,7 @@ public class EntitiesDefinition : MonoBehaviour
                        null); //character's avatar sprite
 
         MakeTemplateMob("dorothy",
-                       "Homesick",
+                       "Dorothy",
                        "Wants to go home...",
                       "rends", //verb used when attacking
                        true, //is it a player character(true), or is it an enemy(false)?
@@ -167,27 +167,17 @@ public class EntitiesDefinition : MonoBehaviour
                        null); //character's avatar sprite
     }
 
-    public void SpawnEnemyTest(int times)
+    public void SpawnEnemyTest()
     {//creates new enemies between the two boundaries
-        for (int i = 1; i <= times; i++)
-        {
-            float distance = MainData.MainLoop.PositionHolderComponent.EnemySpawnBoundaryRight.transform.position.x- MainData.MainLoop.PositionHolderComponent.EnemySpawnBoundaryLeft.transform.position.x ;
-            GameObject b = Instantiate(
-            MainData.MainLoop.PositionHolderComponent.EnemyPrefab,
-            new Vector3(((distance/times) * i), MainData.MainLoop.PositionHolderComponent.EnemySpawnBoundaryLeft.transform.position.y, MainData.MainLoop.PositionHolderComponent.EnemySpawnBoundaryLeft.transform.position.z), Quaternion.identity,
-            MainData.MainLoop.PositionHolderComponent.PartyHolder.transform);
-            CharacterScript d = b.GetComponent<CharacterScript>();
+        
+            float distance = MainData.MainLoop.PositionHolderComponent.EnemySpawnBoundaryRight.transform.position.x- MainData.MainLoop.PositionHolderComponent.EnemySpawnBoundaryLeft.transform.position.x;
+
+            GameObject b = Instantiate(MainData.MainLoop.PositionHolderComponent.EnemyPrefab, MainData.backgroundObject.transform);
             MainData.enemyPartyMemberObjects.Add(b);
+
+            CharacterScript d = b.GetComponent<CharacterScript>();
             d.SetupCharacterByTemplate(MainData.characterTypes["evilcrow"]);
             // StartCoroutine(MainData.MainLoop.CombatHelperComponent.AttackRandomEnemy(slotref));
-        }
-        //Now, prettify them.
-        foreach (GameObject item in MainData.enemyPartyMemberObjects)
-        {
-
-        }
-
-
     }
 
 

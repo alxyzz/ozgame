@@ -41,7 +41,7 @@ public class GameManager : MonoBehaviour
         UserInterfaceHelperComponent.GameUI.SetActive(false);
         UserInterfaceHelperComponent.MainMenuBack.SetActive(true); //opens up the main menu
         UserInterfaceHelperComponent.MenuCanvas.SetActive(true);
-        EntityDefComponent.SpawnEnemyTest(4);
+        EntityDefComponent.SpawnEnemyTest();
         
 
 
@@ -107,7 +107,7 @@ public class GameManager : MonoBehaviour
             Debug.Log("All enemies have been vanquished.");
             Debug.Log("Spawning new enemies.");
             //PurgeStatusEffects();
-            EntityDefComponent.SpawnEnemyTest(1);
+            EntityDefComponent.SpawnEnemyTest();
             //Highlight Map button
         }
     }

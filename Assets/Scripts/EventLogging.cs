@@ -48,8 +48,7 @@ public class EventLogging : MonoBehaviour
 
     private void RefreshTextField()
     {
-        int totalVisibleChar = TMPComponent.textInfo.characterCount;
-        if (totalVisibleChar > 833)
+        if (TMPComponent.textInfo.characterCount > 833)
         {
             TMPComponent.pageToDisplay++;
         }
