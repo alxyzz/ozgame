@@ -26,10 +26,10 @@ public class GameManager : MonoBehaviour
         UserInterfaceHelperComponent.CombatHighlightObject.SetActive(false);
         MainData.MainLoop = this;
         MainData.SoundManagerRef = SoundManagerComponent;
-        
+
         //call things from here from now on
         //StartLoading(); //blacks screen out
-
+        EventLoggingComponent.TMPComponent.text = "";
         LevelHelperComponent.GenerateLevels(); //set up templates
         EntityDefComponent.DefineTraits();
         EntityDefComponent.DefinePC(); //set up characters

@@ -140,20 +140,30 @@ public class CharacterScript : MonoBehaviour
         TextMeshProUGUI charactTitle = MainData.MainLoop.UserInterfaceHelperComponent.selectedCharTraitDesc.GetComponent<TextMeshProUGUI>();
         if (show)
         {
+            charactDescript.gameObject.SetActive(true);
+            charactName.gameObject.SetActive(true);
+            
+            
             charactDescript.text = associatedCharacter.entityDescription;
             charactName.text = associatedCharacter.charName;
             if (associatedCharacter.charTrait != null)
             {
+                charactTitle.gameObject.SetActive(true);
                 charactTitle.text = associatedCharacter.charTrait.traitName;
             }
             if (associatedCharacter.charAvatar != null)
             {
+                charactAvatar.gameObject.SetActive(true);
                 charactAvatar.sprite = associatedCharacter.charAvatar;
             }
 
         }
         else
         {
+            charactDescript.gameObject.SetActive(false);
+            charactName.gameObject.SetActive(false);
+            charactTitle.gameObject.SetActive(false);
+            charactAvatar.gameObject.SetActive(false);
             charactDescript.text = "";
             charactName.text = "";
             charactTitle.text = "";

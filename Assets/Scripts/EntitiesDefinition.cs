@@ -355,8 +355,10 @@ public class EntitiesDefinition : MonoBehaviour
         public void TakeDamageFromCharacter(Character attacker)
         {
 
-            Debug.Log(this.charName + " the " + charTrait.name + " has been " + attacker.attackverb + "ed by " + attacker.charName + "for " + attacker.damage + " damage!");
-            
+            Debug.Log(attacker.charName + attacker.attackverb + " the " + charName + " for " + attacker.damage + " damage");
+
+            MainData.MainLoop.EventLoggingComponent.Log(attacker.charName + attacker.attackverb + " the " + charName + " for " + attacker.damage + " damage");
+
             currentHealth -= (attacker.damage - defense); //INCORPORATE ARMOR CALCULATION HERE 
             attacker.Threat += (attacker.damage - defense);
             if (currentHealth <= 0)
