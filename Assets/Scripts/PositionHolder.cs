@@ -26,7 +26,7 @@ public class PositionHolder : MonoBehaviour
     public GameObject CampfireSpot3;
     public GameObject CampfireSpot4;
     [Space(15)]
-    public GameObject EnemyPrefab;
+
     public GameObject EnemySpawnBoundaryLeft;//enemies spawn between these
     public GameObject EnemySpawnBoundaryRight;
 

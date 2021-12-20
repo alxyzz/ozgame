@@ -19,12 +19,13 @@ public class EntitiesDefinition : MonoBehaviour
     public Sprite Enemy1Sprite;
     public Sprite Enemy2Sprite;
     public Sprite Enemy3Sprite;
-
+    [Space(10)]
 
     public Sprite HealthPotionSprite;
     public Sprite SharpeningStoneSprite;
     public Sprite HealingMushroomSprite;
-
+    [Space(10)]
+    public GameObject EnemyPrefab;
 
     /// <summary>
     /// A function to define a new being, allied or enemy, and add it into the dictionary based on the characterID string.
@@ -45,7 +46,7 @@ public class EntitiesDefinition : MonoBehaviour
     /// <param name="newCharSprite"></param>
     /// <param name="newCharAvatar"></param>
     /// <returns></returns>
-    public void MakeTemplateMob(string characterID, string charName, string charDesc, string attackVerb, bool isPlayer, int baseHP, int baseDMG, int baseSPD, int Defense,  int Luck, int Mana, AudioClip newCharTurnSound, Sprite newCharSprite, Sprite newCharAvatar)
+    public void MakeTemplateMob(string characterID, string charName, string charDesc, string attackVerb, bool isPlayer, int baseHP, int baseDMG, int baseSPD, int Defense, int Luck, int Mana, AudioClip newCharTurnSound, Sprite newCharSprite, Sprite newCharAvatar)
     {
         Character newCharacterDefinition = Character.CreateInstance<Character>();
 
@@ -61,7 +62,7 @@ public class EntitiesDefinition : MonoBehaviour
         newCharacterDefinition.charSprite = newCharSprite;
         newCharacterDefinition.charAvatar = newCharAvatar;
 
-        
+
 
         newCharacterDefinition.baseHealth = baseHP;
         newCharacterDefinition.baseDamage = baseDMG;
@@ -169,15 +170,24 @@ public class EntitiesDefinition : MonoBehaviour
 
     public void SpawnEnemyTest()
     {//creates new enemies between the two boundaries
-        
-            float distance = MainData.MainLoop.PositionHolderComponent.EnemySpawnBoundaryRight.transform.position.x- MainData.MainLoop.PositionHolderComponent.EnemySpawnBoundaryLeft.transform.position.x;
 
-            GameObject b = Instantiate(MainData.MainLoop.PositionHolderComponent.EnemyPrefab, MainData.backgroundObject.transform);
-            MainData.enemyPartyMemberObjects.Add(b);
+        GameObject leftborder = MainData.MainLoop.PositionHolderComponent.EnemySpawnBoundaryLeft;
+        GameObject rightborder = MainData.MainLoop.PositionHolderComponent.EnemySpawnBoundaryRight;
 
-            CharacterScript d = b.GetComponent<CharacterScript>();
-            d.SetupCharacterByTemplate(MainData.characterTypes["evilcrow"]);
-            // StartCoroutine(MainData.MainLoop.CombatHelperComponent.AttackRandomEnemy(slotref));
+        GameObject b = Instantiate(EnemyPrefab, new Vector3(UnityEngine.Random.Range(leftborder.transform.position.x, rightborder.transform.position.x),
+            rightborder.transform.position.y, 0), Quaternion.identity, MainData.MainLoop.backgroundObject.transform);
+
+        MainData.enemyPartyMemberObjects.Add(b);
+
+        b.transform.position = new Vector3();
+
+        CharacterScript d = b.GetComponent<CharacterScript>();
+
+        d.SetupCharacterByTemplate(MainData.characterTypes["evilcrow"]);
+
+        // StartCoroutine(MainData.MainLoop.CombatHelperComponent.AttackRandomEnemy(slotref));
+
+        MainData.MainLoop.EventLoggingComponent.LogGray("Some enemies have arrived.");
     }
 
 
@@ -220,7 +230,7 @@ public class EntitiesDefinition : MonoBehaviour
     }
     public void DefineTraits()
     {//generates traits, stores them all in a dictionary in the dataholder
-       
+
 
 
 
@@ -247,7 +257,7 @@ public class EntitiesDefinition : MonoBehaviour
     public Trait FetchRandomT1Trait()
     {//fetches a random t1 trait
         List<string> keyList = new List<string>(t1traitList.Keys);
-        string randomKey = keyList[UnityEngine.Random.Range(0,keyList.Count+1)];
+        string randomKey = keyList[UnityEngine.Random.Range(0, keyList.Count + 1)];
         Debug.Log("Fetched random t1 trait: " + randomKey);
         return t1traitList[randomKey];
 
@@ -303,7 +313,7 @@ public class EntitiesDefinition : MonoBehaviour
         public int baseDamage;
         public int baseSpeed;
 
-        public int speed; //NOTE - RECOMPUTE THIS BEFORE EVERY TURN TO TRACK TRAITS CHANGING IT
+        public int speed; //NOTE - RECOMPUTE THESE BEFORE EVERY TURN TO TRACK TRAITS CHANGING IT
         public int defense;
         public int damage;
         public int luck;
@@ -369,7 +379,7 @@ public class EntitiesDefinition : MonoBehaviour
 
 
 
-        public void GainStatusEffect (StatusEffect statusEffect, int turns)
+        public void GainStatusEffect(StatusEffect statusEffect, int turns)
         {
             this.currentStatusEffect = statusEffect;
             this.currentStatusEffect.turnsRemaining = turns;
@@ -390,7 +400,7 @@ public class EntitiesDefinition : MonoBehaviour
                     this.currentStatusEffect = new StatusEffect(type, "Wether as an effect of natural biology or magical forces, this being is currently regaining health at an enhanced rate.", duration);
                     break;
                 case "regeneration":
-                    this.currentStatusEffect = new StatusEffect(type, "Wether as an effect of natural biology or magical forces, "+ this.charName +" is currently regenerating at a highly enhanced rate.", duration);
+                    this.currentStatusEffect = new StatusEffect(type, "Wether as an effect of natural biology or magical forces, " + this.charName + " is currently regenerating at a highly enhanced rate.", duration);
                     break;
                 default:
                     break;
@@ -415,13 +425,13 @@ public class EntitiesDefinition : MonoBehaviour
 
         public void DeleteTheVanquished()
         {
-            
-                enemyParty.Remove(allChars.Find(x => x.GetID() == this.charType));
-                allChars.Remove(allChars.Find(x => x.GetID() == this.charType));
-                selfScriptRef.associatedCharacter = null; // this should get the garbage collector to remove it, if nothing else references it
-                selfScriptRef.Die();
-                //Destroy(this);
-            
+
+            enemyParty.Remove(allChars.Find(x => x.GetID() == this.charType));
+            allChars.Remove(allChars.Find(x => x.GetID() == this.charType));
+            selfScriptRef.associatedCharacter = null; // this should get the garbage collector to remove it, if nothing else references it
+            selfScriptRef.Die();
+            //Destroy(this);
+
         }
 
 
@@ -431,7 +441,7 @@ public class EntitiesDefinition : MonoBehaviour
             return charType;
         }
 
-        
+
     }
     //public static T DeepClone<T>(T obj)
     //{

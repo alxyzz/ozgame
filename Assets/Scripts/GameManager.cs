@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
     public EventLogging EventLoggingComponent;
     public UserInterfaceHelper UserInterfaceHelperComponent;
     public CombatHelper CombatHelperComponent;
+    public GameObject backgroundObject;
    
 
     // Start is called before the first frame update
@@ -41,7 +42,7 @@ public class GameManager : MonoBehaviour
         UserInterfaceHelperComponent.GameUI.SetActive(false);
         UserInterfaceHelperComponent.MainMenuBack.SetActive(true); //opens up the main menu
         UserInterfaceHelperComponent.MenuCanvas.SetActive(true);
-        EntityDefComponent.SpawnEnemyTest();
+        //EntityDefComponent.SpawnEnemyTest();
         
 
 
@@ -92,6 +93,7 @@ public class GameManager : MonoBehaviour
         //play new turn sound here
         MainData.turnNumber++;
         Debug.Log("Turn " + MainData.turnNumber.ToString());
+        EventLoggingComponent.LogDanger("Start of turn " + MainData.turnNumber.ToString() + ".");
         ApplyEffectToAll(); //burns, poison, etc
        
         //"Start of turn turnnumber"
