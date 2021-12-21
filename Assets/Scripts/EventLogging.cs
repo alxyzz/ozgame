@@ -26,32 +26,30 @@ public class EventLogging : MonoBehaviour
     }
 
 
-    private void OnMouseOver()
+    private void Update()
     {
         if (Input.GetAxis("Mouse ScrollWheel") > 0f) // forward
-        {
-            if(TMPComponent.pageToDisplay < TMPComponent.textInfo.pageCount)
-            {
-                TMPComponent.pageToDisplay++;
-            }
-        }
-        if (Input.GetAxis("Mouse ScrollWheel") < 0f) // backwards
         {
             if (TMPComponent.pageToDisplay > 1)
             {
                 TMPComponent.pageToDisplay--;
             }
-            
+        }
+        if (Input.GetAxis("Mouse ScrollWheel") < 0f) // backwards
+        {
+
+
+            if (TMPComponent.pageToDisplay < TMPComponent.textInfo.pageCount)
+            {
+                TMPComponent.pageToDisplay++;
+            }
         }
     }
 
 
     private void RefreshTextField()
     {
-        if (TMPComponent.textInfo.characterCount > 833)
-        {
-            TMPComponent.pageToDisplay++;
-        }
+       TMPComponent.pageToDisplay = TMPComponent.textInfo.pageCount;
     }
 
 

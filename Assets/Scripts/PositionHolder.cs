@@ -26,6 +26,14 @@ public class PositionHolder : MonoBehaviour
     public GameObject CampfireSpot3;
     public GameObject CampfireSpot4;
     [Space(15)]
+    public GameObject EnemyCharacterSpot1;
+    public GameObject EnemyCharacterSpot2;
+    public GameObject EnemyCharacterSpot3;
+    public GameObject EnemyCharacterSpot4;
+    public GameObject EnemyCharacterSpot5;
+    public GameObject EnemyCharacterSpot6;
+    public GameObject EnemyCharacterSpot7;
+
 
     public GameObject EnemySpawnBoundaryLeft;//enemies spawn between these
     public GameObject EnemySpawnBoundaryRight;
@@ -39,6 +47,31 @@ public class PositionHolder : MonoBehaviour
 
     MainData.references = this;
     }
+
+
+
+    public void RegisterEnemySpots()
+    {
+        MainData.freeEnemyPartyMemberObjects.Add(EnemyCharacterSpot1);
+        MainData.freeEnemyPartyMemberObjects.Add(EnemyCharacterSpot2);
+        MainData.freeEnemyPartyMemberObjects.Add(EnemyCharacterSpot3);
+        MainData.freeEnemyPartyMemberObjects.Add(EnemyCharacterSpot4);
+        MainData.freeEnemyPartyMemberObjects.Add(EnemyCharacterSpot5);
+        MainData.freeEnemyPartyMemberObjects.Add(EnemyCharacterSpot6);
+        MainData.freeEnemyPartyMemberObjects.Add(EnemyCharacterSpot7);
+    }
+
+
+    public void RegisterPlayerSpots()
+    {
+        MainData.freeEnemyPartyMemberObjects.Add(PartySlot1);
+        MainData.freeEnemyPartyMemberObjects.Add(PartySlot2);
+        MainData.freeEnemyPartyMemberObjects.Add(PartySlot3);
+        MainData.freeEnemyPartyMemberObjects.Add(PartySlot4);
+
+    }
+
+
 
 
 

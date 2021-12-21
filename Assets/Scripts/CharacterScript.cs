@@ -15,20 +15,20 @@ public class CharacterScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+        //spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
         if (associatedCharacter != null)
         {
             associatedCharacter.selfScriptRef = this;
         }
 
-        if (!isEnemyCharacter)
-        {
-            MainData.playerPartyMemberObjects.Add(gameObject);
-        }
-        else
-        {
-            MainData.enemyPartyMemberObjects.Add(gameObject);
-        }
+        //if (!isEnemyCharacter)
+        //{
+        //    MainData.playerPartyMemberObjects.Add(gameObject);
+        //}
+        //else
+        //{
+        //    MainData.enemyPartyMemberObjects.Add(gameObject);
+        //}
     }
 
 
@@ -39,7 +39,11 @@ public class CharacterScript : MonoBehaviour
     {
         associatedCharacter = null;
         spriteRenderer.sprite = null;
-
+        if (isEnemyCharacter)
+        {
+            MainData.freeEnemyPartyMemberObjects.Add(this.gameObject);
+        }
+        gameObject.SetActive(false);
     }
 
     public void SetupCharacterByTemplate(Character template)
@@ -70,12 +74,12 @@ public class CharacterScript : MonoBehaviour
         {
             Debug.Log("Added a new enemy character - " + associatedCharacter.charName);
             spriteRenderer.flipX = true;
-            MainData.enemyParty.Add(associatedCharacter);
+            MainData.livingEnemyParty.Add(associatedCharacter);
         }
         else
         {
             Debug.Log("Added a new player character - " + associatedCharacter.charName);
-            MainData.playerParty.Add(associatedCharacter);
+            MainData.livingPlayerParty.Add(associatedCharacter);
         }
         MainData.allChars.Add(associatedCharacter);
     }

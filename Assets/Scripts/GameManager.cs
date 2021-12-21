@@ -31,6 +31,8 @@ public class GameManager : MonoBehaviour
         //call things from here from now on
         //StartLoading(); //blacks screen out
         EventLoggingComponent.TMPComponent.text = "";
+        PositionHolderComponent.RegisterEnemySpots();
+        PositionHolderComponent.RegisterPlayerSpots();
         LevelHelperComponent.GenerateLevels(); //set up templates
         EntityDefComponent.DefineTraits();
         EntityDefComponent.DefinePC(); //set up characters
@@ -97,7 +99,7 @@ public class GameManager : MonoBehaviour
         ApplyEffectToAll(); //burns, poison, etc
        
         //"Start of turn turnnumber"
-        if (MainData.enemyParty.Count > 0) //if there's no enemy there's no need to fight
+        if (MainData.livingEnemyParty.Count > 0) //if there's no enemy there's no need to fight
         {
             
             CombatHelperComponent.InitiateCombatTurn();
@@ -106,10 +108,10 @@ public class GameManager : MonoBehaviour
         else
         {
             MainData.turnNumber = 0;
-            Debug.Log("All enemies have been vanquished.");
-            Debug.Log("Spawning new enemies.");
+
+            EventLoggingComponent.Log("All enemies have been vanquished.");
             //PurgeStatusEffects();
-            EntityDefComponent.SpawnEnemyTest();
+
             //Highlight Map button
         }
     }

@@ -26,6 +26,7 @@ public class EntitiesDefinition : MonoBehaviour
     public Sprite HealingMushroomSprite;
     [Space(10)]
     public GameObject EnemyPrefab;
+    
 
     /// <summary>
     /// A function to define a new being, allied or enemy, and add it into the dictionary based on the characterID string.
@@ -169,25 +170,31 @@ public class EntitiesDefinition : MonoBehaviour
     }
 
     public void SpawnEnemyTest()
-    {//creates new enemies between the two boundaries
+    {//creates new enemies using a random, free, enemy spot. that's up to 7 enemies currently but just copy and arrange more if desired...
 
-        GameObject leftborder = MainData.MainLoop.PositionHolderComponent.EnemySpawnBoundaryLeft;
-        GameObject rightborder = MainData.MainLoop.PositionHolderComponent.EnemySpawnBoundaryRight;
+        // GameObject leftborder = MainData.MainLoop.PositionHolderComponent.EnemySpawnBoundaryLeft;
+        // GameObject rightborder = MainData.MainLoop.PositionHolderComponent.EnemySpawnBoundaryRight;
 
-        GameObject b = Instantiate(EnemyPrefab, new Vector3(UnityEngine.Random.Range(leftborder.transform.position.x, rightborder.transform.position.x),
-            rightborder.transform.position.y, 0), Quaternion.identity, MainData.MainLoop.backgroundObject.transform);
+        // GameObject b = Instantiate(EnemyPrefab, new Vector3(UnityEngine.Random.Range(leftborder.transform.position.x, rightborder.transform.position.x),
+        //  rightborder.transform.position.y, 0), Quaternion.identity, MainData.MainLoop.backgroundObject.transform);
 
-        MainData.enemyPartyMemberObjects.Add(b);
-
-        b.transform.position = new Vector3();
-
-        CharacterScript d = b.GetComponent<CharacterScript>();
-
-        d.SetupCharacterByTemplate(MainData.characterTypes["evilcrow"]);
-
-        // StartCoroutine(MainData.MainLoop.CombatHelperComponent.AttackRandomEnemy(slotref));
-
-        MainData.MainLoop.EventLoggingComponent.LogGray("Some enemies have arrived.");
+        //get random unused object
+        if (freeEnemyPartyMemberObjects.Count == 0)
+        {
+            MainData.MainLoop.EventLoggingComponent.LogGray("Tried spawning, no more spots...");
+            return;
+        }
+        int x = UnityEngine.Random.Range(0, freeEnemyPartyMemberObjects.Count);
+        MainData.MainLoop.EventLoggingComponent.LogDanger("Spawned enemy using spot at freeEnemyPartyMemberObjects[" + x.ToString() + "].");
+        GameObject b = freeEnemyPartyMemberObjects[x]; //we get a random, inactive enemy spot
+        freeEnemyPartyMemberObjects.RemoveAt(x);
+        usedEnemyPartyMemberObjects.Add(b); //tracks usage
+        //freeEnemyPartyMemberObjects.Remove(b);//officialy live
+        b.SetActive(true);//we turn it on
+        CharacterScript d = b.GetComponent<CharacterScript>();//get the Cscript reference
+        d.SetupCharacterByTemplate(MainData.characterTypes["evilcrow"]); //assign an enemy template
+        MainData.livingEnemyParty.Add(d.associatedCharacter);//add it to the living list
+        MainData.MainLoop.EventLoggingComponent.LogGray("Spontaneous interdimensional emergence of malevolent entity detected.");
     }
 
 
@@ -215,7 +222,7 @@ public class EntitiesDefinition : MonoBehaviour
         slot2ref.SetupCharacterByTemplate(MainData.characterTypes["tin_man"]);
         slot3ref.SetupCharacterByTemplate(MainData.characterTypes["lion"]);
         slot4ref.SetupCharacterByTemplate(MainData.characterTypes["dorothy"]);
-        foreach (Character item in MainData.playerParty)
+        foreach (Character item in MainData.livingPlayerParty)
         {
             item.RecalculateThreatFromStats();
         }
@@ -410,30 +417,40 @@ public class EntitiesDefinition : MonoBehaviour
 
         public void gotKilled(Character killer = null)
         {
-            //GameLog(killed.charName + "has been vanquished!");
+            if (killer != null)
+            {
+                MainData.MainLoop.EventLoggingComponent.Log(this.charName + " has been vanquished by " + killer.charName + ".");
+            }
+            else
+            {
+                MainData.MainLoop.EventLoggingComponent.Log(this.charName + " was killed in action.");
+            }
+            
             //if (isPlayerPartyMember)
             //{
             //    playerParty.Remove(allChars.Find(x => x.GetID() == this.charType));
             //}
             canAct = false;
-            MainData.casualties.Add(this);
-            selfScriptRef.Die();
+            DealWithLists();
 
-            Destroy(this);
+            selfScriptRef.Die();
         }
 
-
-        public void DeleteTheVanquished()
+        private void DealWithLists()
         {
-
-            enemyParty.Remove(allChars.Find(x => x.GetID() == this.charType));
-            allChars.Remove(allChars.Find(x => x.GetID() == this.charType));
-            selfScriptRef.associatedCharacter = null; // this should get the garbage collector to remove it, if nothing else references it
-            selfScriptRef.Die();
-            //Destroy(this);
-
+            allChars.Remove(this);
+            if (isPlayerPartyMember)
+            {
+                livingPlayerParty.Remove(this);
+                deadPlayerParty.Add(this);
+            }
+            else
+            {
+                livingEnemyParty.Remove(this);
+                deadEnemyParty.Add(this);
+            }
+            
         }
-
 
 
         public string GetID()
