@@ -64,10 +64,10 @@ public class PositionHolder : MonoBehaviour
 
     public void RegisterPlayerSpots()
     {
-        MainData.freeEnemyPartyMemberObjects.Add(PartySlot1);
-        MainData.freeEnemyPartyMemberObjects.Add(PartySlot2);
-        MainData.freeEnemyPartyMemberObjects.Add(PartySlot3);
-        MainData.freeEnemyPartyMemberObjects.Add(PartySlot4);
+        MainData.playerPartyMemberObjects.Add(PartySlot1);
+        MainData.playerPartyMemberObjects.Add(PartySlot2);
+        MainData.playerPartyMemberObjects.Add(PartySlot3);
+        MainData.playerPartyMemberObjects.Add(PartySlot4);
 
     }
 

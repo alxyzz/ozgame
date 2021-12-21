@@ -104,7 +104,7 @@ public class UserInterfaceHelper : MonoBehaviour
         SettingsCanvas.SetActive(true);
 
     }
-    
+
 
 
     public void ClickSettingsBack()
@@ -128,7 +128,7 @@ public class UserInterfaceHelper : MonoBehaviour
             MainData.MainLoop.BackgroundParallaxObject.ParallaxSetting = true;
             SettingsParallaxButton.GetComponentInChildren<TextMeshProUGUI>().text = "Parallax - On";
         }
-        
+
 
 
     }
@@ -184,7 +184,7 @@ public class UserInterfaceHelper : MonoBehaviour
         Debug.Log("CLICKED OVERMAP-open BUTTON.");
         MainData.SoundManagerRef.PlayClickSound();
     }
-  
+
 
     //NOTE - combat buttons are handled in CombatHelper.cs
 
@@ -195,7 +195,7 @@ public class UserInterfaceHelper : MonoBehaviour
         float transparency = 0f;
         while (transparency <= 100f)//quickly fade the loading stuff into view
         {
-            transparency += transparencyIncrement/100;
+            transparency += transparencyIncrement / 100;
             Vector4 b = new Vector4(0, 0, 0, transparency);
             darkText.GetComponent<Image>().color = b;
             yield return new WaitForSecondsRealtime(travelMicroDelay);

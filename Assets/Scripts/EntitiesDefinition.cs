@@ -184,6 +184,13 @@ public class EntitiesDefinition : MonoBehaviour
             MainData.MainLoop.EventLoggingComponent.LogGray("Tried spawning, no more spots...");
             return;
         }
+        string bo = "";
+        foreach (GameObject item in freeEnemyPartyMemberObjects)
+        {
+            bo += item.name + "\n";
+
+        }
+        Debug.LogWarning(bo);
         int x = UnityEngine.Random.Range(0, freeEnemyPartyMemberObjects.Count);
         MainData.MainLoop.EventLoggingComponent.LogDanger("Spawned enemy using spot at freeEnemyPartyMemberObjects[" + x.ToString() + "].");
         GameObject b = freeEnemyPartyMemberObjects[x]; //we get a random, inactive enemy spot
