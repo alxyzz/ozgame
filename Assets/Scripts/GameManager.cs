@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
 {
     public UIParallax BackgroundParallaxObject;
     public bool gameStarted = false;
+    public bool inCombat = false;
     public LayerMask IgnoreMe;
     public EntitiesDefinition EntityDefComponent;
     public LevelHelper LevelHelperComponent;
@@ -89,31 +90,45 @@ public class GameManager : MonoBehaviour
     }
 
 
-    public void PassTurn()
+
+
+    public void StartCombat()
     {
 
-        //play new turn sound here
-        MainData.turnNumber++;
-        Debug.Log("Turn " + MainData.turnNumber.ToString());
-        EventLoggingComponent.LogDanger("Start of turn " + MainData.turnNumber.ToString() + ".");
-        ApplyEffectToAll(); //burns, poison, etc
-       
-        //"Start of turn turnnumber"
-        if (MainData.livingEnemyParty.Count > 0) //if there's no enemy there's no need to fight
-        {
-            
-            CombatHelperComponent.InitiateCombatTurn();
+    }
 
+    public void PassTurn()
+    {
+        if (CombatHelperComponent.allHaveActed)
+        {
+            //play new turn sound here
+            MainData.turnNumber++;
+            Debug.Log("Turn " + MainData.turnNumber.ToString());
+            EventLoggingComponent.LogDanger("Start of turn " + MainData.turnNumber.ToString() + ".");
+            ApplyEffectToAll(); //burns, poison, etc
+
+            //"Start of turn turnnumber"
+            if (MainData.livingEnemyParty.Count > 0) //if there's no enemy there's no need to fight
+            {
+
+                CombatHelperComponent.InitiateCombatTurn();
+
+            }
+            else
+            {
+                MainData.turnNumber = 0;
+
+                EventLoggingComponent.Log("All enemies have been vanquished.");
+                //PurgeStatusEffects();
+
+                //Highlight Map button
+            }
         }
         else
         {
-            MainData.turnNumber = 0;
-
-            EventLoggingComponent.Log("All enemies have been vanquished.");
-            //PurgeStatusEffects();
-
-            //Highlight Map button
+            EventLoggingComponent.LogGray("Cannot pass the turn; Some characters still have to move.");
         }
+        
     }
 
 

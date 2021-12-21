@@ -14,20 +14,22 @@ public class CombatHelper : MonoBehaviour
     [Space(15)]
     public float closenessMargin;
     public float activationMovingSpeed;
+    public float delayBetweenMovement;
+    [Space(15)]
+    private Vector3 InitialActiveCharacterPositionCoordinates;//initial coordinates of character, to be moved back to after their action.
+    public GameObject ActiveCharSpot; //where the character that is attacking will move.
+    [Space(15)]
+    private bool DoneWithThisTurn = false; // this is so the foreach loop waits for the player, or AI, to finish a singular miniturn in combat.
+    private bool someoneIsMoving; //so we don't get people clicking two characters quickly and bugging stuff out
+    public bool allHaveActed = true;
+
+
+
+
     [HideInInspector]
     public CharacterScript CurrentlyActiveChar; //each enemy on the level is composed of the game object, holding the script, associated with a Character instance that holds stats, names, descriptions etc
     [HideInInspector]
     public CharacterScript activeTarget; //player's target
-
-    private Vector3 InitialActiveCharacterPositionCoordinates;//initial coordinates of character, to be moved back to after their action.
-    public GameObject ActiveCharSpot; //where the character that is attacking will move.
-    private bool DoneWithThisTurn = false; // this is so the foreach loop waits for the player, or AI, to finish a singular miniturn in combat.
-    private bool someoneIsMoving; //so we don't get people clicking two characters quickly and bugging stuff out
-    public float delayBetweenMovement;
-
-
-
-
 
     public void DisplayFloatingDamageNumbers(int damage, Character target)
     {
@@ -64,10 +66,12 @@ public class CombatHelper : MonoBehaviour
 
     IEnumerator DoPatientCombatRound(List<Character> combatants)
     {//it waits for the current round to end, before it gives the next combatant the opportunity to fight.
+        Debug.LogWarning("Now doing combat turn. Patiently.");
         foreach (Character item in combatants)//
         {/// we go through each fighter, from the fastest to the slowest
             if (item.CheckIfCanAct())
             {
+                Debug.LogWarning("Turn of - " + item.selfScriptRef.name);
                 //MainData.MainLoop.SoundManagerComponent.sfxSource.PlayOneShot(item.turnSound); //plays the character specific noise/vocalization
                 ///we do what is to be done
                 MoveToActiveSpot(item.selfScriptRef);
@@ -236,7 +240,7 @@ public class CombatHelper : MonoBehaviour
     {
         if (CurrentlyActiveChar != null)
         {
-
+            Debug.LogWarning("Could not move "+ chara.gameObject.name+", CurrentlyActiveChar is not null");
         }
 
         Debug.Log("MOVING " + chara.associatedCharacter.charName + " TO ACTIVE SPOT");
@@ -244,10 +248,9 @@ public class CombatHelper : MonoBehaviour
         InitialActiveCharacterPositionCoordinates = chara.transform.position;
         //chara.transform.position = ActiveCharSpot.transform.position; //replace this with the sliding thing
        
-        if (!someoneIsMoving)
-        {
+        
             StartCoroutine(SlideTo(chara, ActiveCharSpot.transform.position, activationMovingSpeed));
-        }
+        
         CurrentlyActiveChar = chara;
 
 
@@ -277,7 +280,7 @@ public class CombatHelper : MonoBehaviour
 
 
     public IEnumerator SlideTo(CharacterScript Chara, Vector3 Destination, float speed)
-    {
+    {//currently just moves you there for simplicity sake, later will make this animate the moving character and lerp/movetoward him there
         //yield return new WaitUntil(() => someoneIsMoving == false);
         //someoneIsMoving = true;
         while (Vector3.Distance(Chara.transform.position, Destination) > closenessMargin)
@@ -303,11 +306,7 @@ public class CombatHelper : MonoBehaviour
         //if (!someoneIsMoving)
         //{
         //    someoneIsMoving = true;
-
-
-
         StartCoroutine(SlideTo(CurrentlyActiveChar, InitialActiveCharacterPositionCoordinates, activationMovingSpeed));
-
        // CurrentlyActiveChar.transform.position = InitialActiveCharacterPositionCoordinates;
 
 

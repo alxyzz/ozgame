@@ -202,6 +202,10 @@ public class EntitiesDefinition : MonoBehaviour
         d.SetupCharacterByTemplate(MainData.characterTypes["evilcrow"]); //assign an enemy template
         MainData.livingEnemyParty.Add(d.associatedCharacter);//add it to the living list
         MainData.MainLoop.EventLoggingComponent.LogGray("Spontaneous interdimensional emergence of malevolent entity detected.");
+        if (!MainData.MainLoop.inCombat)
+        {
+            MainData.MainLoop.StartCombat();
+        }
     }
 
 
@@ -384,7 +388,7 @@ public class EntitiesDefinition : MonoBehaviour
         public void TakeDamage(int dmg)
         { //generic take damage function
             currentHealth -= dmg;
-            MainData.MainLoop.GameLog(this.charName + " the " + charTrait.name + " is hurt " + "for " + dmg + " damage!");
+            MainData.MainLoop.EventLoggingComponent.Log(this.charName + " the " + charTrait.name + " is hurt " + "for " + dmg + " damage!");
             if (currentHealth <= 0)
             {
                 gotKilled();

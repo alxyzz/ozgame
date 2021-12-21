@@ -2492,7 +2492,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.2627451}
+  m_Color: {r: 0.46226418, g: 0.46226418, b: 0.46226418, a: 0.2627451}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -4417,10 +4417,11 @@ MonoBehaviour:
   textOffset: 4
   closenessMargin: 0.01
   activationMovingSpeed: 5
+  delayBetweenMovement: 0.005
+  ActiveCharSpot: {fileID: 1793912922}
+  allHaveActed: 1
   CurrentlyActiveChar: {fileID: 0}
   activeTarget: {fileID: 0}
-  ActiveCharSpot: {fileID: 1793912922}
-  delayBetweenMovement: 0.005
 --- !u!114 &462129125
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4456,6 +4457,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BackgroundParallaxObject: {fileID: 1948080262}
   gameStarted: 0
+  inCombat: 0
   IgnoreMe:
     serializedVersion: 2
     m_Bits: 256
@@ -10627,7 +10629,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1440179865
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10836,7 +10838,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1478940781
 RectTransform:
   m_ObjectHideFlags: 0
@@ -13708,7 +13710,7 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-    m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 1, g: 0.9757012, b: 0.4669811, a: 1}
     m_PressedColor: {r: 0.96234095, g: 1, b: 0.8443396, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
