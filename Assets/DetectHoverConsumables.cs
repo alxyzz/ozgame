@@ -8,10 +8,6 @@ public class DetectHoverConsumables : MonoBehaviour/*, IPointerEnterHandler, IPo
     public PopUpWhenMouseNearby popupScriptRef;
     public RectTransform imgRectTransform;
 
-
-    bool mouse_over = false;
-
-
     private void Update()
     {
         Vector2 localMousePosition = imgRectTransform.InverseTransformPoint(Input.mousePosition);
