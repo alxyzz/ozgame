@@ -86,12 +86,12 @@ public class CombatHelper : MonoBehaviour
             }
             
         }
-        foreach (Character item in MainData.casualties)
-        {
-            item.DeleteTheVanquished(); //deletes the vanquished and unreferences them from objects, coz we don't mess with a collection during the foreach loop
-            MainData.casualties.Clear();
-            Debug.Log("Deleted corpse of character - " + item.charName + ".");
-        }
+        //foreach (Character item in MainData.casualties)
+        //{
+        //    item.DeleteTheVanquished(); //deletes the vanquished and unreferences them from objects, coz we don't mess with a collection during the foreach loop
+        //    //MainData.de.Clear(); no, we will pool the dead
+        //    Debug.Log("Deleted corpse of character - " + item.charName + ".");
+        //}
         Debug.Log("Finished a combat round.");
         MainData.MainLoop.PassTurn();
     }
@@ -184,7 +184,7 @@ public class CombatHelper : MonoBehaviour
             {
                 toAnimate.transform.position = Vector3.Lerp(toAnimate.transform.position, final, 0.5f * Time.deltaTime);
             }
-            Character poorFool = MainData.playerParty[Random.Range(0, MainData.playerParty.Count + 1)];
+            Character poorFool = MainData.livingPlayerParty[Random.Range(0, MainData.livingPlayerParty.Count + 1)];
 
             yield return new WaitForSecondsRealtime(0.3f);
             while (Vector3.Distance(toAnimate.transform.position, Initial) > 0.05f)
@@ -341,8 +341,8 @@ public class CombatHelper : MonoBehaviour
     public IEnumerator AttackRandomEnemy(CharacterScript chara)
     {
         MoveToActiveSpot(chara);
-        int b = Random.Range(0, MainData.playerParty.Count);
-        Character Fool = MainData.playerParty[b];
+        int b = Random.Range(0, MainData.livingPlayerParty.Count);
+        Character Fool = MainData.livingPlayerParty[b];
         Debug.Log("attacking player at playerParty[" + b.ToString() + "]!");
         Character currentChar = CurrentlyActiveChar.associatedCharacter;
         Debug.Log(currentChar.charName + " has attacked " + Fool.charName + " for " + currentChar.damage + " damage.");
