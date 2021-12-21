@@ -170,7 +170,7 @@ public class EntitiesDefinition : MonoBehaviour
     }
 
     public void SpawnEnemyTest()
-    {//creates new enemies between the two boundaries
+    {//creates new enemies using a random, free, enemy spot. that's up to 7 enemies currently but just copy and arrange more if desired...
 
         // GameObject leftborder = MainData.MainLoop.PositionHolderComponent.EnemySpawnBoundaryLeft;
         // GameObject rightborder = MainData.MainLoop.PositionHolderComponent.EnemySpawnBoundaryRight;
@@ -181,16 +181,17 @@ public class EntitiesDefinition : MonoBehaviour
         //get random unused object
         if (freeEnemyPartyMemberObjects.Count == 0)
         {
-            MainData.MainLoop.EventLoggingComponent.LogGray("Spontaneous interdimensional emergence attempt detected.");
+            MainData.MainLoop.EventLoggingComponent.LogGray("Tried spawning, no more spots...");
             return;
         }
-        GameObject b = freeEnemyPartyMemberObjects[UnityEngine.Random.Range(0, freeEnemyPartyMemberObjects.Count)]; //we get a random, inactive enemy spot
-
-
+        int x = UnityEngine.Random.Range(0, freeEnemyPartyMemberObjects.Count);
+        MainData.MainLoop.EventLoggingComponent.LogDanger("Spawned enemy using spot at freeEnemyPartyMemberObjects[" + x.ToString() + "].");
+        GameObject b = freeEnemyPartyMemberObjects[x]; //we get a random, inactive enemy spot
+        freeEnemyPartyMemberObjects.RemoveAt(x);
+        usedEnemyPartyMemberObjects.Add(b); //tracks usage
+        //freeEnemyPartyMemberObjects.Remove(b);//officialy live
         b.SetActive(true);//we turn it on
-        freeEnemyPartyMemberObjects.Remove(b);//officialy live
         CharacterScript d = b.GetComponent<CharacterScript>();//get the Cscript reference
-        
         d.SetupCharacterByTemplate(MainData.characterTypes["evilcrow"]); //assign an enemy template
         MainData.livingEnemyParty.Add(d.associatedCharacter);//add it to the living list
         MainData.MainLoop.EventLoggingComponent.LogGray("Spontaneous interdimensional emergence of malevolent entity detected.");

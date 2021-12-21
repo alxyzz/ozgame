@@ -15,7 +15,7 @@ public class CharacterScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+        //spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
         if (associatedCharacter != null)
         {
             associatedCharacter.selfScriptRef = this;
