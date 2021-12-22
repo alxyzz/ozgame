@@ -99,6 +99,7 @@ public class GameManager : MonoBehaviour
 
     public void PassTurn()
     {
+
         if (CombatHelperComponent.allHaveActed)
         {
             //play new turn sound here
@@ -107,10 +108,9 @@ public class GameManager : MonoBehaviour
             EventLoggingComponent.LogDanger("Start of turn " + MainData.turnNumber.ToString() + ".");
             ApplyEffectToAll(); //burns, poison, etc
 
-            //"Start of turn turnnumber"
             if (MainData.livingEnemyParty.Count > 0) //if there's no enemy there's no need to fight
             {
-
+                inCombat = true;
                 CombatHelperComponent.InitiateCombatTurn();
 
             }
@@ -119,6 +119,7 @@ public class GameManager : MonoBehaviour
                 MainData.turnNumber = 0;
 
                 EventLoggingComponent.Log("All enemies have been vanquished.");
+                inCombat = false;
                 //PurgeStatusEffects();
 
                 //Highlight Map button
@@ -126,7 +127,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            EventLoggingComponent.LogGray("Cannot pass the turn; Some characters still have to move.");
+            EventLoggingComponent.Log("Cannot pass the turn; Some characters still have to move.");
         }
         
     }

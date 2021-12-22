@@ -160,7 +160,7 @@ public class EntitiesDefinition : MonoBehaviour
                        false, //is it a player character(true), or is it an enemy(false)?
                        100, //the base HP value
                        25, // the base damage value
-                       100, //base speed, higher is better
+                       5, //base speed, higher is better
                        1, //defense
                        2, //luck
                        100, //mana
@@ -190,7 +190,7 @@ public class EntitiesDefinition : MonoBehaviour
         //    bo += item.name + "\n";
 
         //}
-        //Debug.LogWarning(bo);
+
         int x = UnityEngine.Random.Range(0, freeEnemyPartyMemberObjects.Count);
         MainData.MainLoop.EventLoggingComponent.LogDanger("Spawned enemy using spot at freeEnemyPartyMemberObjects[" + x.ToString() + "].");
         GameObject b = freeEnemyPartyMemberObjects[x]; //we get a random, inactive enemy spot
@@ -207,6 +207,16 @@ public class EntitiesDefinition : MonoBehaviour
             MainData.MainLoop.StartCombat();
         }
     }
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -372,10 +382,7 @@ public class EntitiesDefinition : MonoBehaviour
         }
         public void TakeDamageFromCharacter(Character attacker)
         {
-
-            Debug.Log(attacker.charName + attacker.attackverb + " the " + charName + " for " + attacker.damage + " damage");
-
-            MainData.MainLoop.EventLoggingComponent.Log(attacker.charName + attacker.attackverb + " the " + charName + " for " + attacker.damage + " damage");
+            MainData.MainLoop.EventLoggingComponent.Log(attacker.charName + " "+attacker.attackverb + " the " + charName + " for " + attacker.damage + " damage");
 
             currentHealth -= (attacker.damage - defense); //INCORPORATE ARMOR CALCULATION HERE 
             attacker.Threat += (attacker.damage - defense);
