@@ -116,20 +116,30 @@ public class MapIconScript : MonoBehaviour
 
     public MapLevel LevelFromTemplate(MapLevel p)
     {
-        MapLevel johnnyLevel = new MapLevel(p.levelName, p.levelBlurb, p.levelDescription, p.roomCount, p.EnemyType, p.startingDifficulty, p.difficultyIncreasePerRoom, p.levelBackgroundMaterial, p.levelSoundtrack, p.isCampfire);
+        MapLevel JohnTheLevel = new MapLevel(p.levelName,
+                                             p.levelBlurb,
+                                             p.levelDescription,
+                                             p.roomCount,
+                                             p.EnemyType,
+                                             p.startingDifficulty,
+                                             p.difficultyIncreasePerRoom,
+                                             p.levelBackgroundMaterial,
+                                             p.levelSoundtrack,
+                                             p.isCampfire,
+                                             p.Encounters);
         if (p.localMerchant != null)
         {
-            johnnyLevel.localMerchant = p.localMerchant;
+            JohnTheLevel.localMerchant = p.localMerchant;
         }
         else
         {
             Merchant newmerc = new Merchant();
-            johnnyLevel.localMerchant = newmerc;
-            johnnyLevel.localMerchant.GenerateStock();
+            JohnTheLevel.localMerchant = newmerc;
+            JohnTheLevel.localMerchant.GenerateStock();
 
         }
 
-        return johnnyLevel;
+        return JohnTheLevel;
     }
 
     private void FindClosestAbove()

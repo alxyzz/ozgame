@@ -160,7 +160,7 @@ public class EntitiesDefinition : MonoBehaviour
                        false, //is it a player character(true), or is it an enemy(false)?
                        100, //the base HP value
                        25, // the base damage value
-                       100, //base speed, higher is better
+                       5, //base speed, higher is better
                        1, //defense
                        2, //luck
                        100, //mana
@@ -190,7 +190,7 @@ public class EntitiesDefinition : MonoBehaviour
         //    bo += item.name + "\n";
 
         //}
-        //Debug.LogWarning(bo);
+
         int x = UnityEngine.Random.Range(0, freeEnemyPartyMemberObjects.Count);
         MainData.MainLoop.EventLoggingComponent.LogDanger("Spawned enemy using spot at freeEnemyPartyMemberObjects[" + x.ToString() + "].");
         GameObject b = freeEnemyPartyMemberObjects[x]; //we get a random, inactive enemy spot
@@ -202,7 +202,21 @@ public class EntitiesDefinition : MonoBehaviour
         d.SetupCharacterByTemplate(MainData.characterTypes["evilcrow"]); //assign an enemy template
         MainData.livingEnemyParty.Add(d.associatedCharacter);//add it to the living list
         MainData.MainLoop.EventLoggingComponent.LogGray("Spontaneous interdimensional emergence of malevolent entity detected.");
+        if (!MainData.MainLoop.inCombat)
+        {
+            MainData.MainLoop.StartCombat();
+        }
     }
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -368,10 +382,7 @@ public class EntitiesDefinition : MonoBehaviour
         }
         public void TakeDamageFromCharacter(Character attacker)
         {
-
-            Debug.Log(attacker.charName + attacker.attackverb + " the " + charName + " for " + attacker.damage + " damage");
-
-            MainData.MainLoop.EventLoggingComponent.Log(attacker.charName + attacker.attackverb + " the " + charName + " for " + attacker.damage + " damage");
+            MainData.MainLoop.EventLoggingComponent.Log(attacker.charName + " "+attacker.attackverb + " the " + charName + " for " + attacker.damage + " damage");
 
             currentHealth -= (attacker.damage - defense); //INCORPORATE ARMOR CALCULATION HERE 
             attacker.Threat += (attacker.damage - defense);
@@ -384,7 +395,7 @@ public class EntitiesDefinition : MonoBehaviour
         public void TakeDamage(int dmg)
         { //generic take damage function
             currentHealth -= dmg;
-            MainData.MainLoop.GameLog(this.charName + " the " + charTrait.name + " is hurt " + "for " + dmg + " damage!");
+            MainData.MainLoop.EventLoggingComponent.Log(this.charName + " the " + charTrait.name + " is hurt " + "for " + dmg + " damage!");
             if (currentHealth <= 0)
             {
                 gotKilled();

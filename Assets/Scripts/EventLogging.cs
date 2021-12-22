@@ -16,7 +16,7 @@ public class EventLogging : MonoBehaviour
 
     public void LogDanger(string log)
     {
-        TMPComponent.text += "<color=#880808>" + log + "</color>\n";
+        TMPComponent.text += "<color=#ff7575>" + log + "</color>\n";
         RefreshTextField();
     }
     public void LogGray(string log)

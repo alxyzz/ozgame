@@ -72,13 +72,13 @@ public class CharacterScript : MonoBehaviour
         spriteRenderer.sprite = associatedCharacter.charSprite;
         if (isEnemyCharacter)
         {
-            Debug.Log("Added a new enemy character - " + associatedCharacter.charName);
+           // Debug.Log("Added a new enemy character - " + associatedCharacter.charName);
             spriteRenderer.flipX = true;
             MainData.livingEnemyParty.Add(associatedCharacter);
         }
         else
         {
-            Debug.Log("Added a new player character - " + associatedCharacter.charName);
+           // Debug.Log("Added a new player character - " + associatedCharacter.charName);
             MainData.livingPlayerParty.Add(associatedCharacter);
         }
         MainData.allChars.Add(associatedCharacter);
@@ -110,24 +110,6 @@ public class CharacterScript : MonoBehaviour
             }
 
         }
-        //else if (MainData.MainLoop.CombatHelperComponent.CurrentlyActiveChar == null)
-        //{//if there is no active char and we click an allied char, it becomes the active char
-            
-        //    MainData.MainLoop.CombatHelperComponent.MoveToActiveSpot(this); 
-        //}
-        //else if (MainData.MainLoop.CombatHelperComponent.CurrentlyActiveChar == this)
-        //{//if we are clicking the active char, it goes back.
-        //    MainData.MainLoop.CombatHelperComponent.ReturnFromActiveSpot();
-        //}
-        //else
-        //{
-        //    //if it gets here it means another character is currently active.
-        //    //make failure sound.
-        //}
-
-        
-
-
         MainData.MainLoop.CombatHelperComponent.HighlightCheck();
     }
 

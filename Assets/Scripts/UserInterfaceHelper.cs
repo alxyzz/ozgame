@@ -147,7 +147,15 @@ public class UserInterfaceHelper : MonoBehaviour
 
     public void ClickPassTurn()
     {
-        MainData.MainLoop.PassTurn();
+        if (MainData.MainLoop.CombatHelperComponent.allHaveActed)
+        {
+            MainData.MainLoop.PassTurn();
+        }
+        else
+        {
+            MainData.MainLoop.EventLoggingComponent.Log("Current turn not finished.");
+        }
+        
         //add a click sound here
 
 
