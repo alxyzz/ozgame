@@ -44,8 +44,13 @@ public class MenuHandler : MonoBehaviour
             if (playCutscene)
             {
                 var tempColor = Fade.GetComponent<Image>().color;
-                tempColor.a = fracOfJourney * 60;
+                tempColor.a = (fracOfJourney * 30);
+                Debug.Log(fracOfJourney);
                 Fade.GetComponent<Image>().color = tempColor;
+                if (fracOfJourney >= .04f)
+                {
+                    SceneManager.LoadScene("SampleScene", LoadSceneMode.Single);
+                }
             }
         }
 
@@ -59,7 +64,7 @@ public class MenuHandler : MonoBehaviour
         start = camHolder.transform;
         startTime = Time.time;
         journeyLength = Vector3.Distance(start.position, end[camSpot].position);
-        speed = 0.3f;
+        speed = 0.2f;
     }
 
     public void showHandbook()
@@ -70,7 +75,7 @@ public class MenuHandler : MonoBehaviour
         start = camHolder.transform;
         startTime = Time.time;
         journeyLength = Vector3.Distance(start.position, end[camSpot].position);
-        speed = 0.3f;
+        speed = 0.2f;
     }
 
     public void LoadGame()
@@ -81,11 +86,10 @@ public class MenuHandler : MonoBehaviour
         start = camHolder.transform;
         startTime = Time.time;
         journeyLength = Vector3.Distance(start.position, end[camSpot].position);
-        speed = 0.02f;
+        speed = 0.04f;
         Fade.SetActive(true);
         playCutscene = true;
         anim.GetComponent<Animation>().Play();
-        //SceneManager.LoadScene("SampleScene", LoadSceneMode.Single);
     }
 }
 
