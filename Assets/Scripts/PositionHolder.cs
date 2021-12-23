@@ -7,7 +7,9 @@ public class PositionHolder : MonoBehaviour
 
 
     //public GameObject ParentObjectForParties;
-    [Space(5)]
+    
+
+    [Space(15)]
     // public GameObject 
     public GameObject PartySlot1;
     public GameObject PartySlot2;

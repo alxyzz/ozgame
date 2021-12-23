@@ -40,7 +40,7 @@ public class MapIconScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     //void Randomize()
@@ -57,8 +57,8 @@ public class MapIconScript : MonoBehaviour
     //        relatedMapLevel = mappyTheLevel;
     //        throw;
     //    }
-        
-       
+
+
     //    //this must: grab a template from the list, apply it
     //    //randomize name, enemy amount, get description based on that
 
@@ -153,7 +153,7 @@ public class MapIconScript : MonoBehaviour
                 {
                     StartCoroutine(delayLoading(item));
                 }
-                
+
             }
         }
     }

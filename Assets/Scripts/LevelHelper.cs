@@ -17,15 +17,40 @@ public class LevelHelper : MonoBehaviour
     public AudioClip mushroomForestSoundTrack;
 
 
+    public List<BackgroundLayerMovementParallax> parallaxLayers = new List<BackgroundLayerMovementParallax>(); //all background parallax object scripts are stored here. If you have any issue drag and dropping the script itself, remember you can open up two inspector tabs :)
+
+
+
 
 
     [Space(15)]//movement inside the local map stuff
     private float distanceWalked;//shows how much we've physically advanced in the current level
     public float maximumDistance; //maximum distance before the level fades to black and you go on the overmap
 
-    // 
+    //MOVEMENT IN A LEVEL
+    public void MoveBackwards()
+    {
+        foreach (BackgroundLayerMovementParallax item in parallaxLayers)
+        {
+            item.ChangeDirection(false);
+        }
+    }
 
+    public void MoveForwards()
+    {
+        foreach (BackgroundLayerMovementParallax item in parallaxLayers)
+        {
+            item.ChangeDirection(true);
+        }
+    }
 
+    public void MoveStop()
+    {
+        foreach (BackgroundLayerMovementParallax item in parallaxLayers)
+        {
+            item.ChangeDirection(null);
+        }
+    }
 
 
 
