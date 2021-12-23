@@ -105,7 +105,7 @@ public class EntitiesDefinition : MonoBehaviour
         MakeTemplateMob("tin_man",
                        "Tin Man",
                        "Lacks a heart and will do anything to get it.",
-                       "rends", //verb used when attacking
+                       "chops", //verb used when attacking
                        true, //is it a player character(true), or is it an enemy(false)?
                        100, //the base HP value
                        25, // the base damage value
@@ -118,7 +118,7 @@ public class EntitiesDefinition : MonoBehaviour
                        null); //character's avatar sprite
 
         MakeTemplateMob("lion",
-                       "Lion",
+                       "slashes",
                        "His lack of courage is apparent.",
                        "rends", //verb used when attacking
                        true, //is it a player character(true), or is it an enemy(false)?
@@ -135,7 +135,7 @@ public class EntitiesDefinition : MonoBehaviour
         MakeTemplateMob("dorothy",
                        "Dorothy",
                        "Wants to go home...",
-                      "rends", //verb used when attacking
+                      "cuts", //verb used when attacking
                        true, //is it a player character(true), or is it an enemy(false)?
                        100, //the base HP value
                        25, // the base damage value
