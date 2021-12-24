@@ -1,17 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class updateDistanceView : MonoBehaviour
 {
 
-    public TextMeshProUGUI texty;
+    public Text texty;
 
 
     // Update is called once per frame
     void Update()
     {
-        texty.text = MainData.MainLoop.LevelHelperComponent.distanceWalked.ToString();
+        texty.text = Mathf.Round(MainData.MainLoop.LevelHelperComponent.distanceWalked).ToString();
     }
 }

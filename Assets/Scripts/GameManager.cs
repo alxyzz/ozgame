@@ -34,11 +34,13 @@ public class GameManager : MonoBehaviour
         EventLoggingComponent.TMPComponent.text = "";
         PositionHolderComponent.RegisterEnemySpots();
         PositionHolderComponent.RegisterPlayerSpots();
-        LevelHelperComponent.GenerateLevels(); //set up templates
+        
         EntityDefComponent.DefineTraits();
         EntityDefComponent.DefinePC(); //set up characters
         EntityDefComponent.DefineNPC();//define all entities here
         EntityDefComponent.DefineConsumables();
+        //LevelHelperComponent.GenerateLevels(); //set up templates
+        //LevelHelperComponent.SetupDemoLevel();
         EntityDefComponent.BuildParty();
         PositionHolderComponent.PrepPartyPlaces();
 

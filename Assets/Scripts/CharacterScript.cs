@@ -117,7 +117,7 @@ public class CharacterScript : MonoBehaviour
     {
         if (associatedCharacter == null)
         {
-            Debug.Log(this.name + "Associated character null at RefreshCharacterScript()");
+           // Debug.Log(this.name + "Associated character null at RefreshCharacterScript()");
             return;
         }
         TextMeshProUGUI charactDescript = MainData.MainLoop.UserInterfaceHelperComponent.selectedCharDescription.GetComponent<TextMeshProUGUI>();

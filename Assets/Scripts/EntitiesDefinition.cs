@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
+using static LevelHelper;
 using static MainData;
 using static TraitHelper;
 
@@ -26,7 +27,7 @@ public class EntitiesDefinition : MonoBehaviour
     public Sprite HealingMushroomSprite;
     [Space(10)]
     public GameObject EnemyPrefab;
-    
+
 
     /// <summary>
     /// A function to define a new being, allied or enemy, and add it into the dictionary based on the characterID string.
@@ -213,7 +214,47 @@ public class EntitiesDefinition : MonoBehaviour
 
 
 
+    public void SpawnEncounter(Encounter b)
+    {
+        if (freeEnemyPartyMemberObjects.Count == 0)
+        {
+            MainData.MainLoop.EventLoggingComponent.LogGray("Tried spawning, no more spots...");
+            return;
+        }
+        //string bo = "";
+        //foreach (GameObject item in freeEnemyPartyMemberObjects)
+        //{
+        //    bo += item.name + "\n";
 
+        //}
+
+
+
+
+        foreach (string item in b.enemies)
+        {
+            int x = UnityEngine.Random.Range(0, freeEnemyPartyMemberObjects.Count); //random spot
+
+            MainData.MainLoop.EventLoggingComponent.LogDanger("Spawned enemy using spot at freeEnemyPartyMemberObjects[" + x.ToString() + "].");
+            GameObject f = freeEnemyPartyMemberObjects[x]; //we get a random, inactive enemy spot
+            freeEnemyPartyMemberObjects.RemoveAt(x); //we remove the spot from the inactive/free enemy spot list
+            usedEnemyPartyMemberObjects.Add(f); //track usage...
+            f.SetActive(true);//we turn the spot on on
+            CharacterScript d = f.GetComponent<CharacterScript>();//get the Cscript reference
+            d.SetupCharacterByTemplate(MainData.characterTypes[item]); //assign and set up an enemy template to the spot
+            MainData.livingEnemyParty.Add(d.associatedCharacter);//add it to the living list
+            MainData.MainLoop.EventLoggingComponent.LogGray("A " + d.associatedCharacter.charName + "suddenly steps out of the shadows.");
+
+        }
+
+
+
+
+        if (!MainData.MainLoop.inCombat)
+        {
+            MainData.MainLoop.StartCombat();
+        }
+    }
 
 
 
@@ -382,7 +423,7 @@ public class EntitiesDefinition : MonoBehaviour
         }
         public void TakeDamageFromCharacter(Character attacker)
         {
-            MainData.MainLoop.EventLoggingComponent.Log(attacker.charName + " "+attacker.attackverb + " the " + charName + " for " + attacker.damage + " damage");
+            MainData.MainLoop.EventLoggingComponent.Log(attacker.charName + " " + attacker.attackverb + " the " + charName + " for " + attacker.damage + " damage");
 
             currentHealth -= (attacker.damage - defense); //INCORPORATE ARMOR CALCULATION HERE 
             attacker.Threat += (attacker.damage - defense);
@@ -443,7 +484,7 @@ public class EntitiesDefinition : MonoBehaviour
             {
                 MainData.MainLoop.EventLoggingComponent.Log(this.charName + " was killed in action.");
             }
-            
+
             //if (isPlayerPartyMember)
             //{
             //    playerParty.Remove(allChars.Find(x => x.GetID() == this.charType));
@@ -467,7 +508,7 @@ public class EntitiesDefinition : MonoBehaviour
                 livingEnemyParty.Remove(this);
                 deadEnemyParty.Add(this);
             }
-            
+
         }
 
 
