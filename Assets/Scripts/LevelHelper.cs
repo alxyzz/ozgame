@@ -19,13 +19,55 @@ public class LevelHelper : MonoBehaviour
 
     public List<BackgroundLayerMovementParallax> parallaxLayers = new List<BackgroundLayerMovementParallax>(); //all background parallax object scripts are stored here. If you have any issue drag and dropping the script itself, remember you can open up two inspector tabs :)
 
-
-
-
-
     [Space(15)]//movement inside the local map stuff
-    private float distanceWalked;//shows how much we've physically advanced in the current level
-    public float maximumDistance; //maximum distance before the level fades to black and you go on the overmap
+    [HideInInspector]
+    public float distanceWalked = 0;//shows how much we've physically advanced in the current level
+    public float maximumDistance = 1500; //maximum distance before the level fades to black and you go on the overmap
+
+
+
+
+
+
+
+
+
+    private void Update()
+    {
+        if (MainData.MainLoop.inCombat == true)
+        {
+            MoveStop();
+        }
+
+        foreach (Tuple<float, List<string>> item in MainData.currentLevel.Encounters)
+        {
+            if (IsWithin(distanceWalked, item.Item1-10f, item.Item1+10f))
+            {
+                MainData.MainLoop.EventLoggingComponent.Log("Encountered a group of monsters at distance " + item.Item1.ToString());
+            }
+            
+
+            
+        }
+
+
+
+
+    }
+
+    public bool IsWithin(float value, float minimum, float maximum)
+    {
+        return value >= minimum && value <= maximum;
+    }
+
+
+
+
+
+
+
+
+
 
     //MOVEMENT IN A LEVEL
     public void MoveBackwards()

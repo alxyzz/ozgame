@@ -13,20 +13,20 @@ public class BackgroundLayerMovementParallax : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        AcquireStartingPosition();
+        AcquireStartingPositions();
 
     }
 
 
-    private void AcquireStartingPosition()
+    private void AcquireStartingPositions()
     {
         InitialPosition = firstPart.transform.position;
         //endPosition = ;
 
 
-        Debug.Log(firstPart.GetComponent<Image>().sprite.textureRect.size.x + " is the length of firstpart.");
-        Debug.Log(midPart.GetComponent<Image>().sprite.textureRect.size.x + " is the length of midPart.");
-        Debug.Log(lastPart.GetComponent<Image>().sprite.textureRect.size.x + " is the length of lastPart.");
+        //Debug.Log(firstPart.GetComponent<Image>().sprite.textureRect.size.x + " is the length of firstpart.");
+       // Debug.Log(midPart.GetComponent<Image>().sprite.textureRect.size.x + " is the length of midPart.");
+        //Debug.Log(lastPart.GetComponent<Image>().sprite.textureRect.size.x + " is the length of lastPart.");
 
     }
 
@@ -39,12 +39,14 @@ public class BackgroundLayerMovementParallax : MonoBehaviour
             {
                 case null: // we dont do anything
                     break;
-                case false: //we go backwards
+                case false: //we go backwards, player party thus goes forwards
+                    MainData.MainLoop.LevelHelperComponent.distanceWalked += 0.01f;
                     HandleObject(firstPart, lastPart, midPart, false);
                     HandleObject(midPart, firstPart, lastPart, false);
                     HandleObject(lastPart, midPart, firstPart, false);
                     break;
-                case true: //we go forwards
+                case true: //we go forwards, player party thus goes backwards
+                    MainData.MainLoop.LevelHelperComponent.distanceWalked -= 0.01f;
                     HandleObject(firstPart, midPart, lastPart, true);
                     HandleObject(midPart, lastPart, firstPart, true);
                     HandleObject(lastPart, firstPart, midPart, true);
@@ -53,7 +55,8 @@ public class BackgroundLayerMovementParallax : MonoBehaviour
         }
         catch (System.ArgumentNullException)
         {
-            AcquireStartingPosition();
+            Debug.LogWarning("ArgumentNullException in BackgroundLayerMovementParallax.cs - Update()");
+            AcquireStartingPositions();
         }
 
     }
@@ -84,7 +87,7 @@ public class BackgroundLayerMovementParallax : MonoBehaviour
             {
                 b.transform.position = InitialPosition;
             }
-            b.transform.position = new Vector3(b.transform.position.x + movementAmount, b.transform.position.y, b.transform.position.z);
+            b.transform.position = new Vector3(b.transform.position.x + (movementAmount * Time.deltaTime), b.transform.position.y, b.transform.position.z);
         }
         else
         {
@@ -92,7 +95,7 @@ public class BackgroundLayerMovementParallax : MonoBehaviour
             {
                 b.transform.position = spawnSpot.transform.position;
             }
-            b.transform.position = new Vector3(b.transform.position.x - movementAmount, b.transform.position.y, b.transform.position.z);
+            b.transform.position = new Vector3(b.transform.position.x - (movementAmount * Time.deltaTime), b.transform.position.y, b.transform.position.z);
         }
         
         

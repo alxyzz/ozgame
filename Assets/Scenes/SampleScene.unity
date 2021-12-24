@@ -2013,7 +2013,7 @@ MonoBehaviour:
   midPart: {fileID: 164265410}
   lastPart: {fileID: 1445382619}
   spawnSpot: {fileID: 1119297091}
-  movementAmount: 0.3
+  movementAmount: 4
 --- !u!1 &117033539
 GameObject:
   m_ObjectHideFlags: 0
@@ -4764,6 +4764,7 @@ MonoBehaviour:
   - {fileID: 1181356072}
   - {fileID: 2061098651}
   - {fileID: 1939908679}
+  distanceWalked: 0
   maximumDistance: 1500
 --- !u!114 &462129124
 MonoBehaviour:
@@ -7715,7 +7716,7 @@ MonoBehaviour:
   midPart: {fileID: 250057400}
   lastPart: {fileID: 639887960}
   spawnSpot: {fileID: 756287801}
-  movementAmount: 0.1
+  movementAmount: 2
 --- !u!1 &912827042
 GameObject:
   m_ObjectHideFlags: 0
@@ -10385,7 +10386,7 @@ MonoBehaviour:
   midPart: {fileID: 1364686695}
   lastPart: {fileID: 2056048180}
   spawnSpot: {fileID: 2146389242}
-  movementAmount: 0.5
+  movementAmount: 20
 --- !u!1 &1192093724
 GameObject:
   m_ObjectHideFlags: 0
@@ -13532,7 +13533,7 @@ MonoBehaviour:
   midPart: {fileID: 1401018693}
   lastPart: {fileID: 1745486660}
   spawnSpot: {fileID: 1656377433}
-  movementAmount: 1
+  movementAmount: 20
 --- !u!1 &1602660173
 GameObject:
   m_ObjectHideFlags: 0
@@ -15535,6 +15536,7 @@ GameObject:
   - component: {fileID: 1804849734}
   - component: {fileID: 1804849736}
   - component: {fileID: 1804849735}
+  - component: {fileID: 1804849737}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -15581,7 +15583,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Pause
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0161d805a3764c089bef00bfe00793f5, type: 2}
   m_sharedMaterial: {fileID: 2147374, guid: 0161d805a3764c089bef00bfe00793f5, type: 2}
@@ -15658,6 +15660,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1804849733}
   m_CullTransparentMesh: 0
+--- !u!114 &1804849737
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1804849733}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24bcd133c8a83d84d8c303d54b2bf401, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  texty: {fileID: 1804849735}
 --- !u!1 &1870647599
 GameObject:
   m_ObjectHideFlags: 0
@@ -15954,7 +15969,7 @@ MonoBehaviour:
   midPart: {fileID: 164939048}
   lastPart: {fileID: 1192093724}
   spawnSpot: {fileID: 1292059235}
-  movementAmount: 1
+  movementAmount: 26
 --- !u!1 &1956694568
 GameObject:
   m_ObjectHideFlags: 0
@@ -16970,7 +16985,7 @@ MonoBehaviour:
   midPart: {fileID: 1870647599}
   lastPart: {fileID: 1564352207}
   spawnSpot: {fileID: 1331035927}
-  movementAmount: 0.8
+  movementAmount: 2
 --- !u!1 &2074377982
 GameObject:
   m_ObjectHideFlags: 0
