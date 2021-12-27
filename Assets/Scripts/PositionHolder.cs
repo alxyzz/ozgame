@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class PositionHolder : MonoBehaviour
 {
+
+
+    //public GameObject ParentObjectForParties;
+    
+
+    [Space(15)]
     // public GameObject 
     public GameObject PartySlot1;
     public GameObject PartySlot2;
@@ -33,7 +39,8 @@ public class PositionHolder : MonoBehaviour
     public GameObject EnemyCharacterSpot5;
     public GameObject EnemyCharacterSpot6;
     public GameObject EnemyCharacterSpot7;
-
+    public GameObject EnemyCharacterSpot8;
+    [Space(10)]
 
     public GameObject EnemySpawnBoundaryLeft;//enemies spawn between these
     public GameObject EnemySpawnBoundaryRight;
@@ -50,6 +57,7 @@ public class PositionHolder : MonoBehaviour
 
 
 
+
     public void RegisterEnemySpots()
     {
         MainData.freeEnemyPartyMemberObjects.Add(EnemyCharacterSpot1);
@@ -59,6 +67,7 @@ public class PositionHolder : MonoBehaviour
         MainData.freeEnemyPartyMemberObjects.Add(EnemyCharacterSpot5);
         MainData.freeEnemyPartyMemberObjects.Add(EnemyCharacterSpot6);
         MainData.freeEnemyPartyMemberObjects.Add(EnemyCharacterSpot7);
+        MainData.freeEnemyPartyMemberObjects.Add(EnemyCharacterSpot8);
     }
 
 
