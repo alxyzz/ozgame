@@ -116,10 +116,11 @@ public class UserInterfaceHelper : MonoBehaviour
     public GameObject SelectedChar;
     [Space(10)]
     public GameObject CombatHighlightObject;
-
-
-
-
+    [Space(10)]
+    public GameObject PCDead1;
+    public GameObject PCDead2;
+    public GameObject PCDead3;
+    public GameObject PCDead4; 
 
     /// <summary>
     /// refreshes the character tabs
@@ -130,20 +131,32 @@ public class UserInterfaceHelper : MonoBehaviour
         RefreshViewPlayer();
         RefreshHealthBarEnemy();
         RefreshHealthBarPlayer();
+
     }
 
     public void RefreshEnemyCharacterView()
     {//grabs the four most damaged enemy characters, or if all are same health, just the first four.
+        //refresh this every time the number of enemy characters changes
         if (MainData.livingEnemyParty.Count == 0)
         {
+            Debug.LogWarning("RefreshEnemyCharacterView() - livingEnemyParty has no enemies in it.");
             return;
         }
         List<Character> characters = new List<Character>(MainData.livingEnemyParty);
         characters.Sort((x, y) => x.currentHealth.CompareTo(y.currentHealth)); // ascending. swap y and x on the right side for descending. Yes, we are sorting by plain ol health without any ratio because it's better to hit the one with less life and not the 500hp behemoth who has only 100hp left and the game thinks it's equivalent to 25hp max100hp guy. also ratio.
         NPC1 = characters[0].selfScriptRef;
-        NPC2 = characters[1].selfScriptRef;
-        NPC3 = characters[2].selfScriptRef;
-        NPC4 = characters[3].selfScriptRef;
+        if (characters.Count > 1)
+        {
+            NPC2 = characters[1].selfScriptRef;
+        }
+        if (characters.Count > 2)
+        {
+            NPC3 = characters[2].selfScriptRef;
+        }
+        if (characters.Count > 3)
+        {
+            NPC4 = characters[3].selfScriptRef;
+        }
     }
 
 
@@ -158,11 +171,6 @@ public class UserInterfaceHelper : MonoBehaviour
         secondEnemyCharName.text = NPC2.associatedCharacter.charName;
         thirdEnemyCharName.text = NPC3.associatedCharacter.charName;
         fourthEnemyCharName.text = NPC4.associatedCharacter.charName;
-
-
-
-
-
     }
 
     public void RefreshViewPlayer()
@@ -192,10 +200,30 @@ public class UserInterfaceHelper : MonoBehaviour
         secondHealthBar.value = (PC2.associatedCharacter.currentHealth / PC2.associatedCharacter.baseHealth) * 100;
         thirdHealthBar.value = (PC3.associatedCharacter.currentHealth / PC3.associatedCharacter.baseHealth) * 100;
         fourthHealthBar.value = (PC4.associatedCharacter.currentHealth / PC4.associatedCharacter.baseHealth) * 100;
+        RefreshPlayerDeathStatus();
     }
 
 
+    public void RefreshPlayerDeathStatus()
+    {
+        if (!PC1.associatedCharacter.CheckIfCanAct())
+        {
+            PCDead1.SetActive(true);
+        }
+        if (!PC2.associatedCharacter.CheckIfCanAct())
+        {
+            PCDead2.SetActive(true);
+        }
+        if (!PC3.associatedCharacter.CheckIfCanAct())
+        {
+            PCDead3.SetActive(true);
+        }
+        if (!PC4.associatedCharacter.CheckIfCanAct())
+        {
+            PCDead4.SetActive(true);
+        }
 
+}
 
 
     /// <summary>

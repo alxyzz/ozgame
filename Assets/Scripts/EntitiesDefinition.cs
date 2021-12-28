@@ -119,7 +119,7 @@ public class EntitiesDefinition : MonoBehaviour
                        null); //character's avatar sprite
 
         MakeTemplateMob("lion",
-                       "slashes",
+                       "Lion",
                        "His lack of courage is apparent.",
                        "rends", //verb used when attacking
                        true, //is it a player character(true), or is it an enemy(false)?
@@ -207,6 +207,7 @@ public class EntitiesDefinition : MonoBehaviour
         {
             MainData.MainLoop.StartCombat();
         }
+        MainData.MainLoop.UserInterfaceHelperComponent.RefreshEnemyCharacterView();
     }
 
 
@@ -254,6 +255,7 @@ public class EntitiesDefinition : MonoBehaviour
         {
             MainData.MainLoop.StartCombat();
         }
+        MainData.MainLoop.UserInterfaceHelperComponent.RefreshEnemyCharacterView();
     }
 
 
@@ -288,6 +290,13 @@ public class EntitiesDefinition : MonoBehaviour
         {
             item.RecalculateThreatFromStats();
         }
+
+        MainData.MainLoop.UserInterfaceHelperComponent.PC1 = slot1ref;
+        MainData.MainLoop.UserInterfaceHelperComponent.PC2 = slot2ref;
+        MainData.MainLoop.UserInterfaceHelperComponent.PC3 = slot3ref;
+        MainData.MainLoop.UserInterfaceHelperComponent.PC4 = slot4ref;
+        MainData.MainLoop.UserInterfaceHelperComponent.RefreshCharacterTabs();
+
     }
 
     public void GenerateEquipment()
@@ -423,6 +432,14 @@ public class EntitiesDefinition : MonoBehaviour
         }
         public void TakeDamageFromCharacter(Character attacker)
         {
+            if (isPlayerPartyMember)
+            {
+                MainData.MainLoop.UserInterfaceHelperComponent.RefreshHealthBarPlayer();
+            }
+            else
+            {
+                MainData.MainLoop.UserInterfaceHelperComponent.RefreshHealthBarEnemy();
+            }
             MainData.MainLoop.EventLoggingComponent.Log(attacker.charName + " " + attacker.attackverb + " the " + charName + " for " + attacker.damage + " damage");
 
             currentHealth -= (attacker.damage - defense); //INCORPORATE ARMOR CALCULATION HERE 
