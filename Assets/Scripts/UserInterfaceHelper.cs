@@ -8,62 +8,70 @@ using static LevelHelper;
 public class UserInterfaceHelper : MonoBehaviour
 {
     [Header("references to the objects used for displaying info about current PLAYER character")]
-    public GameObject selectedCharAvatar; //we will replace this object's image with the currently selected character's avatar
+    public Image selectedCharAvatar; //we will replace this object's image with the currently selected character's avatar
     public GameObject selectedCharName;//the name of the current player char
     public GameObject selectedCharTraitDesc;//"The Wrathful/Kind/etc", the trait based title shown after the name
-    public GameObject selectedCharTraitIcon; //the trait's icon - the object/image where the texture is applied
+    public Image selectedCharTraitIcon; //the trait's icon - the object/image where the texture is applied
     public GameObject selectedCharDescription; //the description of the character
     [Space(10)]
     [Header("references to the objects used for displaying info about currently TARGETED ENEMY character")]
-    public GameObject selectedEnemyCharAvatar; //we will replace this object's image with the currently selected character's avatar
-    public GameObject selectedEnemyCharName;//the name of the targeted enemy char
-    public GameObject selectedEnemyCharEnemyType;//"The Wrathful/Kind/etc", the trait based title shown after the name
+    public Image selectedEnemyCharAvatar; //we will replace this object's image with the currently selected character's avatar
+    public TextMeshProUGUI selectedEnemyCharName;//the name of the targeted enemy char
+    public TextMeshProUGUI selectedEnemyCharEnemyType;//"The Wrathful/Kind/etc", the trait based title shown after the name
     //public GameObject selectedEnemyCharTraitIcon;//the trait's icon - the object/image where the texture is applied -- doubtful we're using it for enemies 
-    public GameObject selectedEnemyCharDescription;//the description of the character
+    public TextMeshProUGUI selectedEnemyCharDescription;//the description of the character
     [Space(10)]
     [Header("the stuff related to PLAYER party members in the lower part of the UI - the little images + name + health bar")]
-   
-    public GameObject firstCharAvatar; //we will replace this object's image with the currently selected character's avatar
-    public GameObject firstCharName;//the name of the current player char
-    public GameObject firstHealthBar;//the name of the current player char
-    public GameObject firstselectionRectangle; // A REFERENCE TO THE RECTANGLE THAT HOLDS A REFERENCE TO THE CHARACTER'S SCRIPT, WHICH WILL THEN GET CLICKED IF YOU CLICK THE ICON. FOR QUALITY OF LIFE
-    [Space(5)]
-    public GameObject secondCharAvatar; //we will replace this object's image with the currently selected character's avatar
-    public GameObject secondCharName;//the name of the current player char
-    public GameObject secondHealthBar;//HEALTH BAR REF
-    public GameObject secondselectionRectangle;//the name of the current player char
-    [Space(5)]
-    public GameObject thirdCharAvatar; //we will replace this object's image with the currently selected character's avatar
-    public GameObject thirdCharName;//the name of the current player char
-    public GameObject thirdHealthBar;//HEALTH BAR REF
-    public GameObject thirdselectionRectangle;//the name of the current player char
-    [Space(5)]
-    public GameObject fourthCharAvatar; //we will replace this object's image with the currently selected character's avatar
-    public GameObject fourthCharName;//the name of the current player char
-    public GameObject fourthHealthBar;//HEALTH BAR REF
-    public GameObject fourthselectionRectangle;//the name of the current player char
+    public CharacterScript PC1;
+    public Image firstCharAvatar; //we will replace this object's image with the currently selected character's avatar
+    public TextMeshProUGUI firstCharName;//the name of the current player char
+    public Slider firstHealthBar;//the name of the current player char
+    public GameObject firstselectionRectangle; // A REFERENCE TO THE RECTANGLE THAT HOLDS A REFERENCE TO THE CHARACTER'S SCRIPT, WHICH WILL THEN GET CLICKED IF YOU CLICK THE 
+    [Space(10)]
+    public CharacterScript PC2;
+    public Image secondCharAvatar; //we will replace this object's image with the currently selected character's avatar
+    public TextMeshProUGUI secondCharName;//the name of the current player char
+    public Slider secondHealthBar;//the name of the current player cha
+    public GameObject secondselectionRectangle; // A REFERENCE TO THE RECTANGLE THAT HOLDS A REFERENCE TO THE CHARACTER'S SCRIPT, WHICH WILL THEN GET CLICKED IF YOU CLICK TH
+    [Space(10)]
+    public CharacterScript PC3;
+    public Image thirdCharAvatar; //we will replace this object's image with the currently selected character's avatar
+    public TextMeshProUGUI thirdCharName;//the name of the current player char
+    public Slider thirdHealthBar;//the name of the current player char
+    public GameObject thirdselectionRectangle; // A REFERENCE TO THE RECTANGLE THAT HOLDS A REFERENCE TO THE CHARACTER'S SCRIPT, WHICH WILL THEN GET CLICKED IF YOU CLICK THE 
+    [Space(10)]
+    public CharacterScript PC4;
+    public Image fourthCharAvatar; //we will replace this object's image with the currently selected character's avatar
+    public TextMeshProUGUI fourthCharName;//the name of the current player char
+    public Slider fourthHealthBar;//the name of the current player char
+    public GameObject fourthselectionRectangle; // A REFERENCE TO THE RECTANGLE THAT HOLDS A REFERENCE TO THE CHARACTER'S SCRIPT, WHICH WILL THEN GET CLICKED IF YOU CLICK THE
     [Space(5)]
     [Header("the stuff related to ENEMY party members in the lower part of the UI - the little images + name + health bar")]
     [Header("NOTE - there are >4, so refresh based on lowest health. so you can just click the buttons to target them")]
-    public GameObject firstEnemyCharAvatar; //we will replace this object's image with the currently selected character's avatar
-    public GameObject firstEnemyCharName;//the name of the current player char
-    public GameObject firstEnemyHealthBar;//HEALTH BAR REF
+    [Space(10)]
+    public CharacterScript NPC1;
+    public Image firstEnemyCharAvatar; //we will replace this object's image with the currently selected character's avatar
+    public TextMeshProUGUI firstEnemyCharName;//the name of the current player char
+    public Slider firstEnemyHealthBar;//HEALTH BAR REF
     public GameObject firstEnemyselectionRectangle;//the name of the current player char
     [Space(10)]
-    public GameObject secondEnemyCharAvatar; //we will replace this object's image with the currently selected character's avatar
-    public GameObject secondEnemyCharName;//the name of the current player char
-    public GameObject secondEnemyHealthBar;//HEALTH BAR REF
+    public CharacterScript NPC2;
+    public Image secondEnemyCharAvatar; //we will replace this object's image with the currently selected character's avatar
+    public TextMeshProUGUI secondEnemyCharName;//the name of the current player char
+    public Slider secondEnemyHealthBar;//HEALTH BAR REF
     public GameObject secondEnemyselectionRectangle;//the name of the current player char
     [Space(10)]
-    public GameObject thirdEnemyCharAvatar; //we will replace this object's image with the currently selected character's avatar
-    public GameObject thirdEnemyCharName;//the name of the current player char
-    public GameObject thirdEnemyHealthBar;//HEALTH BAR REF
+    public CharacterScript NPC3;
+    public Image thirdEnemyCharAvatar; //we will replace this object's image with the currently selected character's avatar
+    public TextMeshProUGUI thirdEnemyCharName;//the name of the current player char
+    public Slider thirdEnemyHealthBar;//HEALTH BAR REF
     public GameObject thirdEnemyselectionRectangle;//the name of the current player char
     [Space(10)]
-    public GameObject fourthEnemyCharAvatar; //we will replace this object's image with the currently selected character's avatar
-    public GameObject fourthEnemyCharName;//the name of the current player char
-    public GameObject fourthEnemyHealthBar;//HEALTH BAR REF
-    public GameObject fourthEnemyselectionRectangle;//the name of the current player char
+    public CharacterScript NPC4;
+    public Image fourthEnemyCharAvatar; //we will replace this object's image with the currently selected character's avatar
+    public TextMeshProUGUI fourthEnemyCharName;//the name of the current player char
+    public Slider fourthEnemyHealthBar;//HEALTH BAR REF
+    public GameObject fourthEnemyselectionRectangle;
     [Space(10)]
     [Header("references to consumable slots - this is just so you can change their sprite based on what item is in that slot")]
     public GameObject ConsumableSlot1;
@@ -78,7 +86,7 @@ public class UserInterfaceHelper : MonoBehaviour
     public float travelMicroDelay;
     public float transparencyIncrement;
     [Header("Canvas of the entire game activity area")]
-    public GameObject GameUI; 
+    public GameObject GameUI;
     [Space(15)]
     [Header("various menu canvases")]
     public GameObject MainMenuBack;
@@ -100,10 +108,54 @@ public class UserInterfaceHelper : MonoBehaviour
     [Space(10)]
     public GameObject CombatHighlightObject;
 
+
+
+
+
+    /// <summary>
+    /// refreshes the character tabs
+    /// </summary>
+    public void RefreshCharacterTabs()
+    {
+
+        RefreshHealthBarEnemy();
+        RefreshHealthBarPlayer();
+    }
+
+    public void RefreshViewEnemy()
+    {//run this after every spawning or death of an enemy
+        firstEnemyCharAvatar = NPC1.associatedCharacter.charAvatar;
+        
+    }
+
+    public void RefreshViewPlayer()
+    {//run this after any trait change, death, etc.
+
+    }
+
+    public void RefreshHealthBarEnemy()
+    {//this is small enough and used enough we shouldn't run the whole refresh thing if possible
+        firstEnemyHealthBar.value = (NPC1.associatedCharacter.currentHealth / NPC1.associatedCharacter.baseHealth) * 100;
+        secondEnemyHealthBar.value = (NPC2.associatedCharacter.currentHealth / NPC2.associatedCharacter.baseHealth) * 100;
+        thirdEnemyHealthBar.value = (NPC3.associatedCharacter.currentHealth / NPC3.associatedCharacter.baseHealth) * 100;
+        fourthEnemyHealthBar.value = (NPC4.associatedCharacter.currentHealth / NPC4.associatedCharacter.baseHealth) * 100;
+    }
+
+    public void RefreshHealthBarPlayer()
+    {//this is small enough and used enough we shouldn't run the whole refresh thing if possible
+        firstHealthBar.value = (PC1.associatedCharacter.currentHealth / PC1.associatedCharacter.baseHealth) * 100;
+        secondHealthBar.value = (PC2.associatedCharacter.currentHealth / PC2.associatedCharacter.baseHealth) * 100;
+        thirdHealthBar.value = (PC3.associatedCharacter.currentHealth / PC3.associatedCharacter.baseHealth) * 100;
+        fourthHealthBar.value = (PC4.associatedCharacter.currentHealth / PC4.associatedCharacter.baseHealth) * 100;
+    }
+
+
+
+
+
     /// <summary>
     /// Menu Buttons
     /// </summary>
-
     public void ClickSendPause()
     {
         MainMenuBack.SetActive(true);
@@ -201,7 +253,7 @@ public class UserInterfaceHelper : MonoBehaviour
         Debug.Log("I HAVE BEEN CLICKED. WHO DARES?");
     }
 
-    
+
 
     public void ClickOvermapLevel(MapLevel clickyyy)
     {
