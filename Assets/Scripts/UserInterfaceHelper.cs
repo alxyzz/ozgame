@@ -7,12 +7,65 @@ using static LevelHelper;
 
 public class UserInterfaceHelper : MonoBehaviour
 {
+    [Header("references to the objects used for displaying info about current PLAYER character")]
     public GameObject selectedCharAvatar; //we will replace this object's image with the currently selected character's avatar
-    public GameObject selectedCharName;
-    public GameObject selectedCharTraitDesc;
-    public GameObject selectedCharTraitIcon;
-    public GameObject selectedCharDescription;
+    public GameObject selectedCharName;//the name of the current player char
+    public GameObject selectedCharTraitDesc;//"The Wrathful/Kind/etc", the trait based title shown after the name
+    public GameObject selectedCharTraitIcon; //the trait's icon - the object/image where the texture is applied
+    public GameObject selectedCharDescription; //the description of the character
     [Space(10)]
+    [Header("references to the objects used for displaying info about currently TARGETED ENEMY character")]
+    public GameObject selectedEnemyCharAvatar; //we will replace this object's image with the currently selected character's avatar
+    public GameObject selectedEnemyCharName;//the name of the targeted enemy char
+    public GameObject selectedEnemyCharEnemyType;//"The Wrathful/Kind/etc", the trait based title shown after the name
+    //public GameObject selectedEnemyCharTraitIcon;//the trait's icon - the object/image where the texture is applied -- doubtful we're using it for enemies 
+    public GameObject selectedEnemyCharDescription;//the description of the character
+    [Space(10)]
+    [Header("the stuff related to PLAYER party members in the lower part of the UI - the little images + name + health bar")]
+   
+    public GameObject firstCharAvatar; //we will replace this object's image with the currently selected character's avatar
+    public GameObject firstCharName;//the name of the current player char
+    public GameObject firstHealthBar;//the name of the current player char
+    public GameObject firstselectionRectangle; // A REFERENCE TO THE RECTANGLE THAT HOLDS A REFERENCE TO THE CHARACTER'S SCRIPT, WHICH WILL THEN GET CLICKED IF YOU CLICK THE ICON. FOR QUALITY OF LIFE
+    [Space(5)]
+    public GameObject secondCharAvatar; //we will replace this object's image with the currently selected character's avatar
+    public GameObject secondCharName;//the name of the current player char
+    public GameObject secondHealthBar;//HEALTH BAR REF
+    public GameObject secondselectionRectangle;//the name of the current player char
+    [Space(5)]
+    public GameObject thirdCharAvatar; //we will replace this object's image with the currently selected character's avatar
+    public GameObject thirdCharName;//the name of the current player char
+    public GameObject thirdHealthBar;//HEALTH BAR REF
+    public GameObject thirdselectionRectangle;//the name of the current player char
+    [Space(5)]
+    public GameObject fourthCharAvatar; //we will replace this object's image with the currently selected character's avatar
+    public GameObject fourthCharName;//the name of the current player char
+    public GameObject fourthHealthBar;//HEALTH BAR REF
+    public GameObject fourthselectionRectangle;//the name of the current player char
+    [Space(5)]
+    [Header("the stuff related to ENEMY party members in the lower part of the UI - the little images + name + health bar")]
+    [Header("NOTE - there are >4, so refresh based on lowest health. so you can just click the buttons to target them")]
+    public GameObject firstEnemyCharAvatar; //we will replace this object's image with the currently selected character's avatar
+    public GameObject firstEnemyCharName;//the name of the current player char
+    public GameObject firstEnemyHealthBar;//HEALTH BAR REF
+    public GameObject firstEnemyselectionRectangle;//the name of the current player char
+    [Space(10)]
+    public GameObject secondEnemyCharAvatar; //we will replace this object's image with the currently selected character's avatar
+    public GameObject secondEnemyCharName;//the name of the current player char
+    public GameObject secondEnemyHealthBar;//HEALTH BAR REF
+    public GameObject secondEnemyselectionRectangle;//the name of the current player char
+    [Space(10)]
+    public GameObject thirdEnemyCharAvatar; //we will replace this object's image with the currently selected character's avatar
+    public GameObject thirdEnemyCharName;//the name of the current player char
+    public GameObject thirdEnemyHealthBar;//HEALTH BAR REF
+    public GameObject thirdEnemyselectionRectangle;//the name of the current player char
+    [Space(10)]
+    public GameObject fourthEnemyCharAvatar; //we will replace this object's image with the currently selected character's avatar
+    public GameObject fourthEnemyCharName;//the name of the current player char
+    public GameObject fourthEnemyHealthBar;//HEALTH BAR REF
+    public GameObject fourthEnemyselectionRectangle;//the name of the current player char
+    [Space(10)]
+    [Header("references to consumable slots - this is just so you can change their sprite based on what item is in that slot")]
     public GameObject ConsumableSlot1;
     public GameObject ConsumableSlot2;
     public GameObject ConsumableSlot3;
@@ -20,12 +73,14 @@ public class UserInterfaceHelper : MonoBehaviour
     public GameObject worldmapDescription;
     public GameObject worldmapName;
     [Space(10)]
+    [Header("loading stuff - unused for now")]
     public GameObject darkText;
     public float travelMicroDelay;
     public float transparencyIncrement;
-
-    public GameObject GameUI; //Canvas of the entire game activity area.
+    [Header("Canvas of the entire game activity area")]
+    public GameObject GameUI; 
     [Space(15)]
+    [Header("various menu canvases")]
     public GameObject MainMenuBack;
     public GameObject ExitConfirmationCanvas;
     public GameObject SettingsCanvas;
@@ -33,6 +88,7 @@ public class UserInterfaceHelper : MonoBehaviour
     public GameObject SettingsParallaxButton; //just so we can change the text
     public GameObject MainMenuStart;//for changing the text for subsequent menu opening from Start to Continue
     [Space(10)]
+    [Header("ingame buttons, dealt with in UserInterfaceHelper usually by calling a method there on click, for some in CombatHelper")]
     public GameObject PassTurnButton;
     public GameObject AttackButton;
     public GameObject AbilityButton;
@@ -145,21 +201,7 @@ public class UserInterfaceHelper : MonoBehaviour
         Debug.Log("I HAVE BEEN CLICKED. WHO DARES?");
     }
 
-    public void ClickPassTurn()
-    {
-        if (MainData.MainLoop.CombatHelperComponent.allHaveActed)
-        {
-            MainData.MainLoop.PassTurn();
-        }
-        else
-        {
-            MainData.MainLoop.EventLoggingComponent.Log("Current turn not finished.");
-        }
-        
-        //add a click sound here
-
-
-    }
+    
 
     public void ClickOvermapLevel(MapLevel clickyyy)
     {

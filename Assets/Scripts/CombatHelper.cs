@@ -84,11 +84,13 @@ public class CombatHelper : MonoBehaviour
 
             if (combatants[i].CheckIfCanAct())
             {
-                Debug.LogWarning("Turn of - " + combatants[i].selfScriptRef.name);
+               
                 //MainData.MainLoop.SoundManagerComponent.sfxSource.PlayOneShot(item.turnSound); //plays the character specific noise/vocalization
                 ///we do what is to be done
-                MoveToActiveSpot(combatants[i].selfScriptRef);
 
+                CurrentlyActiveChar = combatants[i].selfScriptRef;
+                MoveToActiveSpot(combatants[i].selfScriptRef);
+                
                 if (combatants[i].isPlayerPartyMember)
                 {
                     DoPlayerCharacterTurn(combatants[i]);
@@ -98,8 +100,17 @@ public class CombatHelper : MonoBehaviour
                     DoEnemyCharacterTurn(combatants[i]);
                 }
 
+
                 yield return new WaitUntil(() => DoneWithThisTurn == true);
-                DoneWithThisTurn = false;
+                ReturnFromActiveSpot(); //we send the character back in this moment.
+                
+                if (!CurrentlyActiveChar.isEnemyCharacter)
+                {
+                    activeTarget = null;
+                    ToggleCombatButtomVisibility(false);
+                }
+                yield return new WaitForSecondsRealtime(0.4f);
+
 
             }
 
@@ -127,9 +138,32 @@ public class CombatHelper : MonoBehaviour
 
     }
 
+    public void ClickPlayButton()
+    {
+        if (MainData.livingEnemyParty.Count == 0)
+        {
+            //play a tick sound here
+            MainData.MainLoop.EventLoggingComponent.LogGray("You're facing no enemies at the moment.");
+            return;
+        }
+        if (CurrentlyActiveChar != null)//if a turn is still in progress, what should this button do? - answer - nothing.
+        {
+            //play a tick sound here
+            MainData.MainLoop.EventLoggingComponent.LogGray("Turn in progress.");
+            return;
+        }
+        if (MainData.MainLoop.CombatHelperComponent.allHaveActed)
+        {
 
+            MainData.MainLoop.PassTurn();
+        }
+        else
+        {
+            MainData.MainLoop.EventLoggingComponent.Log("Current turn not finished.");
+        }
 
-
+        //add a click sound here
+    }
 
     public void ClickTraitAbility()
     {
@@ -141,13 +175,24 @@ public class CombatHelper : MonoBehaviour
             default:
                 break;
         }
+
+        EndCurrentTurn();
+    }
+
+
+    public void EndCurrentTurn()
+    {
         DoneWithThisTurn = true;
         CurrentlyActiveChar.associatedCharacter.hasActedThisTurn = true;
-        ToggleCombatButtomVisibility(false);
     }
 
     public void ClickNormalAttack()
     {
+        if (CurrentlyActiveChar == null)
+        {
+            MainData.MainLoop.EventLoggingComponent.LogDanger("currently active char is null");
+            return;
+        }
         if (CurrentlyActiveChar.associatedCharacter.isPlayerPartyMember)
         {
             if (activeTarget != null)
@@ -155,9 +200,8 @@ public class CombatHelper : MonoBehaviour
                 //StartCoroutine(AttackVisuals(activeTarget)); //does a nice attack effect, either hitting or knockback
                 activeTarget.associatedCharacter.TakeDamageFromCharacter(CurrentlyActiveChar.associatedCharacter);
                 DisplayFloatingDamageNumbers(CurrentlyActiveChar.associatedCharacter.damage, activeTarget.associatedCharacter);
-                DoneWithThisTurn = true;
-                CurrentlyActiveChar.associatedCharacter.hasActedThisTurn = true;//so the next character can begin their turn
-                ToggleCombatButtomVisibility(false);
+
+                EndCurrentTurn();
 
             }
             else
@@ -267,14 +311,15 @@ public class CombatHelper : MonoBehaviour
         if (CurrentlyActiveChar != null)
         {
             Debug.LogWarning("Could not move " + chara.gameObject.name + ", CurrentlyActiveChar is not null");
+            return;
         }
 
-        Debug.Log("MOVING " + chara.associatedCharacter.charName + " TO ACTIVE SPOT");
-        MainData.MainLoop.CombatHelperComponent.CurrentlyActiveChar = chara;
+        
+        
         InitialActiveCharacterPositionCoordinates = chara.transform.position;
         //chara.transform.position = ActiveCharSpot.transform.position; //replace this with the sliding thing
-        StartCoroutine(SlideTo(chara, ActiveCharSpot.transform.position, activationMovingSpeed));
-        CurrentlyActiveChar = chara;
+        StartCoroutine(SlideTo(chara, ActiveCharSpot.transform.position, activationMovingSpeed, false));
+        
 
 
 
@@ -302,45 +347,34 @@ public class CombatHelper : MonoBehaviour
     }
 
 
-    public IEnumerator SlideTo(CharacterScript Chara, Vector3 Destination, float speed)
-    {//currently just moves you there for simplicity sake, later will make this animate the moving character and lerp/movetoward him there
-        //yield return new WaitUntil(() => someoneIsMoving == false);
-        //someoneIsMoving = true;
+    public IEnumerator SlideTo(CharacterScript Chara, Vector3 Destination, float speed, bool returning)
+    {
+
         while (Vector3.Distance(Chara.transform.position, Destination) > closenessMargin)
         {
             Chara.transform.position = Vector3.MoveTowards(Chara.transform.position, Destination, speed * Time.deltaTime);
             yield return new WaitForSecondsRealtime(delayBetweenMovement);
         }
-        //someoneIsMoving = false;
+        if (returning) //
+        {//so it does these AFTER it finishes moving, coz its async
+            HighlightCheck();
+            DoneWithThisTurn = true;
+            CurrentlyActiveChar = null;
+        }
+
     }
-
-
-
-    //IEnumerator QueueSliding(CharacterScript Chara, Vector3 Destination, float speed)
-    //{
-
-    //    yield return new WaitUntil(() => someoneIsMoving == false);
-    //    SlideTo(Chara, Destination, speed);
-    //}
 
 
     public void ReturnFromActiveSpot()
     { //this does not need an argument, since it always works with the currently active character
-        //if (!someoneIsMoving)
-        //{
-        //    someoneIsMoving = true;
-        StartCoroutine(SlideTo(CurrentlyActiveChar, InitialActiveCharacterPositionCoordinates, activationMovingSpeed));
-        // CurrentlyActiveChar.transform.position = InitialActiveCharacterPositionCoordinates;
-        if (!CurrentlyActiveChar.isEnemyCharacter)
-        {
-            activeTarget = null;
-            ToggleCombatButtomVisibility(false);
-        }
-        CurrentlyActiveChar = null;
-        HighlightCheck();
-        //someoneIsMoving = false;
-        //}
+        StartCoroutine(SlideTo(CurrentlyActiveChar, InitialActiveCharacterPositionCoordinates, activationMovingSpeed, true));
+
     }
+
+
+        
+    
+
 
     public void DoEnemyCharacterTurn(Character npc)
     {
@@ -348,7 +382,7 @@ public class CombatHelper : MonoBehaviour
         //Character toBeAttacked = MainData.playerParty[Random.Range(0, MainData.playerParty.Count + 1)];
         //StartCoroutine(SlideTo(npc.selfScriptRef, ActiveCharSpot.transform.position, activationMovingSpeed));
 
-        StartCoroutine(SlideTo(CurrentlyActiveChar, ActiveCharSpot.transform.position, activationMovingSpeed));
+        StartCoroutine(SlideTo(CurrentlyActiveChar, ActiveCharSpot.transform.position, activationMovingSpeed, false));
         //npc.selfScriptRef.transform.position = ActiveCharSpot.transform.position;
 
         StartCoroutine(AttackRandomEnemy(npc.selfScriptRef));
