@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static EntitiesDefinition;
 using static LevelHelper;
 
 public class UserInterfaceHelper : MonoBehaviour
@@ -22,24 +23,28 @@ public class UserInterfaceHelper : MonoBehaviour
     public TextMeshProUGUI selectedEnemyCharDescription;//the description of the character
     [Space(10)]
     [Header("the stuff related to PLAYER party members in the lower part of the UI - the little images + name + health bar")]
+    [HideInInspector]
     public CharacterScript PC1;
     public Image firstCharAvatar; //we will replace this object's image with the currently selected character's avatar
     public TextMeshProUGUI firstCharName;//the name of the current player char
     public Slider firstHealthBar;//the name of the current player char
     public GameObject firstselectionRectangle; // A REFERENCE TO THE RECTANGLE THAT HOLDS A REFERENCE TO THE CHARACTER'S SCRIPT, WHICH WILL THEN GET CLICKED IF YOU CLICK THE 
     [Space(10)]
+    [HideInInspector]
     public CharacterScript PC2;
     public Image secondCharAvatar; //we will replace this object's image with the currently selected character's avatar
     public TextMeshProUGUI secondCharName;//the name of the current player char
     public Slider secondHealthBar;//the name of the current player cha
     public GameObject secondselectionRectangle; // A REFERENCE TO THE RECTANGLE THAT HOLDS A REFERENCE TO THE CHARACTER'S SCRIPT, WHICH WILL THEN GET CLICKED IF YOU CLICK TH
     [Space(10)]
+    [HideInInspector]
     public CharacterScript PC3;
     public Image thirdCharAvatar; //we will replace this object's image with the currently selected character's avatar
     public TextMeshProUGUI thirdCharName;//the name of the current player char
     public Slider thirdHealthBar;//the name of the current player char
     public GameObject thirdselectionRectangle; // A REFERENCE TO THE RECTANGLE THAT HOLDS A REFERENCE TO THE CHARACTER'S SCRIPT, WHICH WILL THEN GET CLICKED IF YOU CLICK THE 
     [Space(10)]
+    [HideInInspector]
     public CharacterScript PC4;
     public Image fourthCharAvatar; //we will replace this object's image with the currently selected character's avatar
     public TextMeshProUGUI fourthCharName;//the name of the current player char
@@ -49,24 +54,28 @@ public class UserInterfaceHelper : MonoBehaviour
     [Header("the stuff related to ENEMY party members in the lower part of the UI - the little images + name + health bar")]
     [Header("NOTE - there are >4, so refresh based on lowest health. so you can just click the buttons to target them")]
     [Space(10)]
-    public CharacterScript NPC1;
+    [HideInInspector]
+    public CharacterScript NPC1;// NOTE - THESE ARE DEFINED IN EntityDefinition.cs
     public Image firstEnemyCharAvatar; //we will replace this object's image with the currently selected character's avatar
     public TextMeshProUGUI firstEnemyCharName;//the name of the current player char
     public Slider firstEnemyHealthBar;//HEALTH BAR REF
     public GameObject firstEnemyselectionRectangle;//the name of the current player char
     [Space(10)]
+    [HideInInspector]
     public CharacterScript NPC2;
     public Image secondEnemyCharAvatar; //we will replace this object's image with the currently selected character's avatar
     public TextMeshProUGUI secondEnemyCharName;//the name of the current player char
     public Slider secondEnemyHealthBar;//HEALTH BAR REF
     public GameObject secondEnemyselectionRectangle;//the name of the current player char
     [Space(10)]
+    [HideInInspector]
     public CharacterScript NPC3;
     public Image thirdEnemyCharAvatar; //we will replace this object's image with the currently selected character's avatar
     public TextMeshProUGUI thirdEnemyCharName;//the name of the current player char
     public Slider thirdEnemyHealthBar;//HEALTH BAR REF
     public GameObject thirdEnemyselectionRectangle;//the name of the current player char
     [Space(10)]
+    [HideInInspector]
     public CharacterScript NPC4;
     public Image fourthEnemyCharAvatar; //we will replace this object's image with the currently selected character's avatar
     public TextMeshProUGUI fourthEnemyCharName;//the name of the current player char
@@ -117,20 +126,56 @@ public class UserInterfaceHelper : MonoBehaviour
     /// </summary>
     public void RefreshCharacterTabs()
     {
-
+        RefreshViewEnemy();
+        RefreshViewPlayer();
         RefreshHealthBarEnemy();
         RefreshHealthBarPlayer();
     }
 
+    public void RefreshEnemyCharacterView()
+    {//grabs the four most damaged enemy characters, or if all are same health, just the first four.
+        if (MainData.livingEnemyParty.Count == 0)
+        {
+            return;
+        }
+        List<Character> characters = new List<Character>(MainData.livingEnemyParty);
+        characters.Sort((x, y) => x.currentHealth.CompareTo(y.currentHealth)); // ascending. swap y and x on the right side for descending. Yes, we are sorting by plain ol health without any ratio because it's better to hit the one with less life and not the 500hp behemoth who has only 100hp left and the game thinks it's equivalent to 25hp max100hp guy. also ratio.
+        NPC1 = characters[0].selfScriptRef;
+        NPC2 = characters[1].selfScriptRef;
+        NPC3 = characters[2].selfScriptRef;
+        NPC4 = characters[3].selfScriptRef;
+    }
+
+
     public void RefreshViewEnemy()
     {//run this after every spawning or death of an enemy
-        firstEnemyCharAvatar = NPC1.associatedCharacter.charAvatar;
-        
+        firstEnemyCharAvatar.sprite = NPC1.associatedCharacter.charAvatar;
+        secondEnemyCharAvatar.sprite = NPC2.associatedCharacter.charAvatar;
+        thirdEnemyCharAvatar.sprite = NPC3.associatedCharacter.charAvatar;
+        fourthEnemyCharAvatar.sprite = NPC4.associatedCharacter.charAvatar;
+
+        firstEnemyCharName.text = NPC1.associatedCharacter.charName;
+        secondEnemyCharName.text = NPC2.associatedCharacter.charName;
+        thirdEnemyCharName.text = NPC3.associatedCharacter.charName;
+        fourthEnemyCharName.text = NPC4.associatedCharacter.charName;
+
+
+
+
+
     }
 
     public void RefreshViewPlayer()
     {//run this after any trait change, death, etc.
+        firstCharAvatar.sprite = PC1.associatedCharacter.charAvatar;
+        secondCharAvatar.sprite = PC2.associatedCharacter.charAvatar;
+        thirdCharAvatar.sprite = PC3.associatedCharacter.charAvatar;
+        fourthCharAvatar.sprite = PC4.associatedCharacter.charAvatar;
 
+        firstCharName.text = PC1.associatedCharacter.charName;
+        secondCharName.text = PC2.associatedCharacter.charName;
+        thirdCharName.text = PC3.associatedCharacter.charName;
+        fourthCharName.text = PC4.associatedCharacter.charName;
     }
 
     public void RefreshHealthBarEnemy()
