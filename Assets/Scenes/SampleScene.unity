@@ -6907,21 +6907,25 @@ MonoBehaviour:
   PC1: {fileID: 0}
   firstCharAvatar: {fileID: 498925106}
   firstCharName: {fileID: 655486161}
+  firstCharTrait: {fileID: 734124063}
   firstHealthBar: {fileID: 427075581}
   firstselectionRectangle: {fileID: 0}
   PC2: {fileID: 0}
   secondCharAvatar: {fileID: 581524794}
   secondCharName: {fileID: 628612319}
+  secondCharTrait: {fileID: 619782285}
   secondHealthBar: {fileID: 1333702648}
   secondselectionRectangle: {fileID: 0}
   PC3: {fileID: 0}
   thirdCharAvatar: {fileID: 2050584172}
   thirdCharName: {fileID: 804815930}
+  thirdCharTrait: {fileID: 1786524842}
   thirdHealthBar: {fileID: 1501843637}
   thirdselectionRectangle: {fileID: 0}
   PC4: {fileID: 0}
   fourthCharAvatar: {fileID: 321113481}
   fourthCharName: {fileID: 1066775608}
+  fourthCharTrait: {fileID: 227660419}
   fourthHealthBar: {fileID: 575049628}
   fourthselectionRectangle: {fileID: 0}
   NPC1: {fileID: 0}

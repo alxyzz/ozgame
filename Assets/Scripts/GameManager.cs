@@ -44,11 +44,11 @@ public class GameManager : MonoBehaviour
         EntityDefComponent.BuildParty();
         UserInterfaceHelperComponent.RefreshCharacterTabs();
         PositionHolderComponent.PrepPartyPlaces();
-
+        UserInterfaceHelperComponent.RefreshCharacterTabs();
         UserInterfaceHelperComponent.GameUI.SetActive(false);
         UserInterfaceHelperComponent.MainMenuBack.SetActive(true); //opens up the main menu
         UserInterfaceHelperComponent.MenuCanvas.SetActive(true);
-        //EntityDefComponent.SpawnEnemyTest();
+
         
 
 
@@ -165,7 +165,7 @@ public class GameManager : MonoBehaviour
                     //    item.TakeDamage(-5);
                     //    break;
                     default:
-                        Debug.Log("Unknown status effect proc'd on "+ item.charName);
+                        Debug.Log("Unknown status effect proc'd on "+ item.charName +"... WTF happened");
                         break;
                 }
                 item.currentStatusEffect.turnsRemaining--;
