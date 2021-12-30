@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour
     public UserInterfaceHelper UserInterfaceHelperComponent;
     public CombatHelper CombatHelperComponent;
     public GameObject backgroundObject;
-   
+
 
     // Start is called before the first frame update
     void Start()//loads stuff up
@@ -34,7 +34,7 @@ public class GameManager : MonoBehaviour
         EventLoggingComponent.TMPComponent.text = "";
         PositionHolderComponent.RegisterEnemySpots();
         PositionHolderComponent.RegisterPlayerSpots();
-        
+
         EntityDefComponent.DefineTraits();
         EntityDefComponent.DefinePC(); //set up characters
         EntityDefComponent.DefineNPC();//define all entities here
@@ -49,7 +49,7 @@ public class GameManager : MonoBehaviour
         UserInterfaceHelperComponent.MainMenuBack.SetActive(true); //opens up the main menu
         UserInterfaceHelperComponent.MenuCanvas.SetActive(true);
 
-        
+
 
 
         //compile map data
@@ -95,21 +95,17 @@ public class GameManager : MonoBehaviour
 
 
 
-    public void StartCombat()
-    {
 
-    }
 
     public void PassTurn()
     {
-
         if (CombatHelperComponent.allHaveActed)
         {
             //play new turn sound here
             MainData.turnNumber++;
             Debug.Log("Turn " + MainData.turnNumber.ToString());
             EventLoggingComponent.LogDanger("Start of turn " + MainData.turnNumber.ToString() + ".");
-            ApplyEffectToAll(); //burns, poison, etc
+            ApplyEffectToAll(); //burns, poison, etc. Ticks down the duration left by one, too
 
             if (MainData.livingEnemyParty.Count > 0) //if there's no enemy there's no need to fight
             {
@@ -132,7 +128,7 @@ public class GameManager : MonoBehaviour
         {
             EventLoggingComponent.Log("Cannot pass the turn; Some characters still have to move.");
         }
-        
+
     }
 
 
@@ -142,7 +138,7 @@ public class GameManager : MonoBehaviour
         {
             if (item.currentStatusEffect != null)
             {
-                
+
                 //what do we do here?
                 //easy, just check the type of status effect ( a string )
                 //then decide what to do based on what type it is
@@ -165,7 +161,7 @@ public class GameManager : MonoBehaviour
                     //    item.TakeDamage(-5);
                     //    break;
                     default:
-                        Debug.Log("Unknown status effect proc'd on "+ item.charName +"... WTF happened");
+                        Debug.Log("Unknown status effect proc'd on " + item.charName + "... WTF happened");
                         break;
                 }
                 item.currentStatusEffect.turnsRemaining--;
@@ -206,8 +202,8 @@ public class GameManager : MonoBehaviour
 
 
 
-        
-        
+
+
         RefreshWorldMap();
 
     }
@@ -217,7 +213,7 @@ public class GameManager : MonoBehaviour
 
     static void RefreshWorldMap()
     {
-       // ControlsHelperScript.BuildWorldCanvas();
+        // ControlsHelperScript.BuildWorldCanvas();
 
 
     }

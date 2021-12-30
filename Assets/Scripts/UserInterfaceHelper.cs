@@ -169,10 +169,10 @@ public class UserInterfaceHelper : MonoBehaviour
      * 
      */
 
-    public void RefreshEnemyCharacterView()
+    public void RefreshEnemyCharacterDetails()
     {//grabs the four most damaged enemy characters, or if all are same health, just the first four.
         //refresh this every time the number of enemy characters changes
-        if (MainData.livingEnemyParty.Count == 0)
+        if (MainData.livingEnemyParty.Count < 1)
         {
             Debug.LogWarning("RefreshEnemyCharacterView() - livingEnemyParty has no enemies in it.");
             return;
@@ -180,7 +180,7 @@ public class UserInterfaceHelper : MonoBehaviour
         Debug.LogWarning("RefreshEnemyCharacterView() just ran");
         List<Character> characters = new List<Character>(MainData.livingEnemyParty);
         characters.Sort((x, y) => x.currentHealth.CompareTo(y.currentHealth)); // ascending. swap y and x on the right side for descending. Yes, we are sorting by plain ol health without any ratio because it's better to hit the one with less life and not the 500hp behemoth who has only 100hp left and the game thinks it's equivalent to 25hp max100hp guy. also ratio.
-        NPC1 = characters[0].selfScriptRef;
+        NPC1 = characters[0].selfScriptRef;//we check if count is less than 1 so
         if (characters.Count > 1)
         {
             NPC2 = characters[1].selfScriptRef;
@@ -203,26 +203,46 @@ public class UserInterfaceHelper : MonoBehaviour
             Debug.LogWarning("RefreshEnemyCharacterView() - livingEnemyParty has no enemies in it.");
             return;
         }
-
+        Debug.LogWarning("RefreshEnemyCharacterView() ran.z");
         if (NPC1 != null)//checks if it exists
         {
+            firstCharAvatar.gameObject.SetActive(true);
             firstEnemyCharAvatar.sprite = NPC1.associatedCharacter.charAvatar; //if it does, show it in the tabs
             firstEnemyCharName.text = NPC1.associatedCharacter.charName;
         }
+        else
+        {
+            firstCharAvatar.gameObject.SetActive(false);
+        }
         if (NPC2 != null)
         {
+            secondCharAvatar.gameObject.SetActive(true);
             secondEnemyCharAvatar.sprite = NPC2.associatedCharacter.charAvatar;
             secondEnemyCharName.text = NPC2.associatedCharacter.charName;
         }
+        else
+        {
+            secondCharAvatar.gameObject.SetActive(false);
+        }
         if (NPC3 != null)
         {
+            thirdCharAvatar.gameObject.SetActive(true);
             thirdEnemyCharAvatar.sprite = NPC3.associatedCharacter.charAvatar;
             thirdEnemyCharName.text = NPC3.associatedCharacter.charName;
         }
+        else
+        {
+            thirdCharAvatar.gameObject.SetActive(false);
+        }
         if (NPC4 != null)
         {
+            fourthCharAvatar.gameObject.SetActive(true);
             fourthEnemyCharAvatar.sprite = NPC4.associatedCharacter.charAvatar;
             fourthEnemyCharName.text = NPC4.associatedCharacter.charName;
+        }
+        else
+        {
+            fourthCharAvatar.gameObject.SetActive(false);
         }
 
 
@@ -308,27 +328,52 @@ public class UserInterfaceHelper : MonoBehaviour
 
         if (NPC1 != null)
         {
-            firstEnemyHealthBar.value = (NPC1.associatedCharacter.currentHealth / NPC1.associatedCharacter.baseHealth) * 100;
+            if (!NPC1.associatedCharacter.isDead)
+            {
+                firstEnemyHealthBar.value = (NPC1.associatedCharacter.currentHealth / NPC1.associatedCharacter.baseHealth) * 100f;
+            }
+            else
+            {
+                firstEnemyHealthBar.value = 0f;
+            }
+            
         }
         if (NPC2 != null)
         {
-            secondEnemyHealthBar.value = (NPC2.associatedCharacter.currentHealth / NPC2.associatedCharacter.baseHealth) * 100;
+            if (!NPC2.associatedCharacter.isDead)
+            {
+                secondEnemyHealthBar.value = (NPC2.associatedCharacter.currentHealth / NPC2.associatedCharacter.baseHealth) * 100f;
+            }
+            else
+            {
+                secondEnemyHealthBar.value = 0f;
+            }
+
         }
         if (NPC3 != null)
         {
-            thirdEnemyHealthBar.value = (NPC3.associatedCharacter.currentHealth / NPC3.associatedCharacter.baseHealth) * 100;
+            if (!NPC3.associatedCharacter.isDead)
+            {
+                thirdEnemyHealthBar.value = (NPC3.associatedCharacter.currentHealth / NPC3.associatedCharacter.baseHealth) * 100f;
+            }
+            else
+            {
+                thirdEnemyHealthBar.value = 0f;
+            }
+
         }
         if (NPC4 != null)
         {
-            fourthEnemyHealthBar.value = (NPC4.associatedCharacter.currentHealth / NPC4.associatedCharacter.baseHealth) * 100;
+            if (!NPC4.associatedCharacter.isDead)
+            {
+                fourthEnemyHealthBar.value = (NPC4.associatedCharacter.currentHealth / NPC4.associatedCharacter.baseHealth) * 100f;
+            }
+            else
+            {
+                fourthEnemyHealthBar.value = 0f;
+            }
+
         }
-
-
-
-        
-       
-       
-        
     }
 
     public void RefreshHealthBarPlayer()

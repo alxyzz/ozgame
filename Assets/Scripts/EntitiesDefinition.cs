@@ -203,11 +203,8 @@ public class EntitiesDefinition : MonoBehaviour
         d.SetupCharacterByTemplate(MainData.characterTypes["evilcrow"]); //assign an enemy template
         MainData.livingEnemyParty.Add(d.associatedCharacter);//add it to the living list
         MainData.MainLoop.EventLoggingComponent.LogGray("Spontaneous interdimensional emergence of malevolent entity detected.");
-        if (!MainData.MainLoop.inCombat)
-        {
-            MainData.MainLoop.StartCombat();
-        }
-        MainData.MainLoop.UserInterfaceHelperComponent.RefreshEnemyCharacterView();
+        MainData.MainLoop.inCombat = true;
+        MainData.MainLoop.UserInterfaceHelperComponent.RefreshEnemyCharacterDetails();
     }
 
 
@@ -251,11 +248,8 @@ public class EntitiesDefinition : MonoBehaviour
 
 
 
-        if (!MainData.MainLoop.inCombat)
-        {
-            MainData.MainLoop.StartCombat();
-        }
-        MainData.MainLoop.UserInterfaceHelperComponent.RefreshEnemyCharacterView();
+
+        MainData.MainLoop.UserInterfaceHelperComponent.RefreshEnemyCharacterDetails();
     }
 
 
@@ -295,7 +289,7 @@ public class EntitiesDefinition : MonoBehaviour
         MainData.MainLoop.UserInterfaceHelperComponent.PC2 = slot2ref;
         MainData.MainLoop.UserInterfaceHelperComponent.PC3 = slot3ref;
         MainData.MainLoop.UserInterfaceHelperComponent.PC4 = slot4ref;
-        MainData.MainLoop.UserInterfaceHelperComponent.RefreshCharacterTabs();
+
 
     }
 
@@ -376,6 +370,7 @@ public class EntitiesDefinition : MonoBehaviour
         public string charName;
         public string entityDescription;
         public CharacterScript selfScriptRef;
+        public Vector3 InitialPosition; //yeah screw having a single variable in CombatHelper.cs we're doing this. set in CharacterScript or template use
         public bool isPlayerPartyMember;
 
         public Trait charTrait;
@@ -396,10 +391,12 @@ public class EntitiesDefinition : MonoBehaviour
         public int damage;
         public int luck;
         public int mana;
-        private bool canAct = true;
+        private bool canAct = true; //wether it's stunned or not
+        public bool isDead = false;
         public bool hasActedThisTurn = false;
 
         public string attackverb;
+
 
 
         public bool CheckIfCanAct()
@@ -432,6 +429,10 @@ public class EntitiesDefinition : MonoBehaviour
         }
         public void TakeDamageFromCharacter(Character attacker)
         {
+
+            MainData.MainLoop.EventLoggingComponent.Log(attacker.charName + " " + attacker.attackverb + " the " + charName + " for " + attacker.damage + " damage");
+
+            currentHealth -= (attacker.damage - defense); //INCORPORATE ARMOR CALCULATION HERE 
             if (isPlayerPartyMember)
             {
                 MainData.MainLoop.UserInterfaceHelperComponent.RefreshHealthBarPlayer();
@@ -440,12 +441,18 @@ public class EntitiesDefinition : MonoBehaviour
             {
                 MainData.MainLoop.UserInterfaceHelperComponent.RefreshHealthBarEnemy();
             }
-            MainData.MainLoop.EventLoggingComponent.Log(attacker.charName + " " + attacker.attackverb + " the " + charName + " for " + attacker.damage + " damage");
-
-            currentHealth -= (attacker.damage - defense); //INCORPORATE ARMOR CALCULATION HERE 
             attacker.Threat += (attacker.damage - defense);
             if (currentHealth <= 0)
             {
+                if (!isPlayerPartyMember)
+                {
+                    MainData.MainLoop.UserInterfaceHelperComponent.RefreshEnemyCharacterDetails();
+                }
+                else
+                {
+                    MainData.MainLoop.UserInterfaceHelperComponent.RefreshPlayerDeathStatus();
+                }
+
                 gotKilled(attacker);
             }
         }
@@ -514,16 +521,16 @@ public class EntitiesDefinition : MonoBehaviour
 
         private void DealWithLists()
         {
-            allChars.Remove(this);
+            MainData.allChars.Remove(this);
             if (isPlayerPartyMember)
             {
-                livingPlayerParty.Remove(this);
-                deadPlayerParty.Add(this);
+                MainData.livingPlayerParty.Remove(this);
+                MainData.deadPlayerParty.Add(this);
             }
             else
             {
-                livingEnemyParty.Remove(this);
-                deadEnemyParty.Add(this);
+                MainData.livingEnemyParty.Remove(this);
+                MainData.deadEnemyParty.Add(this);
             }
 
         }

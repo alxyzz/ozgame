@@ -68,7 +68,7 @@ public class CharacterScript : MonoBehaviour
         associatedCharacter.mana = template.mana;
         associatedCharacter.turnSound = template.turnSound;
         associatedCharacter.speed = template.speed;
-
+        associatedCharacter.InitialPosition = this.transform.position;
         spriteRenderer.sprite = associatedCharacter.charSprite;
         if (isEnemyCharacter)
         {
