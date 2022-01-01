@@ -124,14 +124,14 @@ public class UserInterfaceHelper : MonoBehaviour
     public GameObject PCDead1;
     public GameObject PCDead2;
     public GameObject PCDead3;
-    public GameObject PCDead4; 
+    public GameObject PCDead4;
 
     /// <summary>
     /// refreshes the character tabs
     /// </summary>
     public void RefreshCharacterTabs()
     {
-        RefreshViewEnemy();
+        RefreshEnemyViewData();
         RefreshViewPlayer();
         RefreshHealthBarEnemy();
         RefreshHealthBarPlayer();
@@ -151,52 +151,134 @@ public class UserInterfaceHelper : MonoBehaviour
         {
             selectedEnemyCharDescription.text = Target.associatedCharacter.entityDescription;
         }
-        
+
         selectedEnemyCharEnemyType.text = ""; // for now until i actually add the enemy Type thing
     }
-
-
-
-    /*
-     * public Image selectedEnemyCharAvatar; //we will replace this object's image with the currently selected character's avatar
-    public TextMeshProUGUI selectedEnemyCharName;//the name of the targeted enemy char
-    public TextMeshProUGUI selectedEnemyCharEnemyType;//"The Wrathful/Kind/etc", the trait based title shown after the name
-    //public GameObject selectedEnemyCharTraitIcon;//the trait's icon - the object/image where the texture is applied -- doubtful we're using it for enemies 
-    public TextMeshProUGUI selectedEnemyCharDescription;//the description of the character
-     * 
-     * 
-     * 
-     * 
-     */
 
     public void RefreshEnemyCharacterDetails()
     {//grabs the four most damaged enemy characters, or if all are same health, just the first four.
         //refresh this every time the number of enemy characters changes
         if (MainData.livingEnemyParty.Count < 1)
         {
+            ToggleEnemyDataActiveState(0);
             Debug.LogWarning("RefreshEnemyCharacterView() - livingEnemyParty has no enemies in it.");
             return;
         }
         Debug.LogWarning("RefreshEnemyCharacterView() just ran");
         List<Character> characters = new List<Character>(MainData.livingEnemyParty);
         characters.Sort((x, y) => x.currentHealth.CompareTo(y.currentHealth)); // ascending. swap y and x on the right side for descending. Yes, we are sorting by plain ol health without any ratio because it's better to hit the one with less life and not the 500hp behemoth who has only 100hp left and the game thinks it's equivalent to 25hp max100hp guy. also ratio.
-        NPC1 = characters[0].selfScriptRef;//we check if count is less than 1 so
-        if (characters.Count > 1)
+        switch (characters.Count)
         {
-            NPC2 = characters[1].selfScriptRef;
+            case 0:
+                //this should never happen
+                ToggleEnemyDataActiveState(0);
+                break;
+            case 1:
+                NPC1 = characters[0].selfScriptRef;
+                ToggleEnemyDataActiveState(1);
+                break;
+            case 2:
+                ToggleEnemyDataActiveState(2);
+                NPC2 = characters[1].selfScriptRef;
+                break;
+            case 3:
+                ToggleEnemyDataActiveState(3);
+                NPC2 = characters[1].selfScriptRef;
+                NPC3 = characters[2].selfScriptRef;
+                break;
+            default: //any case other than 0 1 2 3 and 4 is automatically > 3 so yeah
+                ToggleEnemyDataActiveState(4);
+                NPC2 = characters[1].selfScriptRef;
+                NPC3 = characters[2].selfScriptRef;
+                NPC4 = characters[3].selfScriptRef;
+                break;
         }
-        if (characters.Count > 2)
-        {
-            NPC3 = characters[2].selfScriptRef;
-        }
-        if (characters.Count > 3)
-        {
-            NPC4 = characters[3].selfScriptRef;
-        }
+
+
     }
 
 
-    public void RefreshViewEnemy()
+
+    private void ToggleEnemyDataActiveState(int amount)
+    {
+        //1 - mess with first one
+        //2 - mess with first+second
+        //3 - mess with 1,2,3
+        //4 - mess with all 4
+
+
+        switch (amount)
+        {
+            case 0:// hide all
+                Toggle1EnemyView(false);
+                Toggle2EnemyView(false);
+                Toggle3EnemyView(false);
+                Toggle4EnemyView(false);
+                break;
+            case 1://show first
+                Toggle1EnemyView(true);
+                Toggle2EnemyView(false);
+                Toggle3EnemyView(false);
+                Toggle4EnemyView(false);
+                break;
+            case 2://show 1+second
+                Toggle1EnemyView(true);
+                Toggle2EnemyView(true);
+                Toggle3EnemyView(false);
+                Toggle4EnemyView(false);
+                break;
+            case 3://show 1,2+third
+                Toggle1EnemyView(true);
+                Toggle2EnemyView(true);
+                Toggle3EnemyView(true);
+                Toggle4EnemyView(false);
+                break;
+            case 4://show 1,2,3+fourth
+                Toggle1EnemyView(true);
+                Toggle2EnemyView(true);
+                Toggle3EnemyView(true);
+                Toggle4EnemyView(true);
+                break;
+
+        }
+
+    }
+
+    private void Toggle1EnemyView(bool togg)
+    {
+        firstEnemyCharAvatar.gameObject.SetActive(togg);
+        firstEnemyCharName.gameObject.SetActive(togg);
+        firstEnemyHealthBar.gameObject.SetActive(togg);
+        //firstEnemyselectionRectangle.gameObject.SetActive(togg);
+    }
+    private void Toggle2EnemyView(bool togg)
+    {
+        secondEnemyCharAvatar.gameObject.SetActive(togg);
+        secondEnemyCharName.gameObject.SetActive(togg);
+        secondEnemyHealthBar.gameObject.SetActive(togg);
+        //secondEnemyselectionRectangle.gameObject.SetActive(togg);
+    }
+    private void Toggle3EnemyView(bool togg)
+    {
+        thirdEnemyCharAvatar.gameObject.SetActive(togg);
+        thirdEnemyCharName.gameObject.SetActive(togg);
+        thirdEnemyHealthBar.gameObject.SetActive(togg);
+        //thirdEnemyselectionRectangle.gameObject.SetActive(togg);
+    }
+    private void Toggle4EnemyView(bool togg)
+    {
+        fourthEnemyCharAvatar.gameObject.SetActive(togg);
+        fourthEnemyCharName.gameObject.SetActive(togg);
+        fourthEnemyHealthBar.gameObject.SetActive(togg);
+        //fourthEnemyselectionRectangle.gameObject.SetActive(togg);
+    }
+
+
+
+
+
+
+    public void RefreshEnemyViewData()
     {//run this after every spawning or death of an enemy
         if (MainData.livingEnemyParty.Count == 0)
         {
@@ -206,57 +288,51 @@ public class UserInterfaceHelper : MonoBehaviour
         Debug.LogWarning("RefreshEnemyCharacterView() ran.z");
         if (NPC1 != null)//checks if it exists
         {
-            firstCharAvatar.gameObject.SetActive(true);
+            firstEnemyCharAvatar.gameObject.SetActive(true);
             firstEnemyCharAvatar.sprite = NPC1.associatedCharacter.charAvatar; //if it does, show it in the tabs
             firstEnemyCharName.text = NPC1.associatedCharacter.charName;
         }
         else
         {
-            firstCharAvatar.gameObject.SetActive(false);
+            firstEnemyCharAvatar.gameObject.SetActive(false);
         }
         if (NPC2 != null)
         {
-            secondCharAvatar.gameObject.SetActive(true);
+            secondEnemyCharAvatar.gameObject.SetActive(true);
             secondEnemyCharAvatar.sprite = NPC2.associatedCharacter.charAvatar;
             secondEnemyCharName.text = NPC2.associatedCharacter.charName;
         }
         else
         {
-            secondCharAvatar.gameObject.SetActive(false);
+            secondEnemyCharAvatar.gameObject.SetActive(false);
         }
         if (NPC3 != null)
         {
-            thirdCharAvatar.gameObject.SetActive(true);
+            thirdEnemyCharAvatar.gameObject.SetActive(true);
             thirdEnemyCharAvatar.sprite = NPC3.associatedCharacter.charAvatar;
             thirdEnemyCharName.text = NPC3.associatedCharacter.charName;
         }
         else
         {
-            thirdCharAvatar.gameObject.SetActive(false);
+            thirdEnemyCharAvatar.gameObject.SetActive(false);
         }
         if (NPC4 != null)
         {
-            fourthCharAvatar.gameObject.SetActive(true);
+            fourthEnemyCharAvatar.gameObject.SetActive(true);
             fourthEnemyCharAvatar.sprite = NPC4.associatedCharacter.charAvatar;
             fourthEnemyCharName.text = NPC4.associatedCharacter.charName;
         }
         else
         {
-            fourthCharAvatar.gameObject.SetActive(false);
+            fourthEnemyCharAvatar.gameObject.SetActive(false);
         }
-
-
 
         //this requires RefreshEnemyCharacterView() to run before so the NPC slots are defined. the 4 most damaged ones.
 
-
-
-
-
-
-
-
     }
+
+
+
 
     public void RefreshViewPlayer()
     {//run this after any trait change, death, etc.
@@ -272,7 +348,7 @@ public class UserInterfaceHelper : MonoBehaviour
             {
                 firstCharTrait.text = "";
             }
-            
+
         }
         if (PC2 != null)
         {
@@ -313,14 +389,14 @@ public class UserInterfaceHelper : MonoBehaviour
                 fourthCharTrait.text = "";
             }
         }
-        
-        
-        
 
-        
-        
-        
-       
+
+
+
+
+
+
+
     }
 
     public void RefreshHealthBarEnemy()
@@ -336,7 +412,7 @@ public class UserInterfaceHelper : MonoBehaviour
             {
                 firstEnemyHealthBar.value = 0f;
             }
-            
+
         }
         if (NPC2 != null)
         {
@@ -395,10 +471,10 @@ public class UserInterfaceHelper : MonoBehaviour
         {
             fourthHealthBar.value = (PC4.associatedCharacter.currentHealth / PC4.associatedCharacter.baseHealth) * 100;
         }
-        
-        
-       
-        
+
+
+
+
         RefreshPlayerDeathStatus();
     }
 

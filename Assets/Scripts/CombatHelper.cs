@@ -101,10 +101,12 @@ public class CombatHelper : MonoBehaviour
 
                 CurrentlyActiveChar = combatants[i].selfScriptRef;
                 MoveToActiveSpot(CurrentlyActiveChar);
+                
                 Debug.LogWarning("Moving to active spot - " + CurrentlyActiveChar.associatedCharacter.charName);
 
                 if (combatants[i].isPlayerPartyMember)
                 {
+                    //enable controls here
                     DoPlayerCharacterTurn(combatants[i]);
                 }
                 else
@@ -114,10 +116,11 @@ public class CombatHelper : MonoBehaviour
 
 
                 yield return new WaitUntil(() => combatants[i].hasActedThisTurn == true);
+                //disable controls here
 
 
                 yield return new WaitForSecondsRealtime(0.4f);
-
+                
 
             }
 
@@ -234,8 +237,8 @@ public class CombatHelper : MonoBehaviour
             if (activeTarget != null)
             {
                 //StartCoroutine(AttackVisuals(activeTarget)); //does a nice attack effect, either hitting or knockback
-                
-                
+
+                ToggleCombatButtomVisibility(false);
                 StartCoroutine(AttackTargetedEnemy());
                 
 
@@ -255,7 +258,8 @@ public class CombatHelper : MonoBehaviour
 
     public IEnumerator AttackTargetedEnemy()
     {
-        CurrentlyActiveChar.transform.position = ActiveCharSpot.transform.position; //MOVE CHAR TO SPOT
+
+        //CurrentlyActiveChar.transform.position = ActiveCharSpot.transform.position; //MOVE CHAR TO SPOT
 
         Character Fool = activeTarget.associatedCharacter;
 
@@ -358,7 +362,7 @@ public class CombatHelper : MonoBehaviour
 
     public void DoPlayerCharacterTurn(Character pc)
     {
-
+        CurrentlyActiveChar.transform.position = ActiveCharSpot.transform.position; //MOVE CHAR TO SPOT
         ToggleCombatButtomVisibility(true);
         MainData.controlsEnabled = true;
     }

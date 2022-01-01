@@ -248,7 +248,7 @@ public class EntitiesDefinition : MonoBehaviour
 
 
 
-
+        //refresh the miniview thingies whenever we spawn or kill shit
         MainData.MainLoop.UserInterfaceHelperComponent.RefreshEnemyCharacterDetails();
     }
 
@@ -446,7 +446,7 @@ public class EntitiesDefinition : MonoBehaviour
             {
                 if (!isPlayerPartyMember)
                 {
-                    MainData.MainLoop.UserInterfaceHelperComponent.RefreshEnemyCharacterDetails();
+                                MainData.MainLoop.UserInterfaceHelperComponent.RefreshEnemyCharacterDetails();//we refresh UI thingies when someone dies
                 }
                 else
                 {
