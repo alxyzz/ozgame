@@ -212,7 +212,7 @@ public class EntitiesDefinition : MonoBehaviour
         //MainData.livingEnemyParty.Add(d.associatedCharacter);//they are added to the living list in the above method
         MainData.MainLoop.EventLoggingComponent.LogGray("Spontaneous interdimensional emergence of malevolent entity detected.");
         MainData.MainLoop.inCombat = true;
-        MainData.MainLoop.UserInterfaceHelperComponent.RefreshEnemyViewData();
+        MainData.MainLoop.UserInterfaceHelperComponent.RefreshViewEnemy();
     }
 
 
@@ -257,7 +257,7 @@ public class EntitiesDefinition : MonoBehaviour
 
 
         //refresh the miniview thingies whenever we spawn or kill shit
-        MainData.MainLoop.UserInterfaceHelperComponent.RefreshEnemyViewData();
+        MainData.MainLoop.UserInterfaceHelperComponent.RefreshViewEnemy();
     }
 
 
@@ -459,7 +459,7 @@ public class EntitiesDefinition : MonoBehaviour
             }
             if (!isPlayerPartyMember)
             {//this updates the health bar so we don't run the whole big total refresh method
-                MainData.MainLoop.UserInterfaceHelperComponent.RefreshEnemyViewData();
+                MainData.MainLoop.UserInterfaceHelperComponent.RefreshViewEnemy();
             }
             else
             {
@@ -528,7 +528,7 @@ public class EntitiesDefinition : MonoBehaviour
                 MainData.MainLoop.EventLoggingComponent.Log(this.charName + " was killed in action.");
             }
             canAct = false;
-            MainData.MainLoop.UserInterfaceHelperComponent.RefreshEnemyViewData();
+            MainData.MainLoop.UserInterfaceHelperComponent.RefreshViewEnemy();
 
             HandleListsUponDeath();
 

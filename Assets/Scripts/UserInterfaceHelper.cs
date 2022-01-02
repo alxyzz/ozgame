@@ -141,7 +141,7 @@ public class UserInterfaceHelper : MonoBehaviour
     public void RefreshCharacterTabs()
     {
 
-        RefreshEnemyViewData();
+        RefreshViewEnemy();
         RefreshViewPlayer();
     }
 
@@ -169,15 +169,14 @@ public class UserInterfaceHelper : MonoBehaviour
 
         selectedEnemyCharEnemyType.text = ""; // for now until i actually add the enemy Type thing
     }
-
-    public void ReferenceEnemiesForDisplay()
+    private void ReferenceEnemiesForDisplay()
     {//grabs the four most damaged enemy characters, or if all are same health, just the first four.
         //refresh this every time the number of enemy characters changes
         //runs in RefreshEnemyViewDat
 
         if (MainData.livingEnemyParty.Count < 1)
         {
-            ToggleActiveEnemyDisplays(0);
+            SetActiveEnemyTabs(0);
             Debug.LogWarning("RefreshEnemyCharacterView() - livingEnemyParty has no enemies in it.");
             return;
         }
@@ -196,25 +195,25 @@ public class UserInterfaceHelper : MonoBehaviour
         {
             case 0:
                 //this should never happen 
-                ToggleActiveEnemyDisplays(0);
+                SetActiveEnemyTabs(0);
                 break;
             case 1:
                 NPC1 = characters[0].selfScriptRef;
-                ToggleActiveEnemyDisplays(1);
+                SetActiveEnemyTabs(1);
                 break;
             case 2:
-                ToggleActiveEnemyDisplays(2);
+                SetActiveEnemyTabs(2);
                 NPC1 = characters[0].selfScriptRef;
                 NPC2 = characters[1].selfScriptRef;
                 break;
             case 3:
-                ToggleActiveEnemyDisplays(3);
+                SetActiveEnemyTabs(3);
                 NPC1 = characters[0].selfScriptRef;
                 NPC2 = characters[1].selfScriptRef;
                 NPC3 = characters[2].selfScriptRef;
                 break;
             default: //any case other than 0 1 2 3 and 4 is automatically > 3 so yeah
-                ToggleActiveEnemyDisplays(4);
+                SetActiveEnemyTabs(4);
                 NPC1 = characters[0].selfScriptRef;
                 NPC2 = characters[1].selfScriptRef;
                 NPC3 = characters[2].selfScriptRef;
@@ -223,7 +222,7 @@ public class UserInterfaceHelper : MonoBehaviour
         }
         RefreshHealthBarEnemy();
     }
-    private void ToggleActiveEnemyDisplays(int amount)
+    private void SetActiveEnemyTabs(int amount)
     {
         //1 - mess with first one
         //2 - mess with first+second
@@ -267,8 +266,7 @@ public class UserInterfaceHelper : MonoBehaviour
         }
 
     }
-
-    public void RefreshEnemyViewData()
+    public void RefreshViewEnemy()
     {//run this after every spawning or death of an enemy
         if (MainData.livingEnemyParty.Count == 0)
         {
@@ -321,11 +319,7 @@ public class UserInterfaceHelper : MonoBehaviour
 
 
     }
-
-
-
-
-    public void RefreshViewPlayer()
+    private void RefreshViewPlayer()
     {//run this after any trait change, death, etc.
         if (PC1 != null)
         {
@@ -394,8 +388,7 @@ public class UserInterfaceHelper : MonoBehaviour
 
 
     }
-
-    public void RefreshHealthBarEnemy()
+    private void RefreshHealthBarEnemy()
     {//this is small enough and used enough we shouldn't run the whole refresh thing if possible
         //this is only used when we get a new character to display or a character dies.
         //the health bar value is changed when hit, in the Character class' TakeDamageFromCharacter
@@ -464,7 +457,6 @@ public class UserInterfaceHelper : MonoBehaviour
 
         }
     }
-
     public void RefreshHealthBarPlayer()
     {
 
@@ -521,9 +513,7 @@ public class UserInterfaceHelper : MonoBehaviour
 
         RefreshPlayerDeathStatus();
     }
-
-
-    public void RefreshPlayerDeathStatus()
+    private void RefreshPlayerDeathStatus()
     {//checks wether the player is dead so it can hide or show the death/inactive overlay
         if (!PC1.associatedCharacter.CheckIfCanAct())
         {
@@ -568,6 +558,9 @@ public class UserInterfaceHelper : MonoBehaviour
 
     }
 
+
+
+
     public void ClickSendPause()
     {
         MainMenuBack.SetActive(true);
@@ -576,7 +569,6 @@ public class UserInterfaceHelper : MonoBehaviour
         MainData.SoundManagerRef.PlayClickSound();
 
     }
-
     public void ClickStartGame()
     {
         //MainData.MainLoop.SoundManagerComponent.PlayClickSound();
