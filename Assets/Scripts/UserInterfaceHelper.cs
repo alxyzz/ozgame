@@ -85,7 +85,16 @@ public class UserInterfaceHelper : MonoBehaviour
     public TextMeshProUGUI fourthEnemyCharName;//the name of the current player char
     public Slider fourthEnemyHealthBar;//HEALTH BAR REF
     public GameObject fourthEnemyselectionRectangle;
-    [Space(10)]
+    [Space(15)]
+    [Header("enemy miniview parent objects")]
+    public GameObject enemydata1;
+    public GameObject enemydata2;
+    public GameObject enemydata3;
+    public GameObject enemydata4;
+
+
+
+    [Space(15)]
     [Header("references to consumable slots - this is just so you can change their sprite based on what item is in that slot")]
     public GameObject ConsumableSlot1;
     public GameObject ConsumableSlot2;
@@ -131,11 +140,9 @@ public class UserInterfaceHelper : MonoBehaviour
     /// </summary>
     public void RefreshCharacterTabs()
     {
+
         RefreshEnemyViewData();
         RefreshViewPlayer();
-        RefreshHealthBarEnemy();
-        RefreshHealthBarPlayer();
-
     }
 
 
@@ -155,51 +162,54 @@ public class UserInterfaceHelper : MonoBehaviour
         selectedEnemyCharEnemyType.text = ""; // for now until i actually add the enemy Type thing
     }
 
-    public void RefreshEnemyCharacterDetails()
+    public void ReferenceEnemiesForDisplay()
     {//grabs the four most damaged enemy characters, or if all are same health, just the first four.
         //refresh this every time the number of enemy characters changes
+        //runs in RefreshEnemyViewData
         if (MainData.livingEnemyParty.Count < 1)
         {
-            ToggleEnemyDataActiveState(0);
+            ToggleActiveEnemyDisplays(0);
             Debug.LogWarning("RefreshEnemyCharacterView() - livingEnemyParty has no enemies in it.");
             return;
         }
         Debug.LogWarning("RefreshEnemyCharacterView() just ran");
         List<Character> characters = new List<Character>(MainData.livingEnemyParty);
-        characters.Sort((x, y) => x.currentHealth.CompareTo(y.currentHealth)); // ascending. swap y and x on the right side for descending. Yes, we are sorting by plain ol health without any ratio because it's better to hit the one with less life and not the 500hp behemoth who has only 100hp left and the game thinks it's equivalent to 25hp max100hp guy. also ratio.
+
+        characters.Sort((x, y) => x.currentHealth.CompareTo(y.currentHealth)); 
+        // ascending. swap y and x on the right side for descending. Yes, we are sorting by plain ol health without any ratio because it's better to hit the one with less life and not the 500hp behemoth who has only 100hp left and the game thinks it's equivalent to 25hp max100hp guy. also ratio.
+
+        MainData.MainLoop.EventLoggingComponent.LogGray("There are " + characters.Count + " enemy characters.");
         switch (characters.Count)
         {
             case 0:
                 //this should never happen
-                ToggleEnemyDataActiveState(0);
+                ToggleActiveEnemyDisplays(0);
                 break;
             case 1:
                 NPC1 = characters[0].selfScriptRef;
-                ToggleEnemyDataActiveState(1);
+                ToggleActiveEnemyDisplays(1);
                 break;
             case 2:
-                ToggleEnemyDataActiveState(2);
+                ToggleActiveEnemyDisplays(2);
                 NPC2 = characters[1].selfScriptRef;
                 break;
             case 3:
-                ToggleEnemyDataActiveState(3);
+                ToggleActiveEnemyDisplays(3);
                 NPC2 = characters[1].selfScriptRef;
                 NPC3 = characters[2].selfScriptRef;
                 break;
             default: //any case other than 0 1 2 3 and 4 is automatically > 3 so yeah
-                ToggleEnemyDataActiveState(4);
+                ToggleActiveEnemyDisplays(4);
                 NPC2 = characters[1].selfScriptRef;
                 NPC3 = characters[2].selfScriptRef;
                 NPC4 = characters[3].selfScriptRef;
                 break;
         }
 
+        RefreshHealthBarEnemy();
 
     }
-
-
-
-    private void ToggleEnemyDataActiveState(int amount)
+    private void ToggleActiveEnemyDisplays(int amount)
     {
         //1 - mess with first one
         //2 - mess with first+second
@@ -210,73 +220,39 @@ public class UserInterfaceHelper : MonoBehaviour
         switch (amount)
         {
             case 0:// hide all
-                Toggle1EnemyView(false);
-                Toggle2EnemyView(false);
-                Toggle3EnemyView(false);
-                Toggle4EnemyView(false);
+                enemydata1.SetActive(false);
+                enemydata2.SetActive(false);
+                enemydata3.SetActive(false);
+                enemydata4.SetActive(false);
                 break;
             case 1://show first
-                Toggle1EnemyView(true);
-                Toggle2EnemyView(false);
-                Toggle3EnemyView(false);
-                Toggle4EnemyView(false);
+                enemydata1.SetActive(true);
+                enemydata2.SetActive(false);
+                enemydata3.SetActive(false);
+                enemydata4.SetActive(false);
                 break;
             case 2://show 1+second
-                Toggle1EnemyView(true);
-                Toggle2EnemyView(true);
-                Toggle3EnemyView(false);
-                Toggle4EnemyView(false);
+                enemydata1.SetActive(true);
+                enemydata2.SetActive(true);
+                enemydata3.SetActive(false);
+                enemydata4.SetActive(false);
                 break;
             case 3://show 1,2+third
-                Toggle1EnemyView(true);
-                Toggle2EnemyView(true);
-                Toggle3EnemyView(true);
-                Toggle4EnemyView(false);
+                enemydata1.SetActive(true);
+                enemydata2.SetActive(true);
+                enemydata3.SetActive(true);
+                enemydata4.SetActive(false);
                 break;
             case 4://show 1,2,3+fourth
-                Toggle1EnemyView(true);
-                Toggle2EnemyView(true);
-                Toggle3EnemyView(true);
-                Toggle4EnemyView(true);
+                enemydata1.SetActive(true);
+                enemydata2.SetActive(true);
+                enemydata3.SetActive(true);
+                enemydata4.SetActive(true);
                 break;
 
         }
 
     }
-
-    private void Toggle1EnemyView(bool togg)
-    {
-        firstEnemyCharAvatar.gameObject.SetActive(togg);
-        firstEnemyCharName.gameObject.SetActive(togg);
-        firstEnemyHealthBar.gameObject.SetActive(togg);
-        //firstEnemyselectionRectangle.gameObject.SetActive(togg);
-    }
-    private void Toggle2EnemyView(bool togg)
-    {
-        secondEnemyCharAvatar.gameObject.SetActive(togg);
-        secondEnemyCharName.gameObject.SetActive(togg);
-        secondEnemyHealthBar.gameObject.SetActive(togg);
-        //secondEnemyselectionRectangle.gameObject.SetActive(togg);
-    }
-    private void Toggle3EnemyView(bool togg)
-    {
-        thirdEnemyCharAvatar.gameObject.SetActive(togg);
-        thirdEnemyCharName.gameObject.SetActive(togg);
-        thirdEnemyHealthBar.gameObject.SetActive(togg);
-        //thirdEnemyselectionRectangle.gameObject.SetActive(togg);
-    }
-    private void Toggle4EnemyView(bool togg)
-    {
-        fourthEnemyCharAvatar.gameObject.SetActive(togg);
-        fourthEnemyCharName.gameObject.SetActive(togg);
-        fourthEnemyHealthBar.gameObject.SetActive(togg);
-        //fourthEnemyselectionRectangle.gameObject.SetActive(togg);
-    }
-
-
-
-
-
 
     public void RefreshEnemyViewData()
     {//run this after every spawning or death of an enemy
@@ -285,7 +261,16 @@ public class UserInterfaceHelper : MonoBehaviour
             Debug.LogWarning("RefreshEnemyCharacterView() - livingEnemyParty has no enemies in it.");
             return;
         }
-        Debug.LogWarning("RefreshEnemyCharacterView() ran.z");
+        Debug.LogWarning("RefreshEnemyCharacterView() ran.");
+
+
+
+
+
+        ReferenceEnemiesForDisplay();
+
+
+
         if (NPC1 != null)//checks if it exists
         {
             firstEnemyCharAvatar.gameObject.SetActive(true);
@@ -326,7 +311,7 @@ public class UserInterfaceHelper : MonoBehaviour
         {
             fourthEnemyCharAvatar.gameObject.SetActive(false);
         }
-
+        RefreshHealthBarEnemy();
         //this requires RefreshEnemyCharacterView() to run before so the NPC slots are defined. the 4 most damaged ones.
 
     }
@@ -392,7 +377,7 @@ public class UserInterfaceHelper : MonoBehaviour
 
 
 
-
+        RefreshPlayerDeathStatus();
 
 
 
@@ -401,12 +386,20 @@ public class UserInterfaceHelper : MonoBehaviour
 
     public void RefreshHealthBarEnemy()
     {//this is small enough and used enough we shouldn't run the whole refresh thing if possible
-
+        //this is only used when we get a new character to display or a character dies.
+        //the health bar value is changed when hit, in the Character class' TakeDamageFromCharacter
+        foreach (Character item in MainData.livingEnemyParty)
+        {
+            item.HealthBar = null;
+        }//we do this so we don't have unwanted references from 
+        
         if (NPC1 != null)
         {
             if (!NPC1.associatedCharacter.isDead)
             {
+
                 firstEnemyHealthBar.value = (NPC1.associatedCharacter.currentHealth / NPC1.associatedCharacter.baseHealth) * 100f;
+                NPC1.associatedCharacter.HealthBar = firstEnemyHealthBar;
             }
             else
             {
@@ -419,6 +412,7 @@ public class UserInterfaceHelper : MonoBehaviour
             if (!NPC2.associatedCharacter.isDead)
             {
                 secondEnemyHealthBar.value = (NPC2.associatedCharacter.currentHealth / NPC2.associatedCharacter.baseHealth) * 100f;
+                NPC2.associatedCharacter.HealthBar = secondEnemyHealthBar;
             }
             else
             {
@@ -431,6 +425,7 @@ public class UserInterfaceHelper : MonoBehaviour
             if (!NPC3.associatedCharacter.isDead)
             {
                 thirdEnemyHealthBar.value = (NPC3.associatedCharacter.currentHealth / NPC3.associatedCharacter.baseHealth) * 100f;
+                NPC3.associatedCharacter.HealthBar = thirdEnemyHealthBar;
             }
             else
             {
@@ -443,6 +438,7 @@ public class UserInterfaceHelper : MonoBehaviour
             if (!NPC4.associatedCharacter.isDead)
             {
                 fourthEnemyHealthBar.value = (NPC4.associatedCharacter.currentHealth / NPC4.associatedCharacter.baseHealth) * 100f;
+                NPC4.associatedCharacter.HealthBar = fourthEnemyHealthBar;
             }
             else
             {
@@ -457,21 +453,45 @@ public class UserInterfaceHelper : MonoBehaviour
 
         if (PC1 != null)
         {
-            firstHealthBar.value = (PC1.associatedCharacter.currentHealth / PC1.associatedCharacter.baseHealth) * 100;
+            firstHealthBar.value = (PC1.associatedCharacter.currentHealth / PC1.associatedCharacter.baseHealth) / 100;
+            PC1.associatedCharacter.HealthBar = firstHealthBar;
         }
+        else
+        {
+            Debug.Log("disabled p1 healthbar");
+            firstHealthBar.gameObject.SetActive(false);
+        }
+        //
         if (PC2 != null)
         {
-            secondHealthBar.value = (PC2.associatedCharacter.currentHealth / PC2.associatedCharacter.baseHealth) * 100;
+            secondHealthBar.value = (PC2.associatedCharacter.currentHealth / PC2.associatedCharacter.baseHealth) / 100;
+            PC2.associatedCharacter.HealthBar = secondHealthBar;
         }
+        else
+        {
+            secondHealthBar.gameObject.SetActive(false);
+        }
+        //
         if (PC3 != null)
         {
-            thirdHealthBar.value = (PC3.associatedCharacter.currentHealth / PC3.associatedCharacter.baseHealth) * 100;
+            thirdHealthBar.value = (PC3.associatedCharacter.currentHealth / PC3.associatedCharacter.baseHealth) / 100;
+            PC3.associatedCharacter.HealthBar = thirdHealthBar;
         }
+        else
+        {
+            thirdHealthBar.gameObject.SetActive(false);
+        }
+        //
         if (PC4 != null)
         {
-            fourthHealthBar.value = (PC4.associatedCharacter.currentHealth / PC4.associatedCharacter.baseHealth) * 100;
+            fourthHealthBar.value = (PC4.associatedCharacter.currentHealth / PC4.associatedCharacter.baseHealth) / 100;
+            PC4.associatedCharacter.HealthBar = fourthHealthBar;
         }
-
+        else
+        {
+            fourthHealthBar.gameObject.SetActive(false);
+        }
+        //
 
 
 
@@ -484,33 +504,41 @@ public class UserInterfaceHelper : MonoBehaviour
         if (!PC1.associatedCharacter.CheckIfCanAct())
         {
             PCDead1.SetActive(true);
+            firstHealthBar.gameObject.SetActive(false);
         }
         else
         {
+            firstHealthBar.gameObject.SetActive(true);
             PCDead1.SetActive(false);
         }
         if (!PC2.associatedCharacter.CheckIfCanAct())
         {
             PCDead2.SetActive(true);
+            secondHealthBar.gameObject.SetActive(false);
         }
         else
         {
+            secondHealthBar.gameObject.SetActive(true);
             PCDead2.SetActive(false);
         }
         if (!PC3.associatedCharacter.CheckIfCanAct())
         {
             PCDead3.SetActive(true);
+            thirdHealthBar.gameObject.SetActive(false);
         }
         else
         {
+            thirdHealthBar.gameObject.SetActive(true);
             PCDead3.SetActive(false);
         }
         if (!PC4.associatedCharacter.CheckIfCanAct())
         {
             PCDead4.SetActive(true);
+            fourthHealthBar.gameObject.SetActive(false);
         }
         else
         {
+            fourthHealthBar.gameObject.SetActive(true);
             PCDead4.SetActive(false);
         }
 

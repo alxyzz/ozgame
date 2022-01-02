@@ -265,8 +265,7 @@ public class CombatHelper : MonoBehaviour
 
         Debug.Log("attacking enemy. Currently active character is "+CurrentlyActiveChar.associatedCharacter.charName);
 
-        Fool.TakeDamageFromCharacter(CurrentlyActiveChar.associatedCharacter);
-        DisplayFloatingDamageNumbers(CurrentlyActiveChar.associatedCharacter.damage, Fool);
+        Fool.TakeDamageFromCharacter(CurrentlyActiveChar.associatedCharacter);//this also handles damage indicator
         yield return new WaitForSeconds(0.5f);
 
         ReturnFromActiveSpot(); //return him duh sillybuns
@@ -452,13 +451,13 @@ public class CombatHelper : MonoBehaviour
 
         Debug.Log("attacking player at playerParty[" + b.ToString() + "]!");
 
-        Fool.TakeDamageFromCharacter(chara.associatedCharacter);
+        Fool.TakeDamageFromCharacter(chara.associatedCharacter);//this also handles the damage indicator 
 
         yield return new WaitForSeconds(1f);
 
         ReturnFromActiveSpot();
         CurrentlyActiveChar.associatedCharacter.hasActedThisTurn = true;
-        DisplayFloatingDamageNumbers(chara.associatedCharacter.damage, Fool);
+        
 
     }
 

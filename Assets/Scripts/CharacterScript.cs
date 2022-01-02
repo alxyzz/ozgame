@@ -50,7 +50,7 @@ public class CharacterScript : MonoBehaviour
     {
         associatedCharacter = Character.CreateInstance<Character>();
         associatedCharacter.attackverb = template.attackverb;
-        associatedCharacter.baseDamage = template.baseDamage;
+        associatedCharacter.baseDamageMin = template.baseDamageMin;
         associatedCharacter.baseHealth = template.baseHealth;
         associatedCharacter.baseSpeed = template.baseSpeed;
         associatedCharacter.charAvatar = template.charAvatar;
@@ -60,7 +60,7 @@ public class CharacterScript : MonoBehaviour
         associatedCharacter.charType = template.charType;
         associatedCharacter.selfScriptRef = this;
         associatedCharacter.currentHealth = template.currentHealth;
-        associatedCharacter.damage = template.damage;
+        associatedCharacter.damageMin = template.damageMin;
         associatedCharacter.defense = template.defense;
         associatedCharacter.entityDescription = template.entityDescription;
         associatedCharacter.isPlayerPartyMember = !isEnemyCharacter;

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
+using UnityEngine.UI;
 using static LevelHelper;
 using static MainData;
 using static TraitHelper;
@@ -38,7 +39,7 @@ public class EntitiesDefinition : MonoBehaviour
     /// <param name="attackVerb">The verb used when attacking, shown in the log.</param>
     /// <param name="isPlayer">Wether it is part of the player's party, or an enemy.</param>
     /// <param name="baseHP">The base health maximum value, before to any modifiers.</param>
-    /// <param name="baseDMG">The base damage value, before any modifiers.</param>
+    /// <param name="baseMinDMG">The base damage value, before any modifiers.</param>
     /// <param name="baseSPD">The base speed value, before any modifiers.</param>
 
     /// <param name="Defense"></param>
@@ -48,7 +49,7 @@ public class EntitiesDefinition : MonoBehaviour
     /// <param name="newCharSprite"></param>
     /// <param name="newCharAvatar"></param>
     /// <returns></returns>
-    public void MakeTemplateMob(string characterID, string charName, string charDesc, string attackVerb, bool isPlayer, int baseHP, int baseDMG, int baseSPD, int Defense, int Luck, int Mana, AudioClip newCharTurnSound, Sprite newCharSprite, Sprite newCharAvatar)
+    public void MakeTemplateMob(string characterID, string charName, string charDesc, string attackVerb, bool isPlayer, int baseHP, int baseMinDMG, int baseMaxDMG, int baseSPD, int Defense, int Luck, int Mana, AudioClip newCharTurnSound, Sprite newCharSprite, Sprite newCharAvatar)
     {
         Character newCharacterDefinition = Character.CreateInstance<Character>();
 
@@ -67,14 +68,16 @@ public class EntitiesDefinition : MonoBehaviour
 
 
         newCharacterDefinition.baseHealth = baseHP;
-        newCharacterDefinition.baseDamage = baseDMG;
+        newCharacterDefinition.baseDamageMin = baseMinDMG;
+        newCharacterDefinition.baseDamageMin = baseMaxDMG;
         newCharacterDefinition.baseSpeed = baseSPD;
 
         newCharacterDefinition.currentHealth = baseHP;
         newCharacterDefinition.mana = Mana;
 
         newCharacterDefinition.luck = Luck;
-        newCharacterDefinition.damage = baseDMG;
+        newCharacterDefinition.damageMin = baseMinDMG;
+        newCharacterDefinition.damageMax = baseMaxDMG;
         newCharacterDefinition.speed = baseSPD; //to be recalculated later whenever a modifier gets applied.
         newCharacterDefinition.defense = Defense;
 
@@ -94,7 +97,8 @@ public class EntitiesDefinition : MonoBehaviour
                        "rends", //verb used when attacking
                        true, //is it a player character(true), or is it an enemy(false)?
                        100, //the base HP value
-                       25, // the base damage value
+                       20, // the base minimum damage value
+                       30, //the base maximum damage value.
                        20, //base speed, higher is better
                        1, //defense
                        2, //luck
@@ -109,13 +113,14 @@ public class EntitiesDefinition : MonoBehaviour
                        "chops", //verb used when attacking
                        true, //is it a player character(true), or is it an enemy(false)?
                        100, //the base HP value
-                       25, // the base damage value
+                       20, // the base minimum damage value
+                       30, //the base maximum damage value.
                        60, //base speed, higher is better
                        1, //defense
                        2, //luck
                        100, //mana
                        null, //sound for when it is this character's turn to act
-                       ScarecrowSprite, //character's sprite 
+                       TinManSprite, //character's sprite 
                        null); //character's avatar sprite
 
         MakeTemplateMob("lion",
@@ -124,7 +129,8 @@ public class EntitiesDefinition : MonoBehaviour
                        "rends", //verb used when attacking
                        true, //is it a player character(true), or is it an enemy(false)?
                        100, //the base HP value
-                       25, // the base damage value
+                       20, // the base  minimum damage value
+                       30, //the base maximum damage value.
                        40, //base speed, higher is better
                        1, //defense
                        2, //luck
@@ -139,7 +145,8 @@ public class EntitiesDefinition : MonoBehaviour
                       "cuts", //verb used when attacking
                        true, //is it a player character(true), or is it an enemy(false)?
                        100, //the base HP value
-                       25, // the base damage value
+                       20, // the base  minimum damage value
+                       30, //the base maximum damage value.
                        30, //base speed, higher is better
                        1, //defense
                        2, //luck
@@ -160,7 +167,8 @@ public class EntitiesDefinition : MonoBehaviour
                        "rends", //verb used when attacking
                        false, //is it a player character(true), or is it an enemy(false)?
                        100, //the base HP value
-                       25, // the base damage value
+                       10, // the minimum damage value
+                       15, //the maximum damage value.
                        5, //base speed, higher is better
                        1, //defense
                        2, //luck
@@ -201,10 +209,10 @@ public class EntitiesDefinition : MonoBehaviour
         b.SetActive(true);//we turn it on
         CharacterScript d = b.GetComponent<CharacterScript>();//get the Cscript reference
         d.SetupCharacterByTemplate(MainData.characterTypes["evilcrow"]); //assign an enemy template
-        MainData.livingEnemyParty.Add(d.associatedCharacter);//add it to the living list
+        //MainData.livingEnemyParty.Add(d.associatedCharacter);//they are added to the living list in the above method
         MainData.MainLoop.EventLoggingComponent.LogGray("Spontaneous interdimensional emergence of malevolent entity detected.");
         MainData.MainLoop.inCombat = true;
-        MainData.MainLoop.UserInterfaceHelperComponent.RefreshEnemyCharacterDetails();
+        MainData.MainLoop.UserInterfaceHelperComponent.RefreshEnemyViewData();
     }
 
 
@@ -240,7 +248,7 @@ public class EntitiesDefinition : MonoBehaviour
             f.SetActive(true);//we turn the spot on on
             CharacterScript d = f.GetComponent<CharacterScript>();//get the Cscript reference
             d.SetupCharacterByTemplate(MainData.characterTypes[item]); //assign and set up an enemy template to the spot
-            MainData.livingEnemyParty.Add(d.associatedCharacter);//add it to the living list
+            //they are added to the living list in the above method
             MainData.MainLoop.EventLoggingComponent.LogGray("A " + d.associatedCharacter.charName + "suddenly steps out of the shadows.");
 
         }
@@ -249,7 +257,7 @@ public class EntitiesDefinition : MonoBehaviour
 
 
         //refresh the miniview thingies whenever we spawn or kill shit
-        MainData.MainLoop.UserInterfaceHelperComponent.RefreshEnemyCharacterDetails();
+        MainData.MainLoop.UserInterfaceHelperComponent.RefreshEnemyViewData();
     }
 
 
@@ -376,6 +384,10 @@ public class EntitiesDefinition : MonoBehaviour
         public Trait charTrait;
         public AudioClip turnSound;
         public Sprite charSprite;
+
+        public Sprite WalkSprites;
+
+        public Sprite AttackSprites;
         public Sprite charAvatar;
 
         public StatusEffect currentStatusEffect;
@@ -383,12 +395,14 @@ public class EntitiesDefinition : MonoBehaviour
         public int currentHealth;
 
         public int baseHealth;
-        public int baseDamage;
+        public int baseDamageMin;
+        public int baseDamageMax;
         public int baseSpeed;
-
+        public Slider HealthBar;
         public int speed; //NOTE - RECOMPUTE THESE BEFORE EVERY TURN TO TRACK TRAITS CHANGING IT
         public int defense;
-        public int damage;
+        public int damageMin;
+        public int damageMax;
         public int luck;
         public int mana;
         private bool canAct = true; //wether it's stunned or not
@@ -406,7 +420,7 @@ public class EntitiesDefinition : MonoBehaviour
 
         public void RecalculateThreatFromStats()
         {
-            threatFromStats = ((((currentHealth + damage) / 2) / speed) * 100);
+            threatFromStats = ((((currentHealth + damageMin) / 2) / speed) * 100);
         }
 
 
@@ -429,10 +443,22 @@ public class EntitiesDefinition : MonoBehaviour
         }
         public void TakeDamageFromCharacter(Character attacker)
         {
+            int damageRoll = UnityEngine.Random.Range(attacker.damageMin, attacker.damageMax+1);
+            MainData.MainLoop.EventLoggingComponent.Log(attacker.charName + " " + attacker.attackverb + " the " + charName + " for " + (damageRoll) + " damage. Armor protects for "+ defense + " damage!");
 
-            MainData.MainLoop.EventLoggingComponent.Log(attacker.charName + " " + attacker.attackverb + " the " + charName + " for " + attacker.damage + " damage");
 
-            currentHealth -= (attacker.damage - defense); //INCORPORATE ARMOR CALCULATION HERE 
+
+            MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(damageRoll, this);
+            currentHealth -= (damageRoll - defense); //INCORPORATED ARMOR CALCULATION HERE 
+            if (HealthBar != null)
+            {
+                HealthBar.value -= (damageRoll - defense) / baseHealth * 100f;
+            }
+            else
+            {
+                MainData.MainLoop.UserInterfaceHelperComponent.RefreshEnemyViewData();
+            }
+            
             if (isPlayerPartyMember)
             {
                 MainData.MainLoop.UserInterfaceHelperComponent.RefreshHealthBarPlayer();
@@ -441,19 +467,19 @@ public class EntitiesDefinition : MonoBehaviour
             {
                 MainData.MainLoop.UserInterfaceHelperComponent.RefreshHealthBarEnemy();
             }
-            attacker.Threat += (attacker.damage - defense);
+            attacker.Threat += (damageRoll - defense); // WE APPLY THREAT
             if (currentHealth <= 0)
             {
                 if (!isPlayerPartyMember)
                 {
-                                MainData.MainLoop.UserInterfaceHelperComponent.RefreshEnemyCharacterDetails();//we refresh UI thingies when someone dies
+                    MainData.MainLoop.UserInterfaceHelperComponent.RefreshEnemyViewData();//we refresh UI thingies when someone dies
                 }
                 else
                 {
-                    MainData.MainLoop.UserInterfaceHelperComponent.RefreshPlayerDeathStatus();
+                    MainData.MainLoop.UserInterfaceHelperComponent.RefreshViewPlayer();
                 }
 
-                gotKilled(attacker);
+                GotKilled(attacker);
             }
         }
 
@@ -461,9 +487,10 @@ public class EntitiesDefinition : MonoBehaviour
         { //generic take damage function
             currentHealth -= dmg;
             MainData.MainLoop.EventLoggingComponent.Log(this.charName + " the " + charTrait.name + " is hurt " + "for " + dmg + " damage!");
+            HealthBar.value -= dmg / baseHealth * 100f;
             if (currentHealth <= 0)
             {
-                gotKilled();
+                GotKilled();
             }
         }
 
@@ -498,7 +525,7 @@ public class EntitiesDefinition : MonoBehaviour
         }
 
 
-        public void gotKilled(Character killer = null)
+        public void GotKilled(Character killer = null)
         {
             if (killer != null)
             {

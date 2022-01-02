@@ -1,46 +1,49 @@
 fileFormatVersion: 2
-guid: 27c48bcb3db47fb44855e94af25fdb0b
+guid: b535cd5fb0ee3ed40926968cbe33deca
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4365275974601378459
-    second: scarecrow_attack_0
+      213: 1573687664973937809
+    second: tinman_attack_sheet_0
   - first:
-      213: -5155848086790717141
-    second: scarecrow_attack_1
+      213: -4342926719674496456
+    second: tinman_attack_sheet_1
   - first:
-      213: 2011507888409981359
-    second: scarecrow_attack_2
+      213: 3183057803157599513
+    second: tinman_attack_sheet_2
   - first:
-      213: -6398140700857767214
-    second: scarecrow_attack_3
+      213: 9052926777099572008
+    second: tinman_attack_sheet_3
   - first:
-      213: -4180671489928320342
-    second: scarecrow_attack_4
+      213: -9132369990089244844
+    second: tinman_attack_sheet_4
   - first:
-      213: -2481677492234392963
-    second: scarecrow_attack_5
+      213: 2617261433629268227
+    second: tinman_attack_sheet_5
   - first:
-      213: 7075105589385014138
-    second: scarecrow_attack_6
+      213: 4935466017826043687
+    second: tinman_attack_sheet_6
   - first:
-      213: 8990109509056405433
-    second: scarecrow_attack_7
+      213: 2053696701648403103
+    second: tinman_attack_sheet_7
   - first:
-      213: 8531709711334073243
-    second: scarecrow_attack_8
+      213: -1467262806273795967
+    second: tinman_attack_sheet_8
   - first:
-      213: 6925957111435233979
-    second: scarecrow_attack_9
+      213: -9209253539883684040
+    second: tinman_attack_sheet_9
   - first:
-      213: 7575628605364593980
-    second: scarecrow_attack_10
+      213: -5312190538051640068
+    second: tinman_attack_sheet_10
   - first:
-      213: 7676843845368457563
-    second: scarecrow_attack_11
+      213: -6042783783699267346
+    second: tinman_attack_sheet_11
   - first:
-      213: -2484195349469558555
-    second: scarecrow_attack_12
+      213: -4002968583243309619
+    second: tinman_attack_sheet_12
+  - first:
+      213: 1369876570069885553
+    second: tinman_attack_sheet_13
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -71,7 +74,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: -1
     aniso: -1
     mipBias: -100
     wrapU: 1
@@ -128,7 +131,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: scarecrow_attack_0
+      name: tinman_attack_sheet_0
       rect:
         serializedVersion: 2
         x: 0
@@ -142,14 +145,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b9a89a4ee53949c30800000000000000
-      internalID: 4365275974601378459
+      spriteID: 19c7f22f79cd6d510800000000000000
+      internalID: 1573687664973937809
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: scarecrow_attack_1
+      name: tinman_attack_sheet_1
       rect:
         serializedVersion: 2
         x: 1420
@@ -163,14 +166,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b2146fe5b7fb278b0800000000000000
-      internalID: -5155848086790717141
+      spriteID: 83acf348823dab3c0800000000000000
+      internalID: -4342926719674496456
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: scarecrow_attack_2
+      name: tinman_attack_sheet_2
       rect:
         serializedVersion: 2
         x: 2840
@@ -184,14 +187,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fa1b29f54cf4aeb10800000000000000
-      internalID: 2011507888409981359
+      spriteID: 9157eb8153e7c2c20800000000000000
+      internalID: 3183057803157599513
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: scarecrow_attack_3
+      name: tinman_attack_sheet_3
       rect:
         serializedVersion: 2
         x: 4260
@@ -205,14 +208,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2da676e6eec3537a0800000000000000
-      internalID: -6398140700857767214
+      spriteID: 82354a670f472ad70800000000000000
+      internalID: 9052926777099572008
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: scarecrow_attack_4
+      name: tinman_attack_sheet_4
       rect:
         serializedVersion: 2
         x: 0
@@ -226,14 +229,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: aaa28381e654bf5c0800000000000000
-      internalID: -4180671489928320342
+      spriteID: 45ffa4f11ed434180800000000000000
+      internalID: -9132369990089244844
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: scarecrow_attack_5
+      name: tinman_attack_sheet_5
       rect:
         serializedVersion: 2
         x: 1420
@@ -247,14 +250,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d7a6944287f4f8dd0800000000000000
-      internalID: -2481677492234392963
+      spriteID: 3095dc33861625420800000000000000
+      internalID: 2617261433629268227
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: scarecrow_attack_6
+      name: tinman_attack_sheet_6
       rect:
         serializedVersion: 2
         x: 2840
@@ -268,14 +271,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a7bacab4c03df2260800000000000000
-      internalID: 7075105589385014138
+      spriteID: 7277889a13c4e7440800000000000000
+      internalID: 4935466017826043687
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: scarecrow_attack_7
+      name: tinman_attack_sheet_7
       rect:
         serializedVersion: 2
         x: 4260
@@ -289,14 +292,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9bf1b2387f843cc70800000000000000
-      internalID: 8990109509056405433
+      spriteID: f9af42ae442308c10800000000000000
+      internalID: 2053696701648403103
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: scarecrow_attack_8
+      name: tinman_attack_sheet_8
       rect:
         serializedVersion: 2
         x: 0
@@ -310,14 +313,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b9361de87c8b66670800000000000000
-      internalID: 8531709711334073243
+      spriteID: 18858e7604c33abe0800000000000000
+      internalID: -1467262806273795967
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: scarecrow_attack_9
+      name: tinman_attack_sheet_9
       rect:
         serializedVersion: 2
         x: 1420
@@ -331,14 +334,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bba00bc2c41fd1060800000000000000
-      internalID: 6925957111435233979
+      spriteID: 83f69bcb2b8223080800000000000000
+      internalID: -9209253539883684040
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: scarecrow_attack_10
+      name: tinman_attack_sheet_10
       rect:
         serializedVersion: 2
         x: 2840
@@ -352,14 +355,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c356b05441a022960800000000000000
-      internalID: 7575628605364593980
+      spriteID: cf4ad30d9de4746b0800000000000000
+      internalID: -5312190538051640068
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: scarecrow_attack_11
+      name: tinman_attack_sheet_11
       rect:
         serializedVersion: 2
         x: 4260
@@ -373,14 +376,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b59a45fbdc0a98a60800000000000000
-      internalID: 7676843845368457563
+      spriteID: ee04d1e2a28b32ca0800000000000000
+      internalID: -6042783783699267346
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: scarecrow_attack_12
+      name: tinman_attack_sheet_12
       rect:
         serializedVersion: 2
         x: 0
@@ -394,8 +397,29 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5e88032dd7d568dd0800000000000000
-      internalID: -2484195349469558555
+      spriteID: dcddbbc38499278c0800000000000000
+      internalID: -4002968583243309619
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tinman_attack_sheet_13
+      rect:
+        serializedVersion: 2
+        x: 1420
+        y: 0
+        width: 1420
+        height: 1368
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 17265298b77c20310800000000000000
+      internalID: 1369876570069885553
       vertices: []
       indices: 
       edges: []
@@ -403,7 +427,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 516575976601b9c479bf9b5d555a5b47
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 

@@ -42,7 +42,6 @@ public class GameManager : MonoBehaviour
         //LevelHelperComponent.GenerateLevels(); //set up templates
         //LevelHelperComponent.SetupDemoLevel();
         EntityDefComponent.BuildParty();
-        UserInterfaceHelperComponent.RefreshCharacterTabs();
         PositionHolderComponent.PrepPartyPlaces();
         UserInterfaceHelperComponent.RefreshCharacterTabs();
         UserInterfaceHelperComponent.GameUI.SetActive(false);

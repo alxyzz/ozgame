@@ -13,9 +13,6 @@ public static class MainData
 
 
     public static AudioSource SoundtrackPlayer;
-    public static Sprite mapCampfireSprite;
-    public static Sprite MhopSprite;
-    public static Sprite MossSprite;
     [Space(10)]
     public static Material MatCatacombs;
     public static DesignerTuningInterface itemManager; //script that allows easy value tweaking for designers
