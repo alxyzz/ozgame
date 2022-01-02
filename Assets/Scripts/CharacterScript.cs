@@ -102,6 +102,7 @@ public class CharacterScript : MonoBehaviour
             if (MainData.MainLoop.CombatHelperComponent.activeTarget == this)
             {
                 MainData.MainLoop.CombatHelperComponent.activeTarget = null;
+                MainData.MainLoop.UserInterfaceHelperComponent.DisplayTargetedEnemyInfo(null);
             }
             else
             {
