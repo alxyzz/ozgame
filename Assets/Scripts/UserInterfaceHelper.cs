@@ -449,7 +449,7 @@ public class UserInterfaceHelper : MonoBehaviour
         foreach (Character item in MainData.livingEnemyParty)
         {
             item.HealthBar = null;
-        }//we do this so we don't have unwanted references from 
+        }//we do this so we don't have unwanted references if we somehow switch back and forth from a character due to changed hp
 
         if (NPC1 != null)
         {
@@ -462,6 +462,7 @@ public class UserInterfaceHelper : MonoBehaviour
                     NPC1.associatedCharacter.HealthBar = NPC1HPbar;
                     NPC1HPbar.maxValue = NPC1.associatedCharacter.baseHealth;
                     NPC1HPbar.value = NPC1.associatedCharacter.currentHealth;
+                    NPC1nmbr.text = NPC1.associatedCharacter.currentHealth + "/" +NPC1.associatedCharacter.baseHealth;
                 }
                 else
                 {
@@ -485,6 +486,7 @@ public class UserInterfaceHelper : MonoBehaviour
                     NPC2.associatedCharacter.HealthBar = NPC2HPbar;
                     NPC2HPbar.maxValue = NPC2.associatedCharacter.baseHealth;
                     NPC2HPbar.value = NPC2.associatedCharacter.currentHealth;
+                    NPC2nmbr.text = NPC2.associatedCharacter.currentHealth + "/" + NPC2.associatedCharacter.baseHealth;
                 }
                 else
                 {
@@ -507,6 +509,7 @@ public class UserInterfaceHelper : MonoBehaviour
                     NPC3.associatedCharacter.HealthBar = NPC3HPbar;
                     NPC3HPbar.maxValue = NPC3.associatedCharacter.baseHealth;
                     NPC3HPbar.value = NPC3.associatedCharacter.currentHealth;
+                    NPC3nmbr.text = NPC3.associatedCharacter.currentHealth + "/" + NPC3.associatedCharacter.baseHealth;
                 }
                 else
                 {
@@ -529,6 +532,7 @@ public class UserInterfaceHelper : MonoBehaviour
                     NPC4.associatedCharacter.HealthBar = NPC4HPbar;
                     NPC4HPbar.maxValue = NPC4.associatedCharacter.baseHealth;
                     NPC4HPbar.value = NPC4.associatedCharacter.currentHealth;
+                    NPC4nmbr.text = NPC4.associatedCharacter.currentHealth + "/" + NPC4.associatedCharacter.baseHealth;
                 }
                 else
                 {
@@ -644,10 +648,6 @@ public class UserInterfaceHelper : MonoBehaviour
         }
 
     }
-
-
-
-
     public void ClickSendPause()
     {
         MainMenuBack.SetActive(true);
@@ -670,7 +670,6 @@ public class UserInterfaceHelper : MonoBehaviour
         GameUI.SetActive(true);
         MainData.MainLoop.gameStarted = true;
     }
-
     public void ClickExitGame()
     {
         MainData.SoundManagerRef.PlayClickSound();
@@ -678,16 +677,11 @@ public class UserInterfaceHelper : MonoBehaviour
 
         ExitConfirmationCanvas.SetActive(true);
     }
-
-
-
-
     public void ClickExitYes()
     {
         MainData.SoundManagerRef.PlayClickSound();
         Application.Quit();
     }
-
     public void ClickExitNo()
     {
         MainData.SoundManagerRef.PlayClickSound();
@@ -703,9 +697,6 @@ public class UserInterfaceHelper : MonoBehaviour
         SettingsCanvas.SetActive(true);
 
     }
-
-
-
     public void ClickSettingsBack()
     {
         MenuCanvas.SetActive(true);
@@ -714,7 +705,6 @@ public class UserInterfaceHelper : MonoBehaviour
 
 
     }
-
     public void ClickSettingsParallax()
     {
         if (MainData.MainLoop.BackgroundParallaxObject.ParallaxSetting)
@@ -731,21 +721,13 @@ public class UserInterfaceHelper : MonoBehaviour
 
 
     }
-
-
-
     /// <summary>
     /// in-game buttons
     /// </summary>
-
-
     public void ClickTesting()
     {
         Debug.Log("I HAVE BEEN CLICKED. WHO DARES?");
     }
-
-
-
     public void ClickOvermapLevel(MapLevel clickyyy)
     {
         if (clickyyy != MainData.currentLevel)
@@ -777,12 +759,7 @@ public class UserInterfaceHelper : MonoBehaviour
         Debug.Log("CLICKED OVERMAP-open BUTTON.");
         MainData.SoundManagerRef.PlayClickSound();
     }
-
-
     //NOTE - combat buttons are handled in CombatHelper.cs
-
-
-
     IEnumerator darksequence()
     {
         float transparency = 0f;
