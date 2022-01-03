@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
     public UserInterfaceHelper UserInterfaceHelperComponent;
     public CombatHelper CombatHelperComponent;
     public GameObject backgroundObject;
+    public VendorScript VendorScriptComponent;
 
 
     // Start is called before the first frame update

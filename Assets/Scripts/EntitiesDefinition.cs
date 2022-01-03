@@ -27,8 +27,8 @@ public class EntitiesDefinition : MonoBehaviour
     public Sprite SharpeningStoneSprite;
     public Sprite HealingMushroomSprite;
     [Space(10)]
-    public GameObject EnemyPrefab;
-
+    //public GameObject EnemyPrefab;
+    public GameObject SpawnAnimationPrefab;
 
     /// <summary>
     /// A function to define a new being, allied or enemy, and add it into the dictionary based on the characterID string.
@@ -210,12 +210,21 @@ public class EntitiesDefinition : MonoBehaviour
         CharacterScript d = b.GetComponent<CharacterScript>();//get the Cscript reference
         d.SetupCharacterByTemplate(MainData.characterTypes["evilcrow"]); //assign an enemy template
         //MainData.livingEnemyParty.Add(d.associatedCharacter);//they are added to the living list in the above method
-        MainData.MainLoop.EventLoggingComponent.LogGray("Spontaneous interdimensional emergence of malevolent entity detected.");
+        MainData.MainLoop.EventLoggingComponent.LogGray("A new friend has arrived.");
         MainData.MainLoop.inCombat = true;
         MainData.MainLoop.UserInterfaceHelperComponent.RefreshViewEnemy();
+
+
+        GameObject cx = Instantiate(SpawnAnimationPrefab, d.gameObject.transform.position, Quaternion.identity);
+        StartCoroutine(DelAfterTime(cx));
     }
 
+    IEnumerator DelAfterTime(GameObject b)
+    {
 
+        yield return new WaitForSecondsRealtime(2f);
+        Destroy(b);
+    }
 
 
 
