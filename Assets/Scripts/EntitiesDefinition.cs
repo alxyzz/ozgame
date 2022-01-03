@@ -27,8 +27,8 @@ public class EntitiesDefinition : MonoBehaviour
     public Sprite SharpeningStoneSprite;
     public Sprite HealingMushroomSprite;
     [Space(10)]
-    public GameObject EnemyPrefab;
-
+    //public GameObject EnemyPrefab;
+    public GameObject SpawnAnimationPrefab;
 
     /// <summary>
     /// A function to define a new being, allied or enemy, and add it into the dictionary based on the characterID string.
@@ -97,8 +97,8 @@ public class EntitiesDefinition : MonoBehaviour
                        "rends", //verb used when attacking
                        true, //is it a player character(true), or is it an enemy(false)?
                        100, //the base HP value
-                       20, // the base minimum damage value
-                       30, //the base maximum damage value.
+                       40, // the base minimum damage value
+                       50, //the base maximum damage value.
                        20, //base speed, higher is better
                        1, //defense
                        2, //luck
@@ -113,8 +113,8 @@ public class EntitiesDefinition : MonoBehaviour
                        "chops", //verb used when attacking
                        true, //is it a player character(true), or is it an enemy(false)?
                        100, //the base HP value
-                       20, // the base minimum damage value
-                       30, //the base maximum damage value.
+                       40, // the base minimum damage value
+                       50, //the base maximum damage value.
                        60, //base speed, higher is better
                        1, //defense
                        2, //luck
@@ -129,8 +129,8 @@ public class EntitiesDefinition : MonoBehaviour
                        "rends", //verb used when attacking
                        true, //is it a player character(true), or is it an enemy(false)?
                        100, //the base HP value
-                       20, // the base  minimum damage value
-                       30, //the base maximum damage value.
+                       40, // the base  minimum damage value
+                       50, //the base maximum damage value.
                        40, //base speed, higher is better
                        1, //defense
                        2, //luck
@@ -145,8 +145,8 @@ public class EntitiesDefinition : MonoBehaviour
                       "cuts", //verb used when attacking
                        true, //is it a player character(true), or is it an enemy(false)?
                        100, //the base HP value
-                       20, // the base  minimum damage value
-                       30, //the base maximum damage value.
+                       40, // the base  minimum damage value
+                       50, //the base maximum damage value.
                        30, //base speed, higher is better
                        1, //defense
                        2, //luck
@@ -163,12 +163,12 @@ public class EntitiesDefinition : MonoBehaviour
     {
         MakeTemplateMob("evilcrow", //characterID
                        "George", // charName
-                       "Lacks a brain and is driven to obtain yours.", // charDesc
+                       "Very bad scarecrow with a sharp, ethereal scythe.", // charDesc
                        "rends", //verb used when attacking
                        false, //is it a player character(true), or is it an enemy(false)?
                        100, //the base HP value
-                       10, // the minimum damage value
-                       15, //the maximum damage value.
+                       20, // the minimum damage value
+                       30, //the maximum damage value.
                        5, //base speed, higher is better
                        1, //defense
                        2, //luck
@@ -210,12 +210,21 @@ public class EntitiesDefinition : MonoBehaviour
         CharacterScript d = b.GetComponent<CharacterScript>();//get the Cscript reference
         d.SetupCharacterByTemplate(MainData.characterTypes["evilcrow"]); //assign an enemy template
         //MainData.livingEnemyParty.Add(d.associatedCharacter);//they are added to the living list in the above method
-        MainData.MainLoop.EventLoggingComponent.LogGray("Spontaneous interdimensional emergence of malevolent entity detected.");
+        MainData.MainLoop.EventLoggingComponent.LogGray("A new friend has arrived.");
         MainData.MainLoop.inCombat = true;
-        MainData.MainLoop.UserInterfaceHelperComponent.RefreshEnemyViewData();
+        MainData.MainLoop.UserInterfaceHelperComponent.RefreshViewEnemy();
+
+        //these are for making smoke appear behind new spawns if desired later on.
+        //GameObject cx = Instantiate(SpawnAnimationPrefab, d.gameObject.transform.position, Quaternion.identity);
+        //StartCoroutine(DelAfterTime(cx));
     }
 
+    //IEnumerator DelAfterTime(GameObject b)
+    //{
 
+    //    yield return new WaitForSecondsRealtime(2f);
+    //    Destroy(b);
+    //}
 
 
 
@@ -257,7 +266,7 @@ public class EntitiesDefinition : MonoBehaviour
 
 
         //refresh the miniview thingies whenever we spawn or kill shit
-        MainData.MainLoop.UserInterfaceHelperComponent.RefreshEnemyViewData();
+        MainData.MainLoop.UserInterfaceHelperComponent.RefreshViewEnemy();
     }
 
 
@@ -443,42 +452,34 @@ public class EntitiesDefinition : MonoBehaviour
         }
         public void TakeDamageFromCharacter(Character attacker)
         {
-            int damageRoll = UnityEngine.Random.Range(attacker.damageMin, attacker.damageMax+1);
-            MainData.MainLoop.EventLoggingComponent.Log(attacker.charName + " " + attacker.attackverb + " the " + charName + " for " + (damageRoll) + " damage. Armor protects for "+ defense + " damage!");
-
-
-
-            MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(damageRoll, this);
-            currentHealth -= (damageRoll - defense); //INCORPORATED ARMOR CALCULATION HERE 
-            if (HealthBar != null)
+            int damageRoll = UnityEngine.Random.Range(attacker.damageMin, attacker.damageMax + 1) - defense;
+            MainData.MainLoop.EventLoggingComponent.Log(attacker.charName + " " + attacker.attackverb + " the " + charName + " for " + (damageRoll + defense) + " damage. Armor protects for " + defense + " damage!");
+            if (charTrait != null)
             {
-                HealthBar.value -= (damageRoll - defense) / baseHealth * 100f;
+                //This is where we deal with traits that do stuff to our damage.
+                switch (charTrait.traitName)
+                {
+                    case "blah":
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+            if (!isPlayerPartyMember)
+            {//this updates the health bar so we don't run the whole big total refresh method
+                MainData.MainLoop.UserInterfaceHelperComponent.RefreshViewEnemy();
             }
             else
-            {
-                MainData.MainLoop.UserInterfaceHelperComponent.RefreshEnemyViewData();
-            }
-            
-            if (isPlayerPartyMember)
             {
                 MainData.MainLoop.UserInterfaceHelperComponent.RefreshHealthBarPlayer();
             }
-            else
-            {
-                MainData.MainLoop.UserInterfaceHelperComponent.RefreshHealthBarEnemy();
-            }
+
+            MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(damageRoll, this);
+            currentHealth -= damageRoll; //INCORPORATED ARMOR CALCULATION HERE 
             attacker.Threat += (damageRoll - defense); // WE APPLY THREAT
             if (currentHealth <= 0)
             {
-                if (!isPlayerPartyMember)
-                {
-                    MainData.MainLoop.UserInterfaceHelperComponent.RefreshEnemyViewData();//we refresh UI thingies when someone dies
-                }
-                else
-                {
-                    MainData.MainLoop.UserInterfaceHelperComponent.RefreshViewPlayer();
-                }
-
                 GotKilled(attacker);
             }
         }
@@ -535,18 +536,15 @@ public class EntitiesDefinition : MonoBehaviour
             {
                 MainData.MainLoop.EventLoggingComponent.Log(this.charName + " was killed in action.");
             }
-
-            //if (isPlayerPartyMember)
-            //{
-            //    playerParty.Remove(allChars.Find(x => x.GetID() == this.charType));
-            //}
             canAct = false;
-            DealWithLists();
+            MainData.MainLoop.UserInterfaceHelperComponent.RefreshViewEnemy();
+
+            HandleListsUponDeath();
 
             selfScriptRef.Die();
         }
 
-        private void DealWithLists()
+        private void HandleListsUponDeath()
         {
             MainData.allChars.Remove(this);
             if (isPlayerPartyMember)

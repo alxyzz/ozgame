@@ -84,7 +84,7 @@ public class PositionHolder : MonoBehaviour
 
 
 
-    public void PrepPartyPlaces()
+    public void PrepPartySpots()
     {
 
         PartySlot1InitialPos = PartySlot1.transform.position;

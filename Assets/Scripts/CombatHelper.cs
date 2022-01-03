@@ -237,9 +237,18 @@ public class CombatHelper : MonoBehaviour
             if (activeTarget != null)
             {
                 //StartCoroutine(AttackVisuals(activeTarget)); //does a nice attack effect, either hitting or knockback
-
-                ToggleCombatButtomVisibility(false);
-                StartCoroutine(AttackTargetedEnemy());
+                //now we will check if somehow the target is dead.
+                if (activeTarget.associatedCharacter == null || activeTarget == null || activeTarget.associatedCharacter.isDead)
+                {
+                    activeTarget = null;
+                    return;
+                }
+                
+                    ToggleCombatButtomVisibility(false);
+                    StartCoroutine(AttackTargetedEnemy());
+                
+                
+                
                 
 
             }
@@ -263,9 +272,12 @@ public class CombatHelper : MonoBehaviour
 
         Character Fool = activeTarget.associatedCharacter;
 
-        Debug.Log("attacking enemy. Currently active character is "+CurrentlyActiveChar.associatedCharacter.charName);
+        Debug.Log("attacking enemy. Currently active character is " + CurrentlyActiveChar.associatedCharacter.charName);
 
-        Fool.TakeDamageFromCharacter(CurrentlyActiveChar.associatedCharacter);//this also handles damage indicator
+
+            Fool.TakeDamageFromCharacter(CurrentlyActiveChar.associatedCharacter);//this also handles damage indicator
+        
+        
         yield return new WaitForSeconds(0.5f);
 
         ReturnFromActiveSpot(); //return him duh sillybuns

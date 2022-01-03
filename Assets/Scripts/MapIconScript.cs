@@ -135,7 +135,7 @@ public class MapIconScript : MonoBehaviour
         {
             Merchant newmerc = new Merchant();
             JohnTheLevel.localMerchant = newmerc;
-            JohnTheLevel.localMerchant.GenerateStock();
+            //JohnTheLevel.localMerchant.GenerateStock();
 
         }
 

@@ -18,35 +18,31 @@ public class GameManager : MonoBehaviour
     public UserInterfaceHelper UserInterfaceHelperComponent;
     public CombatHelper CombatHelperComponent;
     public GameObject backgroundObject;
+    public VendorScript VendorScriptComponent;
 
 
     // Start is called before the first frame update
     void Start()//loads stuff up
     {
-
-
         UserInterfaceHelperComponent.CombatHighlightObject.SetActive(false);
         MainData.MainLoop = this;
         MainData.SoundManagerRef = SoundManagerComponent;
-
-        //call things from here from now on
-        //StartLoading(); //blacks screen out
+        //StartLoading(); 
         EventLoggingComponent.TMPComponent.text = "";
         PositionHolderComponent.RegisterEnemySpots();
         PositionHolderComponent.RegisterPlayerSpots();
 
         EntityDefComponent.DefineTraits();
-        EntityDefComponent.DefinePC(); //set up characters
-        EntityDefComponent.DefineNPC();//define all entities here
-        EntityDefComponent.DefineConsumables();
+        EntityDefComponent.DefinePC(); //set up Pcharacter templates
+        EntityDefComponent.DefineNPC();//set up NPcharacter templates
+        //EntityDefComponent.DefineConsumables();
         //LevelHelperComponent.GenerateLevels(); //set up templates
         //LevelHelperComponent.SetupDemoLevel();
         EntityDefComponent.BuildParty();
-        PositionHolderComponent.PrepPartyPlaces();
+        PositionHolderComponent.PrepPartySpots();
         UserInterfaceHelperComponent.RefreshCharacterTabs();
-        UserInterfaceHelperComponent.GameUI.SetActive(false);
-        UserInterfaceHelperComponent.MainMenuBack.SetActive(true); //opens up the main menu
-        UserInterfaceHelperComponent.MenuCanvas.SetActive(true);
+        ToggleMainMenu(true);//true for visible, false for not visible
+
 
 
 
@@ -60,6 +56,16 @@ public class GameManager : MonoBehaviour
         //StopLoading(); //restores vision
 
 
+    }
+
+
+
+
+    private void ToggleMainMenu(bool togg)//true for visible, false for not visible
+    {
+        UserInterfaceHelperComponent.GameUI.SetActive(!togg);
+        UserInterfaceHelperComponent.MainMenuBack.SetActive(togg); //opens up the main menu
+        UserInterfaceHelperComponent.MenuCanvas.SetActive(togg);
     }
 
     public void Update()

@@ -141,14 +141,22 @@ public class UserInterfaceHelper : MonoBehaviour
     public void RefreshCharacterTabs()
     {
 
-        RefreshEnemyViewData();
+        RefreshViewEnemy();
         RefreshViewPlayer();
     }
 
 
 
-    public void DisplayTargetedEnemyInfo(CharacterScript Target)
+    public void DisplayTargetedEnemyInfo(CharacterScript Target = null)
     {//this sets the viewable info for the current targeted character, in the right top part of the bottom UI. it is possible to select one target and hover over another to compare them.
+        if (Target == null)
+        {
+            selectedCharAvatar.sprite = null;
+            selectedEnemyCharName.text = "";
+            selectedEnemyCharDescription.text = "";
+            selectedEnemyCharEnemyType.text = "";
+        }
+
         if (Target.associatedCharacter.charAvatar != null)
         {
             selectedCharAvatar.sprite = Target.associatedCharacter.charAvatar;
@@ -161,55 +169,60 @@ public class UserInterfaceHelper : MonoBehaviour
 
         selectedEnemyCharEnemyType.text = ""; // for now until i actually add the enemy Type thing
     }
-
-    public void ReferenceEnemiesForDisplay()
+    private void ReferenceEnemiesForDisplay()
     {//grabs the four most damaged enemy characters, or if all are same health, just the first four.
         //refresh this every time the number of enemy characters changes
-        //runs in RefreshEnemyViewData
+        //runs in RefreshEnemyViewDat
+
         if (MainData.livingEnemyParty.Count < 1)
         {
-            ToggleActiveEnemyDisplays(0);
+            SetActiveEnemyTabs(0);
             Debug.LogWarning("RefreshEnemyCharacterView() - livingEnemyParty has no enemies in it.");
             return;
         }
+        //NPC1 = null;
+        //NPC2 = null;
+        //NPC3 = null;
+        //NPC4 = null;
         Debug.LogWarning("RefreshEnemyCharacterView() just ran");
         List<Character> characters = new List<Character>(MainData.livingEnemyParty);
 
-        characters.Sort((x, y) => x.currentHealth.CompareTo(y.currentHealth)); 
+        characters.Sort((x, y) => x.currentHealth.CompareTo(y.currentHealth));
         // ascending. swap y and x on the right side for descending. Yes, we are sorting by plain ol health without any ratio because it's better to hit the one with less life and not the 500hp behemoth who has only 100hp left and the game thinks it's equivalent to 25hp max100hp guy. also ratio.
 
-        MainData.MainLoop.EventLoggingComponent.LogGray("There are " + characters.Count + " enemy characters.");
+        //MainData.MainLoop.EventLoggingComponent.LogGray("There are " + characters.Count + " enemy characters.");
         switch (characters.Count)
         {
             case 0:
-                //this should never happen
-                ToggleActiveEnemyDisplays(0);
+                //this should never happen 
+                SetActiveEnemyTabs(0);
                 break;
             case 1:
                 NPC1 = characters[0].selfScriptRef;
-                ToggleActiveEnemyDisplays(1);
+                SetActiveEnemyTabs(1);
                 break;
             case 2:
-                ToggleActiveEnemyDisplays(2);
+                SetActiveEnemyTabs(2);
+                NPC1 = characters[0].selfScriptRef;
                 NPC2 = characters[1].selfScriptRef;
                 break;
             case 3:
-                ToggleActiveEnemyDisplays(3);
+                SetActiveEnemyTabs(3);
+                NPC1 = characters[0].selfScriptRef;
                 NPC2 = characters[1].selfScriptRef;
                 NPC3 = characters[2].selfScriptRef;
                 break;
             default: //any case other than 0 1 2 3 and 4 is automatically > 3 so yeah
-                ToggleActiveEnemyDisplays(4);
+                SetActiveEnemyTabs(4);
+                NPC1 = characters[0].selfScriptRef;
                 NPC2 = characters[1].selfScriptRef;
                 NPC3 = characters[2].selfScriptRef;
                 NPC4 = characters[3].selfScriptRef;
                 break;
         }
-
         RefreshHealthBarEnemy();
-
     }
-    private void ToggleActiveEnemyDisplays(int amount)
+    private void SetActiveEnemyTabs(int amount)
     {
         //1 - mess with first one
         //2 - mess with first+second
@@ -253,8 +266,7 @@ public class UserInterfaceHelper : MonoBehaviour
         }
 
     }
-
-    public void RefreshEnemyViewData()
+    public void RefreshViewEnemy()
     {//run this after every spawning or death of an enemy
         if (MainData.livingEnemyParty.Count == 0)
         {
@@ -262,15 +274,7 @@ public class UserInterfaceHelper : MonoBehaviour
             return;
         }
         Debug.LogWarning("RefreshEnemyCharacterView() ran.");
-
-
-
-
-
         ReferenceEnemiesForDisplay();
-
-
-
         if (NPC1 != null)//checks if it exists
         {
             firstEnemyCharAvatar.gameObject.SetActive(true);
@@ -311,20 +315,17 @@ public class UserInterfaceHelper : MonoBehaviour
         {
             fourthEnemyCharAvatar.gameObject.SetActive(false);
         }
-        RefreshHealthBarEnemy();
-        //this requires RefreshEnemyCharacterView() to run before so the NPC slots are defined. the 4 most damaged ones.
+        
+
 
     }
-
-
-
-
-    public void RefreshViewPlayer()
+    private void RefreshViewPlayer()
     {//run this after any trait change, death, etc.
         if (PC1 != null)
         {
             firstCharAvatar.sprite = PC1.associatedCharacter.charAvatar;
             firstCharName.text = PC1.associatedCharacter.charName;
+            PC1.associatedCharacter.HealthBar = firstHealthBar;
             if (PC1.associatedCharacter.charTrait != null)
             {
                 firstCharTrait.text = PC1.associatedCharacter.charTrait.traitName;
@@ -339,6 +340,8 @@ public class UserInterfaceHelper : MonoBehaviour
         {
             secondCharAvatar.sprite = PC2.associatedCharacter.charAvatar;
             secondCharName.text = PC2.associatedCharacter.charName;
+            PC2.associatedCharacter.HealthBar = secondHealthBar;
+
             if (PC2.associatedCharacter.charTrait != null)
             {
                 secondCharTrait.text = PC2.associatedCharacter.charTrait.traitName;
@@ -352,6 +355,7 @@ public class UserInterfaceHelper : MonoBehaviour
         {
             thirdCharAvatar.sprite = PC3.associatedCharacter.charAvatar;
             thirdCharName.text = PC3.associatedCharacter.charName;
+            PC3.associatedCharacter.HealthBar = thirdHealthBar;
             if (PC3.associatedCharacter.charTrait != null)
             {
                 thirdCharTrait.text = PC3.associatedCharacter.charTrait.traitName;
@@ -365,6 +369,7 @@ public class UserInterfaceHelper : MonoBehaviour
         {
             fourthCharAvatar.sprite = PC4.associatedCharacter.charAvatar;
             fourthCharName.text = PC4.associatedCharacter.charName;
+            PC4.associatedCharacter.HealthBar = fourthHealthBar;
             if (PC1.associatedCharacter.charTrait != null)
             {
                 fourthCharTrait.text = PC4.associatedCharacter.charTrait.traitName;
@@ -383,8 +388,7 @@ public class UserInterfaceHelper : MonoBehaviour
 
 
     }
-
-    public void RefreshHealthBarEnemy()
+    private void RefreshHealthBarEnemy()
     {//this is small enough and used enough we shouldn't run the whole refresh thing if possible
         //this is only used when we get a new character to display or a character dies.
         //the health bar value is changed when hit, in the Character class' TakeDamageFromCharacter
@@ -392,14 +396,16 @@ public class UserInterfaceHelper : MonoBehaviour
         {
             item.HealthBar = null;
         }//we do this so we don't have unwanted references from 
-        
+
         if (NPC1 != null)
         {
             if (!NPC1.associatedCharacter.isDead)
             {
-
-                firstEnemyHealthBar.value = (NPC1.associatedCharacter.currentHealth / NPC1.associatedCharacter.baseHealth) * 100f;
+                
+                
                 NPC1.associatedCharacter.HealthBar = firstEnemyHealthBar;
+                firstEnemyHealthBar.maxValue = NPC1.associatedCharacter.baseHealth;
+                firstEnemyHealthBar.value = NPC1.associatedCharacter.currentHealth;
             }
             else
             {
@@ -407,12 +413,14 @@ public class UserInterfaceHelper : MonoBehaviour
             }
 
         }
+
         if (NPC2 != null)
         {
             if (!NPC2.associatedCharacter.isDead)
             {
-                secondEnemyHealthBar.value = (NPC2.associatedCharacter.currentHealth / NPC2.associatedCharacter.baseHealth) * 100f;
                 NPC2.associatedCharacter.HealthBar = secondEnemyHealthBar;
+                secondEnemyHealthBar.maxValue = NPC2.associatedCharacter.baseHealth;
+                secondEnemyHealthBar.value = NPC2.associatedCharacter.currentHealth;
             }
             else
             {
@@ -424,8 +432,9 @@ public class UserInterfaceHelper : MonoBehaviour
         {
             if (!NPC3.associatedCharacter.isDead)
             {
-                thirdEnemyHealthBar.value = (NPC3.associatedCharacter.currentHealth / NPC3.associatedCharacter.baseHealth) * 100f;
                 NPC3.associatedCharacter.HealthBar = thirdEnemyHealthBar;
+                thirdEnemyHealthBar.maxValue = NPC3.associatedCharacter.baseHealth;
+                thirdEnemyHealthBar.value = NPC3.associatedCharacter.currentHealth;
             }
             else
             {
@@ -437,8 +446,9 @@ public class UserInterfaceHelper : MonoBehaviour
         {
             if (!NPC4.associatedCharacter.isDead)
             {
-                fourthEnemyHealthBar.value = (NPC4.associatedCharacter.currentHealth / NPC4.associatedCharacter.baseHealth) * 100f;
                 NPC4.associatedCharacter.HealthBar = fourthEnemyHealthBar;
+                fourthEnemyHealthBar.maxValue = NPC4.associatedCharacter.baseHealth;
+                fourthEnemyHealthBar.value = NPC4.associatedCharacter.currentHealth;
             }
             else
             {
@@ -447,14 +457,14 @@ public class UserInterfaceHelper : MonoBehaviour
 
         }
     }
-
     public void RefreshHealthBarPlayer()
-    {//this is small enough and used enough we shouldn't run the whole refresh thing if possible
+    {
 
         if (PC1 != null)
         {
-            firstHealthBar.value = (PC1.associatedCharacter.currentHealth / PC1.associatedCharacter.baseHealth) / 100;
             PC1.associatedCharacter.HealthBar = firstHealthBar;
+            firstHealthBar.maxValue = PC1.associatedCharacter.baseHealth;
+            firstHealthBar.value = PC1.associatedCharacter.currentHealth;
         }
         else
         {
@@ -464,8 +474,10 @@ public class UserInterfaceHelper : MonoBehaviour
         //
         if (PC2 != null)
         {
-            secondHealthBar.value = (PC2.associatedCharacter.currentHealth / PC2.associatedCharacter.baseHealth) / 100;
             PC2.associatedCharacter.HealthBar = secondHealthBar;
+            secondHealthBar.maxValue = PC2.associatedCharacter.baseHealth;
+            secondHealthBar.value = PC2.associatedCharacter.currentHealth;
+
         }
         else
         {
@@ -474,8 +486,10 @@ public class UserInterfaceHelper : MonoBehaviour
         //
         if (PC3 != null)
         {
-            thirdHealthBar.value = (PC3.associatedCharacter.currentHealth / PC3.associatedCharacter.baseHealth) / 100;
             PC3.associatedCharacter.HealthBar = thirdHealthBar;
+            thirdHealthBar.maxValue = PC3.associatedCharacter.baseHealth;
+            thirdHealthBar.value = PC3.associatedCharacter.currentHealth;
+
         }
         else
         {
@@ -484,8 +498,10 @@ public class UserInterfaceHelper : MonoBehaviour
         //
         if (PC4 != null)
         {
-            fourthHealthBar.value = (PC4.associatedCharacter.currentHealth / PC4.associatedCharacter.baseHealth) / 100;
             PC4.associatedCharacter.HealthBar = fourthHealthBar;
+            fourthHealthBar.maxValue = PC4.associatedCharacter.baseHealth;
+            fourthHealthBar.value = PC4.associatedCharacter.currentHealth;
+
         }
         else
         {
@@ -497,9 +513,7 @@ public class UserInterfaceHelper : MonoBehaviour
 
         RefreshPlayerDeathStatus();
     }
-
-
-    public void RefreshPlayerDeathStatus()
+    private void RefreshPlayerDeathStatus()
     {//checks wether the player is dead so it can hide or show the death/inactive overlay
         if (!PC1.associatedCharacter.CheckIfCanAct())
         {
@@ -545,9 +559,8 @@ public class UserInterfaceHelper : MonoBehaviour
     }
 
 
-    /// <summary>
-    /// Menu Buttons
-    /// </summary>
+
+
     public void ClickSendPause()
     {
         MainMenuBack.SetActive(true);
@@ -556,7 +569,6 @@ public class UserInterfaceHelper : MonoBehaviour
         MainData.SoundManagerRef.PlayClickSound();
 
     }
-
     public void ClickStartGame()
     {
         //MainData.MainLoop.SoundManagerComponent.PlayClickSound();
