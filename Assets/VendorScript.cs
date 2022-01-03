@@ -17,11 +17,10 @@ public class VendorScript : MonoBehaviour
 
     [Space(5)]
     private bool isVendorHere;
-
-    // Start is called before the first frame update
+    private bool cartMoving = false; //never mess with the cart while it is in motion, lest it tip over.
     [Space(5)]
     [Header("These are related to the movement of the vendor.")]
-    [Space(2)]
+    [Space(1)]
     [Header("Minimum distance from the destination at which the cart can stop moving towards the party.")]
     public float minDistance;
     [Header("Speed at which the cart moves. Should be same as the background layer of the same distance.")]
@@ -35,7 +34,8 @@ public class VendorScript : MonoBehaviour
     //for when cart is arriving
     IEnumerator ArrivalAnimation()
     {
-        MainData.MainLoop.LevelHelperComponent.MoveForwards(); //ATTENTION - IF THIS SOMEHOW MAKES IT MOVE THE OTHER WAY - THE ORDER IS FLIPPED IN LEVELmANAGER. JUST USE MOVEBACKWARDS.
+        cartMoving = true;
+        MainData.MainLoop.LevelHelperComponent.MoveBackwards(); //ATTENTION - IF THIS SOMEHOW MAKES IT MOVE THE OTHER WAY - THE ORDER IS FLIPPED IN LEVELmANAGER. JUST USE MOVEBACKWARDS.
         isVendorHere = true;
         while (Vector3.Distance(Cart.transform.position, Destination.transform.position) > 0.2f)
         {
@@ -43,16 +43,18 @@ public class VendorScript : MonoBehaviour
             yield return new WaitForSecondsRealtime(moveInterval);
         }
 
-        Cart.transform.position = Destination.transform.position;
+        //Cart.transform.position = Destination.transform.position;
         MainData.MainLoop.LevelHelperComponent.MoveStop();
+        cartMoving = false;
     }
 
 
     //for when the cart is leaving
     IEnumerator LeavingAnimation()
     {
-        MainData.MainLoop.LevelHelperComponent.MoveForwards();
-        isVendorHere = true;
+        cartMoving = true;
+        MainData.MainLoop.LevelHelperComponent.MoveBackwards();
+        
         while (Vector3.Distance(Cart.transform.position, GoodbyeDestination.transform.position) > 0.2f)
         {
             Cart.transform.position = Vector3.MoveTowards(Cart.transform.position, GoodbyeDestination.transform.position, speed * Time.deltaTime);
@@ -61,6 +63,8 @@ public class VendorScript : MonoBehaviour
 
         Cart.transform.position = Startination.transform.position; //we send it back to beginning
         MainData.MainLoop.LevelHelperComponent.MoveStop();
+        isVendorHere = false;
+        cartMoving = false;
     }
 
 
@@ -75,10 +79,7 @@ public class VendorScript : MonoBehaviour
 
 
 
-
-    
-
-    public void ButtonClickReturn()
+    public void CloseVendorMenu()
     {//click back button in shop
         GameUIReference.SetActive(true);
         VendorUIReference.SetActive(false);
@@ -95,11 +96,17 @@ public class VendorScript : MonoBehaviour
     //we call this from
     //a button for testing
     //LevelManager when we reach the point where the thing spawns.
-    public void EncounterMerchant()
+    public void MoveMerchant()
     {
-        if (!isVendorHere)
+        if (cartMoving)
+        {
+            return;
+        }
+        if (!isVendorHere )
         {//we make it come
+            
             StartCoroutine(ArrivalAnimation());
+
         }
         else
         {//we make it leave

@@ -23,47 +23,36 @@ public class LevelHelper : MonoBehaviour
     [HideInInspector]
     public float distanceWalked = 0;//shows how much we've physically advanced in the current level
     public float maximumDistance = 1500; //maximum distance before the level fades to black and you go on the overmap
+    [Space(15)]
+    private bool isAtVendor = false;
 
 
 
+    private bool IsBetween(double testValue, double bound1, double bound2)
+    {
+        if (bound1 > bound2)
+            return testValue >= bound2 && testValue <= bound1;
+        return testValue >= bound1 && testValue <= bound2;
+    }
 
+    private void CheckForVendor()
+    {
 
+        if (MainData.currentLevel == null || !MainData.MainLoop.inCombat || isAtVendor)
+        {
+            return;
+        }
 
+        if (IsBetween(distanceWalked, MainData.currentLevel.localMerchant.xLocation - 5, MainData.currentLevel.localMerchant.xLocation+5))
+        {
+            isAtVendor = true;
+        }
 
-
+    }
 
     private void Update()
     {
-        //if (MainData.MainLoop.inCombat == true)
-        //{
-        //    MoveStop();
-        //}
-        //if (MainData.currentLevel != null)
-        //{
-        //    foreach (Encounter item in MainData.currentLevel.Encounters)
-        //    {
-        //        if (IsWithin(distanceWalked, item.distancePoint - 10f, item.distancePoint + 10f))
-        //        {
-        //            MainData.MainLoop.inCombat = true;
-        //            item.spawned = true;
-        //            MainData.MainLoop.EntityDefComponent.SpawnEncounter(item);
-        //            MainData.MainLoop.EventLoggingComponent.Log("Encountered a group of monsters at distance " + item.distancePoint.ToString());
-        //        }
-
-
-
-        //    }
-        //}
-        //else
-        //{
-        //    Debug.Log("MainData current level has no encounters or is null.");
-        //    GenerateLevels();
-        //    SetupDemoLevel();
-        //}
-        
-
-
-
+        CheckForVendor();
 
     }
 
@@ -126,7 +115,7 @@ public class LevelHelper : MonoBehaviour
 
 
 
-    private List<Encounter> GenerateEncounter(int encounterAmt, string type, float distance,int enemyNmbr = 0)
+    private List<Encounter> GenerateEncounter(int encounterAmt, string type, float distance, int enemyNmbr = 0)
     {
         if (enemyNmbr == 0)
         {
@@ -140,7 +129,7 @@ public class LevelHelper : MonoBehaviour
         string enemyType = type;
         //the encounters can start from around 200f distance, so...
         float encounterSpacing = 50;
-       List<Encounter> encounter = new List<Encounter>();
+        List<Encounter> encounter = new List<Encounter>();
         for (int i = 0; i < encounterAmt; i++)
         {
             Encounter b = new Encounter();
@@ -156,7 +145,7 @@ public class LevelHelper : MonoBehaviour
 
         return encounter;
     }
-    
+
 
 
 
@@ -224,10 +213,13 @@ public class LevelHelper : MonoBehaviour
     public class Merchant
     {
         public string merchantName;
-        public string merchantType;
+        //public string merchantType;
 
-        public List<Item> ItemStock = new List<Item>();
-        public Trait soldTrait;
+
+        public float xLocation;//the point where we will meet the merchant
+        //public List<Item> ItemStock = new List<Item>(); no, we will generate the stock on the spot.
+        
+        //public Trait soldTrait;
 
 
         public Merchant()
@@ -237,27 +229,24 @@ public class LevelHelper : MonoBehaviour
 
 
 
-        public string getType()
-        {
-            return merchantType;
-        }
+     
 
-        public void GenerateStock()
-        {
-            string debug = "";
-            for (int i = 0; i < MainData.ShopItemCount; i++)
-            {
-                Item b = MainData.MainLoop.EntityDefComponent.FetchRandomItem();
-                ItemStock.Add(b);//just pick a random item
-                debug += b.itemName + ", ";
-            }
-            
-            soldTrait = MainData.MainLoop.EntityDefComponent.FetchRandomTrait();
-            debug += "and the trait of " + soldTrait.traitName;
-            Debug.Log(this.merchantName + " has generated their stock: " + debug);
+        //public void GenerateStock()
+        //{
+        //    string debug = "";
+        //    for (int i = 0; i < MainData.ShopItemCount; i++)
+        //    {
+        //        Item b = MainData.MainLoop.EntityDefComponent.FetchRandomItem();
+        //        ItemStock.Add(b);//just pick a random item
+        //        debug += b.itemName + ", ";
+        //    }
+
+        //    soldTrait = MainData.MainLoop.EntityDefComponent.FetchRandomTrait();
+        //    debug += "and the trait of " + soldTrait.traitName;
+        //    Debug.Log(this.merchantName + " has generated their stock: " + debug);
 
 
-        }
+        //}
 
 
     }
@@ -280,7 +269,7 @@ public class LevelHelper : MonoBehaviour
 
 
 
-    public class MapLevel 
+    public class MapLevel
     {
         public bool isCampfire; //wether this tile has a campfire.
         public Merchant localMerchant;
@@ -327,6 +316,6 @@ public class LevelHelper : MonoBehaviour
             return levelName;
         }
 
-        
+
     }
 }
