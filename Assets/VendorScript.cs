@@ -72,7 +72,7 @@ public class VendorScript : MonoBehaviour
     //this should play a short nice animation
     public void OpenVendorMenu()
     {
-        GameUIReference.SetActive(false);
+
         VendorUIReference.SetActive(true);
     }
 
@@ -81,7 +81,7 @@ public class VendorScript : MonoBehaviour
 
     public void CloseVendorMenu()
     {//click back button in shop
-        GameUIReference.SetActive(true);
+
         VendorUIReference.SetActive(false);
     }
 

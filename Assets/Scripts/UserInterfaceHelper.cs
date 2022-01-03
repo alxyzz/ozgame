@@ -60,30 +60,30 @@ public class UserInterfaceHelper : MonoBehaviour
     [Space(10)]
     [HideInInspector]
     public CharacterScript NPC1;// NOTE - THESE ARE DEFINED IN EntityDefinition.cs
-    public Image firstEnemyCharAvatar; //we will replace this object's image with the currently selected character's avatar
-    public TextMeshProUGUI firstEnemyCharName;//the name of the current player char
-    public Slider firstEnemyHealthBar;//HEALTH BAR REF
+    public Image NPC1Avatar; //we will replace this object's image with the currently selected character's avatar
+    public TextMeshProUGUI NPC1Name;//the name of the current player char
+    public Slider NPC1HPbar;//HEALTH BAR REF
     public GameObject firstEnemyselectionRectangle;//the name of the current player char
     [Space(10)]
     [HideInInspector]
     public CharacterScript NPC2;
-    public Image secondEnemyCharAvatar; //we will replace this object's image with the currently selected character's avatar
-    public TextMeshProUGUI secondEnemyCharName;//the name of the current player char
-    public Slider secondEnemyHealthBar;//HEALTH BAR REF
+    public Image NPC2Avatar; //we will replace this object's image with the currently selected character's avatar
+    public TextMeshProUGUI NPC2Name;//the name of the current player char
+    public Slider NPC2HPbar;//HEALTH BAR REF
     public GameObject secondEnemyselectionRectangle;//the name of the current player char
     [Space(10)]
     [HideInInspector]
     public CharacterScript NPC3;
-    public Image thirdEnemyCharAvatar; //we will replace this object's image with the currently selected character's avatar
-    public TextMeshProUGUI thirdEnemyCharName;//the name of the current player char
-    public Slider thirdEnemyHealthBar;//HEALTH BAR REF
+    public Image NPC3Avatar; //we will replace this object's image with the currently selected character's avatar
+    public TextMeshProUGUI NPC3Name;//the name of the current player char
+    public Slider NPC3HPbar;//HEALTH BAR REF
     public GameObject thirdEnemyselectionRectangle;//the name of the current player char
     [Space(10)]
     [HideInInspector]
     public CharacterScript NPC4;
-    public Image fourthEnemyCharAvatar; //we will replace this object's image with the currently selected character's avatar
-    public TextMeshProUGUI fourthEnemyCharName;//the name of the current player char
-    public Slider fourthEnemyHealthBar;//HEALTH BAR REF
+    public Image NPC4Avatar; //we will replace this object's image with the currently selected character's avatar
+    public TextMeshProUGUI NPC4Name;//the name of the current player char
+    public Slider NPC4HPbar;//HEALTH BAR REF
     public GameObject fourthEnemyselectionRectangle;
     [Space(15)]
     [Header("enemy miniview parent objects")]
@@ -91,6 +91,17 @@ public class UserInterfaceHelper : MonoBehaviour
     public GameObject enemydata2;
     public GameObject enemydata3;
     public GameObject enemydata4;
+    [Space(5)]
+    [Header("Health bar numbers - enemy")]
+    public TextMeshProUGUI NPC1nmbr;
+    public TextMeshProUGUI NPC2nmbr;
+    public TextMeshProUGUI NPC3nmbr;
+    public TextMeshProUGUI NPC4nmbr;
+    [Header("Health bar numbers - player")]
+    public TextMeshProUGUI PC1nmbr;
+    public TextMeshProUGUI PC2nmbr;
+    public TextMeshProUGUI PC3nmbr;
+    public TextMeshProUGUI PC4nmbr;
 
 
 
@@ -271,51 +282,94 @@ public class UserInterfaceHelper : MonoBehaviour
         if (MainData.livingEnemyParty.Count == 0)
         {
             Debug.LogWarning("RefreshEnemyCharacterView() - livingEnemyParty has no enemies in it.");
+            NPC1HPbar.gameObject.SetActive(false);
+            NPC2HPbar.gameObject.SetActive(false);
+            NPC3HPbar.gameObject.SetActive(false);
+            NPC4HPbar.gameObject.SetActive(false);
+
+            NPC1Avatar.gameObject.SetActive(false);
+            NPC2Avatar.gameObject.SetActive(false);
+            NPC3Avatar.gameObject.SetActive(false);
+            NPC4Avatar.gameObject.SetActive(false);
+
+            NPC1HPbar.gameObject.SetActive(false);
+            NPC2HPbar.gameObject.SetActive(false);
+            NPC3HPbar.gameObject.SetActive(false);
+            NPC4HPbar.gameObject.SetActive(false);
+
+            NPC1Avatar.gameObject.SetActive(false);
+            NPC2Avatar.gameObject.SetActive(false);
+            NPC3Avatar.gameObject.SetActive(false);
+            NPC4Avatar.gameObject.SetActive(false);
+
+
+
+
+
+
+            //health numbers
+            NPC1nmbr.gameObject.SetActive(false);
+            NPC2nmbr.gameObject.SetActive(false);
+            NPC3nmbr.gameObject.SetActive(false);
+            NPC4nmbr.gameObject.SetActive(false);
+
+            //PC1nmbr.gameObject.SetActive(false);
+            //PC2nmbr.gameObject.SetActive(false);
+            //PC3nmbr.gameObject.SetActive(false);
+            //PC4nmbr.gameObject.SetActive(false);
             return;
         }
         Debug.LogWarning("RefreshEnemyCharacterView() ran.");
         ReferenceEnemiesForDisplay();
-        if (NPC1 != null)//checks if it exists
+        if (NPC1 != null && NPC1.associatedCharacter != null)//checks if it exists
         {
-            firstEnemyCharAvatar.gameObject.SetActive(true);
-            firstEnemyCharAvatar.sprite = NPC1.associatedCharacter.charAvatar; //if it does, show it in the tabs
-            firstEnemyCharName.text = NPC1.associatedCharacter.charName;
+            NPC1Avatar.gameObject.SetActive(true);
+            NPC1Avatar.sprite = NPC1.associatedCharacter.charAvatar; //if it does, show it in the tabs
+            NPC1Name.text = NPC1.associatedCharacter.charName;
+            NPC1HPbar.gameObject.SetActive(true);
+            NPC1nmbr.gameObject.SetActive(true);
         }
         else
         {
-            firstEnemyCharAvatar.gameObject.SetActive(false);
+            NPC1Avatar.gameObject.SetActive(false);
         }
-        if (NPC2 != null)
+        if (NPC2 != null && NPC2.associatedCharacter != null)
         {
-            secondEnemyCharAvatar.gameObject.SetActive(true);
-            secondEnemyCharAvatar.sprite = NPC2.associatedCharacter.charAvatar;
-            secondEnemyCharName.text = NPC2.associatedCharacter.charName;
+            NPC2Avatar.gameObject.SetActive(true);
+            NPC2Avatar.sprite = NPC2.associatedCharacter.charAvatar;
+            NPC2Name.text = NPC2.associatedCharacter.charName;
+            NPC2HPbar.gameObject.SetActive(true);
+            NPC2nmbr.gameObject.SetActive(true);
         }
         else
         {
-            secondEnemyCharAvatar.gameObject.SetActive(false);
+            NPC2Avatar.gameObject.SetActive(false);
         }
-        if (NPC3 != null)
+        if (NPC3 != null && NPC3.associatedCharacter != null)
         {
-            thirdEnemyCharAvatar.gameObject.SetActive(true);
-            thirdEnemyCharAvatar.sprite = NPC3.associatedCharacter.charAvatar;
-            thirdEnemyCharName.text = NPC3.associatedCharacter.charName;
+            NPC3Avatar.gameObject.SetActive(true);
+            NPC3Avatar.sprite = NPC3.associatedCharacter.charAvatar;
+            NPC3Name.text = NPC3.associatedCharacter.charName;
+            NPC3HPbar.gameObject.SetActive(true);
+            NPC3nmbr.gameObject.SetActive(true);
         }
         else
         {
-            thirdEnemyCharAvatar.gameObject.SetActive(false);
+            NPC3Avatar.gameObject.SetActive(false);
         }
-        if (NPC4 != null)
+        if (NPC4 != null && NPC4.associatedCharacter != null)
         {
-            fourthEnemyCharAvatar.gameObject.SetActive(true);
-            fourthEnemyCharAvatar.sprite = NPC4.associatedCharacter.charAvatar;
-            fourthEnemyCharName.text = NPC4.associatedCharacter.charName;
+            NPC4Avatar.gameObject.SetActive(true);
+            NPC4Avatar.sprite = NPC4.associatedCharacter.charAvatar;
+            NPC4Name.text = NPC4.associatedCharacter.charName;
+            NPC4HPbar.gameObject.SetActive(true);
+            NPC4nmbr.gameObject.SetActive(true);
         }
         else
         {
-            fourthEnemyCharAvatar.gameObject.SetActive(false);
+            NPC4Avatar.gameObject.SetActive(false);
         }
-        
+
 
 
     }
@@ -399,61 +453,94 @@ public class UserInterfaceHelper : MonoBehaviour
 
         if (NPC1 != null)
         {
-            if (!NPC1.associatedCharacter.isDead)
+            if (NPC1.associatedCharacter != null)
             {
-                
-                
-                NPC1.associatedCharacter.HealthBar = firstEnemyHealthBar;
-                firstEnemyHealthBar.maxValue = NPC1.associatedCharacter.baseHealth;
-                firstEnemyHealthBar.value = NPC1.associatedCharacter.currentHealth;
+                if (!NPC1.associatedCharacter.isDead)
+                {
+
+
+                    NPC1.associatedCharacter.HealthBar = NPC1HPbar;
+                    NPC1HPbar.maxValue = NPC1.associatedCharacter.baseHealth;
+                    NPC1HPbar.value = NPC1.associatedCharacter.currentHealth;
+                }
+                else
+                {
+                    NPC1HPbar.value = 0f;
+                }
             }
             else
             {
-                firstEnemyHealthBar.value = 0f;
+                NPC1HPbar.value = 0f;
             }
+
 
         }
 
         if (NPC2 != null)
         {
-            if (!NPC2.associatedCharacter.isDead)
+            if (NPC2.associatedCharacter != null)
             {
-                NPC2.associatedCharacter.HealthBar = secondEnemyHealthBar;
-                secondEnemyHealthBar.maxValue = NPC2.associatedCharacter.baseHealth;
-                secondEnemyHealthBar.value = NPC2.associatedCharacter.currentHealth;
+                if (!NPC2.associatedCharacter.isDead)
+                {
+                    NPC2.associatedCharacter.HealthBar = NPC2HPbar;
+                    NPC2HPbar.maxValue = NPC2.associatedCharacter.baseHealth;
+                    NPC2HPbar.value = NPC2.associatedCharacter.currentHealth;
+                }
+                else
+                {
+                    NPC2HPbar.value = 0f;
+                }
             }
             else
             {
-                secondEnemyHealthBar.value = 0f;
+                NPC2HPbar.value = 0f;
             }
+
 
         }
         if (NPC3 != null)
         {
-            if (!NPC3.associatedCharacter.isDead)
+            if (NPC3.associatedCharacter != null)
             {
-                NPC3.associatedCharacter.HealthBar = thirdEnemyHealthBar;
-                thirdEnemyHealthBar.maxValue = NPC3.associatedCharacter.baseHealth;
-                thirdEnemyHealthBar.value = NPC3.associatedCharacter.currentHealth;
+                if (!NPC3.associatedCharacter.isDead)
+                {
+                    NPC3.associatedCharacter.HealthBar = NPC3HPbar;
+                    NPC3HPbar.maxValue = NPC3.associatedCharacter.baseHealth;
+                    NPC3HPbar.value = NPC3.associatedCharacter.currentHealth;
+                }
+                else
+                {
+                    NPC3HPbar.value = 0f;
+                }
             }
             else
             {
-                thirdEnemyHealthBar.value = 0f;
+                NPC3HPbar.value = 0f;
             }
+
 
         }
         if (NPC4 != null)
         {
-            if (!NPC4.associatedCharacter.isDead)
+            if (NPC4.associatedCharacter != null)
             {
-                NPC4.associatedCharacter.HealthBar = fourthEnemyHealthBar;
-                fourthEnemyHealthBar.maxValue = NPC4.associatedCharacter.baseHealth;
-                fourthEnemyHealthBar.value = NPC4.associatedCharacter.currentHealth;
+                if (!NPC4.associatedCharacter.isDead)
+                {
+                    NPC4.associatedCharacter.HealthBar = NPC4HPbar;
+                    NPC4HPbar.maxValue = NPC4.associatedCharacter.baseHealth;
+                    NPC4HPbar.value = NPC4.associatedCharacter.currentHealth;
+                }
+                else
+                {
+                    NPC4HPbar.value = 0f;
+                }
+
             }
             else
             {
-                fourthEnemyHealthBar.value = 0f;
+                NPC4HPbar.value = 0f;
             }
+
 
         }
     }

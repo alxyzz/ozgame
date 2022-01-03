@@ -91,12 +91,6 @@ public class CharacterScript : MonoBehaviour
 
     public void GotClicked()
     {
-
-
-
-
-
-
         if (!this.associatedCharacter.isPlayerPartyMember)
         {//if it's not a party member, we select it as a target so we can attack it.
             if (MainData.MainLoop.CombatHelperComponent.activeTarget == this)
