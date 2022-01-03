@@ -214,17 +214,17 @@ public class EntitiesDefinition : MonoBehaviour
         MainData.MainLoop.inCombat = true;
         MainData.MainLoop.UserInterfaceHelperComponent.RefreshViewEnemy();
 
-
-        GameObject cx = Instantiate(SpawnAnimationPrefab, d.gameObject.transform.position, Quaternion.identity);
-        StartCoroutine(DelAfterTime(cx));
+        //these are for making smoke appear behind new spawns if desired later on.
+        //GameObject cx = Instantiate(SpawnAnimationPrefab, d.gameObject.transform.position, Quaternion.identity);
+        //StartCoroutine(DelAfterTime(cx));
     }
 
-    IEnumerator DelAfterTime(GameObject b)
-    {
+    //IEnumerator DelAfterTime(GameObject b)
+    //{
 
-        yield return new WaitForSecondsRealtime(2f);
-        Destroy(b);
-    }
+    //    yield return new WaitForSecondsRealtime(2f);
+    //    Destroy(b);
+    //}
 
 
 
