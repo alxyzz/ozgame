@@ -11,21 +11,34 @@ using static TraitHelper;
 
 public class EntitiesDefinition : MonoBehaviour
 {
-    //link all entity assets here. sounds, sprites, etc.
-    //we will later have a version for each animation, but for now this is fine
+    [Header("define all entity assets here. sounds, sprites, etc.")]
+    [Header("Scarecrow")]
     public Sprite ScarecrowSprite;
+    public Sprite ScarecrowAttackAnimation;
+    public Sprite ScarecrowAttackWalkAnimation;
+    [Header("Tinman")]
     public Sprite TinManSprite;
+    [Header("Lion")]
     public Sprite LionSprite;
-    public Sprite FourthProtagonistSprite;
+    [Header("Dorothy")]
+    public Sprite DorothySprite;
     [Space(10)]
+    [Header("Enemies")]
     public Sprite Enemy1Sprite;
     public Sprite Enemy2Sprite;
     public Sprite Enemy3Sprite;
     [Space(10)]
-
     public Sprite HealthPotionSprite;
     public Sprite SharpeningStoneSprite;
     public Sprite HealingMushroomSprite;
+    [Space(10)]
+    [Header("Consumables")]
+    public Sprite shawarma;
+    public Sprite doner;
+    public Sprite lahmacun;
+    public Sprite cocacola;
+
+
     [Space(10)]
     //public GameObject EnemyPrefab;
     public GameObject SpawnAnimationPrefab;
@@ -67,7 +80,7 @@ public class EntitiesDefinition : MonoBehaviour
 
 
 
-        newCharacterDefinition.baseHealth = baseHP;
+        newCharacterDefinition.maxHealth = baseHP;
         newCharacterDefinition.baseDamageMin = baseMinDMG;
         newCharacterDefinition.baseDamageMin = baseMaxDMG;
         newCharacterDefinition.baseSpeed = baseSPD;
@@ -181,11 +194,11 @@ public class EntitiesDefinition : MonoBehaviour
     public void SpawnEnemyTest()
     {//creates new enemies using a random, free, enemy spot. that's up to 7 enemies currently but just copy and arrange more if desired...
 
-        // GameObject leftborder = MainData.MainLoop.PositionHolderComponent.EnemySpawnBoundaryLeft;
-        // GameObject rightborder = MainData.MainLoop.PositionHolderComponent.EnemySpawnBoundaryRight;
+        // GameObject leftborder = StaticDataHolder.MainLoop.PositionHolderComponent.EnemySpawnBoundaryLeft;
+        // GameObject rightborder = StaticDataHolder.MainLoop.PositionHolderComponent.EnemySpawnBoundaryRight;
 
         // GameObject b = Instantiate(EnemyPrefab, new Vector3(UnityEngine.Random.Range(leftborder.transform.position.x, rightborder.transform.position.x),
-        //  rightborder.transform.position.y, 0), Quaternion.identity, MainData.MainLoop.backgroundObject.transform);
+        //  rightborder.transform.position.y, 0), Quaternion.identity, StaticDataHolder.MainLoop.backgroundObject.transform);
 
         //get random unused object
         if (freeEnemyPartyMemberObjects.Count == 0)
@@ -208,8 +221,39 @@ public class EntitiesDefinition : MonoBehaviour
         //freeEnemyPartyMemberObjects.Remove(b);//officialy live
         b.SetActive(true);//we turn it on
         CharacterScript d = b.GetComponent<CharacterScript>();//get the Cscript reference
+
+
+
+
+        
         d.SetupCharacterByTemplate(MainData.characterTypes["evilcrow"]); //assign an enemy template
-        //MainData.livingEnemyParty.Add(d.associatedCharacter);//they are added to the living list in the above method
+                                                                         //StaticDataHolder.livingEnemyParty.Add(d.associatedCharacter);//they are added to the living list in the above method
+        string newname;
+        switch (UnityEngine.Random.Range(1, 7))
+        {
+            case 1:
+                newname = "Billy";
+                break;
+            case 2:
+                newname = "John";
+                break;
+            case 3:
+                newname = "Maria";
+                break;
+            case 4:
+                newname = "Hans";
+                break;
+            case 5:
+                newname = "Harry Potter";
+                break;
+            default:
+                newname = "aasfasfasfasf";
+                break;
+
+        }
+        d.associatedCharacter.charName = newname;
+
+
         MainData.MainLoop.EventLoggingComponent.LogGray("A new friend has arrived.");
         MainData.MainLoop.inCombat = true;
         MainData.MainLoop.UserInterfaceHelperComponent.RefreshViewEnemy();
@@ -231,21 +275,12 @@ public class EntitiesDefinition : MonoBehaviour
 
     public void SpawnEncounter(Encounter b)
     {
+        b.spawned = true;//no repeat customers
         if (freeEnemyPartyMemberObjects.Count == 0)
         {
             MainData.MainLoop.EventLoggingComponent.LogGray("Tried spawning, no more spots...");
             return;
         }
-        //string bo = "";
-        //foreach (GameObject item in freeEnemyPartyMemberObjects)
-        //{
-        //    bo += item.name + "\n";
-
-        //}
-
-
-
-
         foreach (string item in b.enemies)
         {
             int x = UnityEngine.Random.Range(0, freeEnemyPartyMemberObjects.Count); //random spot
@@ -261,11 +296,8 @@ public class EntitiesDefinition : MonoBehaviour
             MainData.MainLoop.EventLoggingComponent.LogGray("A " + d.associatedCharacter.charName + "suddenly steps out of the shadows.");
 
         }
-
-
-
-
         //refresh the miniview thingies whenever we spawn or kill shit
+        MainData.MainLoop.inCombat = true;
         MainData.MainLoop.UserInterfaceHelperComponent.RefreshViewEnemy();
     }
 
@@ -275,7 +307,10 @@ public class EntitiesDefinition : MonoBehaviour
 
 
 
-
+    private void DefineItem()
+    {
+        //ConsumableItem b = new ConsumableItem("doner", "Doner");
+    }
 
 
     public void DefineConsumables()
@@ -310,6 +345,7 @@ public class EntitiesDefinition : MonoBehaviour
 
     }
 
+
     public void GenerateEquipment()
     {//generates traits, stores them all in a dictionary in the dataholder
 
@@ -333,8 +369,6 @@ public class EntitiesDefinition : MonoBehaviour
         return allConsumables[randomKey];
 
     }
-
-
     public Trait FetchRandomTrait()
     {//fetches a random t1 trait
         List<string> keyList = new List<string>(traitList.Keys);
@@ -351,7 +385,6 @@ public class EntitiesDefinition : MonoBehaviour
         return t1traitList[randomKey];
 
     }
-
     public Trait FetchRandomT2Trait()
     {//fetches a random t1 trait
         List<string> keyList = new List<string>(t2traitList.Keys);
@@ -361,19 +394,36 @@ public class EntitiesDefinition : MonoBehaviour
 
     }
 
-    public class Item : MonoBehaviour
+    public class Item
     {
-        public int itemID;
-        public string entityName;
-        public string entityDescription;
-        public string itemName;
+        public string identifier; //stuff like "doner_kebab", "icecream_chocolate", "sword_steel"
+        
+        public string description;
+        public string name;
+        public Sprite itemSprite;
+        public string rarity;
+        public int value;
+        public int amtInStock; // standard amount in stock, duh.
 
-        public Item(int id, string name)
+        //for equipment
+        public bool isEquipable;
+        public Character currentWielder;
+
+        public Item(string id,string description,string name, string rarityString, int itemValue, int itemStock, Sprite iSprite, bool isEquipment)
         {
-            this.itemID = id;
-            this.itemName = name;
+            this.identifier = id;
+            this.description = description;
+            this.name = name;
+            this.itemSprite = iSprite;
+            this.rarity = rarityString;
+            this.value = itemValue;
+            this.amtInStock = itemStock;
+            this.isEquipable = isEquipment;
+
         }
     }
+
+
 
 
     [System.Serializable]
@@ -403,7 +453,7 @@ public class EntitiesDefinition : MonoBehaviour
 
         public int currentHealth;
 
-        public int baseHealth;
+        public int maxHealth;
         public int baseDamageMin;
         public int baseDamageMax;
         public int baseSpeed;
@@ -469,6 +519,7 @@ public class EntitiesDefinition : MonoBehaviour
             if (!isPlayerPartyMember)
             {//this updates the health bar so we don't run the whole big total refresh method
                 MainData.MainLoop.UserInterfaceHelperComponent.RefreshViewEnemy();
+                MainData.MainLoop.UserInterfaceHelperComponent.RefreshHealthBarEnemy();
             }
             else
             {
@@ -488,7 +539,7 @@ public class EntitiesDefinition : MonoBehaviour
         { //generic take damage function
             currentHealth -= dmg;
             MainData.MainLoop.EventLoggingComponent.Log(this.charName + " the " + charTrait.name + " is hurt " + "for " + dmg + " damage!");
-            HealthBar.value -= dmg / baseHealth * 100f;
+            HealthBar.value -= dmg / maxHealth * 100f;
             if (currentHealth <= 0)
             {
                 GotKilled();
@@ -568,17 +619,6 @@ public class EntitiesDefinition : MonoBehaviour
 
 
     }
-    //public static T DeepClone<T>(T obj)
-    //{
-    //    using (var ms = new MemoryStream())
-    //    {
-    //        var formatter = new BinaryFormatter();
-    //        formatter.Serialize(ms, obj);
-    //        ms.Position = 0;
-    //        return (T)formatter.Deserialize(ms);
-    //    }
-    //}
-
     public class StatusEffect
     {
         public string type;

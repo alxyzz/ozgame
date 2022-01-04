@@ -119,25 +119,17 @@ public class MapIconScript : MonoBehaviour
         MapLevel JohnTheLevel = new MapLevel(p.levelName,
                                              p.levelBlurb,
                                              p.levelDescription,
-                                             p.roomCount,
+                                            // p.roomCount,
                                              p.EnemyType,
                                              p.startingDifficulty,
                                              p.difficultyIncreasePerRoom,
-                                             p.levelBackgroundMaterial,
+                                             //p.levelBackgroundMaterial,
                                              p.levelSoundtrack,
                                              p.isCampfire,
                                              p.Encounters);
-        if (p.localMerchant != null)
-        {
-            JohnTheLevel.localMerchant = p.localMerchant;
-        }
-        else
-        {
-            Merchant newmerc = new Merchant();
-            JohnTheLevel.localMerchant = newmerc;
-            //JohnTheLevel.localMerchant.GenerateStock();
+        //NOTE - IMPLEMENT STOCK GENERATION LOGIC HERE - BASED ON DANGER LEVEL/PROGRESSION
 
-        }
+        
 
         return JohnTheLevel;
     }

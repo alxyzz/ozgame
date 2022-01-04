@@ -23,11 +23,11 @@ public class CharacterScript : MonoBehaviour
 
         //if (!isEnemyCharacter)
         //{
-        //    MainData.playerPartyMemberObjects.Add(gameObject);
+        //    StaticDataHolder.playerPartyMemberObjects.Add(gameObject);
         //}
         //else
         //{
-        //    MainData.enemyPartyMemberObjects.Add(gameObject);
+        //    StaticDataHolder.enemyPartyMemberObjects.Add(gameObject);
         //}
     }
 
@@ -51,7 +51,7 @@ public class CharacterScript : MonoBehaviour
         associatedCharacter = Character.CreateInstance<Character>();
         associatedCharacter.attackverb = template.attackverb;
         associatedCharacter.baseDamageMin = template.baseDamageMin;
-        associatedCharacter.baseHealth = template.baseHealth;
+        associatedCharacter.maxHealth = template.maxHealth;
         associatedCharacter.baseSpeed = template.baseSpeed;
         associatedCharacter.charAvatar = template.charAvatar;
         associatedCharacter.charName = template.charName;
@@ -91,12 +91,6 @@ public class CharacterScript : MonoBehaviour
 
     public void GotClicked()
     {
-
-
-
-
-
-
         if (!this.associatedCharacter.isPlayerPartyMember)
         {//if it's not a party member, we select it as a target so we can attack it.
             if (MainData.MainLoop.CombatHelperComponent.activeTarget == this)

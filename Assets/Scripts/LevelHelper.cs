@@ -16,8 +16,10 @@ public class LevelHelper : MonoBehaviour
     public Material mushroomForestBackground;
     public AudioClip mushroomForestSoundTrack;
 
-
-    public List<BackgroundLayerMovementParallax> parallaxLayers = new List<BackgroundLayerMovementParallax>(); //all background parallax object scripts are stored here. If you have any issue drag and dropping the script itself, remember you can open up two inspector tabs :)
+    [Header("all background parallax object scripts are stored here.")]
+    [Header("If you have any issue drag and dropping the script itself")]
+    [Header("remember you can open up two inspector tabs :)")]
+    public List<BackgroundLayerMovementParallax> parallaxLayers = new List<BackgroundLayerMovementParallax>();
 
     [Space(15)]//movement inside the local map stuff
     [HideInInspector]
@@ -27,6 +29,13 @@ public class LevelHelper : MonoBehaviour
     private bool isAtVendor = false;
 
 
+    private void Update()
+    {
+        CheckForEncounter();
+        CheckForVendor();
+
+    }
+
 
     private bool IsBetween(double testValue, double bound1, double bound2)
     {
@@ -34,7 +43,9 @@ public class LevelHelper : MonoBehaviour
             return testValue >= bound2 && testValue <= bound1;
         return testValue >= bound1 && testValue <= bound2;
     }
-
+    /// <summary>
+    /// checks wether the party has reached a vendor. If so, stops the player
+    /// </summary>
     private void CheckForVendor()
     {
 
@@ -43,30 +54,43 @@ public class LevelHelper : MonoBehaviour
             return;
         }
 
-        if (IsBetween(distanceWalked, MainData.currentLevel.localMerchant.xLocation - 5, MainData.currentLevel.localMerchant.xLocation+5))
+        if (IsBetween(distanceWalked, MainData.currentLevel.localMerchant.xLocation - 5, MainData.currentLevel.localMerchant.xLocation + 5) && !MainData.MainLoop.VendorScriptComponent.isVendorHere)
         {
-            isAtVendor = true;
+            MoveStop();
+
+            MainData.MainLoop.VendorScriptComponent.MoveMerchant();
         }
 
     }
 
-    private void Update()
+
+    /// <summary>
+    /// checks if player has walked 5 steps near an encounter. if so, trigger it to spawn and turns combat on.
+    /// </summary>
+    private void CheckForEncounter()
     {
-        CheckForVendor();
+
+        if (MainData.currentLevel == null || !MainData.MainLoop.inCombat)
+        {
+            return;
+        }
+
+        foreach (Encounter item in MainData.currentLevel.Encounters)
+        {
+            if (item.spawned)
+            {
+                return;
+            }
+            if (IsBetween(distanceWalked, item.distancePoint - 5, item.distancePoint + 5))
+            {
+                MoveStop();
+
+                MainData.MainLoop.EntityDefComponent.SpawnEncounter(item);
+            }
+        }
+
 
     }
-
-    public bool IsWithin(float value, float minimum, float maximum)
-    {
-        return value >= minimum && value <= maximum;
-    }
-
-
-
-
-
-
-
 
 
 
@@ -114,19 +138,26 @@ public class LevelHelper : MonoBehaviour
 
 
 
-
-    private List<Encounter> GenerateEncounter(int encounterAmt, string type, float distance, int enemyNmbr = 0)
+    /// <summary>
+    /// generates and returns multiple encounters for a level at an even spacing
+    /// </summary>
+    /// <param name="encounterAmt"> how many encounters in a level</param>
+    /// <param name="type">what kind of creatures spawn. all the same for now. could make it a list and just spawn random amounts of each</param>
+    /// <param name="distance">point at which the encounters START, new encounters being incremented by encounterSpacing defined locally </param>
+    /// <param name="enemyNmbr">how many enemies per encounter</param>
+    /// <returns></returns>
+    private List<Encounter> GenerateEncountersForLevel(int encounterAmt, string type, float distance, int enemyNmbr = 0)
     {
+        int enemyAmount;
         if (enemyNmbr == 0)
         {
-            int enemyAmount = UnityEngine.Random.Range(1, 6);
+            enemyAmount = UnityEngine.Random.Range(1, 6);
         }
         else
         {
-            int enemyAmount = enemyNmbr;
+            enemyAmount = enemyNmbr;
         }
 
-        string enemyType = type;
         //the encounters can start from around 200f distance, so...
         float encounterSpacing = 50;
         List<Encounter> encounter = new List<Encounter>();
@@ -139,6 +170,7 @@ public class LevelHelper : MonoBehaviour
             }
             b.distancePoint = distance;
             distance += encounterSpacing;
+            MainData.MainLoop.EventLoggingComponent.LogGray("Prepared a " + type + " ambush at " + distance);
             encounter.Add(b);
         }
 
@@ -162,43 +194,23 @@ public class LevelHelper : MonoBehaviour
 
     public void GenerateLevels()
     {
-        //Creates level templates, gives them references to assets, puts the level in GameManager's level list.
-        //
-        //ScriptableObject.CreateInstance("GameLevel");
-
-        //set up level template variables here.
 
 
 
 
-
-        //MapLevel darkForest = new MapLevel("Dark Forest", //the name of the level
-        //                                   "A dark, very scary forest.", //a short blurb that gets shown on entry
-        //                                   "Dangerous things linger where people do not. And people do not linger here for good reason.", //a longer description
-        //                                   3,
-        //                                   "Beasts",
-        //                                   1f,
-        //                                   1f,
-        //                                   testmat,
-        //                                   testsound,
-        //                                   false, GenerateEncounter(3, "evilcrow", 150, 4)
-        //                                   );
+        ;
+        MapLevel darkForest = new MapLevel("Dark Forest",
+                                           "A forest where it is very dark :D",
+                                           "This forest contains numerous animals of the carnivorous persuasion, the wide of majority of which reminisce fondly upon past memories of anthropophagy.",
+                                           "Beasts",
+                                           1f,
+                                           1f,
+                                           testsound,
+                                           false,
+                                           GenerateEncountersForLevel(3, "evilcrow", 150, 4));
 
 
-        //MainData.levelTemplates.Add("darkforest", darkForest); //adds the template to the global list
-
-
-
-
-
-
-
-        //MapLevel town = new MapLevel("Abandoned Town", "This town is empty...", "It smells weird.", 3, "Doppelgangers", 1f, 1f, testmat, testsound, false);
-        //MainData.levelTemplates.Add("town", town);
-
-
-
-        //MainData.levelsInitDone = true; //to keep track of this, so we don't somehow generate the Overmap before initializing the templates
+        MainData.levelTemplates.Add("darkforest", darkForest); //adds the template to the global list
     }
 
 
@@ -213,42 +225,16 @@ public class LevelHelper : MonoBehaviour
     public class Merchant
     {
         public string merchantName;
-        //public string merchantType;
+
 
 
         public float xLocation;//the point where we will meet the merchant
-        //public List<Item> ItemStock = new List<Item>(); no, we will generate the stock on the spot.
-        
-        //public Trait soldTrait;
-
+        public List<Item> ItemStock = new List<Item>();
 
         public Merchant()
         {
 
         }
-
-
-
-     
-
-        //public void GenerateStock()
-        //{
-        //    string debug = "";
-        //    for (int i = 0; i < MainData.ShopItemCount; i++)
-        //    {
-        //        Item b = MainData.MainLoop.EntityDefComponent.FetchRandomItem();
-        //        ItemStock.Add(b);//just pick a random item
-        //        debug += b.itemName + ", ";
-        //    }
-
-        //    soldTrait = MainData.MainLoop.EntityDefComponent.FetchRandomTrait();
-        //    debug += "and the trait of " + soldTrait.traitName;
-        //    Debug.Log(this.merchantName + " has generated their stock: " + debug);
-
-
-        //}
-
-
     }
 
 
@@ -259,7 +245,7 @@ public class LevelHelper : MonoBehaviour
     {
         public bool spawned = false; //wether it has already been spawned
         public float distancePoint; //the point in which this encounter spawns
-        public List<string> enemies; // the enemies that will spawn in this encounter. are spawned by their ID from the MainData enemy dictionary.
+        public List<string> enemies; // the enemies that will spawn in this encounter. are spawned by their ID from the StaticDataHolder enemy dictionary.
 
 
     }
@@ -276,7 +262,6 @@ public class LevelHelper : MonoBehaviour
         public string levelName; //name.
         public string levelBlurb; // short flavourful description, perhaps a relevant quote.
         public string levelDescription; //longer description for what it actually does.
-        public int roomCount;// todo - make levels with variable rooms you can move to.
         public string EnemyType; //the kind of enemies you can encounter.
         public float startingDifficulty; //the difficulty it starts at.
         public float difficultyIncreasePerRoom; //how much the difficulty increases after every room.
@@ -290,19 +275,18 @@ public class LevelHelper : MonoBehaviour
         public List<MapLevel> previousLevels; //tracks levels that precede this one on the map
         public List<MapLevel> nextLevels; //tracks levels that succeed this one on the map
 
-        public Material levelBackgroundMaterial;
+        // public Material levelBackgroundMaterial;
         public AudioClip levelSoundtrack;
 
-        public MapLevel(string name, string blurb, string desc, int roomcount, string enemyTypes, float startDiff, float diffIncrement, Material background, AudioClip soundtrack, bool Campfire, List<Encounter> encount)
+        public MapLevel(string name, string blurb, string desc, string enemyTypes, float startDiff, float diffIncrement, AudioClip soundtrack, bool Campfire, List<Encounter> encount)
         {//class constructor
             this.levelName = name;
             this.levelBlurb = blurb;
             this.levelDescription = desc;
-            this.roomCount = roomcount;
             this.EnemyType = enemyTypes;
             this.startingDifficulty = startDiff;
             this.difficultyIncreasePerRoom = diffIncrement;
-            this.levelBackgroundMaterial = background;
+            //  this.levelBackgroundMaterial = background;
             this.levelSoundtrack = soundtrack;
             this.isCampfire = Campfire;
             this.Encounters = encount;

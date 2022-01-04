@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static LevelHelper;
 
 public class VendorScript : MonoBehaviour
 {
@@ -14,9 +15,11 @@ public class VendorScript : MonoBehaviour
     [Space(5)]
     public GameObject GameUIReference; //we disable this so we don't do bad stuff.
     public GameObject VendorUIReference;
-
+    public GameObject VendorUIItemContainer;//this is where we spawn prefabs that allow us to select then buy the item in that slot
+    public GameObject VendorUIItemEntryPrefab;
     [Space(5)]
-    private bool isVendorHere;
+    [HideInInspector]
+    public bool isVendorHere;
     private bool cartMoving = false; //never mess with the cart while it is in motion, lest it tip over.
     [Space(5)]
     [Header("These are related to the movement of the vendor.")]
@@ -27,6 +30,22 @@ public class VendorScript : MonoBehaviour
     public float speed;
     [Header("This should be around 0.01f to be smooth...")]
     public float moveInterval;
+    [Space(5)]
+    [Header("These are related to the trading itself...")]
+    [HideInInspector]
+    [Header("How many items are sold.")]
+    public int itemAmount; //
+
+
+
+
+    private void InitializeCurrentMerchant()
+    {
+        if (MainData.currentLevel.localMerchant.ItemStock == null)
+        {
+
+        }        
+    }
 
 
 
@@ -47,8 +66,6 @@ public class VendorScript : MonoBehaviour
         MainData.MainLoop.LevelHelperComponent.MoveStop();
         cartMoving = false;
     }
-
-
     //for when the cart is leaving
     IEnumerator LeavingAnimation()
     {
@@ -66,22 +83,37 @@ public class VendorScript : MonoBehaviour
         isVendorHere = false;
         cartMoving = false;
     }
-
-
     //click the vendor
-    //this should play a short nice animation
+    //this could play a short nice animation, perhaps
     public void OpenVendorMenu()
     {
-        GameUIReference.SetActive(false);
+        if (MainData.currentLevel == null)
+        {
+            MainData.MainLoop.EventLoggingComponent.LogGray("You try to talk to the merchant, but sudden apprehension fills your thoughts as you realize that the reality which you are perceiving is not real. Will these iterations never end? Are we cursed to relive the same battles again and again, without the mercy of returning to the rapturous oblivion from whence we came? The world is a series of walls, I can see it. Six l̵a̶y̶e̸r̵s̸ of reality, five below and one above, endlessly moving around us as we stay still. Divines have mercy on our C̸͉̚ḣ̵̗a̵̧͋r̷̭͂a̵̍ͅc̵̦̏t̶̃ͅé̸̖r̴̭͠S̷̹̐c̷̟͌r̶͖̆i̴͖͗p̵͈̏t̸̟͒");
+            return;
+
+        }
+        if (MainData.currentLevel.localMerchant != null)
+        {
+            GenerateMerchantInventory(MainData.currentLevel.localMerchant);
+
+        }
+        InitializeCurrentMerchant();
+        if (MainData.livingEnemyParty.Count > 0)
+        {
+            MainData.MainLoop.EventLoggingComponent.Log("The merchant refuses to trade with you until your pursuers are dealt with.");
+            return;
+        }
         VendorUIReference.SetActive(true);
     }
-
-
-
-
     public void CloseVendorMenu()
     {//click back button in shop
-        GameUIReference.SetActive(true);
+        if (MainData.livingEnemyParty.Count > 0)
+        {
+            //this shouldn't happen
+            MainData.MainLoop.EventLoggingComponent.Log("As you deviate your attention from the merchant's wares, you realize that you had been followed...");
+            return;
+        }
         VendorUIReference.SetActive(false);
     }
 
@@ -89,10 +121,14 @@ public class VendorScript : MonoBehaviour
 
 
 
-    public void GenerateMerchantInventory()
-    {
-
+    public void GenerateMerchantInventory(Merchant bob)
+    {// TODO - MAKE THIS WORK
+        bob.ItemStock = null;//do this stuff later
+      
     }
+
+
+
     //we call this from
     //a button for testing
     //LevelManager when we reach the point where the thing spawns.
@@ -104,12 +140,13 @@ public class VendorScript : MonoBehaviour
         }
         if (!isVendorHere )
         {//we make it come
-            
+            MainData.MainLoop.EventLoggingComponent.Log("You've stumbled across a merchant.");
             StartCoroutine(ArrivalAnimation());
 
         }
         else
         {//we make it leave
+            MainData.MainLoop.EventLoggingComponent.LogGray("The merchant silently watches you depart.");
             StartCoroutine(LeavingAnimation());
         }
         

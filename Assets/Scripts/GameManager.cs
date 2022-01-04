@@ -35,9 +35,9 @@ public class GameManager : MonoBehaviour
         EntityDefComponent.DefineTraits();
         EntityDefComponent.DefinePC(); //set up Pcharacter templates
         EntityDefComponent.DefineNPC();//set up NPcharacter templates
-        //EntityDefComponent.DefineConsumables();
-        //LevelHelperComponent.GenerateLevels(); //set up templates
-        //LevelHelperComponent.SetupDemoLevel();
+        EntityDefComponent.DefineConsumables();
+        LevelHelperComponent.GenerateLevels(); //set up templates
+        LevelHelperComponent.SetupDemoLevel();
         EntityDefComponent.BuildParty();
         PositionHolderComponent.PrepPartySpots();
         UserInterfaceHelperComponent.RefreshCharacterTabs();
@@ -116,13 +116,13 @@ public class GameManager : MonoBehaviour
             {
                 inCombat = true;
                 CombatHelperComponent.InitiateCombatTurn();
-
             }
             else
             {
                 MainData.turnNumber = 0;
 
                 EventLoggingComponent.Log("All enemies have been vanquished.");
+                MainData.MainLoop.UserInterfaceHelperComponent.RefreshViewEnemy();
                 inCombat = false;
                 //PurgeStatusEffects();
 
