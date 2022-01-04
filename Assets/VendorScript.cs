@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static LevelHelper;
 
 public class VendorScript : MonoBehaviour
 {
@@ -16,7 +17,8 @@ public class VendorScript : MonoBehaviour
     public GameObject VendorUIReference;
 
     [Space(5)]
-    private bool isVendorHere;
+    [HideInInspector]
+    public bool isVendorHere;
     private bool cartMoving = false; //never mess with the cart while it is in motion, lest it tip over.
     [Space(5)]
     [Header("These are related to the movement of the vendor.")]
@@ -27,15 +29,17 @@ public class VendorScript : MonoBehaviour
     public float speed;
     [Header("This should be around 0.01f to be smooth...")]
     public float moveInterval;
-
-
-
+    [Space(5)]
+    [Header("These are related to the trading itself...")]
+    [HideInInspector]
+    [Header("How many items are sold.")]
+    public int itemAmount; //
 
     //for when cart is arriving
     IEnumerator ArrivalAnimation()
     {
         cartMoving = true;
-        MainData.MainLoop.LevelHelperComponent.MoveBackwards(); //ATTENTION - IF THIS SOMEHOW MAKES IT MOVE THE OTHER WAY - THE ORDER IS FLIPPED IN LEVELmANAGER. JUST USE MOVEBACKWARDS.
+        StaticDataHolder.MainLoop.LevelHelperComponent.MoveBackwards(); //ATTENTION - IF THIS SOMEHOW MAKES IT MOVE THE OTHER WAY - THE ORDER IS FLIPPED IN LEVELmANAGER. JUST USE MOVEBACKWARDS.
         isVendorHere = true;
         while (Vector3.Distance(Cart.transform.position, Destination.transform.position) > 0.2f)
         {
@@ -44,16 +48,14 @@ public class VendorScript : MonoBehaviour
         }
 
         //Cart.transform.position = Destination.transform.position;
-        MainData.MainLoop.LevelHelperComponent.MoveStop();
+        StaticDataHolder.MainLoop.LevelHelperComponent.MoveStop();
         cartMoving = false;
     }
-
-
     //for when the cart is leaving
     IEnumerator LeavingAnimation()
     {
         cartMoving = true;
-        MainData.MainLoop.LevelHelperComponent.MoveBackwards();
+        StaticDataHolder.MainLoop.LevelHelperComponent.MoveBackwards();
         
         while (Vector3.Distance(Cart.transform.position, GoodbyeDestination.transform.position) > 0.2f)
         {
@@ -62,26 +64,34 @@ public class VendorScript : MonoBehaviour
         }
 
         Cart.transform.position = Startination.transform.position; //we send it back to beginning
-        MainData.MainLoop.LevelHelperComponent.MoveStop();
+        StaticDataHolder.MainLoop.LevelHelperComponent.MoveStop();
         isVendorHere = false;
         cartMoving = false;
     }
-
-
     //click the vendor
-    //this should play a short nice animation
+    //this could play a short nice animation, perhaps
     public void OpenVendorMenu()
     {
+        if (StaticDataHolder.currentLevel.localMerchant != null)
+        {
+            StaticDataHolder.currentLevel.localMerchant = GenerateMerchantInventory();
+        }
 
+        if (StaticDataHolder.livingEnemyParty.Count > 0)
+        {
+            StaticDataHolder.MainLoop.EventLoggingComponent.Log("The merchant refuses to trade until you have dealt with your pursuers.");
+            return;
+        }
         VendorUIReference.SetActive(true);
     }
-
-
-
-
     public void CloseVendorMenu()
     {//click back button in shop
-
+        if (StaticDataHolder.livingEnemyParty.Count > 0)
+        {
+            //this shouldn't happen
+            StaticDataHolder.MainLoop.EventLoggingComponent.Log("As you deviate your attention from the merchant's wares, you realize that you had been followed...");
+            return;
+        }
         VendorUIReference.SetActive(false);
     }
 
@@ -89,10 +99,16 @@ public class VendorScript : MonoBehaviour
 
 
 
-    public void GenerateMerchantInventory()
+    public Merchant GenerateMerchantInventory()
     {
+        Merchant jimmy = new Merchant();
 
+
+        return jimmy;
     }
+
+
+
     //we call this from
     //a button for testing
     //LevelManager when we reach the point where the thing spawns.
@@ -104,12 +120,13 @@ public class VendorScript : MonoBehaviour
         }
         if (!isVendorHere )
         {//we make it come
-            
+            StaticDataHolder.MainLoop.EventLoggingComponent.Log("You've stumbled across a merchant.");
             StartCoroutine(ArrivalAnimation());
 
         }
         else
         {//we make it leave
+            StaticDataHolder.MainLoop.EventLoggingComponent.LogGray("The merchant silently watches you depart.");
             StartCoroutine(LeavingAnimation());
         }
         

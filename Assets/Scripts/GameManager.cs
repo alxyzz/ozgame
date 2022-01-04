@@ -25,8 +25,8 @@ public class GameManager : MonoBehaviour
     void Start()//loads stuff up
     {
         UserInterfaceHelperComponent.CombatHighlightObject.SetActive(false);
-        MainData.MainLoop = this;
-        MainData.SoundManagerRef = SoundManagerComponent;
+        StaticDataHolder.MainLoop = this;
+        StaticDataHolder.SoundManagerRef = SoundManagerComponent;
         //StartLoading(); 
         EventLoggingComponent.TMPComponent.text = "";
         PositionHolderComponent.RegisterEnemySpots();
@@ -107,23 +107,22 @@ public class GameManager : MonoBehaviour
         if (CombatHelperComponent.allHaveActed)
         {
             //play new turn sound here
-            MainData.turnNumber++;
-            Debug.Log("Turn " + MainData.turnNumber.ToString());
-            EventLoggingComponent.LogDanger("Start of turn " + MainData.turnNumber.ToString() + ".");
+            StaticDataHolder.turnNumber++;
+            Debug.Log("Turn " + StaticDataHolder.turnNumber.ToString());
+            EventLoggingComponent.LogDanger("Start of turn " + StaticDataHolder.turnNumber.ToString() + ".");
             ApplyEffectToAll(); //burns, poison, etc. Ticks down the duration left by one, too
 
-            if (MainData.livingEnemyParty.Count > 0) //if there's no enemy there's no need to fight
+            if (StaticDataHolder.livingEnemyParty.Count > 0) //if there's no enemy there's no need to fight
             {
                 inCombat = true;
                 CombatHelperComponent.InitiateCombatTurn();
-
             }
             else
             {
-                MainData.turnNumber = 0;
+                StaticDataHolder.turnNumber = 0;
 
                 EventLoggingComponent.Log("All enemies have been vanquished.");
-                MainData.MainLoop.UserInterfaceHelperComponent.RefreshViewEnemy();
+                StaticDataHolder.MainLoop.UserInterfaceHelperComponent.RefreshViewEnemy();
                 inCombat = false;
                 //PurgeStatusEffects();
 
@@ -140,7 +139,7 @@ public class GameManager : MonoBehaviour
 
     public void ApplyEffectToAll()
     {//applies the status effect, if any, to every creature on map.
-        foreach (Character item in MainData.allChars)
+        foreach (Character item in StaticDataHolder.allChars)
         {
             if (item.currentStatusEffect != null)
             {
@@ -189,13 +188,13 @@ public class GameManager : MonoBehaviour
 
     public void Travel(MapLevel ToThisLevel)
     {//im hungry
-        if (MainData.currentLevel == null)
+        if (StaticDataHolder.currentLevel == null)
         {
             Debug.Log("currentLevel is Null.");
         }
         //SoundManagerRef.StopSoundtrack();
-        MainData.currentLevel = ToThisLevel;
-        if (MainData.currentLevel != null)
+        StaticDataHolder.currentLevel = ToThisLevel;
+        if (StaticDataHolder.currentLevel != null)
         {
             Debug.Log("currentLevel is not Null anymore.");
         }

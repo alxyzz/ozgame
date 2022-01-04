@@ -23,11 +23,11 @@ public class CharacterScript : MonoBehaviour
 
         //if (!isEnemyCharacter)
         //{
-        //    MainData.playerPartyMemberObjects.Add(gameObject);
+        //    StaticDataHolder.playerPartyMemberObjects.Add(gameObject);
         //}
         //else
         //{
-        //    MainData.enemyPartyMemberObjects.Add(gameObject);
+        //    StaticDataHolder.enemyPartyMemberObjects.Add(gameObject);
         //}
     }
 
@@ -41,7 +41,7 @@ public class CharacterScript : MonoBehaviour
         spriteRenderer.sprite = null;
         if (isEnemyCharacter)
         {
-            MainData.freeEnemyPartyMemberObjects.Add(this.gameObject);
+            StaticDataHolder.freeEnemyPartyMemberObjects.Add(this.gameObject);
         }
         gameObject.SetActive(false);
     }
@@ -74,14 +74,14 @@ public class CharacterScript : MonoBehaviour
         {
             // Debug.Log("Added a new enemy character - " + associatedCharacter.charName);
             spriteRenderer.flipX = true;
-            MainData.livingEnemyParty.Add(associatedCharacter);
+            StaticDataHolder.livingEnemyParty.Add(associatedCharacter);
         }
         else
         {
             // Debug.Log("Added a new player character - " + associatedCharacter.charName);
-            MainData.livingPlayerParty.Add(associatedCharacter);
+            StaticDataHolder.livingPlayerParty.Add(associatedCharacter);
         }
-        MainData.allChars.Add(associatedCharacter);
+        StaticDataHolder.allChars.Add(associatedCharacter);
     }
 
 
@@ -93,21 +93,21 @@ public class CharacterScript : MonoBehaviour
     {
         if (!this.associatedCharacter.isPlayerPartyMember)
         {//if it's not a party member, we select it as a target so we can attack it.
-            if (MainData.MainLoop.CombatHelperComponent.activeTarget == this)
+            if (StaticDataHolder.MainLoop.CombatHelperComponent.activeTarget == this)
             {
-                MainData.MainLoop.CombatHelperComponent.activeTarget = null;
-                MainData.MainLoop.UserInterfaceHelperComponent.DisplayTargetedEnemyInfo(null);
+                StaticDataHolder.MainLoop.CombatHelperComponent.activeTarget = null;
+                StaticDataHolder.MainLoop.UserInterfaceHelperComponent.DisplayTargetedEnemyInfo(null);
             }
             else
             {
                 Debug.Log(this.associatedCharacter.charName + " got clicked and was selected during combat.");
-                MainData.MainLoop.CombatHelperComponent.activeTarget = this;
-                MainData.MainLoop.UserInterfaceHelperComponent.DisplayTargetedEnemyInfo(this);
+                StaticDataHolder.MainLoop.CombatHelperComponent.activeTarget = this;
+                StaticDataHolder.MainLoop.UserInterfaceHelperComponent.DisplayTargetedEnemyInfo(this);
 
             }
 
         }
-        MainData.MainLoop.CombatHelperComponent.HighlightCheck();
+        StaticDataHolder.MainLoop.CombatHelperComponent.HighlightCheck();
     }
 
     void RefreshCharacterScript(bool show)
@@ -117,11 +117,11 @@ public class CharacterScript : MonoBehaviour
             // Debug.Log(this.name + "Associated character null at RefreshCharacterScript()");
             return;
         }
-        TextMeshProUGUI charactDescript = MainData.MainLoop.UserInterfaceHelperComponent.selectedCharDescription.GetComponent<TextMeshProUGUI>();
-        TextMeshProUGUI charactName = MainData.MainLoop.UserInterfaceHelperComponent.selectedCharName.GetComponent<TextMeshProUGUI>();
-        Image charactAvatar = MainData.MainLoop.UserInterfaceHelperComponent.selectedCharAvatar.GetComponent<Image>();
-        TextMeshProUGUI charactTitle = MainData.MainLoop.UserInterfaceHelperComponent.selectedCharTraitDesc.GetComponent<TextMeshProUGUI>();
-        Image charactTraitIcon = MainData.MainLoop.UserInterfaceHelperComponent.selectedCharTraitIcon.GetComponent<Image>();
+        TextMeshProUGUI charactDescript = StaticDataHolder.MainLoop.UserInterfaceHelperComponent.selectedCharDescription.GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI charactName = StaticDataHolder.MainLoop.UserInterfaceHelperComponent.selectedCharName.GetComponent<TextMeshProUGUI>();
+        Image charactAvatar = StaticDataHolder.MainLoop.UserInterfaceHelperComponent.selectedCharAvatar.GetComponent<Image>();
+        TextMeshProUGUI charactTitle = StaticDataHolder.MainLoop.UserInterfaceHelperComponent.selectedCharTraitDesc.GetComponent<TextMeshProUGUI>();
+        Image charactTraitIcon = StaticDataHolder.MainLoop.UserInterfaceHelperComponent.selectedCharTraitIcon.GetComponent<Image>();
         if (show)
         {
             charactDescript.gameObject.SetActive(true);

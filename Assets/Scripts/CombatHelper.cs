@@ -74,13 +74,13 @@ public class CombatHelper : MonoBehaviour
         Debug.LogWarning("Now doing combat turn. Patiently.");
         for (int i = 0; i < combatants.Count - 1; i++)
         {
-            MainData.MainLoop.EventLoggingComponent.LogDanger("It is now " + combatants[i].charName + "'s turn!");
+            StaticDataHolder.MainLoop.EventLoggingComponent.LogDanger("It is now " + combatants[i].charName + "'s turn!");
             if (i > 0)
             {//waits for the previous one to finish their turn before actually doing anything. We are polite, after all.
                 yield return new WaitUntil(() => combatants[i - 1].hasActedThisTurn == true);
             }
 
-            if (MainData.livingEnemyParty.Count < 1)
+            if (StaticDataHolder.livingEnemyParty.Count < 1)
             {//just an additional check for enemies so we don't waste player's time
                 allHaveActed = true;
                 Debug.Log("Finished a combat round.");
@@ -90,18 +90,18 @@ public class CombatHelper : MonoBehaviour
                     item.hasActedThisTurn = false;
                     item.selfScriptRef.transform.position = item.InitialPosition; // JUST in case we get a straggler, resets their position to where they should be. This works because we don't actually move in the environment, we just move the world around us like a boss. solipsism vibe?
                 }
-                MainData.MainLoop.PassTurn();
+                StaticDataHolder.MainLoop.PassTurn();
                 yield break;
             }
             if (combatants[i].CheckIfCanAct())
             {
-               
-                //MainData.MainLoop.SoundManagerComponent.sfxSource.PlayOneShot(item.turnSound); //plays the character specific noise/vocalization
+
+                //StaticDataHolder.MainLoop.SoundManagerComponent.sfxSource.PlayOneShot(item.turnSound); //plays the character specific noise/vocalization
                 ///we do what is to be done
 
                 CurrentlyActiveChar = combatants[i].selfScriptRef;
                 MoveToActiveSpot(CurrentlyActiveChar);
-                
+
                 Debug.LogWarning("Moving to active spot - " + CurrentlyActiveChar.associatedCharacter.charName);
 
                 if (combatants[i].isPlayerPartyMember)
@@ -120,7 +120,7 @@ public class CombatHelper : MonoBehaviour
 
 
                 yield return new WaitForSecondsRealtime(0.4f);
-                
+
 
             }
 
@@ -131,16 +131,16 @@ public class CombatHelper : MonoBehaviour
         {//refreshes that boolean so we can act again next turn
             item.hasActedThisTurn = false;
         }
-        MainData.MainLoop.PassTurn();
+        StaticDataHolder.MainLoop.PassTurn();
     }
 
 
 
-    
+
 
     public void InitiateCombatTurn()
     {
-        List<Character> combatants = MainData.allChars;
+        List<Character> combatants = StaticDataHolder.allChars;
         //todo - what happens if someone dies during this? can foreach cope with it?
         //follow-up - ok, so you shouldn't modify a collection during the foreach. dying characters just get hidden and cleaned up behind the scene after the speed dependant turns
 
@@ -152,31 +152,31 @@ public class CombatHelper : MonoBehaviour
 
     public void ClickPlayButton()
     {
-        if (MainData.livingEnemyParty.Count < 1)
+        if (StaticDataHolder.livingEnemyParty.Count < 1)
         {
             //play a tick sound here
-            MainData.MainLoop.EventLoggingComponent.LogGray("You're facing no enemies at the moment.");
+            StaticDataHolder.MainLoop.EventLoggingComponent.LogGray("You're facing no enemies at the moment.");
             return;
         }
         if (CurrentlyActiveChar != null)//if a turn is still in progress, what should this button do? - answer - nothing.
         {
 
             //play a tick sound here
-            foreach (Character item in MainData.livingEnemyParty)
+            foreach (Character item in StaticDataHolder.livingEnemyParty)
             {
-                MainData.MainLoop.EventLoggingComponent.LogGray(item.charName + " is still alive.");
+                StaticDataHolder.MainLoop.EventLoggingComponent.LogGray(item.charName + " is still alive.");
             }
-            MainData.MainLoop.EventLoggingComponent.LogGray("Turn in progress.");
+            StaticDataHolder.MainLoop.EventLoggingComponent.LogGray("Turn in progress.");
             return;
         }
-        if (MainData.MainLoop.CombatHelperComponent.allHaveActed)
+        if (StaticDataHolder.MainLoop.CombatHelperComponent.allHaveActed)
         {
 
-            MainData.MainLoop.PassTurn();
+            StaticDataHolder.MainLoop.PassTurn();
         }
         else
         {
-            MainData.MainLoop.EventLoggingComponent.Log("Current turn not finished.");
+            StaticDataHolder.MainLoop.EventLoggingComponent.Log("Current turn not finished.");
         }
 
         //add a click sound here
@@ -200,7 +200,7 @@ public class CombatHelper : MonoBehaviour
 
     public void EndCombat()
     {
-        MainData.MainLoop.EventLoggingComponent.Log("Combat is over.");
+        StaticDataHolder.MainLoop.EventLoggingComponent.Log("Combat is over.");
     }
 
 
@@ -209,7 +209,7 @@ public class CombatHelper : MonoBehaviour
         CurrentlyActiveChar.associatedCharacter.hasActedThisTurn = true;
         ReturnFromActiveSpot(); //we send the character back in this moment.
 
-        if (MainData.livingEnemyParty.Count < 1)
+        if (StaticDataHolder.livingEnemyParty.Count < 1)
         {
             EndCombat();
         }
@@ -222,14 +222,14 @@ public class CombatHelper : MonoBehaviour
         HighlightCheck();
         CurrentlyActiveChar.associatedCharacter.hasActedThisTurn = true;
         CurrentlyActiveChar = null;
-        
+
     }
 
     public void ClickNormalAttack()
     {
         if (CurrentlyActiveChar == null)
         {//this shouldn't happen because the game itself picks a character to move
-            MainData.MainLoop.EventLoggingComponent.LogDanger("currently active char is null");
+            StaticDataHolder.MainLoop.EventLoggingComponent.LogDanger("currently active char is null");
             return;
         }
         if (CurrentlyActiveChar.associatedCharacter.isPlayerPartyMember)
@@ -243,24 +243,24 @@ public class CombatHelper : MonoBehaviour
                     activeTarget = null;
                     return;
                 }
-                
-                    ToggleCombatButtomVisibility(false);
-                    StartCoroutine(AttackTargetedEnemy());
-                
-                
-                
-                
+
+                ToggleCombatButtomVisibility(false);
+                StartCoroutine(AttackTargetedEnemy());
+
+
+
+
 
             }
             else
             {
-                MainData.MainLoop.EventLoggingComponent.LogGray("You haven't selected a target!");
+                StaticDataHolder.MainLoop.EventLoggingComponent.LogGray("You haven't selected a target!");
             }
 
         }
         else
         {
-            MainData.MainLoop.EventLoggingComponent.LogDanger("It's not your turn!");
+            StaticDataHolder.MainLoop.EventLoggingComponent.LogDanger("It's not your turn!");
         }
     }
 
@@ -275,12 +275,12 @@ public class CombatHelper : MonoBehaviour
         Debug.Log("attacking enemy. Currently active character is " + CurrentlyActiveChar.associatedCharacter.charName);
 
 
-            Fool.TakeDamageFromCharacter(CurrentlyActiveChar.associatedCharacter);//this also handles damage indicator
-        
-        
+        Fool.TakeDamageFromCharacter(CurrentlyActiveChar.associatedCharacter);//this also handles damage indicator
+
+
         yield return new WaitForSeconds(0.5f);
 
-        ReturnFromActiveSpot(); //return him duh sillybuns
+        ReturnFromActiveSpot(); //return him duh sillypants
         CurrentlyActiveChar.associatedCharacter.hasActedThisTurn = true;
         EndCurrentTurn();
 
@@ -294,13 +294,13 @@ public class CombatHelper : MonoBehaviour
     {
         if (togg)
         {
-            MainData.MainLoop.UserInterfaceHelperComponent.AbilityButton.SetActive(true);
-            MainData.MainLoop.UserInterfaceHelperComponent.AttackButton.SetActive(true);
+            StaticDataHolder.MainLoop.UserInterfaceHelperComponent.AbilityButton.SetActive(true);
+            StaticDataHolder.MainLoop.UserInterfaceHelperComponent.AttackButton.SetActive(true);
         }
         else
         {
-            MainData.MainLoop.UserInterfaceHelperComponent.AbilityButton.SetActive(false);
-            MainData.MainLoop.UserInterfaceHelperComponent.AttackButton.SetActive(false);
+            StaticDataHolder.MainLoop.UserInterfaceHelperComponent.AbilityButton.SetActive(false);
+            StaticDataHolder.MainLoop.UserInterfaceHelperComponent.AttackButton.SetActive(false);
         }
 
 
@@ -332,7 +332,7 @@ public class CombatHelper : MonoBehaviour
             {
                 toAnimate.transform.position = Vector3.Lerp(toAnimate.transform.position, final, 0.5f * Time.deltaTime);
             }
-            Character poorFool = MainData.livingPlayerParty[Random.Range(0, MainData.livingPlayerParty.Count + 1)];
+            Character poorFool = StaticDataHolder.livingPlayerParty[Random.Range(0, StaticDataHolder.livingPlayerParty.Count + 1)];
 
             yield return new WaitForSecondsRealtime(0.3f);
             while (Vector3.Distance(toAnimate.transform.position, Initial) > 0.05f)
@@ -360,7 +360,7 @@ public class CombatHelper : MonoBehaviour
     //        {
     //            CurrentlyActiveChar.transform.position = Vector3.Lerp(CurrentlyActiveChar.transform.position, final, 0.5f * Time.deltaTime);
     //        }
-    //        Character poorFool = MainData.playerParty[Random.Range(0, MainData.playerParty.Count + 1)];
+    //        Character poorFool = StaticDataHolder.playerParty[Random.Range(0, StaticDataHolder.playerParty.Count + 1)];
     //        poorFool.TakeDamageFromCharacter(CurrentlyActiveChar.associatedCharacter); // for now, just a random attack
     //        StartCoroutine(HitKnockback(poorFool.selfScriptRef));
     //        //play some kinda sprite animation + sound effect here, perhaps
@@ -375,7 +375,7 @@ public class CombatHelper : MonoBehaviour
     {
         CurrentlyActiveChar.transform.position = ActiveCharSpot.transform.position; //MOVE CHAR TO SPOT
         ToggleCombatButtomVisibility(true);
-        MainData.controlsEnabled = true;
+        StaticDataHolder.controlsEnabled = true;
     }
 
 
@@ -386,7 +386,7 @@ public class CombatHelper : MonoBehaviour
             Debug.LogWarning("Could not move " + chara.gameObject.name + ", CurrentlyActiveChar is not null");
             return;
         }
-        
+
         chara.transform.position = ActiveCharSpot.transform.position; //replace this with the sliding thing
 
         //StartCoroutine(SlideTo(chara, ActiveCharSpot.transform.position, activationMovingSpeed, false));
@@ -402,12 +402,12 @@ public class CombatHelper : MonoBehaviour
         //highlights the current target, checks if there is no target in which case it hides the highlight
         if (activeTarget != null)
         {
-            MainData.MainLoop.UserInterfaceHelperComponent.CombatHighlightObject.transform.position = activeTarget.transform.position;
-            MainData.MainLoop.UserInterfaceHelperComponent.CombatHighlightObject.SetActive(true);
+            StaticDataHolder.MainLoop.UserInterfaceHelperComponent.CombatHighlightObject.transform.position = activeTarget.transform.position;
+            StaticDataHolder.MainLoop.UserInterfaceHelperComponent.CombatHighlightObject.SetActive(true);
         }
         else
         {
-            MainData.MainLoop.UserInterfaceHelperComponent.CombatHighlightObject.SetActive(false);
+            StaticDataHolder.MainLoop.UserInterfaceHelperComponent.CombatHighlightObject.SetActive(false);
         }
 
     }
@@ -438,14 +438,14 @@ public class CombatHelper : MonoBehaviour
     }
 
 
-        
-    
+
+
 
 
     public void DoEnemyCharacterTurn(Character npc)
     {
         ToggleCombatButtomVisibility(false);
-        //Character toBeAttacked = MainData.playerParty[Random.Range(0, MainData.playerParty.Count + 1)];
+        //Character toBeAttacked = StaticDataHolder.playerParty[Random.Range(0, StaticDataHolder.playerParty.Count + 1)];
         //StartCoroutine(SlideTo(npc.selfScriptRef, ActiveCharSpot.transform.position, activationMovingSpeed));
 
         //StartCoroutine(SlideTo(CurrentlyActiveChar, ActiveCharSpot.transform.position, activationMovingSpeed, false));
@@ -458,8 +458,8 @@ public class CombatHelper : MonoBehaviour
 
     public IEnumerator AttackRandomEnemy(CharacterScript chara)
     {
-        int b = Random.Range(0, MainData.livingPlayerParty.Count);
-        Character Fool = MainData.livingPlayerParty[b];
+        int b = Random.Range(0, StaticDataHolder.livingPlayerParty.Count);
+        Character Fool = StaticDataHolder.livingPlayerParty[b];
 
         Debug.Log("attacking player at playerParty[" + b.ToString() + "]!");
 
@@ -469,7 +469,7 @@ public class CombatHelper : MonoBehaviour
 
         ReturnFromActiveSpot();
         CurrentlyActiveChar.associatedCharacter.hasActedThisTurn = true;
-        
+
 
     }
 

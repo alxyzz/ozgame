@@ -16,9 +16,11 @@ public class LevelHelper : MonoBehaviour
     public Material mushroomForestBackground;
     public AudioClip mushroomForestSoundTrack;
 
-
-    public List<BackgroundLayerMovementParallax> parallaxLayers = new List<BackgroundLayerMovementParallax>(); //all background parallax object scripts are stored here. If you have any issue drag and dropping the script itself, remember you can open up two inspector tabs :)
-
+    [Header("all background parallax object scripts are stored here.")]
+    [Header("If you have any issue drag and dropping the script itself")]
+    [Header("remember you can open up two inspector tabs :)")]
+    public List<BackgroundLayerMovementParallax> parallaxLayers = new List<BackgroundLayerMovementParallax>();
+    
     [Space(15)]//movement inside the local map stuff
     [HideInInspector]
     public float distanceWalked = 0;//shows how much we've physically advanced in the current level
@@ -27,6 +29,13 @@ public class LevelHelper : MonoBehaviour
     private bool isAtVendor = false;
 
 
+    private void Update()
+    {
+        CheckForEncounter();
+        CheckForVendor();
+
+    }
+
 
     private bool IsBetween(double testValue, double bound1, double bound2)
     {
@@ -34,46 +43,61 @@ public class LevelHelper : MonoBehaviour
             return testValue >= bound2 && testValue <= bound1;
         return testValue >= bound1 && testValue <= bound2;
     }
-
+    /// <summary>
+    /// checks wether the party has reached a vendor. If so, stops the player
+    /// </summary>
     private void CheckForVendor()
     {
 
-        if (MainData.currentLevel == null || !MainData.MainLoop.inCombat || isAtVendor)
+        if (StaticDataHolder.currentLevel == null || !StaticDataHolder.MainLoop.inCombat || isAtVendor)
         {
             return;
         }
 
-        if (IsBetween(distanceWalked, MainData.currentLevel.localMerchant.xLocation - 5, MainData.currentLevel.localMerchant.xLocation+5))
+        if (IsBetween(distanceWalked, StaticDataHolder.currentLevel.localMerchant.xLocation - 5, StaticDataHolder.currentLevel.localMerchant.xLocation + 5) && !StaticDataHolder.MainLoop.VendorScriptComponent.isVendorHere)
         {
-            isAtVendor = true;
+            MoveStop();
+            
+            StaticDataHolder.MainLoop.VendorScriptComponent.MoveMerchant();
         }
 
     }
 
-    private void Update()
+
+    /// <summary>
+    /// checks if player has walked 5 steps near an encounter. if so, trigger it to spawn and turns combat on.
+    /// </summary>
+    private void CheckForEncounter()
     {
-        CheckForVendor();
+
+        if (StaticDataHolder.currentLevel == null || !StaticDataHolder.MainLoop.inCombat)
+        {
+            return;
+        }
+
+        foreach (Encounter item in StaticDataHolder.currentLevel.Encounters)
+        {
+            if (item.spawned)
+            {
+                return;
+            }
+            if (IsBetween(distanceWalked, item.distancePoint -5 , item.distancePoint + 5))
+            {
+                MoveStop();
+
+                StaticDataHolder.MainLoop.EntityDefComponent.SpawnEncounter(item);
+            }
+        }
+        
 
     }
-
-    public bool IsWithin(float value, float minimum, float maximum)
-    {
-        return value >= minimum && value <= maximum;
-    }
-
-
-
-
-
-
-
 
 
 
     //MOVEMENT IN A LEVEL
     public void MoveBackwards()
     {
-        if (MainData.MainLoop.inCombat)
+        if (StaticDataHolder.MainLoop.inCombat)
         {
             return;
         }
@@ -85,7 +109,7 @@ public class LevelHelper : MonoBehaviour
 
     public void MoveForwards()
     {
-        if (MainData.MainLoop.inCombat)
+        if (StaticDataHolder.MainLoop.inCombat)
         {
             return;
         }
@@ -97,7 +121,7 @@ public class LevelHelper : MonoBehaviour
 
     public void MoveStop()
     {
-        if (MainData.MainLoop.inCombat)
+        if (StaticDataHolder.MainLoop.inCombat)
         {
             return;
         }
@@ -114,19 +138,26 @@ public class LevelHelper : MonoBehaviour
 
 
 
-
-    private List<Encounter> GenerateEncounter(int encounterAmt, string type, float distance, int enemyNmbr = 0)
+    /// <summary>
+    /// generates and returns multiple encounters for a level at an even spacing
+    /// </summary>
+    /// <param name="encounterAmt"> how many encounters in a level</param>
+    /// <param name="type">what kind of creatures spawn. all the same for now. could make it a list and just spawn random amounts of each</param>
+    /// <param name="distance">point at which the encounters START, new encounters being incremented by encounterSpacing defined locally </param>
+    /// <param name="enemyNmbr">how many enemies per encounter</param>
+    /// <returns></returns>
+    private List<Encounter> GenerateEncountersForLevel(int encounterAmt, string type, float distance, int enemyNmbr = 0)
     {
+        int enemyAmount;
         if (enemyNmbr == 0)
         {
-            int enemyAmount = UnityEngine.Random.Range(1, 6);
+            enemyAmount = UnityEngine.Random.Range(1, 6);
         }
         else
         {
-            int enemyAmount = enemyNmbr;
+            enemyAmount = enemyNmbr;
         }
 
-        string enemyType = type;
         //the encounters can start from around 200f distance, so...
         float encounterSpacing = 50;
         List<Encounter> encounter = new List<Encounter>();
@@ -139,6 +170,7 @@ public class LevelHelper : MonoBehaviour
             }
             b.distancePoint = distance;
             distance += encounterSpacing;
+            StaticDataHolder.MainLoop.EventLoggingComponent.LogGray("Prepared a " + type + " ambush at " + distance);
             encounter.Add(b);
         }
 
@@ -152,7 +184,7 @@ public class LevelHelper : MonoBehaviour
     public void SetupDemoLevel()
     {
 
-        MainData.currentLevel = MainData.levelTemplates["darkforest"];
+        StaticDataHolder.currentLevel = StaticDataHolder.levelTemplates["darkforest"];
 
     }
 
@@ -185,7 +217,7 @@ public class LevelHelper : MonoBehaviour
         //                                   );
 
 
-        //MainData.levelTemplates.Add("darkforest", darkForest); //adds the template to the global list
+        //StaticDataHolder.levelTemplates.Add("darkforest", darkForest); //adds the template to the global list
 
 
 
@@ -194,61 +226,35 @@ public class LevelHelper : MonoBehaviour
 
 
         //MapLevel town = new MapLevel("Abandoned Town", "This town is empty...", "It smells weird.", 3, "Doppelgangers", 1f, 1f, testmat, testsound, false);
-        //MainData.levelTemplates.Add("town", town);
+        //StaticDataHolder.levelTemplates.Add("town", town);
 
 
 
-        //MainData.levelsInitDone = true; //to keep track of this, so we don't somehow generate the Overmap before initializing the templates
+        //StaticDataHolder.levelsInitDone = true; //to keep track of this, so we don't somehow generate the Overmap before initializing the templates
     }
 
 
     private MapLevel GetRandomLevel()
     {
-        List<string> keyList = new List<string>(MainData.levelTemplates.Keys);
+        List<string> keyList = new List<string>(StaticDataHolder.levelTemplates.Keys);
         string randomKey = keyList[UnityEngine.Random.Range(0, keyList.Count + 1)];
         Debug.Log("Fetched random level: " + randomKey);
-        return MainData.levelTemplates[randomKey];
+        return StaticDataHolder.levelTemplates[randomKey];
     }
 
     public class Merchant
     {
         public string merchantName;
-        //public string merchantType;
+
 
 
         public float xLocation;//the point where we will meet the merchant
-        //public List<Item> ItemStock = new List<Item>(); no, we will generate the stock on the spot.
-        
-        //public Trait soldTrait;
-
+        public List<Item> ItemStock = new List<Item>();
 
         public Merchant()
         {
 
         }
-
-
-
-     
-
-        //public void GenerateStock()
-        //{
-        //    string debug = "";
-        //    for (int i = 0; i < MainData.ShopItemCount; i++)
-        //    {
-        //        Item b = MainData.MainLoop.EntityDefComponent.FetchRandomItem();
-        //        ItemStock.Add(b);//just pick a random item
-        //        debug += b.itemName + ", ";
-        //    }
-
-        //    soldTrait = MainData.MainLoop.EntityDefComponent.FetchRandomTrait();
-        //    debug += "and the trait of " + soldTrait.traitName;
-        //    Debug.Log(this.merchantName + " has generated their stock: " + debug);
-
-
-        //}
-
-
     }
 
 
@@ -259,7 +265,7 @@ public class LevelHelper : MonoBehaviour
     {
         public bool spawned = false; //wether it has already been spawned
         public float distancePoint; //the point in which this encounter spawns
-        public List<string> enemies; // the enemies that will spawn in this encounter. are spawned by their ID from the MainData enemy dictionary.
+        public List<string> enemies; // the enemies that will spawn in this encounter. are spawned by their ID from the StaticDataHolder enemy dictionary.
 
 
     }

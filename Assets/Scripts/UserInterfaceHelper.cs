@@ -185,7 +185,7 @@ public class UserInterfaceHelper : MonoBehaviour
         //refresh this every time the number of enemy characters changes
         //runs in RefreshEnemyViewDat
 
-        if (MainData.livingEnemyParty.Count < 1)
+        if (StaticDataHolder.livingEnemyParty.Count < 1)
         {
             SetActiveEnemyTabs(0);
             Debug.LogWarning("RefreshEnemyCharacterView() - livingEnemyParty has no enemies in it.");
@@ -196,12 +196,12 @@ public class UserInterfaceHelper : MonoBehaviour
         //NPC3 = null;
         //NPC4 = null;
         Debug.LogWarning("RefreshEnemyCharacterView() just ran");
-        List<Character> characters = new List<Character>(MainData.livingEnemyParty);
+        List<Character> characters = new List<Character>(StaticDataHolder.livingEnemyParty);
 
         characters.Sort((x, y) => x.currentHealth.CompareTo(y.currentHealth));
         // ascending. swap y and x on the right side for descending. Yes, we are sorting by plain ol health without any ratio because it's better to hit the one with less life and not the 500hp behemoth who has only 100hp left and the game thinks it's equivalent to 25hp max100hp guy. also ratio.
 
-        //MainData.MainLoop.EventLoggingComponent.LogGray("There are " + characters.Count + " enemy characters.");
+        //StaticDataHolder.MainLoop.EventLoggingComponent.LogGray("There are " + characters.Count + " enemy characters.");
         switch (characters.Count)
         {
             case 0:
@@ -279,39 +279,52 @@ public class UserInterfaceHelper : MonoBehaviour
     }
     public void RefreshViewEnemy()
     {//run this after every spawning or death of an enemy
-        if (MainData.livingEnemyParty.Count == 0)
+        if (StaticDataHolder.livingEnemyParty.Count == 0)
         {
             Debug.LogWarning("RefreshEnemyCharacterView() - livingEnemyParty has no enemies in it.");
-            NPC1HPbar.gameObject.SetActive(false);
-            NPC2HPbar.gameObject.SetActive(false);
-            NPC3HPbar.gameObject.SetActive(false);
-            NPC4HPbar.gameObject.SetActive(false);
-
-            NPC1Avatar.gameObject.SetActive(false);
-            NPC2Avatar.gameObject.SetActive(false);
-            NPC3Avatar.gameObject.SetActive(false);
-            NPC4Avatar.gameObject.SetActive(false);
-
-            NPC1HPbar.gameObject.SetActive(false);
-            NPC2HPbar.gameObject.SetActive(false);
-            NPC3HPbar.gameObject.SetActive(false);
-            NPC4HPbar.gameObject.SetActive(false);
-
-            NPC1Avatar.gameObject.SetActive(false);
-            NPC2Avatar.gameObject.SetActive(false);
-            NPC3Avatar.gameObject.SetActive(false);
-            NPC4Avatar.gameObject.SetActive(false);
 
 
 
 
 
+            NPC1HPbar.transform.parent.gameObject.SetActive(false);
+            NPC2HPbar.transform.parent.gameObject.SetActive(false);
+            NPC3HPbar.transform.parent.gameObject.SetActive(false);
+            NPC4HPbar.transform.parent.gameObject.SetActive(false);
 
-            //health numbers
-            NPC1nmbr.gameObject.SetActive(false);
-            NPC2nmbr.gameObject.SetActive(false);
-            NPC3nmbr.gameObject.SetActive(false);
-            NPC4nmbr.gameObject.SetActive(false);
+
+
+            //NPC1HPbar.gameObject.SetActive(false);
+            //NPC2HPbar.gameObject.SetActive(false);
+            //NPC3HPbar.gameObject.SetActive(false);
+            //NPC4HPbar.gameObject.SetActive(false);
+
+
+            //NPC1Avatar.gameObject.SetActive(false);
+            //NPC2Avatar.gameObject.SetActive(false);
+            //NPC3Avatar.gameObject.SetActive(false);
+            //NPC4Avatar.gameObject.SetActive(false);
+
+            //NPC1HPbar.gameObject.SetActive(false);
+            //NPC2HPbar.gameObject.SetActive(false);
+            //NPC3HPbar.gameObject.SetActive(false);
+            //NPC4HPbar.gameObject.SetActive(false);
+
+            //NPC1Avatar.gameObject.SetActive(false);
+            //NPC2Avatar.gameObject.SetActive(false);
+            //NPC3Avatar.gameObject.SetActive(false);
+            //NPC4Avatar.gameObject.SetActive(false);
+
+
+
+
+
+
+            ////health numbers
+            //NPC1nmbr.gameObject.SetActive(false);
+            //NPC2nmbr.gameObject.SetActive(false);
+            //NPC3nmbr.gameObject.SetActive(false);
+            //NPC4nmbr.gameObject.SetActive(false);
 
             //PC1nmbr.gameObject.SetActive(false);
             //PC2nmbr.gameObject.SetActive(false);
@@ -324,23 +337,20 @@ public class UserInterfaceHelper : MonoBehaviour
         ReferenceEnemiesForDisplay();
         if (NPC1 != null && NPC1.associatedCharacter != null)//checks if it exists
         {
-            NPC1Avatar.gameObject.SetActive(true);
+            NPC1HPbar.transform.parent.gameObject.SetActive(true);
             NPC1Avatar.sprite = NPC1.associatedCharacter.charAvatar; //if it does, show it in the tabs
             NPC1Name.text = NPC1.associatedCharacter.charName;
-            NPC1HPbar.gameObject.SetActive(true);
-            NPC1nmbr.gameObject.SetActive(true);
+
         }
         else
         {
-            NPC1Avatar.gameObject.SetActive(false);
+            NPC1HPbar.transform.parent.gameObject.SetActive(true);
         }
         if (NPC2 != null && NPC2.associatedCharacter != null)
         {
-            NPC2Avatar.gameObject.SetActive(true);
+            NPC2HPbar.transform.parent.gameObject.SetActive(true);
             NPC2Avatar.sprite = NPC2.associatedCharacter.charAvatar;
             NPC2Name.text = NPC2.associatedCharacter.charName;
-            NPC2HPbar.gameObject.SetActive(true);
-            NPC2nmbr.gameObject.SetActive(true);
         }
         else
         {
@@ -348,27 +358,24 @@ public class UserInterfaceHelper : MonoBehaviour
         }
         if (NPC3 != null && NPC3.associatedCharacter != null)
         {
-            NPC3Avatar.gameObject.SetActive(true);
+            NPC3HPbar.transform.parent.gameObject.SetActive(true);
             NPC3Avatar.sprite = NPC3.associatedCharacter.charAvatar;
             NPC3Name.text = NPC3.associatedCharacter.charName;
-            NPC3HPbar.gameObject.SetActive(true);
-            NPC3nmbr.gameObject.SetActive(true);
         }
         else
         {
-            NPC3Avatar.gameObject.SetActive(false);
+            NPC3HPbar.transform.parent.gameObject.SetActive(false);
         }
         if (NPC4 != null && NPC4.associatedCharacter != null)
         {
-            NPC4Avatar.gameObject.SetActive(true);
+            NPC4HPbar.transform.parent.gameObject.SetActive(true);
             NPC4Avatar.sprite = NPC4.associatedCharacter.charAvatar;
             NPC4Name.text = NPC4.associatedCharacter.charName;
-            NPC4HPbar.gameObject.SetActive(true);
-            NPC4nmbr.gameObject.SetActive(true);
+
         }
         else
         {
-            NPC4Avatar.gameObject.SetActive(false);
+            NPC4HPbar.transform.parent.gameObject.SetActive(false);
         }
 
 
@@ -447,7 +454,7 @@ public class UserInterfaceHelper : MonoBehaviour
     {//this is small enough and used enough we shouldn't run the whole refresh thing if possible
         //this is only used when we get a new character to display or a character dies.
         //the health bar value is changed when hit, in the Character class' TakeDamageFromCharacter
-        foreach (Character item in MainData.livingEnemyParty)
+        foreach (Character item in StaticDataHolder.livingEnemyParty)
         {
             item.HealthBar = null;
         }//we do this so we don't have unwanted references if we somehow switch back and forth from a character due to changed hp
@@ -665,38 +672,38 @@ public class UserInterfaceHelper : MonoBehaviour
         MainMenuBack.SetActive(true);
         MenuCanvas.SetActive(true);
         GameUI.SetActive(false);
-        MainData.SoundManagerRef.PlayClickSound();
+        StaticDataHolder.SoundManagerRef.PlayClickSound();
 
     }
     public void ClickStartGame()
     {
-        //MainData.MainLoop.SoundManagerComponent.PlayClickSound();
-        if (!MainData.MainLoop.gameStarted)
+        //StaticDataHolder.MainLoop.SoundManagerComponent.PlayClickSound();
+        if (!StaticDataHolder.MainLoop.gameStarted)
         {
 
-            //MainData.MainLoop.SoundManagerComponent.ChangeSoundtrack(MainData.SoundManagerRef.MainTheme);
+            //StaticDataHolder.MainLoop.SoundManagerComponent.ChangeSoundtrack(StaticDataHolder.SoundManagerRef.MainTheme);
         }
         MainMenuStart.GetComponentInChildren<TextMeshProUGUI>().text = "Continue";
         MenuCanvas.SetActive(false);
         MainMenuBack.SetActive(false);
         GameUI.SetActive(true);
-        MainData.MainLoop.gameStarted = true;
+        StaticDataHolder.MainLoop.gameStarted = true;
     }
     public void ClickExitGame()
     {
-        MainData.SoundManagerRef.PlayClickSound();
+        StaticDataHolder.SoundManagerRef.PlayClickSound();
         MenuCanvas.SetActive(false);
 
         ExitConfirmationCanvas.SetActive(true);
     }
     public void ClickExitYes()
     {
-        MainData.SoundManagerRef.PlayClickSound();
+        StaticDataHolder.SoundManagerRef.PlayClickSound();
         Application.Quit();
     }
     public void ClickExitNo()
     {
-        MainData.SoundManagerRef.PlayClickSound();
+        StaticDataHolder.SoundManagerRef.PlayClickSound();
         ExitConfirmationCanvas.SetActive(false);
         MenuCanvas.SetActive(true);
 
@@ -719,14 +726,14 @@ public class UserInterfaceHelper : MonoBehaviour
     }
     public void ClickSettingsParallax()
     {
-        if (MainData.MainLoop.BackgroundParallaxObject.ParallaxSetting)
+        if (StaticDataHolder.MainLoop.BackgroundParallaxObject.ParallaxSetting)
         {
-            MainData.MainLoop.BackgroundParallaxObject.ParallaxSetting = false;
+            StaticDataHolder.MainLoop.BackgroundParallaxObject.ParallaxSetting = false;
             SettingsParallaxButton.GetComponentInChildren<TextMeshProUGUI>().text = "Parallax - Off";
         }
         else
         {
-            MainData.MainLoop.BackgroundParallaxObject.ParallaxSetting = true;
+            StaticDataHolder.MainLoop.BackgroundParallaxObject.ParallaxSetting = true;
             SettingsParallaxButton.GetComponentInChildren<TextMeshProUGUI>().text = "Parallax - On";
         }
 
@@ -742,17 +749,17 @@ public class UserInterfaceHelper : MonoBehaviour
     }
     public void ClickOvermapLevel(MapLevel clickyyy)
     {
-        if (clickyyy != MainData.currentLevel)
+        if (clickyyy != StaticDataHolder.currentLevel)
         {//we go there if possible
-            if (MainData.currentLevel.nextLevels.Contains(clickyyy))
+            if (StaticDataHolder.currentLevel.nextLevels.Contains(clickyyy))
             {//oh yeeeeee
 
-                MainData.SoundManagerRef.PlayClickSound();
+                StaticDataHolder.SoundManagerRef.PlayClickSound();
             }
             else
             {
                 //failure
-                //MainData.SoundManagerRef.PlayFailureSound();
+                //StaticDataHolder.SoundManagerRef.PlayFailureSound();
             }
         }
 
@@ -762,14 +769,14 @@ public class UserInterfaceHelper : MonoBehaviour
 
         WorldMapCanvas.SetActive(false);
         Debug.Log("CLICKED closeOVERMAP BUTTON.");
-        MainData.SoundManagerRef.PlayClickSound();
+        StaticDataHolder.SoundManagerRef.PlayClickSound();
     }
     public void ClickMapOpen()
     {
 
         WorldMapCanvas.SetActive(true);
         Debug.Log("CLICKED OVERMAP-open BUTTON.");
-        MainData.SoundManagerRef.PlayClickSound();
+        StaticDataHolder.SoundManagerRef.PlayClickSound();
     }
     //NOTE - combat buttons are handled in CombatHelper.cs
     IEnumerator darksequence()

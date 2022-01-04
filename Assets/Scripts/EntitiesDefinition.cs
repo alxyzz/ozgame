@@ -6,26 +6,32 @@ using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 using UnityEngine.UI;
 using static LevelHelper;
-using static MainData;
+using static StaticDataHolder;
 using static TraitHelper;
 
 public class EntitiesDefinition : MonoBehaviour
 {
-    //link all entity assets here. sounds, sprites, etc.
-    //we will later have a version for each animation, but for now this is fine
+    [Header("define all entity assets here. sounds, sprites, etc.")]
+
     public Sprite ScarecrowSprite;
     public Sprite TinManSprite;
     public Sprite LionSprite;
-    public Sprite FourthProtagonistSprite;
+    public Sprite DorothySprite;
     [Space(10)]
     public Sprite Enemy1Sprite;
     public Sprite Enemy2Sprite;
     public Sprite Enemy3Sprite;
     [Space(10)]
-
     public Sprite HealthPotionSprite;
     public Sprite SharpeningStoneSprite;
     public Sprite HealingMushroomSprite;
+    [Space(10)]
+    public Sprite shawarma;
+    public Sprite doner;
+    public Sprite lahmacun;
+    public Sprite cocacola;
+
+
     [Space(10)]
     //public GameObject EnemyPrefab;
     public GameObject SpawnAnimationPrefab;
@@ -84,7 +90,7 @@ public class EntitiesDefinition : MonoBehaviour
 
         newCharacterDefinition.hasActedThisTurn = false;
 
-        MainData.characterTypes.Add(characterID, newCharacterDefinition);
+        StaticDataHolder.characterTypes.Add(characterID, newCharacterDefinition);
     }
 
 
@@ -181,16 +187,16 @@ public class EntitiesDefinition : MonoBehaviour
     public void SpawnEnemyTest()
     {//creates new enemies using a random, free, enemy spot. that's up to 7 enemies currently but just copy and arrange more if desired...
 
-        // GameObject leftborder = MainData.MainLoop.PositionHolderComponent.EnemySpawnBoundaryLeft;
-        // GameObject rightborder = MainData.MainLoop.PositionHolderComponent.EnemySpawnBoundaryRight;
+        // GameObject leftborder = StaticDataHolder.MainLoop.PositionHolderComponent.EnemySpawnBoundaryLeft;
+        // GameObject rightborder = StaticDataHolder.MainLoop.PositionHolderComponent.EnemySpawnBoundaryRight;
 
         // GameObject b = Instantiate(EnemyPrefab, new Vector3(UnityEngine.Random.Range(leftborder.transform.position.x, rightborder.transform.position.x),
-        //  rightborder.transform.position.y, 0), Quaternion.identity, MainData.MainLoop.backgroundObject.transform);
+        //  rightborder.transform.position.y, 0), Quaternion.identity, StaticDataHolder.MainLoop.backgroundObject.transform);
 
         //get random unused object
         if (freeEnemyPartyMemberObjects.Count == 0)
         {
-            MainData.MainLoop.EventLoggingComponent.LogGray("Tried spawning, no more spots...");
+            StaticDataHolder.MainLoop.EventLoggingComponent.LogGray("Tried spawning, no more spots...");
             return;
         }
         //string bo = "";
@@ -201,18 +207,18 @@ public class EntitiesDefinition : MonoBehaviour
         //}
 
         int x = UnityEngine.Random.Range(0, freeEnemyPartyMemberObjects.Count);
-        MainData.MainLoop.EventLoggingComponent.LogDanger("Spawned enemy using spot at freeEnemyPartyMemberObjects[" + x.ToString() + "].");
+        StaticDataHolder.MainLoop.EventLoggingComponent.LogDanger("Spawned enemy using spot at freeEnemyPartyMemberObjects[" + x.ToString() + "].");
         GameObject b = freeEnemyPartyMemberObjects[x]; //we get a random, inactive enemy spot
         freeEnemyPartyMemberObjects.RemoveAt(x);
         usedEnemyPartyMemberObjects.Add(b); //tracks usage
         //freeEnemyPartyMemberObjects.Remove(b);//officialy live
         b.SetActive(true);//we turn it on
         CharacterScript d = b.GetComponent<CharacterScript>();//get the Cscript reference
-        d.SetupCharacterByTemplate(MainData.characterTypes["evilcrow"]); //assign an enemy template
-        //MainData.livingEnemyParty.Add(d.associatedCharacter);//they are added to the living list in the above method
-        MainData.MainLoop.EventLoggingComponent.LogGray("A new friend has arrived.");
-        MainData.MainLoop.inCombat = true;
-        MainData.MainLoop.UserInterfaceHelperComponent.RefreshViewEnemy();
+        d.SetupCharacterByTemplate(StaticDataHolder.characterTypes["evilcrow"]); //assign an enemy template
+        //StaticDataHolder.livingEnemyParty.Add(d.associatedCharacter);//they are added to the living list in the above method
+        StaticDataHolder.MainLoop.EventLoggingComponent.LogGray("A new friend has arrived.");
+        StaticDataHolder.MainLoop.inCombat = true;
+        StaticDataHolder.MainLoop.UserInterfaceHelperComponent.RefreshViewEnemy();
 
         //these are for making smoke appear behind new spawns if desired later on.
         //GameObject cx = Instantiate(SpawnAnimationPrefab, d.gameObject.transform.position, Quaternion.identity);
@@ -231,42 +237,30 @@ public class EntitiesDefinition : MonoBehaviour
 
     public void SpawnEncounter(Encounter b)
     {
+        b.spawned = true;//no repeat customers
         if (freeEnemyPartyMemberObjects.Count == 0)
         {
-            MainData.MainLoop.EventLoggingComponent.LogGray("Tried spawning, no more spots...");
+            StaticDataHolder.MainLoop.EventLoggingComponent.LogGray("Tried spawning, no more spots...");
             return;
         }
-        //string bo = "";
-        //foreach (GameObject item in freeEnemyPartyMemberObjects)
-        //{
-        //    bo += item.name + "\n";
-
-        //}
-
-
-
-
         foreach (string item in b.enemies)
         {
             int x = UnityEngine.Random.Range(0, freeEnemyPartyMemberObjects.Count); //random spot
 
-            MainData.MainLoop.EventLoggingComponent.LogDanger("Spawned enemy using spot at freeEnemyPartyMemberObjects[" + x.ToString() + "].");
+            StaticDataHolder.MainLoop.EventLoggingComponent.LogDanger("Spawned enemy using spot at freeEnemyPartyMemberObjects[" + x.ToString() + "].");
             GameObject f = freeEnemyPartyMemberObjects[x]; //we get a random, inactive enemy spot
             freeEnemyPartyMemberObjects.RemoveAt(x); //we remove the spot from the inactive/free enemy spot list
             usedEnemyPartyMemberObjects.Add(f); //track usage...
             f.SetActive(true);//we turn the spot on on
             CharacterScript d = f.GetComponent<CharacterScript>();//get the Cscript reference
-            d.SetupCharacterByTemplate(MainData.characterTypes[item]); //assign and set up an enemy template to the spot
+            d.SetupCharacterByTemplate(StaticDataHolder.characterTypes[item]); //assign and set up an enemy template to the spot
             //they are added to the living list in the above method
-            MainData.MainLoop.EventLoggingComponent.LogGray("A " + d.associatedCharacter.charName + "suddenly steps out of the shadows.");
+            StaticDataHolder.MainLoop.EventLoggingComponent.LogGray("A " + d.associatedCharacter.charName + "suddenly steps out of the shadows.");
 
         }
-
-
-
-
         //refresh the miniview thingies whenever we spawn or kill shit
-        MainData.MainLoop.UserInterfaceHelperComponent.RefreshViewEnemy();
+        StaticDataHolder.MainLoop.inCombat = true;
+        StaticDataHolder.MainLoop.UserInterfaceHelperComponent.RefreshViewEnemy();
     }
 
 
@@ -275,7 +269,10 @@ public class EntitiesDefinition : MonoBehaviour
 
 
 
-
+    private void DefineItem()
+    {
+        //ConsumableItem b = new ConsumableItem("doner", "Doner");
+    }
 
 
     public void DefineConsumables()
@@ -287,28 +284,29 @@ public class EntitiesDefinition : MonoBehaviour
     {
 
         //this takes the needed template, applies it to the charscript in the party slot, then calls the refresh method
-        CharacterScript slot1ref = MainData.MainLoop.PositionHolderComponent.PartySlot1.GetComponent<CharacterScript>();
-        CharacterScript slot2ref = MainData.MainLoop.PositionHolderComponent.PartySlot2.GetComponent<CharacterScript>();
-        CharacterScript slot3ref = MainData.MainLoop.PositionHolderComponent.PartySlot3.GetComponent<CharacterScript>();
-        CharacterScript slot4ref = MainData.MainLoop.PositionHolderComponent.PartySlot4.GetComponent<CharacterScript>();
+        CharacterScript slot1ref = StaticDataHolder.MainLoop.PositionHolderComponent.PartySlot1.GetComponent<CharacterScript>();
+        CharacterScript slot2ref = StaticDataHolder.MainLoop.PositionHolderComponent.PartySlot2.GetComponent<CharacterScript>();
+        CharacterScript slot3ref = StaticDataHolder.MainLoop.PositionHolderComponent.PartySlot3.GetComponent<CharacterScript>();
+        CharacterScript slot4ref = StaticDataHolder.MainLoop.PositionHolderComponent.PartySlot4.GetComponent<CharacterScript>();
 
 
-        slot1ref.SetupCharacterByTemplate(MainData.characterTypes["scarecrow"]);
-        slot2ref.SetupCharacterByTemplate(MainData.characterTypes["tin_man"]);
-        slot3ref.SetupCharacterByTemplate(MainData.characterTypes["lion"]);
-        slot4ref.SetupCharacterByTemplate(MainData.characterTypes["dorothy"]);
-        foreach (Character item in MainData.livingPlayerParty)
+        slot1ref.SetupCharacterByTemplate(StaticDataHolder.characterTypes["scarecrow"]);
+        slot2ref.SetupCharacterByTemplate(StaticDataHolder.characterTypes["tin_man"]);
+        slot3ref.SetupCharacterByTemplate(StaticDataHolder.characterTypes["lion"]);
+        slot4ref.SetupCharacterByTemplate(StaticDataHolder.characterTypes["dorothy"]);
+        foreach (Character item in StaticDataHolder.livingPlayerParty)
         {
             item.RecalculateThreatFromStats();
         }
 
-        MainData.MainLoop.UserInterfaceHelperComponent.PC1 = slot1ref;
-        MainData.MainLoop.UserInterfaceHelperComponent.PC2 = slot2ref;
-        MainData.MainLoop.UserInterfaceHelperComponent.PC3 = slot3ref;
-        MainData.MainLoop.UserInterfaceHelperComponent.PC4 = slot4ref;
+        StaticDataHolder.MainLoop.UserInterfaceHelperComponent.PC1 = slot1ref;
+        StaticDataHolder.MainLoop.UserInterfaceHelperComponent.PC2 = slot2ref;
+        StaticDataHolder.MainLoop.UserInterfaceHelperComponent.PC3 = slot3ref;
+        StaticDataHolder.MainLoop.UserInterfaceHelperComponent.PC4 = slot4ref;
 
 
     }
+
 
     public void GenerateEquipment()
     {//generates traits, stores them all in a dictionary in the dataholder
@@ -333,8 +331,6 @@ public class EntitiesDefinition : MonoBehaviour
         return allConsumables[randomKey];
 
     }
-
-
     public Trait FetchRandomTrait()
     {//fetches a random t1 trait
         List<string> keyList = new List<string>(traitList.Keys);
@@ -351,7 +347,6 @@ public class EntitiesDefinition : MonoBehaviour
         return t1traitList[randomKey];
 
     }
-
     public Trait FetchRandomT2Trait()
     {//fetches a random t1 trait
         List<string> keyList = new List<string>(t2traitList.Keys);
@@ -361,19 +356,36 @@ public class EntitiesDefinition : MonoBehaviour
 
     }
 
-    public class Item : MonoBehaviour
+    public class Item
     {
-        public int itemID;
-        public string entityName;
-        public string entityDescription;
-        public string itemName;
+        public string identifier; //stuff like "doner_kebab", "icecream_chocolate", "sword_steel"
+        
+        public string description;
+        public string name;
+        public Sprite itemSprite;
+        public string rarity;
+        public int value;
+        public int amtInStock; // standard amount in stock, duh.
 
-        public Item(int id, string name)
+        //for equipment
+        public bool isEquipable;
+        public Character currentWielder;
+
+        public Item(string id,string description,string name, string rarityString, int itemValue, int itemStock, Sprite iSprite, bool isEquipment)
         {
-            this.itemID = id;
-            this.itemName = name;
+            this.identifier = id;
+            this.description = description;
+            this.name = name;
+            this.itemSprite = iSprite;
+            this.rarity = rarityString;
+            this.value = itemValue;
+            this.amtInStock = itemStock;
+            this.isEquipable = isEquipment;
+
         }
     }
+
+
 
 
     [System.Serializable]
@@ -453,7 +465,7 @@ public class EntitiesDefinition : MonoBehaviour
         public void TakeDamageFromCharacter(Character attacker)
         {
             int damageRoll = UnityEngine.Random.Range(attacker.damageMin, attacker.damageMax + 1) - defense;
-            MainData.MainLoop.EventLoggingComponent.Log(attacker.charName + " " + attacker.attackverb + " the " + charName + " for " + (damageRoll + defense) + " damage. Armor protects for " + defense + " damage!");
+            StaticDataHolder.MainLoop.EventLoggingComponent.Log(attacker.charName + " " + attacker.attackverb + " the " + charName + " for " + (damageRoll + defense) + " damage. Armor protects for " + defense + " damage!");
             if (charTrait != null)
             {
                 //This is where we deal with traits that do stuff to our damage.
@@ -468,15 +480,15 @@ public class EntitiesDefinition : MonoBehaviour
             }
             if (!isPlayerPartyMember)
             {//this updates the health bar so we don't run the whole big total refresh method
-                MainData.MainLoop.UserInterfaceHelperComponent.RefreshViewEnemy();
-                MainData.MainLoop.UserInterfaceHelperComponent.RefreshHealthBarEnemy();
+                StaticDataHolder.MainLoop.UserInterfaceHelperComponent.RefreshViewEnemy();
+                StaticDataHolder.MainLoop.UserInterfaceHelperComponent.RefreshHealthBarEnemy();
             }
             else
             {
-                MainData.MainLoop.UserInterfaceHelperComponent.RefreshHealthBarPlayer();
+                StaticDataHolder.MainLoop.UserInterfaceHelperComponent.RefreshHealthBarPlayer();
             }
 
-            MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(damageRoll, this);
+            StaticDataHolder.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(damageRoll, this);
             currentHealth -= damageRoll; //INCORPORATED ARMOR CALCULATION HERE 
             attacker.Threat += (damageRoll - defense); // WE APPLY THREAT
             if (currentHealth <= 0)
@@ -488,7 +500,7 @@ public class EntitiesDefinition : MonoBehaviour
         public void TakeDamage(int dmg)
         { //generic take damage function
             currentHealth -= dmg;
-            MainData.MainLoop.EventLoggingComponent.Log(this.charName + " the " + charTrait.name + " is hurt " + "for " + dmg + " damage!");
+            StaticDataHolder.MainLoop.EventLoggingComponent.Log(this.charName + " the " + charTrait.name + " is hurt " + "for " + dmg + " damage!");
             HealthBar.value -= dmg / maxHealth * 100f;
             if (currentHealth <= 0)
             {
@@ -531,14 +543,14 @@ public class EntitiesDefinition : MonoBehaviour
         {
             if (killer != null)
             {
-                MainData.MainLoop.EventLoggingComponent.Log(this.charName + " has been vanquished by " + killer.charName + ".");
+                StaticDataHolder.MainLoop.EventLoggingComponent.Log(this.charName + " has been vanquished by " + killer.charName + ".");
             }
             else
             {
-                MainData.MainLoop.EventLoggingComponent.Log(this.charName + " was killed in action.");
+                StaticDataHolder.MainLoop.EventLoggingComponent.Log(this.charName + " was killed in action.");
             }
             canAct = false;
-            MainData.MainLoop.UserInterfaceHelperComponent.RefreshViewEnemy();
+            StaticDataHolder.MainLoop.UserInterfaceHelperComponent.RefreshViewEnemy();
 
             HandleListsUponDeath();
 
@@ -547,16 +559,16 @@ public class EntitiesDefinition : MonoBehaviour
 
         private void HandleListsUponDeath()
         {
-            MainData.allChars.Remove(this);
+            StaticDataHolder.allChars.Remove(this);
             if (isPlayerPartyMember)
             {
-                MainData.livingPlayerParty.Remove(this);
-                MainData.deadPlayerParty.Add(this);
+                StaticDataHolder.livingPlayerParty.Remove(this);
+                StaticDataHolder.deadPlayerParty.Add(this);
             }
             else
             {
-                MainData.livingEnemyParty.Remove(this);
-                MainData.deadEnemyParty.Add(this);
+                StaticDataHolder.livingEnemyParty.Remove(this);
+                StaticDataHolder.deadEnemyParty.Add(this);
             }
 
         }
@@ -569,17 +581,6 @@ public class EntitiesDefinition : MonoBehaviour
 
 
     }
-    //public static T DeepClone<T>(T obj)
-    //{
-    //    using (var ms = new MemoryStream())
-    //    {
-    //        var formatter = new BinaryFormatter();
-    //        formatter.Serialize(ms, obj);
-    //        ms.Position = 0;
-    //        return (T)formatter.Deserialize(ms);
-    //    }
-    //}
-
     public class StatusEffect
     {
         public string type;

@@ -6,7 +6,7 @@ using static EntitiesDefinition;
 using static LevelHelper;
 using static TraitHelper;
 
-public static class MainData
+public static class StaticDataHolder
 {
     public static GameManager MainLoop;
 
