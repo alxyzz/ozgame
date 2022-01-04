@@ -12,6 +12,6 @@ public class updateDistanceView : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        texty.text = Mathf.Round(MainData.MainLoop.LevelHelperComponent.distanceWalked).ToString();
+        texty.text = MainData.MainLoop.LevelHelperComponent.distanceWalked.ToString();
     }
 }

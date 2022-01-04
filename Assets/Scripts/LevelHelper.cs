@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using static EntitiesDefinition;
-using static TraitHelper;
 
 public class LevelHelper : MonoBehaviour
 {
@@ -29,7 +25,7 @@ public class LevelHelper : MonoBehaviour
     private bool isAtVendor = false;
 
 
-    private void Update()
+    public void Update()
     {
         CheckForEncounter();
         CheckForVendor();
@@ -49,7 +45,7 @@ public class LevelHelper : MonoBehaviour
     private void CheckForVendor()
     {
 
-        if (MainData.currentLevel == null || !MainData.MainLoop.inCombat || isAtVendor)
+        if (MainData.currentLevel == null || !MainData.MainLoop.inCombat || isAtVendor || MainData.currentLevel.localMerchant == null)
         {
             return;
         }
@@ -148,26 +144,18 @@ public class LevelHelper : MonoBehaviour
     /// <returns></returns>
     private List<Encounter> GenerateEncountersForLevel(int encounterAmt, string type, float distance, int enemyNmbr = 0)
     {
-        int enemyAmount;
-        if (enemyNmbr == 0)
-        {
-            enemyAmount = UnityEngine.Random.Range(1, 6);
-        }
-        else
-        {
-            enemyAmount = enemyNmbr;
-        }
-
         //the encounters can start from around 200f distance, so...
-        float encounterSpacing = 50;
+        float encounterSpacing = 1;
         List<Encounter> encounter = new List<Encounter>();
         for (int i = 0; i < encounterAmt; i++)
         {
             Encounter b = new Encounter();
+            List<string> enemiesList = new List<string>();
             for (int x = 0; x < enemyNmbr; x++)
             {
-                b.enemies.Add(type);//adds as many strings of that number as required. for each, a mob will be created after that template
+                enemiesList.Add(type);//adds as many strings of that number as required. for each, a mob will be created after that template
             }
+            b.enemies = enemiesList;
             b.distancePoint = distance;
             distance += encounterSpacing;
             MainData.MainLoop.EventLoggingComponent.LogGray("Prepared a " + type + " ambush at " + distance);
@@ -207,7 +195,7 @@ public class LevelHelper : MonoBehaviour
                                            1f,
                                            testsound,
                                            false,
-                                           GenerateEncountersForLevel(3, "evilcrow", 150, 4));
+                                           GenerateEncountersForLevel(3, "evilcrow", 10, 4));
 
 
         MainData.levelTemplates.Add("darkforest", darkForest); //adds the template to the global list
