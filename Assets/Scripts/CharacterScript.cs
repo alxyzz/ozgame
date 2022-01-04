@@ -51,7 +51,7 @@ public class CharacterScript : MonoBehaviour
         associatedCharacter = Character.CreateInstance<Character>();
         associatedCharacter.attackverb = template.attackverb;
         associatedCharacter.baseDamageMin = template.baseDamageMin;
-        associatedCharacter.baseHealth = template.baseHealth;
+        associatedCharacter.maxHealth = template.maxHealth;
         associatedCharacter.baseSpeed = template.baseSpeed;
         associatedCharacter.charAvatar = template.charAvatar;
         associatedCharacter.charName = template.charName;

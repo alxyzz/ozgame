@@ -123,6 +123,7 @@ public class GameManager : MonoBehaviour
                 MainData.turnNumber = 0;
 
                 EventLoggingComponent.Log("All enemies have been vanquished.");
+                MainData.MainLoop.UserInterfaceHelperComponent.RefreshViewEnemy();
                 inCombat = false;
                 //PurgeStatusEffects();
 

@@ -67,7 +67,7 @@ public class EntitiesDefinition : MonoBehaviour
 
 
 
-        newCharacterDefinition.baseHealth = baseHP;
+        newCharacterDefinition.maxHealth = baseHP;
         newCharacterDefinition.baseDamageMin = baseMinDMG;
         newCharacterDefinition.baseDamageMin = baseMaxDMG;
         newCharacterDefinition.baseSpeed = baseSPD;
@@ -403,7 +403,7 @@ public class EntitiesDefinition : MonoBehaviour
 
         public int currentHealth;
 
-        public int baseHealth;
+        public int maxHealth;
         public int baseDamageMin;
         public int baseDamageMax;
         public int baseSpeed;
@@ -469,6 +469,7 @@ public class EntitiesDefinition : MonoBehaviour
             if (!isPlayerPartyMember)
             {//this updates the health bar so we don't run the whole big total refresh method
                 MainData.MainLoop.UserInterfaceHelperComponent.RefreshViewEnemy();
+                MainData.MainLoop.UserInterfaceHelperComponent.RefreshHealthBarEnemy();
             }
             else
             {
@@ -488,7 +489,7 @@ public class EntitiesDefinition : MonoBehaviour
         { //generic take damage function
             currentHealth -= dmg;
             MainData.MainLoop.EventLoggingComponent.Log(this.charName + " the " + charTrait.name + " is hurt " + "for " + dmg + " damage!");
-            HealthBar.value -= dmg / baseHealth * 100f;
+            HealthBar.value -= dmg / maxHealth * 100f;
             if (currentHealth <= 0)
             {
                 GotKilled();

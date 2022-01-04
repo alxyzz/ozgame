@@ -319,7 +319,8 @@ public class UserInterfaceHelper : MonoBehaviour
             //PC4nmbr.gameObject.SetActive(false);
             return;
         }
-        Debug.LogWarning("RefreshEnemyCharacterView() ran.");
+
+        Debug.LogWarning("RefreshViewEnemy() ran.");
         ReferenceEnemiesForDisplay();
         if (NPC1 != null && NPC1.associatedCharacter != null)//checks if it exists
         {
@@ -442,7 +443,7 @@ public class UserInterfaceHelper : MonoBehaviour
 
 
     }
-    private void RefreshHealthBarEnemy()
+    public void RefreshHealthBarEnemy()
     {//this is small enough and used enough we shouldn't run the whole refresh thing if possible
         //this is only used when we get a new character to display or a character dies.
         //the health bar value is changed when hit, in the Character class' TakeDamageFromCharacter
@@ -450,6 +451,8 @@ public class UserInterfaceHelper : MonoBehaviour
         {
             item.HealthBar = null;
         }//we do this so we don't have unwanted references if we somehow switch back and forth from a character due to changed hp
+
+        //basically the character displayed in a "view" can change from time to time depending on health so we don't want to retain the reference to healthbar
 
         if (NPC1 != null)
         {
@@ -460,9 +463,10 @@ public class UserInterfaceHelper : MonoBehaviour
 
 
                     NPC1.associatedCharacter.HealthBar = NPC1HPbar;
-                    NPC1HPbar.maxValue = NPC1.associatedCharacter.baseHealth;
+                    NPC1HPbar.maxValue = NPC1.associatedCharacter.maxHealth;
                     NPC1HPbar.value = NPC1.associatedCharacter.currentHealth;
-                    NPC1nmbr.text = NPC1.associatedCharacter.currentHealth + "/" +NPC1.associatedCharacter.baseHealth;
+                    string currHP = (NPC1.associatedCharacter.currentHealth < 0) ? "0" : NPC1.associatedCharacter.currentHealth.ToString();
+                    NPC1nmbr.text = currHP + "/" +NPC1.associatedCharacter.maxHealth;
                 }
                 else
                 {
@@ -484,9 +488,10 @@ public class UserInterfaceHelper : MonoBehaviour
                 if (!NPC2.associatedCharacter.isDead)
                 {
                     NPC2.associatedCharacter.HealthBar = NPC2HPbar;
-                    NPC2HPbar.maxValue = NPC2.associatedCharacter.baseHealth;
+                    NPC2HPbar.maxValue = NPC2.associatedCharacter.maxHealth;
                     NPC2HPbar.value = NPC2.associatedCharacter.currentHealth;
-                    NPC2nmbr.text = NPC2.associatedCharacter.currentHealth + "/" + NPC2.associatedCharacter.baseHealth;
+                    string currHP = (NPC2.associatedCharacter.currentHealth < 0) ? "0" : NPC2.associatedCharacter.currentHealth.ToString();
+                    NPC2nmbr.text = currHP + "/" + NPC2.associatedCharacter.maxHealth;
                 }
                 else
                 {
@@ -507,9 +512,10 @@ public class UserInterfaceHelper : MonoBehaviour
                 if (!NPC3.associatedCharacter.isDead)
                 {
                     NPC3.associatedCharacter.HealthBar = NPC3HPbar;
-                    NPC3HPbar.maxValue = NPC3.associatedCharacter.baseHealth;
+                    NPC3HPbar.maxValue = NPC3.associatedCharacter.maxHealth;
                     NPC3HPbar.value = NPC3.associatedCharacter.currentHealth;
-                    NPC3nmbr.text = NPC3.associatedCharacter.currentHealth + "/" + NPC3.associatedCharacter.baseHealth;
+                    string currHP = (NPC3.associatedCharacter.currentHealth < 0) ? "0" : NPC3.associatedCharacter.currentHealth.ToString();
+                    NPC3nmbr.text = currHP + "/" + NPC3.associatedCharacter.maxHealth;
                 }
                 else
                 {
@@ -530,9 +536,10 @@ public class UserInterfaceHelper : MonoBehaviour
                 if (!NPC4.associatedCharacter.isDead)
                 {
                     NPC4.associatedCharacter.HealthBar = NPC4HPbar;
-                    NPC4HPbar.maxValue = NPC4.associatedCharacter.baseHealth;
+                    NPC4HPbar.maxValue = NPC4.associatedCharacter.maxHealth;
                     NPC4HPbar.value = NPC4.associatedCharacter.currentHealth;
-                    NPC4nmbr.text = NPC4.associatedCharacter.currentHealth + "/" + NPC4.associatedCharacter.baseHealth;
+                    string currHP = (NPC4.associatedCharacter.currentHealth < 0) ? "0" : NPC4.associatedCharacter.currentHealth.ToString();
+                    NPC4nmbr.text = currHP + "/" + NPC4.associatedCharacter.maxHealth;
                 }
                 else
                 {
@@ -554,8 +561,10 @@ public class UserInterfaceHelper : MonoBehaviour
         if (PC1 != null)
         {
             PC1.associatedCharacter.HealthBar = firstHealthBar;
-            firstHealthBar.maxValue = PC1.associatedCharacter.baseHealth;
+            firstHealthBar.maxValue = PC1.associatedCharacter.maxHealth;
             firstHealthBar.value = PC1.associatedCharacter.currentHealth;
+            string currHP = (PC1.associatedCharacter.currentHealth < 0) ? "0" : PC1.associatedCharacter.currentHealth.ToString();
+            PC1nmbr.text = currHP + "/" + PC1.associatedCharacter.maxHealth;
         }
         else
         {
@@ -566,9 +575,10 @@ public class UserInterfaceHelper : MonoBehaviour
         if (PC2 != null)
         {
             PC2.associatedCharacter.HealthBar = secondHealthBar;
-            secondHealthBar.maxValue = PC2.associatedCharacter.baseHealth;
+            secondHealthBar.maxValue = PC2.associatedCharacter.maxHealth;
             secondHealthBar.value = PC2.associatedCharacter.currentHealth;
-
+            string currHP = (PC2.associatedCharacter.currentHealth < 0) ? "0" : PC2.associatedCharacter.currentHealth.ToString();
+            PC2nmbr.text = currHP + "/" + PC2.associatedCharacter.maxHealth;
         }
         else
         {
@@ -578,9 +588,10 @@ public class UserInterfaceHelper : MonoBehaviour
         if (PC3 != null)
         {
             PC3.associatedCharacter.HealthBar = thirdHealthBar;
-            thirdHealthBar.maxValue = PC3.associatedCharacter.baseHealth;
+            thirdHealthBar.maxValue = PC3.associatedCharacter.maxHealth;
             thirdHealthBar.value = PC3.associatedCharacter.currentHealth;
-
+            string currHP = (PC3.associatedCharacter.currentHealth < 0) ? "0" : PC3.associatedCharacter.currentHealth.ToString();
+            PC3nmbr.text = currHP + "/" + PC3.associatedCharacter.maxHealth;
         }
         else
         {
@@ -590,9 +601,10 @@ public class UserInterfaceHelper : MonoBehaviour
         if (PC4 != null)
         {
             PC4.associatedCharacter.HealthBar = fourthHealthBar;
-            fourthHealthBar.maxValue = PC4.associatedCharacter.baseHealth;
+            fourthHealthBar.maxValue = PC4.associatedCharacter.maxHealth;
             fourthHealthBar.value = PC4.associatedCharacter.currentHealth;
-
+            string currHP = (PC4.associatedCharacter.currentHealth < 0) ? "0" : PC4.associatedCharacter.currentHealth.ToString();
+            PC4nmbr.text = currHP + "/" + PC4.associatedCharacter.maxHealth;
         }
         else
         {
