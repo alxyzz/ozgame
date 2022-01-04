@@ -15,7 +15,8 @@ public class VendorScript : MonoBehaviour
     [Space(5)]
     public GameObject GameUIReference; //we disable this so we don't do bad stuff.
     public GameObject VendorUIReference;
-
+    public GameObject VendorUIItemContainer;//this is where we spawn prefabs that allow us to select then buy the item in that slot
+    public GameObject VendorUIItemEntryPrefab;
     [Space(5)]
     [HideInInspector]
     public bool isVendorHere;
@@ -35,11 +36,25 @@ public class VendorScript : MonoBehaviour
     [Header("How many items are sold.")]
     public int itemAmount; //
 
+
+
+
+    private void InitializeCurrentMerchant()
+    {
+        if (MainData.currentLevel.localMerchant.ItemStock == null)
+        {
+
+        }        
+    }
+
+
+
+
     //for when cart is arriving
     IEnumerator ArrivalAnimation()
     {
         cartMoving = true;
-        StaticDataHolder.MainLoop.LevelHelperComponent.MoveBackwards(); //ATTENTION - IF THIS SOMEHOW MAKES IT MOVE THE OTHER WAY - THE ORDER IS FLIPPED IN LEVELmANAGER. JUST USE MOVEBACKWARDS.
+        MainData.MainLoop.LevelHelperComponent.MoveBackwards(); //ATTENTION - IF THIS SOMEHOW MAKES IT MOVE THE OTHER WAY - THE ORDER IS FLIPPED IN LEVELmANAGER. JUST USE MOVEBACKWARDS.
         isVendorHere = true;
         while (Vector3.Distance(Cart.transform.position, Destination.transform.position) > 0.2f)
         {
@@ -48,14 +63,14 @@ public class VendorScript : MonoBehaviour
         }
 
         //Cart.transform.position = Destination.transform.position;
-        StaticDataHolder.MainLoop.LevelHelperComponent.MoveStop();
+        MainData.MainLoop.LevelHelperComponent.MoveStop();
         cartMoving = false;
     }
     //for when the cart is leaving
     IEnumerator LeavingAnimation()
     {
         cartMoving = true;
-        StaticDataHolder.MainLoop.LevelHelperComponent.MoveBackwards();
+        MainData.MainLoop.LevelHelperComponent.MoveBackwards();
         
         while (Vector3.Distance(Cart.transform.position, GoodbyeDestination.transform.position) > 0.2f)
         {
@@ -64,7 +79,7 @@ public class VendorScript : MonoBehaviour
         }
 
         Cart.transform.position = Startination.transform.position; //we send it back to beginning
-        StaticDataHolder.MainLoop.LevelHelperComponent.MoveStop();
+        MainData.MainLoop.LevelHelperComponent.MoveStop();
         isVendorHere = false;
         cartMoving = false;
     }
@@ -72,24 +87,31 @@ public class VendorScript : MonoBehaviour
     //this could play a short nice animation, perhaps
     public void OpenVendorMenu()
     {
-        if (StaticDataHolder.currentLevel.localMerchant != null)
+        if (MainData.currentLevel == null)
         {
-            StaticDataHolder.currentLevel.localMerchant = GenerateMerchantInventory();
-        }
+            MainData.MainLoop.EventLoggingComponent.LogGray("You try to talk to the merchant, but sudden apprehension fills your thoughts as you realize that the reality which you are perceiving is not real. Will these iterations never end? Are we cursed to relive the same battles again and again, without the mercy of returning to the rapturous oblivion from whence we came? The world is a series of walls, I can see it. Six l̵a̶y̶e̸r̵s̸ of reality, five below and one above, endlessly moving around us as we stay still. Divines have mercy on our C̸͉̚ḣ̵̗a̵̧͋r̷̭͂a̵̍ͅc̵̦̏t̶̃ͅé̸̖r̴̭͠S̷̹̐c̷̟͌r̶͖̆i̴͖͗p̵͈̏t̸̟͒");
+            return;
 
-        if (StaticDataHolder.livingEnemyParty.Count > 0)
+        }
+        if (MainData.currentLevel.localMerchant != null)
         {
-            StaticDataHolder.MainLoop.EventLoggingComponent.Log("The merchant refuses to trade until you have dealt with your pursuers.");
+            GenerateMerchantInventory(MainData.currentLevel.localMerchant);
+
+        }
+        InitializeCurrentMerchant();
+        if (MainData.livingEnemyParty.Count > 0)
+        {
+            MainData.MainLoop.EventLoggingComponent.Log("The merchant refuses to trade with you until your pursuers are dealt with.");
             return;
         }
         VendorUIReference.SetActive(true);
     }
     public void CloseVendorMenu()
     {//click back button in shop
-        if (StaticDataHolder.livingEnemyParty.Count > 0)
+        if (MainData.livingEnemyParty.Count > 0)
         {
             //this shouldn't happen
-            StaticDataHolder.MainLoop.EventLoggingComponent.Log("As you deviate your attention from the merchant's wares, you realize that you had been followed...");
+            MainData.MainLoop.EventLoggingComponent.Log("As you deviate your attention from the merchant's wares, you realize that you had been followed...");
             return;
         }
         VendorUIReference.SetActive(false);
@@ -99,12 +121,10 @@ public class VendorScript : MonoBehaviour
 
 
 
-    public Merchant GenerateMerchantInventory()
-    {
-        Merchant jimmy = new Merchant();
-
-
-        return jimmy;
+    public void GenerateMerchantInventory(Merchant bob)
+    {// TODO - MAKE THIS WORK
+        bob.ItemStock = null;//do this stuff later
+      
     }
 
 
@@ -120,13 +140,13 @@ public class VendorScript : MonoBehaviour
         }
         if (!isVendorHere )
         {//we make it come
-            StaticDataHolder.MainLoop.EventLoggingComponent.Log("You've stumbled across a merchant.");
+            MainData.MainLoop.EventLoggingComponent.Log("You've stumbled across a merchant.");
             StartCoroutine(ArrivalAnimation());
 
         }
         else
         {//we make it leave
-            StaticDataHolder.MainLoop.EventLoggingComponent.LogGray("The merchant silently watches you depart.");
+            MainData.MainLoop.EventLoggingComponent.LogGray("The merchant silently watches you depart.");
             StartCoroutine(LeavingAnimation());
         }
         

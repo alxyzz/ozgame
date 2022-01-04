@@ -52,7 +52,7 @@ public class PositionHolder : MonoBehaviour
 
 
 
-    StaticDataHolder.references = this;
+    MainData.references = this;
     }
 
 
@@ -60,23 +60,23 @@ public class PositionHolder : MonoBehaviour
 
     public void RegisterEnemySpots()
     {
-        StaticDataHolder.freeEnemyPartyMemberObjects.Add(EnemyCharacterSpot1);
-        StaticDataHolder.freeEnemyPartyMemberObjects.Add(EnemyCharacterSpot2);
-        StaticDataHolder.freeEnemyPartyMemberObjects.Add(EnemyCharacterSpot3);
-        StaticDataHolder.freeEnemyPartyMemberObjects.Add(EnemyCharacterSpot4);
-        StaticDataHolder.freeEnemyPartyMemberObjects.Add(EnemyCharacterSpot5);
-        StaticDataHolder.freeEnemyPartyMemberObjects.Add(EnemyCharacterSpot6);
-        StaticDataHolder.freeEnemyPartyMemberObjects.Add(EnemyCharacterSpot7);
-        StaticDataHolder.freeEnemyPartyMemberObjects.Add(EnemyCharacterSpot8);
+        MainData.freeEnemyPartyMemberObjects.Add(EnemyCharacterSpot1);
+        MainData.freeEnemyPartyMemberObjects.Add(EnemyCharacterSpot2);
+        MainData.freeEnemyPartyMemberObjects.Add(EnemyCharacterSpot3);
+        MainData.freeEnemyPartyMemberObjects.Add(EnemyCharacterSpot4);
+        MainData.freeEnemyPartyMemberObjects.Add(EnemyCharacterSpot5);
+        MainData.freeEnemyPartyMemberObjects.Add(EnemyCharacterSpot6);
+        MainData.freeEnemyPartyMemberObjects.Add(EnemyCharacterSpot7);
+        MainData.freeEnemyPartyMemberObjects.Add(EnemyCharacterSpot8);
     }
 
 
     public void RegisterPlayerSpots()
     {
-        StaticDataHolder.playerPartyMemberObjects.Add(PartySlot1);
-        StaticDataHolder.playerPartyMemberObjects.Add(PartySlot2);
-        StaticDataHolder.playerPartyMemberObjects.Add(PartySlot3);
-        StaticDataHolder.playerPartyMemberObjects.Add(PartySlot4);
+        MainData.playerPartyMemberObjects.Add(PartySlot1);
+        MainData.playerPartyMemberObjects.Add(PartySlot2);
+        MainData.playerPartyMemberObjects.Add(PartySlot3);
+        MainData.playerPartyMemberObjects.Add(PartySlot4);
 
     }
 

@@ -37,7 +37,7 @@ public class DesignerTuningInterface : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        StaticDataHolder.itemManager = this;
+        MainData.itemManager = this;
     }
 
 }

@@ -160,7 +160,7 @@ public class UserInterfaceHelper : MonoBehaviour
 
     public void DisplayTargetedEnemyInfo(CharacterScript Target = null)
     {//this sets the viewable info for the current targeted character, in the right top part of the bottom UI. it is possible to select one target and hover over another to compare them.
-        if (Target == null)
+        if (Target == null || Target.associatedCharacter == null)
         {
             selectedCharAvatar.sprite = null;
             selectedEnemyCharName.text = "";
@@ -185,18 +185,22 @@ public class UserInterfaceHelper : MonoBehaviour
         //refresh this every time the number of enemy characters changes
         //runs in RefreshEnemyViewDat
 
-        if (StaticDataHolder.livingEnemyParty.Count < 1)
+        if (MainData.livingEnemyParty.Count < 1)
         {
             SetActiveEnemyTabs(0);
             Debug.LogWarning("RefreshEnemyCharacterView() - livingEnemyParty has no enemies in it.");
+            NPC1 = null;
+            NPC2 = null;
+            NPC3 = null;
+            NPC4 = null;
             return;
         }
-        //NPC1 = null;
-        //NPC2 = null;
-        //NPC3 = null;
-        //NPC4 = null;
+        NPC1 = null;
+        NPC2 = null;
+        NPC3 = null;
+        NPC4 = null;
         Debug.LogWarning("RefreshEnemyCharacterView() just ran");
-        List<Character> characters = new List<Character>(StaticDataHolder.livingEnemyParty);
+        List<Character> characters = new List<Character>(MainData.livingEnemyParty);
 
         characters.Sort((x, y) => x.currentHealth.CompareTo(y.currentHealth));
         // ascending. swap y and x on the right side for descending. Yes, we are sorting by plain ol health without any ratio because it's better to hit the one with less life and not the 500hp behemoth who has only 100hp left and the game thinks it's equivalent to 25hp max100hp guy. also ratio.
@@ -279,7 +283,7 @@ public class UserInterfaceHelper : MonoBehaviour
     }
     public void RefreshViewEnemy()
     {//run this after every spawning or death of an enemy
-        if (StaticDataHolder.livingEnemyParty.Count == 0)
+        if (MainData.livingEnemyParty.Count == 0)
         {
             Debug.LogWarning("RefreshEnemyCharacterView() - livingEnemyParty has no enemies in it.");
 
@@ -454,7 +458,7 @@ public class UserInterfaceHelper : MonoBehaviour
     {//this is small enough and used enough we shouldn't run the whole refresh thing if possible
         //this is only used when we get a new character to display or a character dies.
         //the health bar value is changed when hit, in the Character class' TakeDamageFromCharacter
-        foreach (Character item in StaticDataHolder.livingEnemyParty)
+        foreach (Character item in MainData.livingEnemyParty)
         {
             item.HealthBar = null;
         }//we do this so we don't have unwanted references if we somehow switch back and forth from a character due to changed hp
@@ -672,13 +676,13 @@ public class UserInterfaceHelper : MonoBehaviour
         MainMenuBack.SetActive(true);
         MenuCanvas.SetActive(true);
         GameUI.SetActive(false);
-        StaticDataHolder.SoundManagerRef.PlayClickSound();
+        MainData.SoundManagerRef.PlayClickSound();
 
     }
     public void ClickStartGame()
     {
         //StaticDataHolder.MainLoop.SoundManagerComponent.PlayClickSound();
-        if (!StaticDataHolder.MainLoop.gameStarted)
+        if (!MainData.MainLoop.gameStarted)
         {
 
             //StaticDataHolder.MainLoop.SoundManagerComponent.ChangeSoundtrack(StaticDataHolder.SoundManagerRef.MainTheme);
@@ -687,23 +691,23 @@ public class UserInterfaceHelper : MonoBehaviour
         MenuCanvas.SetActive(false);
         MainMenuBack.SetActive(false);
         GameUI.SetActive(true);
-        StaticDataHolder.MainLoop.gameStarted = true;
+        MainData.MainLoop.gameStarted = true;
     }
     public void ClickExitGame()
     {
-        StaticDataHolder.SoundManagerRef.PlayClickSound();
+        MainData.SoundManagerRef.PlayClickSound();
         MenuCanvas.SetActive(false);
 
         ExitConfirmationCanvas.SetActive(true);
     }
     public void ClickExitYes()
     {
-        StaticDataHolder.SoundManagerRef.PlayClickSound();
+        MainData.SoundManagerRef.PlayClickSound();
         Application.Quit();
     }
     public void ClickExitNo()
     {
-        StaticDataHolder.SoundManagerRef.PlayClickSound();
+        MainData.SoundManagerRef.PlayClickSound();
         ExitConfirmationCanvas.SetActive(false);
         MenuCanvas.SetActive(true);
 
@@ -726,14 +730,14 @@ public class UserInterfaceHelper : MonoBehaviour
     }
     public void ClickSettingsParallax()
     {
-        if (StaticDataHolder.MainLoop.BackgroundParallaxObject.ParallaxSetting)
+        if (MainData.MainLoop.BackgroundParallaxObject.ParallaxSetting)
         {
-            StaticDataHolder.MainLoop.BackgroundParallaxObject.ParallaxSetting = false;
+            MainData.MainLoop.BackgroundParallaxObject.ParallaxSetting = false;
             SettingsParallaxButton.GetComponentInChildren<TextMeshProUGUI>().text = "Parallax - Off";
         }
         else
         {
-            StaticDataHolder.MainLoop.BackgroundParallaxObject.ParallaxSetting = true;
+            MainData.MainLoop.BackgroundParallaxObject.ParallaxSetting = true;
             SettingsParallaxButton.GetComponentInChildren<TextMeshProUGUI>().text = "Parallax - On";
         }
 
@@ -749,12 +753,12 @@ public class UserInterfaceHelper : MonoBehaviour
     }
     public void ClickOvermapLevel(MapLevel clickyyy)
     {
-        if (clickyyy != StaticDataHolder.currentLevel)
+        if (clickyyy != MainData.currentLevel)
         {//we go there if possible
-            if (StaticDataHolder.currentLevel.nextLevels.Contains(clickyyy))
+            if (MainData.currentLevel.nextLevels.Contains(clickyyy))
             {//oh yeeeeee
 
-                StaticDataHolder.SoundManagerRef.PlayClickSound();
+                MainData.SoundManagerRef.PlayClickSound();
             }
             else
             {
@@ -769,14 +773,14 @@ public class UserInterfaceHelper : MonoBehaviour
 
         WorldMapCanvas.SetActive(false);
         Debug.Log("CLICKED closeOVERMAP BUTTON.");
-        StaticDataHolder.SoundManagerRef.PlayClickSound();
+        MainData.SoundManagerRef.PlayClickSound();
     }
     public void ClickMapOpen()
     {
 
         WorldMapCanvas.SetActive(true);
         Debug.Log("CLICKED OVERMAP-open BUTTON.");
-        StaticDataHolder.SoundManagerRef.PlayClickSound();
+        MainData.SoundManagerRef.PlayClickSound();
     }
     //NOTE - combat buttons are handled in CombatHelper.cs
     IEnumerator darksequence()

@@ -10,7 +10,7 @@ public class VendorClickDetection : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {//we open up that menu.
             Debug.Log("Vendor got clicked.");
-            StaticDataHolder.MainLoop.VendorScriptComponent.OpenVendorMenu();
+            MainData.MainLoop.VendorScriptComponent.OpenVendorMenu();
         }
     }
 

@@ -40,13 +40,13 @@ public class BackgroundLayerMovementParallax : MonoBehaviour
                 case null: // we dont do anything
                     break;
                 case false: //we go backwards, player party thus goes forwards
-                    StaticDataHolder.MainLoop.LevelHelperComponent.distanceWalked += 0.01f;
+                    MainData.MainLoop.LevelHelperComponent.distanceWalked += 0.01f;
                     HandleObject(firstPart, lastPart, midPart, false);
                     HandleObject(midPart, firstPart, lastPart, false);
                     HandleObject(lastPart, midPart, firstPart, false);
                     break;
                 case true: //we go forwards, player party thus goes backwards
-                    StaticDataHolder.MainLoop.LevelHelperComponent.distanceWalked -= 0.01f;
+                    MainData.MainLoop.LevelHelperComponent.distanceWalked -= 0.01f;
                     HandleObject(firstPart, midPart, lastPart, true);
                     HandleObject(midPart, lastPart, firstPart, true);
                     HandleObject(lastPart, firstPart, midPart, true);

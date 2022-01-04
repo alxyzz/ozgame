@@ -27,11 +27,11 @@ public class MapIconScript : MonoBehaviour
     void Start()
     {
 
-        StaticDataHolder.mapIcons.Add(this);
+        MainData.mapIcons.Add(this);
         //Randomize();
         if (isStart)
         {
-            StaticDataHolder.currentMapIcon = this;
+            MainData.currentMapIcon = this;
         }
         normalColor = this.gameObject.GetComponent<Image>().color;
         FindClosestAbove();
@@ -76,7 +76,7 @@ public class MapIconScript : MonoBehaviour
 
     public void OnClick()
     {
-        if (StaticDataHolder.currentMapIcon.moveableToIcons.Contains(this))
+        if (MainData.currentMapIcon.moveableToIcons.Contains(this))
         {
             if (!clickedOnce) //so doubleclick to travel
             {
@@ -95,23 +95,23 @@ public class MapIconScript : MonoBehaviour
 
     private void OnMouseEnter()
     {
-        StaticDataHolder.MainLoop.UserInterfaceHelperComponent.worldmapName.GetComponent<TextMeshProUGUI>().text = nameee;
-        StaticDataHolder.MainLoop.UserInterfaceHelperComponent.worldmapDescription.GetComponent<TextMeshProUGUI>().text = description;
+        MainData.MainLoop.UserInterfaceHelperComponent.worldmapName.GetComponent<TextMeshProUGUI>().text = nameee;
+        MainData.MainLoop.UserInterfaceHelperComponent.worldmapDescription.GetComponent<TextMeshProUGUI>().text = description;
     }
 
     private void OnMouseExit()
     {
-        StaticDataHolder.MainLoop.UserInterfaceHelperComponent.worldmapName.GetComponent<TextMeshProUGUI>().text = "";
-        StaticDataHolder.MainLoop.UserInterfaceHelperComponent.worldmapDescription.GetComponent<TextMeshProUGUI>().text = "";
+        MainData.MainLoop.UserInterfaceHelperComponent.worldmapName.GetComponent<TextMeshProUGUI>().text = "";
+        MainData.MainLoop.UserInterfaceHelperComponent.worldmapDescription.GetComponent<TextMeshProUGUI>().text = "";
     }
 
 
     private void MoveToIcon()
     {//we assume everything in order and proper checks have been previously made
-        StaticDataHolder.currentMapIcon = this;
-        StaticDataHolder.MainLoop.Travel(relatedMapLevel);
-        StaticDataHolder.MainLoop.UserInterfaceHelperComponent.ClickMapClose();
-        StaticDataHolder.MainLoop.UserInterfaceHelperComponent.TravelLoadingSequence();
+        MainData.currentMapIcon = this;
+        MainData.MainLoop.Travel(relatedMapLevel);
+        MainData.MainLoop.UserInterfaceHelperComponent.ClickMapClose();
+        MainData.MainLoop.UserInterfaceHelperComponent.TravelLoadingSequence();
     }
 
     public MapLevel LevelFromTemplate(MapLevel p)
@@ -119,11 +119,11 @@ public class MapIconScript : MonoBehaviour
         MapLevel JohnTheLevel = new MapLevel(p.levelName,
                                              p.levelBlurb,
                                              p.levelDescription,
-                                             p.roomCount,
+                                            // p.roomCount,
                                              p.EnemyType,
                                              p.startingDifficulty,
                                              p.difficultyIncreasePerRoom,
-                                             p.levelBackgroundMaterial,
+                                             //p.levelBackgroundMaterial,
                                              p.levelSoundtrack,
                                              p.isCampfire,
                                              p.Encounters);
@@ -137,7 +137,7 @@ public class MapIconScript : MonoBehaviour
     private void FindClosestAbove()
     {
         //find all icons in range by tag "mapIcon"
-        foreach (MapIconScript item in StaticDataHolder.mapIcons)
+        foreach (MapIconScript item in MainData.mapIcons)
         {
             if ((item.transform.position.y > this.transform.position.y) && (item.transform.position.x != this.transform.position.x))
             {
