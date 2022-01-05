@@ -166,8 +166,8 @@ public class UserInterfaceHelper : MonoBehaviour
             selectedEnemyCharName.text = "";
             selectedEnemyCharDescription.text = "";
             selectedEnemyCharEnemyType.text = "";
+            return;
         }
-
         if (Target.associatedCharacter.charAvatar != null)
         {
             selectedCharAvatar.sprite = Target.associatedCharacter.charAvatar;
@@ -348,7 +348,7 @@ public class UserInterfaceHelper : MonoBehaviour
         }
         else
         {
-            NPC1HPbar.transform.parent.gameObject.SetActive(true);
+            NPC1HPbar.transform.parent.gameObject.SetActive(false);
         }
         if (NPC2 != null && NPC2.associatedCharacter != null)
         {

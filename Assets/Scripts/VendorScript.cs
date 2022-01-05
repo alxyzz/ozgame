@@ -8,35 +8,49 @@ public class VendorScript : MonoBehaviour
 
 
     [Space(5)]
+    [Tooltip("These are used for the trader's cart movement.")]
     public GameObject Destination;//this is where it's supposed to go right before we interact with it
     public GameObject Startination;//this is where it spawns BEFORE it comes onscreen
     public GameObject Cart;//the cart itself. opens up the menu when clicked
     public GameObject GoodbyeDestination;//this is where the vendor is going when the party moves beyond
+    [Tooltip("Minimum distance from the destination at which the cart can stop moving towards the party.")]
+    public float minDistance;
+    [Tooltip("Speed at which the cart moves. Should be same as the background layer of the same distance.")]
+    public float speed;
+    [Tooltip("This should be around 0.01f to be smooth...")]
+    public float moveInterval;
     [Space(5)]
+    [Space(5)]
+    [Tooltip("These are for the user interface inside the trading menu.")]
     public GameObject GameUIReference; //we disable this so we don't do bad stuff.
+    public GameObject SellBuyButton;
     public GameObject VendorUIReference;
     public GameObject VendorUIItemContainer;//this is where we spawn prefabs that allow us to select then buy the item in that slot
+    [Tooltip("How many items are sold by the trader.")]
+    public int itemAmount; //
+    [Space(10)]
+    [Tooltip("Prefab used for both player and trader items. allows for selling or buying when clicking the Buy/Sell button.")]
     public GameObject VendorUIItemEntryPrefab;
+    [HideInInspector]
+    public GameObject currentlySelectedShopItem;
     [Space(5)]
     [HideInInspector]
     public bool isVendorHere;
     private bool cartMoving = false; //never mess with the cart while it is in motion, lest it tip over.
-    [Space(5)]
-    [Header("These are related to the movement of the vendor.")]
-    [Space(1)]
-    [Header("Minimum distance from the destination at which the cart can stop moving towards the party.")]
-    public float minDistance;
-    [Header("Speed at which the cart moves. Should be same as the background layer of the same distance.")]
-    public float speed;
-    [Header("This should be around 0.01f to be smooth...")]
-    public float moveInterval;
-    [Space(5)]
-    [Header("These are related to the trading itself...")]
-    [HideInInspector]
-    [Header("How many items are sold.")]
-    public int itemAmount; //
+    
 
 
+
+
+    public void RefreshBuySellStatus()
+    {
+        if (currentlySelectedShopItem.GetComponent<VendorItemScript>().isVendorProperty)
+        {
+
+        }
+
+
+    }
 
 
     private void InitializeCurrentMerchant()

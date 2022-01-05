@@ -12,21 +12,15 @@ using static TraitHelper;
 public class EntitiesDefinition : MonoBehaviour
 {
     [Header("define all entity assets here. sounds, sprites, etc.")]
-    [Header("Scarecrow")]
-    public Sprite ScarecrowSprite;
-    public Sprite ScarecrowAttackAnimation;
-    public Sprite ScarecrowAttackWalkAnimation;
-    [Header("Tinman")]
-    public Sprite TinManSprite;
-    [Header("Lion")]
-    public Sprite LionSprite;
-    [Header("Dorothy")]
-    public Sprite DorothySprite;
+    public Sprite tinmanAvatar;
+    public Sprite scarecrowAvatar;
+    public Sprite monkeyAvatar;
+
+
+
     [Space(10)]
     [Header("Enemies")]
-    public Sprite Enemy1Sprite;
-    public Sprite Enemy2Sprite;
-    public Sprite Enemy3Sprite;
+
     [Space(10)]
     public Sprite HealthPotionSprite;
     public Sprite SharpeningStoneSprite;
@@ -42,6 +36,33 @@ public class EntitiesDefinition : MonoBehaviour
     [Space(10)]
     //public GameObject EnemyPrefab;
     public GameObject SpawnAnimationPrefab;
+    [HideInInspector]
+    public Sprite[] scarecrowAttackSheet;
+    [HideInInspector]
+    public Sprite[] monkeyAttackSheet;
+    [HideInInspector]
+    public Sprite[] monkeyHurtSheet;
+    [HideInInspector]
+    public Sprite[] tinmanAttackSheet;
+
+
+    public void LoadSpriteSheets()
+    {
+
+
+        scarecrowAttackSheet = Resources.LoadAll<Sprite>("scarecrow_attack");
+        monkeyAttackSheet = Resources.LoadAll<Sprite>("Monkey_attack_sheet");
+        monkeyHurtSheet = Resources.LoadAll<Sprite>("Monkey_hurt_sheet");
+        tinmanAttackSheet = Resources.LoadAll<Sprite>("tinman_attack_sheet");
+    }
+
+
+
+
+
+
+
+
 
     /// <summary>
     /// A function to define a new being, allied or enemy, and add it into the dictionary based on the characterID string.
@@ -62,7 +83,7 @@ public class EntitiesDefinition : MonoBehaviour
     /// <param name="newCharSprite"></param>
     /// <param name="newCharAvatar"></param>
     /// <returns></returns>
-    public void MakeTemplateMob(string characterID, string charName, string charDesc, string attackVerb, bool isPlayer, int baseHP, int baseMinDMG, int baseMaxDMG, int baseSPD, int Defense, int Luck, int Mana, AudioClip newCharTurnSound, Sprite newCharSprite, Sprite newCharAvatar)
+    public void MakeTemplateMob(string characterID, string charName, string charDesc, string attackVerb, bool isPlayer, int baseHP, int baseMinDMG, int baseMaxDMG, int baseSPD, int Defense, int Luck, int Mana, AudioClip newCharTurnSound, Sprite[] newCharSprite, Sprite newCharAvatar)
     {
         Character newCharacterDefinition = Character.CreateInstance<Character>();
 
@@ -106,7 +127,7 @@ public class EntitiesDefinition : MonoBehaviour
         //string characterID, string charName, string charDesc, string attackVerb, bool isPlayer, int baseHP, int baseDMG, int baseSPD, int Defense,  int Luck, int Mana, AudioClip newCharTurnSound, Sprite newCharSprite, Sprite newCharAvatar)
         MakeTemplateMob("scarecrow", //characterID
                        "Scarecrow", // charName
-                       "Lacks a brain and is driven to obtain it.", // charDesc
+                       "'Too many thoughts dull your blade, they say', 'But I would rather have a dull blade than a dull mind.'", // charDesc
                        "rends", //verb used when attacking
                        true, //is it a player character(true), or is it an enemy(false)?
                        100, //the base HP value
@@ -117,12 +138,12 @@ public class EntitiesDefinition : MonoBehaviour
                        2, //luck
                        100, //mana
                        null, //sound for when it is this character's turn to act
-                       ScarecrowSprite, //character's sprite 
-                       null); //character's avatar sprite
+                       scarecrowAttackSheet, //character's sprite 
+                       scarecrowAvatar); //character's avatar sprite
 
         MakeTemplateMob("tin_man",
                        "Tin Man",
-                       "Lacks a heart and will do anything to get it.",
+                       "'There are wounds that never show on the body that are deeper and more hurtful than anything that bleeds.'",
                        "chops", //verb used when attacking
                        true, //is it a player character(true), or is it an enemy(false)?
                        100, //the base HP value
@@ -133,12 +154,12 @@ public class EntitiesDefinition : MonoBehaviour
                        2, //luck
                        100, //mana
                        null, //sound for when it is this character's turn to act
-                       TinManSprite, //character's sprite 
-                       null); //character's avatar sprite
+                       tinmanAttackSheet, //character's sprite 
+                       tinmanAvatar); //character's avatar sprite
 
         MakeTemplateMob("lion",
                        "Lion",
-                       "His lack of courage is apparent.",
+                       "'Fear is weakness, they say. But even a coward can be dangerous, if cornered.'",
                        "rends", //verb used when attacking
                        true, //is it a player character(true), or is it an enemy(false)?
                        100, //the base HP value
@@ -149,12 +170,12 @@ public class EntitiesDefinition : MonoBehaviour
                        2, //luck
                        100, //mana
                        null, //sound for when it is this character's turn to act
-                       ScarecrowSprite, //character's sprite 
-                       null); //character's avatar sprite
+                       tinmanAttackSheet, //character's sprite 
+                       tinmanAvatar); //character's avatar sprite
 
         MakeTemplateMob("dorothy",
                        "Dorothy",
-                       "Wants to go home...",
+                       "'You don’t have a home until you leave it and then, when you have left it, you never can go back.'",
                       "cuts", //verb used when attacking
                        true, //is it a player character(true), or is it an enemy(false)?
                        100, //the base HP value
@@ -165,8 +186,8 @@ public class EntitiesDefinition : MonoBehaviour
                        2, //luck
                        100, //mana
                        null, //sound for when it is this character's turn to act
-                       ScarecrowSprite, //character's sprite 
-                       null); //character's avatar sprite
+                       scarecrowAttackSheet, //character's sprite 
+                       scarecrowAvatar); //character's avatar sprite
 
 
     }
@@ -187,8 +208,8 @@ public class EntitiesDefinition : MonoBehaviour
                        2, //luck
                        100, //mana
                        null, //sound for when it is this character's turn to act
-                       ScarecrowSprite, //character's sprite 
-                       null); //character's avatar sprite
+                       monkeyAttackSheet, //character's sprite 
+                       monkeyAvatar); //character's avatar sprite
     }
 
     public void SpawnEnemyTest()
@@ -232,19 +253,19 @@ public class EntitiesDefinition : MonoBehaviour
         switch (UnityEngine.Random.Range(1, 7))
         {
             case 1:
-                newname = "Billy";
+                newname = "Shady";
                 break;
             case 2:
-                newname = "John";
+                newname = "Spooky";
                 break;
             case 3:
-                newname = "Maria";
+                newname = "Baddie";
                 break;
             case 4:
-                newname = "Hans";
+                newname = "John";
                 break;
             case 5:
-                newname = "Harry Potter";
+                newname = "Slim";
                 break;
             default:
                 newname = "aasfasfasfasf";
@@ -293,7 +314,7 @@ public class EntitiesDefinition : MonoBehaviour
             CharacterScript d = f.GetComponent<CharacterScript>();//get the Cscript reference
             d.SetupCharacterByTemplate(MainData.characterTypes[item]); //assign and set up an enemy template to the spot
             //they are added to the living list in the above method
-            MainData.MainLoop.EventLoggingComponent.LogGray("A " + d.associatedCharacter.charName + "suddenly steps out of the shadows.");
+            MainData.MainLoop.EventLoggingComponent.LogGray("A " + d.associatedCharacter.charName + " suddenly steps out of the shadows.");
 
         }
         //refresh the miniview thingies whenever we spawn or kill shit
@@ -441,12 +462,10 @@ public class EntitiesDefinition : MonoBehaviour
 
         public Trait charTrait;
         public AudioClip turnSound;
-        public Sprite charSprite;
+        public Sprite[] charSprite; //this contains the attack too. the first sprite is the standing sprite.
 
         public Sprite WalkSprites;
-
-        public Sprite AttackSprites;
-        public Sprite charAvatar;
+        public Sprite charAvatar;//head pic
 
         public StatusEffect currentStatusEffect;
 
@@ -463,7 +482,7 @@ public class EntitiesDefinition : MonoBehaviour
         public int damageMax;
         public int luck;
         public int mana;
-        private bool canAct = true; //wether it's stunned or not
+        public bool canAct = true; //wether it's stunned or not
         public bool isDead = false;
         public bool hasActedThisTurn = false;
 
@@ -471,10 +490,7 @@ public class EntitiesDefinition : MonoBehaviour
 
 
 
-        public bool CheckIfCanAct()
-        {
-            return canAct;
-        }
+
 
         public void RecalculateThreatFromStats()
         {
@@ -589,6 +605,12 @@ public class EntitiesDefinition : MonoBehaviour
             }
             canAct = false;
             MainData.MainLoop.UserInterfaceHelperComponent.RefreshViewEnemy();
+
+
+            if (!isPlayerPartyMember)
+            {
+                MainData.MainLoop.CombatHelperComponent.
+            }
 
             HandleListsUponDeath();
 

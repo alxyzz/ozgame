@@ -5,16 +5,15 @@ using static EntitiesDefinition;
 public class LevelHelper : MonoBehaviour
 {
     //set up level template assets here.
-    public Material testmat;
+
     public AudioClip testsound;
-    public Material townBackground;
     public AudioClip townSoundTrack;
-    public Material mushroomForestBackground;
     public AudioClip mushroomForestSoundTrack;
 
     [Header("all background parallax object scripts are stored here.")]
-    [Header("If you have any issue drag and dropping the script itself")]
-    [Header("remember you can open up two inspector tabs :)")]
+    [Header("If you have any issue drag and dropping the script itself,")]
+    [Header("remember, you can open up two inspector tabs :)")]
+
     public List<BackgroundLayerMovementParallax> parallaxLayers = new List<BackgroundLayerMovementParallax>();
 
     [Space(15)]//movement inside the local map stuff
@@ -61,7 +60,7 @@ public class LevelHelper : MonoBehaviour
 
     int encounterOrder = 0;
     /// <summary>
-    /// checks if player has walked 5 steps near an encounter. if so, trigger it to spawn and turns combat on.
+    /// checks if player has walked 5 integers near an encounter. if so, trigger it to spawn and turns combat on.
     /// </summary>
     /// 
     private void CheckForEncounter()
@@ -76,12 +75,13 @@ public class LevelHelper : MonoBehaviour
             if (distanceWalked >= MainData.currentLevel.Encounters[encounterOrder].distancePoint)
             {
                 MoveStop();
+                ButtonMoveOn.SetActive(false);
                 MainData.MainLoop.EntityDefComponent.SpawnEncounter(MainData.currentLevel.Encounters[encounterOrder]);
                 MainData.currentLevel.Encounters[encounterOrder].spawned = false; //so we have a nice stable loop.
                 encounterOrder++;
             }
         }
-        if (encounterOrder == MainData.currentLevel.Encounters.Count)
+        if (encounterOrder == MainData.currentLevel.Encounters.Count+1)
         {
             MoveStop();
             MainData.MainLoop.VendorScriptComponent.MoveMerchant();
@@ -97,7 +97,7 @@ public class LevelHelper : MonoBehaviour
 
 
     /// <summary>
-    /// party moves forwards aka background moves backwards. 
+    /// party moves forwards, aka Background moves backwards. 
     /// </summary>
     public void MoveBackgroundBackwards()
     {
@@ -159,7 +159,7 @@ public class LevelHelper : MonoBehaviour
     private List<Encounter> GenerateEncountersForLevel(int encounterAmt, string type, float distance, int enemyNmbr = 0)
     {
         //the encounters can start from around 200f distance, so...
-        float encounterSpacing = 1;
+        float encounterSpacing = 5;
         List<Encounter> encounter = new List<Encounter>();
         for (int i = 0; i < encounterAmt; i++)
         {

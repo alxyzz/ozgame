@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviour
         MainData.MainLoop = this;
         MainData.SoundManagerRef = SoundManagerComponent;
         //StartLoading(); 
+        EntityDefComponent.LoadSpriteSheets();
         EventLoggingComponent.TMPComponent.text = "";
         PositionHolderComponent.RegisterEnemySpots();
         PositionHolderComponent.RegisterPlayerSpots();
