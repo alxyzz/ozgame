@@ -69,11 +69,11 @@ public class CharacterScript : MonoBehaviour
         associatedCharacter.turnSound = template.turnSound;
         associatedCharacter.speed = template.speed;
         associatedCharacter.InitialPosition = this.transform.position;
-        spriteRenderer.sprite = associatedCharacter.charSprite;
+        spriteRenderer.sprite = associatedCharacter.charSprite[0];
         if (isEnemyCharacter)
         {
             // Debug.Log("Added a new enemy character - " + associatedCharacter.charName);
-            spriteRenderer.flipX = true;
+           // spriteRenderer.flipX = true;
             MainData.livingEnemyParty.Add(associatedCharacter);
         }
         else

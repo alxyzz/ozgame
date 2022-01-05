@@ -166,8 +166,8 @@ public class UserInterfaceHelper : MonoBehaviour
             selectedEnemyCharName.text = "";
             selectedEnemyCharDescription.text = "";
             selectedEnemyCharEnemyType.text = "";
+            return;
         }
-
         if (Target.associatedCharacter.charAvatar != null)
         {
             selectedCharAvatar.sprite = Target.associatedCharacter.charAvatar;

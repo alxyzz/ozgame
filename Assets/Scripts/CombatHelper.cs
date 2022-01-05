@@ -203,6 +203,7 @@ public class CombatHelper : MonoBehaviour
     public void EndCombat()
     {
         MainData.MainLoop.EventLoggingComponent.Log("Combat is over.");
+        MainData.MainLoop.LevelHelperComponent.ButtonMoveOn.SetActive(true);
     }
 
 
@@ -267,6 +268,9 @@ public class CombatHelper : MonoBehaviour
     }
 
 
+    [Header("Animation stuff.")]
+    public float animationDuration;
+
     public IEnumerator AttackTargetedEnemy()
     {
 
@@ -276,8 +280,17 @@ public class CombatHelper : MonoBehaviour
 
         Debug.Log("attacking enemy. Currently active character is " + CurrentlyActiveChar.associatedCharacter.charName);
 
+        for (int i = 0; i < CurrentlyActiveChar.associatedCharacter.charSprite.Length; i++)
+        {
+            CurrentlyActiveChar.spriteRenderer.sprite = CurrentlyActiveChar.associatedCharacter.charSprite[i];
+            yield return new WaitForSecondsRealtime(0.04f);
+        }
+        CurrentlyActiveChar.spriteRenderer.sprite = CurrentlyActiveChar.associatedCharacter.charSprite[0];
+        //play attack animation here
+
 
         Fool.TakeDamageFromCharacter(CurrentlyActiveChar.associatedCharacter);//this also handles damage indicator
+        
 
 
         yield return new WaitForSeconds(0.5f);
@@ -345,34 +358,6 @@ public class CombatHelper : MonoBehaviour
 
 
     }
-
-    //public IEnumerator AttackVisuals(CharacterScript target)
-    //{
-
-    //    Vector3 Initial = CurrentlyActiveChar.transform.position;
-
-    //    if (CurrentlyActiveChar.associatedCharacter.isPlayerPartyMember)
-    //    {
-
-    //    }
-    //    else
-    //    {
-    //        Vector3 final = new Vector3(Initial.x - 3f, Initial.y, Initial.z);
-    //        while (Vector3.Distance(CurrentlyActiveChar.transform.position, final) > 0.05f)
-    //        {
-    //            CurrentlyActiveChar.transform.position = Vector3.Lerp(CurrentlyActiveChar.transform.position, final, 0.5f * Time.deltaTime);
-    //        }
-    //        Character poorFool = StaticDataHolder.playerParty[Random.Range(0, StaticDataHolder.playerParty.Count + 1)];
-    //        poorFool.TakeDamageFromCharacter(CurrentlyActiveChar.associatedCharacter); // for now, just a random attack
-    //        StartCoroutine(HitKnockback(poorFool.selfScriptRef));
-    //        //play some kinda sprite animation + sound effect here, perhaps
-    //        yield return new WaitForSecondsRealtime(0.3f);
-
-    //    }
-
-
-    //}
-
     public void DoPlayerCharacterTurn(Character pc)
     {
         CurrentlyActiveChar.transform.position = ActiveCharSpot.transform.position; //MOVE CHAR TO SPOT
@@ -466,7 +451,13 @@ public class CombatHelper : MonoBehaviour
         Debug.Log("attacking player at playerParty[" + b.ToString() + "]!");
 
         Fool.TakeDamageFromCharacter(chara.associatedCharacter);//this also handles the damage indicator 
-
+        for (int i = 0; i < CurrentlyActiveChar.associatedCharacter.charSprite.Length; i++)
+        {
+            CurrentlyActiveChar.spriteRenderer.sprite = CurrentlyActiveChar.associatedCharacter.charSprite[i];
+            yield return new WaitForSecondsRealtime(0.04f);
+        }
+        CurrentlyActiveChar.spriteRenderer.sprite = CurrentlyActiveChar.associatedCharacter.charSprite[0];
+        //play attack animation here
         yield return new WaitForSeconds(1f);
 
         ReturnFromActiveSpot();
