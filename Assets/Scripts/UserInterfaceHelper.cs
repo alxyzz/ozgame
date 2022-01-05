@@ -348,7 +348,7 @@ public class UserInterfaceHelper : MonoBehaviour
         }
         else
         {
-            NPC1HPbar.transform.parent.gameObject.SetActive(true);
+            NPC1HPbar.transform.parent.gameObject.SetActive(false);
         }
         if (NPC2 != null && NPC2.associatedCharacter != null)
         {

@@ -148,8 +148,6 @@ public class CombatHelper : MonoBehaviour
 
         combatants.Sort((x, y) => y.speed.CompareTo(x.speed)); // descending. swap y and x on the right side for ascending.
         StartCoroutine(DoPatientCombatRound(combatants));
-
-
     }
 
     public void ClickPlayButton()
@@ -194,7 +192,6 @@ public class CombatHelper : MonoBehaviour
             default:
                 break;
         }
-
         EndCurrentTurn();
     }
 
@@ -222,7 +219,7 @@ public class CombatHelper : MonoBehaviour
             activeTarget = null;
             ToggleCombatButtomVisibility(false);
         }
-        HighlightCheck();
+        TargetSelectionCheck();
         CurrentlyActiveChar.associatedCharacter.hasActedThisTurn = true;
         CurrentlyActiveChar = null;
 
@@ -246,20 +243,13 @@ public class CombatHelper : MonoBehaviour
                     activeTarget = null;
                     return;
                 }
-
                 ToggleCombatButtomVisibility(false);
                 StartCoroutine(AttackTargetedEnemy());
-
-
-
-
-
             }
             else
             {
                 MainData.MainLoop.EventLoggingComponent.LogGray("You haven't selected a target!");
             }
-
         }
         else
         {
@@ -384,15 +374,22 @@ public class CombatHelper : MonoBehaviour
     }
 
 
-    public void HighlightCheck()
+    public void TargetSelectionCheck()
     {
         //highlights the current target, checks if there is no target in which case it hides the highlight
         if (activeTarget != null)
         {
             MainData.MainLoop.UserInterfaceHelperComponent.CombatHighlightObject.transform.position = activeTarget.transform.position;
             MainData.MainLoop.UserInterfaceHelperComponent.CombatHighlightObject.SetActive(true);
+            
         }
         else
+        {
+            MainData.MainLoop.UserInterfaceHelperComponent.CombatHighlightObject.SetActive(false);
+            return;
+        }
+
+        if (activeTarget.associatedCharacter.isDead || !activeTarget.associatedCharacter.canAct)
         {
             MainData.MainLoop.UserInterfaceHelperComponent.CombatHighlightObject.SetActive(false);
         }
@@ -410,7 +407,7 @@ public class CombatHelper : MonoBehaviour
         }
         if (returning) //
         {//so it does these AFTER it finishes moving, coz its async
-            HighlightCheck();
+            TargetSelectionCheck();
             CurrentlyActiveChar.associatedCharacter.hasActedThisTurn = true;
             CurrentlyActiveChar = null;
         }

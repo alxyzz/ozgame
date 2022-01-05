@@ -12,21 +12,15 @@ using static TraitHelper;
 public class EntitiesDefinition : MonoBehaviour
 {
     [Header("define all entity assets here. sounds, sprites, etc.")]
-    [Header("Scarecrow")]
-    public Sprite ScarecrowSprite;
-    public Sprite ScarecrowAttackAnimation;
-    public Sprite ScarecrowAttackWalkAnimation;
-    [Header("Tinman")]
-    public Sprite TinManSprite;
-    [Header("Lion")]
-    public Sprite LionSprite;
-    [Header("Dorothy")]
-    public Sprite DorothySprite;
+    public Sprite tinmanAvatar;
+    public Sprite scarecrowAvatar;
+    public Sprite monkeyAvatar;
+
+
+
     [Space(10)]
     [Header("Enemies")]
-    public Sprite Enemy1Sprite;
-    public Sprite Enemy2Sprite;
-    public Sprite Enemy3Sprite;
+
     [Space(10)]
     public Sprite HealthPotionSprite;
     public Sprite SharpeningStoneSprite;
@@ -145,7 +139,7 @@ public class EntitiesDefinition : MonoBehaviour
                        100, //mana
                        null, //sound for when it is this character's turn to act
                        scarecrowAttackSheet, //character's sprite 
-                       null); //character's avatar sprite
+                       scarecrowAvatar); //character's avatar sprite
 
         MakeTemplateMob("tin_man",
                        "Tin Man",
@@ -161,7 +155,7 @@ public class EntitiesDefinition : MonoBehaviour
                        100, //mana
                        null, //sound for when it is this character's turn to act
                        tinmanAttackSheet, //character's sprite 
-                       null); //character's avatar sprite
+                       tinmanAvatar); //character's avatar sprite
 
         MakeTemplateMob("lion",
                        "Lion",
@@ -177,7 +171,7 @@ public class EntitiesDefinition : MonoBehaviour
                        100, //mana
                        null, //sound for when it is this character's turn to act
                        tinmanAttackSheet, //character's sprite 
-                       null); //character's avatar sprite
+                       tinmanAvatar); //character's avatar sprite
 
         MakeTemplateMob("dorothy",
                        "Dorothy",
@@ -193,7 +187,7 @@ public class EntitiesDefinition : MonoBehaviour
                        100, //mana
                        null, //sound for when it is this character's turn to act
                        scarecrowAttackSheet, //character's sprite 
-                       null); //character's avatar sprite
+                       scarecrowAvatar); //character's avatar sprite
 
 
     }
@@ -215,7 +209,7 @@ public class EntitiesDefinition : MonoBehaviour
                        100, //mana
                        null, //sound for when it is this character's turn to act
                        monkeyAttackSheet, //character's sprite 
-                       null); //character's avatar sprite
+                       monkeyAvatar); //character's avatar sprite
     }
 
     public void SpawnEnemyTest()
@@ -259,19 +253,19 @@ public class EntitiesDefinition : MonoBehaviour
         switch (UnityEngine.Random.Range(1, 7))
         {
             case 1:
-                newname = "Billy";
+                newname = "Shady";
                 break;
             case 2:
-                newname = "John";
+                newname = "Spooky";
                 break;
             case 3:
-                newname = "Maria";
+                newname = "Baddie";
                 break;
             case 4:
-                newname = "Hans";
+                newname = "John";
                 break;
             case 5:
-                newname = "Harry Potter";
+                newname = "Slim";
                 break;
             default:
                 newname = "aasfasfasfasf";
@@ -320,7 +314,7 @@ public class EntitiesDefinition : MonoBehaviour
             CharacterScript d = f.GetComponent<CharacterScript>();//get the Cscript reference
             d.SetupCharacterByTemplate(MainData.characterTypes[item]); //assign and set up an enemy template to the spot
             //they are added to the living list in the above method
-            MainData.MainLoop.EventLoggingComponent.LogGray("A " + d.associatedCharacter.charName + "suddenly steps out of the shadows.");
+            MainData.MainLoop.EventLoggingComponent.LogGray("A " + d.associatedCharacter.charName + " suddenly steps out of the shadows.");
 
         }
         //refresh the miniview thingies whenever we spawn or kill shit
@@ -488,7 +482,7 @@ public class EntitiesDefinition : MonoBehaviour
         public int damageMax;
         public int luck;
         public int mana;
-        private bool canAct = true; //wether it's stunned or not
+        public bool canAct = true; //wether it's stunned or not
         public bool isDead = false;
         public bool hasActedThisTurn = false;
 
@@ -496,10 +490,7 @@ public class EntitiesDefinition : MonoBehaviour
 
 
 
-        public bool CheckIfCanAct()
-        {
-            return canAct;
-        }
+
 
         public void RecalculateThreatFromStats()
         {
@@ -614,6 +605,12 @@ public class EntitiesDefinition : MonoBehaviour
             }
             canAct = false;
             MainData.MainLoop.UserInterfaceHelperComponent.RefreshViewEnemy();
+
+
+            if (!isPlayerPartyMember)
+            {
+                MainData.MainLoop.CombatHelperComponent.
+            }
 
             HandleListsUponDeath();
 

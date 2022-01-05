@@ -73,7 +73,31 @@ public class CharacterScript : MonoBehaviour
         if (isEnemyCharacter)
         {
             // Debug.Log("Added a new enemy character - " + associatedCharacter.charName);
-           // spriteRenderer.flipX = true;
+            // spriteRenderer.flipX = true;
+            string newname;
+            switch (UnityEngine.Random.Range(1, 7))
+            {
+                case 1:
+                    newname = "Billy";
+                    break;
+                case 2:
+                    newname = "John";
+                    break;
+                case 3:
+                    newname = "Maria";
+                    break;
+                case 4:
+                    newname = "Hans";
+                    break;
+                case 5:
+                    newname = "Harry Potter";
+                    break;
+                default:
+                    newname = "aasfasfasfasf";
+                    break;
+
+            }
+            associatedCharacter.charName = newname;
             MainData.livingEnemyParty.Add(associatedCharacter);
         }
         else
@@ -107,14 +131,14 @@ public class CharacterScript : MonoBehaviour
             }
 
         }
-        MainData.MainLoop.CombatHelperComponent.HighlightCheck();
+        MainData.MainLoop.CombatHelperComponent.TargetSelectionCheck();
     }
 
     void RefreshCharacterScript(bool show)
     {
         if (associatedCharacter == null)
         {
-            // Debug.Log(this.name + "Associated character null at RefreshCharacterScript()");
+            Debug.Log(this.name + "Associated character null at RefreshCharacterScript()");
             return;
         }
         TextMeshProUGUI charactDescript = MainData.MainLoop.UserInterfaceHelperComponent.selectedCharDescription.GetComponent<TextMeshProUGUI>();
