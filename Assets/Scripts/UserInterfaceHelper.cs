@@ -629,7 +629,7 @@ public class UserInterfaceHelper : MonoBehaviour
     }
     private void RefreshPlayerDeathStatus()
     {//checks wether the player is dead so it can hide or show the death/inactive overlay
-        if (!PC1.associatedCharacter.CheckIfCanAct())
+        if (!PC1.associatedCharacter.canAct)
         {
             PCDead1.SetActive(true);
             firstHealthBar.gameObject.SetActive(false);
@@ -639,7 +639,7 @@ public class UserInterfaceHelper : MonoBehaviour
             firstHealthBar.gameObject.SetActive(true);
             PCDead1.SetActive(false);
         }
-        if (!PC2.associatedCharacter.CheckIfCanAct())
+        if (!PC2.associatedCharacter.canAct)
         {
             PCDead2.SetActive(true);
             secondHealthBar.gameObject.SetActive(false);
@@ -649,7 +649,7 @@ public class UserInterfaceHelper : MonoBehaviour
             secondHealthBar.gameObject.SetActive(true);
             PCDead2.SetActive(false);
         }
-        if (!PC3.associatedCharacter.CheckIfCanAct())
+        if (!PC3.associatedCharacter.canAct)
         {
             PCDead3.SetActive(true);
             thirdHealthBar.gameObject.SetActive(false);
@@ -659,7 +659,7 @@ public class UserInterfaceHelper : MonoBehaviour
             thirdHealthBar.gameObject.SetActive(true);
             PCDead3.SetActive(false);
         }
-        if (!PC4.associatedCharacter.CheckIfCanAct())
+        if (!PC4.associatedCharacter.canAct)
         {
             PCDead4.SetActive(true);
             fourthHealthBar.gameObject.SetActive(false);

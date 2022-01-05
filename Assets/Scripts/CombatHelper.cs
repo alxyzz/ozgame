@@ -93,7 +93,7 @@ public class CombatHelper : MonoBehaviour
                 MainData.MainLoop.PassTurn();
                 yield break;
             }
-            if (combatants[i].CheckIfCanAct())
+            if (combatants[i].canAct)
             {
 
                 //StaticDataHolder.MainLoop.SoundManagerComponent.sfxSource.PlayOneShot(item.turnSound); //plays the character specific noise/vocalization

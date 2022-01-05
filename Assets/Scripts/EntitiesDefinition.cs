@@ -609,7 +609,7 @@ public class EntitiesDefinition : MonoBehaviour
 
             if (!isPlayerPartyMember)
             {
-                MainData.MainLoop.CombatHelperComponent.
+                MainData.MainLoop.CombatHelperComponent.TargetSelectionCheck();
             }
 
             HandleListsUponDeath();
