@@ -23,7 +23,7 @@ public class LevelHelper : MonoBehaviour
     public float maximumDistance = 1500; //maximum distance before the level fades to black and you go on the overmap
     [Space(15)]
     private bool isAtVendor = false;
-
+    public GameObject ButtonMoveOn;
 
     public void Update()
     {
@@ -59,39 +59,47 @@ public class LevelHelper : MonoBehaviour
 
     }
 
-
+    int encounterOrder = 0;
     /// <summary>
     /// checks if player has walked 5 steps near an encounter. if so, trigger it to spawn and turns combat on.
     /// </summary>
+    /// 
     private void CheckForEncounter()
     {
 
-        if (MainData.currentLevel == null || !MainData.MainLoop.inCombat)
+        if (MainData.currentLevel == null || MainData.MainLoop.inCombat)
         {
             return;
         }
-
-        foreach (Encounter item in MainData.currentLevel.Encounters)
+        if (MainData.currentLevel.Encounters[encounterOrder] != null)
         {
-            if (item.spawned)
-            {
-                return;
-            }
-            if (IsBetween(distanceWalked, item.distancePoint - 5, item.distancePoint + 5))
+            if (distanceWalked >= MainData.currentLevel.Encounters[encounterOrder].distancePoint)
             {
                 MoveStop();
-
-                MainData.MainLoop.EntityDefComponent.SpawnEncounter(item);
+                MainData.MainLoop.EntityDefComponent.SpawnEncounter(MainData.currentLevel.Encounters[encounterOrder]);
+                MainData.currentLevel.Encounters[encounterOrder].spawned = false; //so we have a nice stable loop.
+                encounterOrder++;
             }
         }
+        if (encounterOrder == MainData.currentLevel.Encounters.Count)
+        {
+            MoveStop();
+            MainData.MainLoop.VendorScriptComponent.MoveMerchant();
+            distanceWalked = 0;//back to beginning.
+            encounterOrder = 0;
+        }
+        
 
+        
 
     }
 
 
 
-    //MOVEMENT IN A LEVEL
-    public void MoveBackwards()
+    /// <summary>
+    /// party moves forwards aka background moves backwards. 
+    /// </summary>
+    public void MoveBackgroundBackwards()
     {
         if (MainData.MainLoop.inCombat)
         {
@@ -101,9 +109,14 @@ public class LevelHelper : MonoBehaviour
         {
             item.ChangeDirection(false);
         }
+        if (MainData.MainLoop.VendorScriptComponent.isVendorHere)
+        {
+            MainData.MainLoop.VendorScriptComponent.MoveMerchant();
+        }
+        ButtonMoveOn.SetActive(false);// for the demo.
     }
 
-    public void MoveForwards()
+    public void MoveBackgroundForwards()
     {
         if (MainData.MainLoop.inCombat)
         {
@@ -125,6 +138,7 @@ public class LevelHelper : MonoBehaviour
         {
             item.ChangeDirection(null);
         }
+        ButtonMoveOn.SetActive(true);// for the demo.
     }
 
 
@@ -171,14 +185,8 @@ public class LevelHelper : MonoBehaviour
 
     public void SetupDemoLevel()
     {
-
         MainData.currentLevel = MainData.levelTemplates["darkforest"];
-
     }
-
-
-
-
 
     public void GenerateLevels()
     {
@@ -195,7 +203,10 @@ public class LevelHelper : MonoBehaviour
                                            1f,
                                            testsound,
                                            false,
-                                           GenerateEncountersForLevel(3, "evilcrow", 10, 4));
+                                           GenerateEncountersForLevel(3,
+                                                                      "flyingmonkey",
+                                                                      10,
+                                                                      4));
 
 
         MainData.levelTemplates.Add("darkforest", darkForest); //adds the template to the global list
@@ -224,18 +235,11 @@ public class LevelHelper : MonoBehaviour
 
         }
     }
-
-
-
-
-
     public class Encounter
     {
         public bool spawned = false; //wether it has already been spawned
         public float distancePoint; //the point in which this encounter spawns
         public List<string> enemies; // the enemies that will spawn in this encounter. are spawned by their ID from the StaticDataHolder enemy dictionary.
-
-
     }
 
 
