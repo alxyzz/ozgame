@@ -451,7 +451,7 @@ public class CombatHelper : MonoBehaviour
         for (int i = 0; i < CurrentlyActiveChar.associatedCharacter.charSprite.Length; i++)
         {
             CurrentlyActiveChar.spriteRenderer.sprite = CurrentlyActiveChar.associatedCharacter.charSprite[i];
-            yield return new WaitForSecondsRealtime(0.04f);
+            yield return new WaitForSecondsRealtime(0.06f);
         }
         CurrentlyActiveChar.spriteRenderer.sprite = CurrentlyActiveChar.associatedCharacter.charSprite[0];
         //play attack animation here
