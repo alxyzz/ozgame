@@ -54,7 +54,7 @@ public class VendorScript : MonoBehaviour
     IEnumerator ArrivalAnimation()
     {
         cartMoving = true;
-        MainData.MainLoop.LevelHelperComponent.MoveBackwards(); //ATTENTION - IF THIS SOMEHOW MAKES IT MOVE THE OTHER WAY - THE ORDER IS FLIPPED IN LEVELmANAGER. JUST USE MOVEBACKWARDS.
+        MainData.MainLoop.LevelHelperComponent.MoveBackgroundBackwards(); //ATTENTION - IF THIS SOMEHOW MAKES IT MOVE THE OTHER WAY - THE ORDER IS FLIPPED IN LEVELmANAGER. JUST USE MOVEBACKWARDS.
         isVendorHere = true;
         while (Vector3.Distance(Cart.transform.position, Destination.transform.position) > 0.2f)
         {
@@ -70,7 +70,7 @@ public class VendorScript : MonoBehaviour
     IEnumerator LeavingAnimation()
     {
         cartMoving = true;
-        MainData.MainLoop.LevelHelperComponent.MoveBackwards();
+        MainData.MainLoop.LevelHelperComponent.MoveBackgroundBackwards();
         
         while (Vector3.Distance(Cart.transform.position, GoodbyeDestination.transform.position) > 0.2f)
         {
@@ -132,8 +132,25 @@ public class VendorScript : MonoBehaviour
     //we call this from
     //a button for testing
     //LevelManager when we reach the point where the thing spawns.
-    public void MoveMerchant()
+    /// <summary>
+    /// handles the merchant coming and going
+    /// </summary>
+    /// <param name="order">custom order. false for leaving, true for arriving.</param>
+    public void MoveMerchant(bool? order = null)
     {
+        if (order == true)
+        {
+            MainData.MainLoop.EventLoggingComponent.Log("You've stumbled across a merchant.");
+            StartCoroutine(ArrivalAnimation());
+            return;
+        }
+        else if (order == false)
+        {
+            MainData.MainLoop.EventLoggingComponent.LogGray("The merchant silently watches you depart.");
+            StartCoroutine(LeavingAnimation());
+            return;
+        }
+
         if (cartMoving)
         {
             return;

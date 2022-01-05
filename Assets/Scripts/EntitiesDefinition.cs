@@ -174,12 +174,12 @@ public class EntitiesDefinition : MonoBehaviour
 
     public void DefineNPC()
     {
-        MakeTemplateMob("evilcrow", //characterID
+        MakeTemplateMob("flyingmonkey", //characterID
                        "George", // charName
-                       "Very bad scarecrow with a sharp, ethereal scythe.", // charDesc
-                       "rends", //verb used when attacking
+                       "Evil flying monkey hellbent on causing mischief and wreaking havok.", // charDesc
+                       "claws", //verb used when attacking
                        false, //is it a player character(true), or is it an enemy(false)?
-                       100, //the base HP value
+                       45, //the base HP value
                        20, // the minimum damage value
                        30, //the maximum damage value.
                        5, //base speed, higher is better
@@ -226,7 +226,7 @@ public class EntitiesDefinition : MonoBehaviour
 
 
         
-        d.SetupCharacterByTemplate(MainData.characterTypes["evilcrow"]); //assign an enemy template
+        d.SetupCharacterByTemplate(MainData.characterTypes["flyingmonkey"]); //assign an enemy template
                                                                          //StaticDataHolder.livingEnemyParty.Add(d.associatedCharacter);//they are added to the living list in the above method
         string newname;
         switch (UnityEngine.Random.Range(1, 7))
@@ -397,7 +397,6 @@ public class EntitiesDefinition : MonoBehaviour
     public class Item
     {
         public string identifier; //stuff like "doner_kebab", "icecream_chocolate", "sword_steel"
-        
         public string description;
         public string name;
         public Sprite itemSprite;
@@ -516,6 +515,11 @@ public class EntitiesDefinition : MonoBehaviour
                         break;
                 }
             }
+            
+
+            MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(damageRoll, this);
+            currentHealth -= damageRoll; //INCORPORATED ARMOR CALCULATION HERE 
+            attacker.Threat += (damageRoll - defense); // WE APPLY THREAT
             if (!isPlayerPartyMember)
             {//this updates the health bar so we don't run the whole big total refresh method
                 MainData.MainLoop.UserInterfaceHelperComponent.RefreshViewEnemy();
@@ -525,10 +529,6 @@ public class EntitiesDefinition : MonoBehaviour
             {
                 MainData.MainLoop.UserInterfaceHelperComponent.RefreshHealthBarPlayer();
             }
-
-            MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(damageRoll, this);
-            currentHealth -= damageRoll; //INCORPORATED ARMOR CALCULATION HERE 
-            attacker.Threat += (damageRoll - defense); // WE APPLY THREAT
             if (currentHealth <= 0)
             {
                 GotKilled(attacker);

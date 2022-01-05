@@ -140,6 +140,8 @@ public class CombatHelper : MonoBehaviour
 
     public void InitiateCombatTurn()
     {
+        MainData.MainLoop.LevelHelperComponent.MoveStop();
+
         List<Character> combatants = MainData.allChars;
         //todo - what happens if someone dies during this? can foreach cope with it?
         //follow-up - ok, so you shouldn't modify a collection during the foreach. dying characters just get hidden and cleaned up behind the scene after the speed dependant turns
