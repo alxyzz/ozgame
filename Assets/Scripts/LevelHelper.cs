@@ -151,13 +151,15 @@ public class LevelHelper : MonoBehaviour
     /// <summary>
     /// generates and returns multiple encounters for a level at an even spacing
     /// </summary>
-    /// <param name="encounterAmt"> how many encounters in a level</param>
-    /// <param name="type">what kind of creatures spawn. all the same for now. could make it a list and just spawn random amounts of each</param>
+    /// <param name="encounterAmt"> how many encounters in a level. all of the encounters are the same, for the moment. identical enemy party composition-wise</param>
+    /// <param name="monsters">what kind of creatures spawn. can be any mix of any existant enemy mob. amount is based on how many instances of a singular type you add to the list</param>
     /// <param name="distance">point at which the encounters START, new encounters being incremented by encounterSpacing defined locally </param>
-    /// <param name="enemyNmbr">how many enemies per encounter</param>
     /// <returns></returns>
-    private List<Encounter> GenerateEncountersForLevel(int encounterAmt, string type, float distance, int enemyNmbr = 0)
+    private List<Encounter> GenerateEncountersForLevel(int encounterAmt, List<string> monsters, float distance)
     {
+
+
+
         //the encounters can start from around 200f distance, so...
         float encounterSpacing = 5;
         List<Encounter> encounter = new List<Encounter>();
@@ -165,14 +167,19 @@ public class LevelHelper : MonoBehaviour
         {
             Encounter b = new Encounter();
             List<string> enemiesList = new List<string>();
-            for (int x = 0; x < enemyNmbr; x++)
+            foreach (string item in monsters)
             {
-                enemiesList.Add(type);//adds as many strings of that number as required. for each, a mob will be created after that template
+                enemiesList.Add(item);
             }
-            b.enemies = enemiesList;
+            b.enemies = monsters;
             b.distancePoint = distance;
             distance += encounterSpacing;
-            MainData.MainLoop.EventLoggingComponent.LogGray("Prepared a " + type + " ambush at " + distance);
+            string descriptor = "";
+            foreach (string item in monsters)
+            {
+                descriptor = descriptor +  item + ", ";
+            }
+            MainData.MainLoop.EventLoggingComponent.LogGray("Prepared a " + descriptor + " ambush at " + distance);
             encounter.Add(b);
         }
 
@@ -192,7 +199,12 @@ public class LevelHelper : MonoBehaviour
     {
 
 
-
+        List<string> teamrocket = new List<string>();
+        for (int i = 0; i < 4; i++)
+        {
+            teamrocket.Add("flyingmonkey");
+        }
+       
 
         
         MapLevel darkForest = new MapLevel("Dark Forest",
@@ -204,9 +216,8 @@ public class LevelHelper : MonoBehaviour
                                            testsound,
                                            false,
                                            GenerateEncountersForLevel(3,
-                                                                      "flyingmonkey",
-                                                                      10,
-                                                                      4));
+                                                                      teamrocket,
+                                                                      10));
 
 
         MainData.levelTemplates.Add("darkforest", darkForest); //adds the template to the global list
