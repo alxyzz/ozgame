@@ -40,7 +40,7 @@ public class GameManager : MonoBehaviour
         LevelHelperComponent.SetupDemoLevel();
         EntityDefComponent.BuildParty();
         PositionHolderComponent.PrepPartySpots();
-        //GivePlayerTestConsumables();
+        EntityDefComponent.GivePlayerTestConsumables();
         UserInterfaceHelperComponent.RefreshCharacterTabs();
         ToggleMainMenu(true);//true for visible, false for not visible
 

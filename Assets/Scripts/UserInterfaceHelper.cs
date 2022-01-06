@@ -150,7 +150,7 @@ public class UserInterfaceHelper : MonoBehaviour
     public bool isDraggingItem; // this is used to keep track of wether you have an item in your hand
     public Sprite draggedItemSprite;
     public Item draggedItem;
-
+    private List<GameObject> consumableSlots = new List<GameObject>();
 
 
 
@@ -164,10 +164,6 @@ public class UserInterfaceHelper : MonoBehaviour
         RefreshViewEnemy();
         RefreshViewPlayer();
     }
-
-
-    List<GameObject> consumableSlots = new List<GameObject>();
-
     public void PopulateUISlotList()
     {
         consumableSlots.Add(ConsumableSlot1);
@@ -180,56 +176,82 @@ public class UserInterfaceHelper : MonoBehaviour
     /// refreshes the consumable item icons. should be ran whenever the inventory contents change...
     /// </summary>
     public void RefreshInventorySlots()
-    {//here we refresh the existence and quantity of items in the slot.
+    {//here we refresh the existence and quantity of items in the slot
 
 
 
         switch (MainData.consumableInventory.Count)
         {
-            case 0:
-                ConsumableSlot1.SetActive(false);
-                ConsumableSlot2.SetActive(false);
-                ConsumableSlot3.SetActive(false);
-                break;
             case 1:
                 ConsumableSlot1.SetActive(true);
+                ConsumableSlot1.GetComponent<consumableSlotScript>().itemContent = MainData.consumableInventory[0];
                 ConsumableSlot2.SetActive(false);
                 ConsumableSlot3.SetActive(false);
                 break;
             case 2:
                 ConsumableSlot1.SetActive(true);
+                ConsumableSlot1.GetComponent<consumableSlotScript>().itemContent = MainData.consumableInventory[0];
                 ConsumableSlot2.SetActive(true);
+                ConsumableSlot2.GetComponent<consumableSlotScript>().itemContent = MainData.consumableInventory[1];
                 ConsumableSlot3.SetActive(false);
                 break;
             case 3:
                 ConsumableSlot1.SetActive(true);
                 ConsumableSlot2.SetActive(true);
                 ConsumableSlot3.SetActive(true);
+                ConsumableSlot1.GetComponent<consumableSlotScript>().itemContent = MainData.consumableInventory[0];
+                ConsumableSlot2.GetComponent<consumableSlotScript>().itemContent = MainData.consumableInventory[1];
+                ConsumableSlot3.GetComponent<consumableSlotScript>().itemContent = MainData.consumableInventory[2];
                 break;
 
             default:
-                //should not happen for now.
+                ConsumableSlot1.SetActive(false);
+                ConsumableSlot2.SetActive(false);
+                ConsumableSlot3.SetActive(false);
+                ConsumableSlot1.GetComponent<consumableSlotScript>().itemContent = null;
+                ConsumableSlot2.GetComponent<consumableSlotScript>().itemContent = null;
+                ConsumableSlot3.GetComponent<consumableSlotScript>().itemContent = null;
                 break;
         }
 
         foreach (GameObject item in consumableSlots)
-        {
+        {//every slot gets dealt with
+
             consumableSlotScript slotScript = item.GetComponent<consumableSlotScript>();
+            if (slotScript.itemContent == null)
+            {
+                return;
+            }
             if (slotScript.itemContent.itemQuantity == 0)
             {
                 MainData.consumableInventory.Remove(slotScript.itemContent);
             }
             else
             {
-                slotScript.quantityText.GetComponent<TextMeshProUGUI>().text = slotScript.itemContent.itemQuantity.ToString();
+                if (slotScript.itemContent.itemQuantity == 1)
+                {
+                    slotScript.quantityText.GetComponent<Text>().text = "";
+                }
+                else
+                {
+                    slotScript.quantityText.GetComponent<Text>().text = slotScript.itemContent.itemQuantity.ToString();
+                }
+            }
+            if (slotScript.itemContent != null)
+            {
+                if (slotScript.itemContent.itemSprite != null)
+                {//we change the sprite to represent the item
+                    Debug.Log("we have set a sprite");
+                    item.GetComponent<Image>().sprite = slotScript.itemContent.itemSprite;
+                }
+            }
+            else
+            {//no item - no sprite
+                Debug.LogError("it reaches here");
+                item.GetComponent<Image>().sprite = null;
             }
         }
-
     }
-
-
-
-
     public void ClickConsumableSlotButton(GameObject source)
     {
         //just checking if target is valid first.
@@ -243,11 +265,12 @@ public class UserInterfaceHelper : MonoBehaviour
             return;
         }
         MainData.MainLoop.EntityDefComponent.UseConsumable(source.GetComponent<consumableSlotScript>().itemContent, MainData.MainLoop.CombatHelperComponent.activeTarget.associatedCharacter);
-
-
     }
-
-    public void DisplayTargetedEnemyInfo(CharacterScript Target = null)
+    /// <summary>
+    /// this displays the info of currently selected character (allied or enemy) in the top right part of the bottom bar
+    /// </summary>
+    /// <param name="Target"></param>
+    public void DisplayTargetedCharacterInfo(CharacterScript Target = null)
     {//this sets the viewable info for the current targeted character, in the right top part of the bottom UI. it is possible to select one target and hover over another to compare them.
         if (Target == null || Target.associatedCharacter == null)
         {
@@ -266,7 +289,6 @@ public class UserInterfaceHelper : MonoBehaviour
         {
             selectedEnemyCharDescription.text = Target.associatedCharacter.entityDescription;
         }
-
         selectedEnemyCharEnemyType.text = ""; // for now until i actually add the enemy Type thing, if it's even worthwhile.
     }
     private void ReferenceEnemiesForDisplay()

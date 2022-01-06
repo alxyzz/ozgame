@@ -46,8 +46,7 @@ public class CombatHelper : MonoBehaviour
     {
 
         GameObject TextObject = ObjectPooling.Instance.SpawnFromPool("damage_indicator", Camera.main.WorldToScreenPoint(target.selfScriptRef.transform.position), Quaternion.identity);
-
-        TextObject.transform.parent = DamageIndicatorCanvas.transform;
+        TextObject.transform.SetParent(DamageIndicatorCanvas.transform);
         TextMeshProUGUI ourtext = TextObject.GetComponent<TextMeshProUGUI>();
         if (heal)
         {

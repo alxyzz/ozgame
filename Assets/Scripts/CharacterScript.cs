@@ -120,7 +120,7 @@ public class CharacterScript : MonoBehaviour
         if (MainData.MainLoop.CombatHelperComponent.activeTarget == this)
         {
             MainData.MainLoop.CombatHelperComponent.activeTarget = null;
-            MainData.MainLoop.UserInterfaceHelperComponent.DisplayTargetedEnemyInfo(null);
+            MainData.MainLoop.UserInterfaceHelperComponent.DisplayTargetedCharacterInfo(null);
         }
         else
         {
@@ -135,7 +135,7 @@ public class CharacterScript : MonoBehaviour
                 MainData.MainLoop.CombatHelperComponent.isTargetFriendly = false;
             }
 
-            MainData.MainLoop.UserInterfaceHelperComponent.DisplayTargetedEnemyInfo(this);
+            MainData.MainLoop.UserInterfaceHelperComponent.DisplayTargetedCharacterInfo(this);
 
         }
 

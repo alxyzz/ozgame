@@ -90,7 +90,7 @@ public class EntitiesDefinition : MonoBehaviour
     /// <param name="newCharSprite"></param>
     /// <param name="newCharAvatar"></param>
     /// <returns></returns>
-    public void MakeTemplateMob(string characterID, string charName, string charDesc, string attackVerb, bool isPlayer, int baseHP, int baseMinDMG, int baseMaxDMG, int baseSPD, int Defense, int Luck, int Mana, AudioClip newCharTurnSound, Sprite[] newCharSprite, Sprite newCharAvatar)
+    public void MakeMobTemplate(string characterID, string charName, string charDesc, string attackVerb, bool isPlayer, int baseHP, int baseMinDMG, int baseMaxDMG, int baseSPD, int Defense, int Luck, int Mana, AudioClip newCharTurnSound, Sprite[] newCharSprite, Sprite newCharAvatar)
     {
         Character newCharacterDefinition = Character.CreateInstance<Character>();
 
@@ -132,7 +132,7 @@ public class EntitiesDefinition : MonoBehaviour
     public void DefinePC()
     {
         //string characterID, string charName, string charDesc, string attackVerb, bool isPlayer, int baseHP, int baseDMG, int baseSPD, int Defense,  int Luck, int Mana, AudioClip newCharTurnSound, Sprite newCharSprite, Sprite newCharAvatar)
-        MakeTemplateMob("scarecrow", //characterID
+        MakeMobTemplate("scarecrow", //characterID
                        "Scarecrow", // charName
                        "'Too many thoughts dull your blade, they say', 'But I would rather have a dull blade than a dull mind.'", // charDesc
                        "rends", //verb used when attacking
@@ -148,7 +148,7 @@ public class EntitiesDefinition : MonoBehaviour
                        scarecrowAttackSheet, //character's sprite 
                        scarecrowAvatar); //character's avatar sprite
 
-        MakeTemplateMob("tin_man",
+        MakeMobTemplate("tin_man",
                        "Tin Man",
                        "'There are wounds that never show on the body that are deeper and more hurtful than anything that bleeds.'",
                        "chops", //verb used when attacking
@@ -164,7 +164,7 @@ public class EntitiesDefinition : MonoBehaviour
                        tinmanAttackSheet, //character's sprite 
                        tinmanAvatar); //character's avatar sprite
 
-        MakeTemplateMob("lion",
+        MakeMobTemplate("lion",
                        "Lion",
                        "'Fear is weakness, they say. But even a coward can be dangerous, if cornered.'",
                        "rends", //verb used when attacking
@@ -180,7 +180,7 @@ public class EntitiesDefinition : MonoBehaviour
                        tinmanAttackSheet, //character's sprite 
                        tinmanAvatar); //character's avatar sprite
 
-        MakeTemplateMob("dorothy",
+        MakeMobTemplate("dorothy",
                        "Dorothy",
                        "'You don’t have a home until you leave it and then, when you have left it, you never can go back.'",
                       "cuts", //verb used when attacking
@@ -202,7 +202,7 @@ public class EntitiesDefinition : MonoBehaviour
 
     public void DefineNPC()
     {
-        MakeTemplateMob("flyingmonkey", //characterID
+        MakeMobTemplate("flyingmonkey", //characterID
                        "George", // charName
                        "Evil flying monkey hellbent on causing mischief and wreaking havok.", // charDesc
                        "claws", //verb used when attacking
@@ -340,9 +340,42 @@ public class EntitiesDefinition : MonoBehaviour
         //ConsumableItem b = new ConsumableItem("doner", "Doner");
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="id">"donut_deepfried" or something. it's the name you refer it to in the dictionary.</param>
+    /// <param name="description">description of the item</param>
+    /// <param name="name">the capitalized name with spaces and such</param>
+    /// <param name="rarityString">common/rare/masterwork/artifact</param>
+    /// <param name="itemValue">value in eyes</param>
+    /// <param name="itemStock">how much of this does the vendor have in stock </param>
+    /// <param name="iSprite">the sprite of the item</param>
+    /// <param name="isEquipment">if it's equipment, true. If it's a potion/food/consumable, false.</param>
+    /// <param name="itemQuantityy">quantity duh</param>
+    /// <param name="beneficial">wether this is harmful, or helpful</param>
+    private void MakeItemTemplate(string id, string description, string name, string rarityString, int itemValue, int itemStock, Sprite iSprite, bool isEquipment, int itemQuantityy, bool beneficial)
+    {
+        Item newConsumableDefinition = new Item(id, description, name, rarityString, itemValue, itemStock, iSprite, isEquipment);
+        newConsumableDefinition.itemQuantity = itemQuantityy;
+
+        MainData.allConsumables.Add(id, newConsumableDefinition);
+        
+    }
 
     public void DefineConsumables()
     {
+        MakeItemTemplate("health_potion",//string ID
+                         "Wondrous concoction that heals the body and mends the mind.",//description
+                         "Health Potion", //name
+                         "uncommon", //quality string
+                         4,// value in eyes
+                         5,//how much of this does the bird boi get in stock
+                         HealthPotionSprite,//sprite?
+                         false, //wearable equipment that provides bonuses to a singular character?
+                         3, //quantity?
+                         true);//beneficial?
+
+
 
     }
 
@@ -422,7 +455,35 @@ public class EntitiesDefinition : MonoBehaviour
 
     }
 
+    public void GivePlayerTestConsumables()
+    {
 
+        GiveConsumable("health_potion");
+        GiveConsumable("health_potion");
+        GiveConsumable("health_potion");
+    }
+
+    /// <summary>
+    /// gives the party a consumable. if consumable already exists, adds to it's charges
+    /// </summary>
+    /// <param name="itemID"></param>
+    public void GiveConsumable(string itemID)
+    {
+
+        Item c = MainData.allConsumables[itemID];
+        Item b = new Item(c.identifier, c.description, c.itemName, c.rarity, c.value, c.amtInStock, c.itemSprite, false);
+        List<Item> results = MainData.consumableInventory.FindAll(x => x.identifier == itemID);
+        if (results.Count != 0)
+        {
+            Debug.LogError("results.Count was "+ results.Count.ToString());
+            results[0].itemQuantity += b.itemQuantity;//gives a new item's worth of charges to the existing consumable
+        }
+        
+
+        MainData.consumableInventory.Add(b);//adds it to the inventory
+        Debug.Log("MainData.consumableInventory.Add(b);");
+        MainData.MainLoop.UserInterfaceHelperComponent.RefreshInventorySlots();//refreshes the inventory buttons/slots
+    }
 
     public void UseConsumable(Item consu, Character target)
     {
@@ -431,7 +492,7 @@ public class EntitiesDefinition : MonoBehaviour
 
         if (consu.itemQuantity < 1)
         {
-            eventlog.Log("There's not enough " + consu.itemName + " to do this.");
+            eventlog.Log("There's not enough " + consu.itemName + " to do this. You only have "+consu.itemQuantity + " of " + consu.itemName);
             MainData.MainLoop.UserInterfaceHelperComponent.RefreshInventorySlots();
             return;
 
@@ -480,7 +541,7 @@ public class EntitiesDefinition : MonoBehaviour
         switch (consu.identifier)
         {
             case "health_potion":
-                target.GainHealth(HealthPotionHealthGiven);
+                target.GainHealth(HealthPotionHealthGiven);//set this variable in the inspector above. for easy setting during runtime, too.
                 break;
             case "antidote_potion":
                 List<StatusEffect> results = target.currentStatusEffects.FindAll(x => x.type == "poison");
@@ -498,7 +559,7 @@ public class EntitiesDefinition : MonoBehaviour
                 List<StatusEffect> results2 = target.currentStatusEffects.FindAll(x => x.type == "berserk");
                 if (results2.Count < 1)
                 {
-                    target.currentStatusEffects.Add(new StatusEffect("berserk", "A state of murderous anger which turns the affected into a powerful fighter, for the duration.", 3));
+                    target.currentStatusEffects.Add(new StatusEffect("berserk", "A state of murderous anger which turns the affected into a powerful fighter, for the duration.", 3)); //NOT IMPLEMENTED AND JUST FOR TESTING
                 }
 
                 break;
