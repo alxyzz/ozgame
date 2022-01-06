@@ -45,8 +45,9 @@ public class CombatHelper : MonoBehaviour
     public void DisplayFloatingDamageNumbers(int damage, Character target, bool heal)
     {
 
-        GameObject TextObject = MainData.MainLoop.ObjPooler.SpawnFromPool("damage_indicator", Camera.main.WorldToScreenPoint(target.selfScriptRef.transform.position), Quaternion.identity);
+        GameObject TextObject = ObjectPooling.Instance.SpawnFromPool("damage_indicator", Camera.main.WorldToScreenPoint(target.selfScriptRef.transform.position), Quaternion.identity);
 
+        TextObject.transform.parent = DamageIndicatorCanvas.transform;
         TextMeshProUGUI ourtext = TextObject.GetComponent<TextMeshProUGUI>();
         if (heal)
         {
