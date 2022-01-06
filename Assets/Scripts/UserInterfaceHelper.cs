@@ -145,6 +145,15 @@ public class UserInterfaceHelper : MonoBehaviour
     public GameObject PCDead2;
     public GameObject PCDead3;
     public GameObject PCDead4;
+    [Space(10)]
+    [Header("Consumable usage.")]
+    public bool isDraggingItem; // this is used to keep track of wether you have an item in your hand
+    public Sprite draggedItemSprite;
+    public Item draggedItem;
+
+
+
+
 
     /// <summary>
     /// refreshes the character tabs
@@ -157,6 +166,86 @@ public class UserInterfaceHelper : MonoBehaviour
     }
 
 
+    List<GameObject> consumableSlots = new List<GameObject>();
+
+    public void PopulateUISlotList()
+    {
+        consumableSlots.Add(ConsumableSlot1);
+        consumableSlots.Add(ConsumableSlot2);
+        consumableSlots.Add(ConsumableSlot3);
+
+    }
+
+    /// <summary>
+    /// refreshes the consumable item icons. should be ran whenever the inventory contents change...
+    /// </summary>
+    public void RefreshInventorySlots()
+    {//here we refresh the existence and quantity of items in the slot.
+
+
+
+        switch (MainData.consumableInventory.Count)
+        {
+            case 0:
+                ConsumableSlot1.SetActive(false);
+                ConsumableSlot2.SetActive(false);
+                ConsumableSlot3.SetActive(false);
+                break;
+            case 1:
+                ConsumableSlot1.SetActive(true);
+                ConsumableSlot2.SetActive(false);
+                ConsumableSlot3.SetActive(false);
+                break;
+            case 2:
+                ConsumableSlot1.SetActive(true);
+                ConsumableSlot2.SetActive(true);
+                ConsumableSlot3.SetActive(false);
+                break;
+            case 3:
+                ConsumableSlot1.SetActive(true);
+                ConsumableSlot2.SetActive(true);
+                ConsumableSlot3.SetActive(true);
+                break;
+
+            default:
+                //should not happen for now.
+                break;
+        }
+
+        foreach (GameObject item in consumableSlots)
+        {
+            consumableSlotScript slotScript = item.GetComponent<consumableSlotScript>();
+            if (slotScript.itemContent.itemQuantity == 0)
+            {
+                MainData.consumableInventory.Remove(slotScript.itemContent);
+            }
+            else
+            {
+                slotScript.quantityText.GetComponent<TextMeshProUGUI>().text = slotScript.itemContent.itemQuantity.ToString();
+            }
+        }
+
+    }
+
+
+
+
+    public void ClickConsumableSlotButton(GameObject source)
+    {
+        //just checking if target is valid first.
+        if (MainData.MainLoop.CombatHelperComponent.activeTarget == null)
+        {
+            return;
+        }
+        if (MainData.MainLoop.CombatHelperComponent.activeTarget.associatedCharacter == null)
+        {
+            MainData.MainLoop.EventLoggingComponent.LogGray("'It is unwise to give something to the nothingness, for occasionally, it gives back.'");
+            return;
+        }
+        MainData.MainLoop.EntityDefComponent.UseConsumable(source.GetComponent<consumableSlotScript>().itemContent, MainData.MainLoop.CombatHelperComponent.activeTarget.associatedCharacter);
+
+
+    }
 
     public void DisplayTargetedEnemyInfo(CharacterScript Target = null)
     {//this sets the viewable info for the current targeted character, in the right top part of the bottom UI. it is possible to select one target and hover over another to compare them.
@@ -178,7 +267,7 @@ public class UserInterfaceHelper : MonoBehaviour
             selectedEnemyCharDescription.text = Target.associatedCharacter.entityDescription;
         }
 
-        selectedEnemyCharEnemyType.text = ""; // for now until i actually add the enemy Type thing
+        selectedEnemyCharEnemyType.text = ""; // for now until i actually add the enemy Type thing, if it's even worthwhile.
     }
     private void ReferenceEnemiesForDisplay()
     {//grabs the four most damaged enemy characters, or if all are same health, just the first four.
@@ -477,7 +566,7 @@ public class UserInterfaceHelper : MonoBehaviour
                     NPC1HPbar.maxValue = NPC1.associatedCharacter.maxHealth;
                     NPC1HPbar.value = NPC1.associatedCharacter.currentHealth;
                     string currHP = (NPC1.associatedCharacter.currentHealth < 0) ? "0" : NPC1.associatedCharacter.currentHealth.ToString();
-                    NPC1nmbr.text = currHP + "/" +NPC1.associatedCharacter.maxHealth;
+                    NPC1nmbr.text = currHP + "/" + NPC1.associatedCharacter.maxHealth;
                 }
                 else
                 {

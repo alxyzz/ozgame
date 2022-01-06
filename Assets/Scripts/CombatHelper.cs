@@ -7,7 +7,6 @@ using static EntitiesDefinition;
 public class CombatHelper : MonoBehaviour
 {
 
-    public GameObject TextObject;
     public float textFloatingDuration;
     public float textFloatSpeed;
     public float textOffset;
@@ -19,9 +18,12 @@ public class CombatHelper : MonoBehaviour
     public GameObject ActiveCharSpot; //where the character that is attacking will move.
     [Space(15)]
     public bool allHaveActed = true;
+    private Color friendlyColor = new Color(0f, 1f, 0.145f, 0.5f); //for targeting
+    private Color enemyColor = new Color(1f, 0f, 0f, 0.5f);
 
 
-
+    [Header("Animation stuff.")]
+    public float animationDuration;
 
 
 
@@ -29,10 +31,31 @@ public class CombatHelper : MonoBehaviour
     public CharacterScript CurrentlyActiveChar; //each enemy on the level is composed of the game object, holding the script, associated with a Character instance that holds stats, names, descriptions etc
     [HideInInspector]
     public CharacterScript activeTarget; //player's target
+    [HideInInspector]
+    public bool isTargetFriendly;
 
-    public void DisplayFloatingDamageNumbers(int damage, Character target)
+
+
+
+
+
+
+    public GameObject DamageIndicatorCanvas;
+
+    public void DisplayFloatingDamageNumbers(int damage, Character target, bool heal)
     {
+
+        GameObject TextObject = MainData.MainLoop.ObjPooler.SpawnFromPool("damage_indicator", Camera.main.WorldToScreenPoint(target.selfScriptRef.transform.position), Quaternion.identity);
+
         TextMeshProUGUI ourtext = TextObject.GetComponent<TextMeshProUGUI>();
+        if (heal)
+        {
+            ourtext.color = new Color(0.701f, 1f, 0.745f);
+        }
+        else
+        {
+            ourtext.color = new Color(0.996f, 0.380f, 0.345f);
+        }
         ourtext.text = damage.ToString();
         if (damage > 50)
         {
@@ -41,11 +64,10 @@ public class CombatHelper : MonoBehaviour
             //switch color to red and add a !
         }
 
-        TextObject.transform.position = Camera.main.WorldToScreenPoint(target.selfScriptRef.transform.position);
-        StartCoroutine(FloatingTextVisuals(target));
+        StartCoroutine(FloatingTextVisuals(target, TextObject));
     }
 
-    IEnumerator FloatingTextVisuals(Character target)
+    IEnumerator FloatingTextVisuals(Character target, GameObject TextObject)
     {
         TextObject.SetActive(true);
         for (int i = 0; i < 100; i++)
@@ -204,6 +226,16 @@ public class CombatHelper : MonoBehaviour
     }
 
 
+    private void PurgeAllStatusEffects()
+    {
+
+
+        foreach (Character item in MainData.allChars)
+        {
+            item.currentStatusEffects.Clear();
+        }
+    }
+
     public void EndCurrentTurn()
     {
         CurrentlyActiveChar.associatedCharacter.hasActedThisTurn = true;
@@ -238,7 +270,7 @@ public class CombatHelper : MonoBehaviour
             {
                 //StartCoroutine(AttackVisuals(activeTarget)); //does a nice attack effect, either hitting or knockback
                 //now we will check if somehow the target is dead.
-                if (activeTarget.associatedCharacter == null || activeTarget == null || activeTarget.associatedCharacter.isDead)
+                if (activeTarget.associatedCharacter == null || activeTarget.associatedCharacter.isDead || activeTarget.associatedCharacter.isPlayerPartyMember)
                 {
                     activeTarget = null;
                     return;
@@ -248,7 +280,7 @@ public class CombatHelper : MonoBehaviour
             }
             else
             {
-                MainData.MainLoop.EventLoggingComponent.LogGray("You haven't selected a target!");
+                MainData.MainLoop.EventLoggingComponent.LogGray("You haven't selected a valid target!");
             }
         }
         else
@@ -258,8 +290,6 @@ public class CombatHelper : MonoBehaviour
     }
 
 
-    [Header("Animation stuff.")]
-    public float animationDuration;
 
     public IEnumerator AttackTargetedEnemy()
     {
@@ -280,7 +310,7 @@ public class CombatHelper : MonoBehaviour
 
 
         Fool.TakeDamageFromCharacter(CurrentlyActiveChar.associatedCharacter);//this also handles damage indicator
-        
+
 
 
         yield return new WaitForSeconds(0.5f);
@@ -376,22 +406,38 @@ public class CombatHelper : MonoBehaviour
 
     public void TargetSelectionCheck()
     {
-        //highlights the current target, checks if there is no target in which case it hides the highlight
-        if (activeTarget != null)
+        if (activeTarget == null)
         {
+            return;
+        }
+        if (activeTarget.associatedCharacter == null)
+        {
+            return;
+        }
+
+        //highlights the current target, checks if there is no target in which case it hides the highlight
+        if (!activeTarget.associatedCharacter.isDead || activeTarget.associatedCharacter.canAct)
+        {
+
+
             MainData.MainLoop.UserInterfaceHelperComponent.CombatHighlightObject.transform.position = activeTarget.transform.position;
             MainData.MainLoop.UserInterfaceHelperComponent.CombatHighlightObject.SetActive(true);
-            
+
         }
         else
         {
             MainData.MainLoop.UserInterfaceHelperComponent.CombatHighlightObject.SetActive(false);
             return;
         }
-
-        if (activeTarget.associatedCharacter.isDead || !activeTarget.associatedCharacter.canAct)
+        SpriteRenderer targeterSprite = MainData.MainLoop.UserInterfaceHelperComponent.CombatHighlightObject.GetComponent<SpriteRenderer>();
+        if (!activeTarget.associatedCharacter.isPlayerPartyMember)
         {
-            MainData.MainLoop.UserInterfaceHelperComponent.CombatHighlightObject.SetActive(false);
+            targeterSprite.color = enemyColor;
+            Debug.Log("Color modified.Probably.");
+        }
+        else
+        {
+            targeterSprite.color = friendlyColor;
         }
 
     }
