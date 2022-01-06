@@ -224,9 +224,12 @@ public class CombatHelper : MonoBehaviour
     {
         MainData.MainLoop.EventLoggingComponent.Log("Combat is over.");
         MainData.MainLoop.LevelHelperComponent.ButtonMoveOn.SetActive(true);
+        PurgeAllStatusEffects();
     }
 
-
+    /// <summary>
+    /// purges every player party member of their status effects after combat according to the current design
+    /// </summary>
     private void PurgeAllStatusEffects()
     {
 
@@ -236,7 +239,9 @@ public class CombatHelper : MonoBehaviour
             item.currentStatusEffects.Clear();
         }
     }
-
+    /// <summary>
+    /// this occurs after the active character, enemy or player, has acted.
+    /// </summary>
     public void EndCurrentTurn()
     {
         CurrentlyActiveChar.associatedCharacter.hasActedThisTurn = true;
@@ -416,21 +421,22 @@ public class CombatHelper : MonoBehaviour
             return;
         }
 
+        GameObject highli = MainData.MainLoop.UserInterfaceHelperComponent.CombatHighlightObject;
         //highlights the current target, checks if there is no target in which case it hides the highlight
         if (!activeTarget.associatedCharacter.isDead || activeTarget.associatedCharacter.canAct)
         {
 
 
-            MainData.MainLoop.UserInterfaceHelperComponent.CombatHighlightObject.transform.position = activeTarget.transform.position;
-            MainData.MainLoop.UserInterfaceHelperComponent.CombatHighlightObject.SetActive(true);
+            highli.transform.position = activeTarget.transform.position;
+            highli.SetActive(true);
 
         }
         else
         {
-            MainData.MainLoop.UserInterfaceHelperComponent.CombatHighlightObject.SetActive(false);
+            highli.SetActive(false);
             return;
         }
-        SpriteRenderer targeterSprite = MainData.MainLoop.UserInterfaceHelperComponent.CombatHighlightObject.GetComponent<SpriteRenderer>();
+        SpriteRenderer targeterSprite = highli.GetComponent<SpriteRenderer>();
         if (!activeTarget.associatedCharacter.isPlayerPartyMember)
         {
             targeterSprite.color = enemyColor;

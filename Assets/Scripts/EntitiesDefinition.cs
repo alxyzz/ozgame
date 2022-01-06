@@ -426,10 +426,12 @@ public class EntitiesDefinition : MonoBehaviour
 
     public void UseConsumable(Item consu, Character target)
     {
+        CombatHelper combathelp = MainData.MainLoop.CombatHelperComponent;
+        EventLogging eventlog = MainData.MainLoop.EventLoggingComponent;
 
         if (consu.itemQuantity < 1)
         {
-            MainData.MainLoop.EventLoggingComponent.Log("There's not enough " + consu.itemName + " to do this.");
+            eventlog.Log("There's not enough " + consu.itemName + " to do this.");
             MainData.MainLoop.UserInterfaceHelperComponent.RefreshInventorySlots();
             return;
 
@@ -460,17 +462,17 @@ public class EntitiesDefinition : MonoBehaviour
                     say = "WOW!";
                     break;
             }
-            MainData.MainLoop.EventLoggingComponent.LogGray(target.charName + ": " + say);
+            eventlog.LogGray(target.charName + ": " + say);
         }
 
 
-        if (!MainData.MainLoop.CombatHelperComponent.CurrentlyActiveChar.isEnemyCharacter)
+        if (!combathelp.CurrentlyActiveChar.isEnemyCharacter)
         {
-            MainData.MainLoop.EventLoggingComponent.Log(MainData.MainLoop.CombatHelperComponent.CurrentlyActiveChar.associatedCharacter.charName + " has given " + target.charName + " a " + consu.itemName + ".");
+            eventlog.Log(combathelp.CurrentlyActiveChar.associatedCharacter.charName + " has given " + target.charName + " a " + consu.itemName + ".");
         }
         else
         {
-            MainData.MainLoop.EventLoggingComponent.Log(target.charName + " has quaffed a "+ consu.itemName+ ".");
+            eventlog.Log(target.charName + " has quaffed a "+ consu.itemName+ ".");
         }
 
 
@@ -488,7 +490,7 @@ public class EntitiesDefinition : MonoBehaviour
                     {
                         target.currentStatusEffects.Remove(item);
                     }
-                        MainData.MainLoop.EventLoggingComponent.Log(target.charName + " is no longer poisoned!");
+                    eventlog.Log(target.charName + " is no longer poisoned!");
                     }
                 
                 break;
