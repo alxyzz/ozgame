@@ -23,7 +23,7 @@ public class VendorItemScript : MonoBehaviour
     {
 
         itemImage.sprite = associatedItem.itemSprite;
-        itemName.text = associatedItem.name;
+        itemName.text = associatedItem.itemName;
         itemDescription.text = associatedItem.description;
 
 

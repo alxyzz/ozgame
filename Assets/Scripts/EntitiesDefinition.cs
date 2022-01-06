@@ -45,6 +45,13 @@ public class EntitiesDefinition : MonoBehaviour
     [HideInInspector]
     public Sprite[] tinmanAttackSheet;
 
+    public GameObject ItemUseEffect;
+    [Space(10)]
+    [Header("Item properties")]
+    public int HealthPotionHealthGiven;
+
+
+
 
     public void LoadSpriteSheets()
     {
@@ -415,16 +422,109 @@ public class EntitiesDefinition : MonoBehaviour
 
     }
 
+
+
+    public void UseConsumable(Item consu, Character target)
+    {
+
+        if (consu.itemQuantity < 1)
+        {
+            MainData.MainLoop.EventLoggingComponent.Log("There's not enough " + consu.itemName + " to do this.");
+            MainData.MainLoop.UserInterfaceHelperComponent.RefreshInventorySlots();
+            return;
+
+        }
+        consu.itemQuantity--;
+
+        if (consu.beneficial && !target.isPlayerPartyMember)
+        {
+            string say = "";
+            switch (UnityEngine.Random.Range(1, 6))
+            {
+                case 1:
+                    say = "Thanks, fool.";
+                    break;
+                case 2:
+                    say = "Don't mind if I do.";
+                    break;
+                case 3:
+                    say = "How kind of you!";
+                    break;
+                case 4:
+                    say = "Hey, these guys are cool. Do we really have to murder them?";
+                    break;
+                case 5:
+                    say = "If you wish it.";
+                    break;
+                default://no six because it's exclusive on the upper range - let's do the default thing though just in case
+                    say = "WOW!";
+                    break;
+            }
+            MainData.MainLoop.EventLoggingComponent.LogGray(target.charName + ": " + say);
+        }
+
+
+        if (!MainData.MainLoop.CombatHelperComponent.CurrentlyActiveChar.isEnemyCharacter)
+        {
+            MainData.MainLoop.EventLoggingComponent.Log(MainData.MainLoop.CombatHelperComponent.CurrentlyActiveChar.associatedCharacter.charName + " has given " + target.charName + " a " + consu.itemName + ".");
+        }
+        else
+        {
+            MainData.MainLoop.EventLoggingComponent.Log(target.charName + " has quaffed a "+ consu.itemName+ ".");
+        }
+
+
+
+        switch (consu.identifier)
+        {
+            case "health_potion":
+                target.GainHealth(HealthPotionHealthGiven);
+                break;
+            case "antidote_potion":
+                List<StatusEffect> results = target.currentStatusEffects.FindAll(x => x.type == "poison");
+                if (results.Count > 0)
+                    {
+                    foreach (StatusEffect item in results)
+                    {
+                        target.currentStatusEffects.Remove(item);
+                    }
+                        MainData.MainLoop.EventLoggingComponent.Log(target.charName + " is no longer poisoned!");
+                    }
+                
+                break;
+            case "berserk_potion":
+                List<StatusEffect> results2 = target.currentStatusEffects.FindAll(x => x.type == "berserk");
+                if (results2.Count < 1)
+                {
+                    target.currentStatusEffects.Add(new StatusEffect("berserk", "A state of murderous anger which turns the affected into a powerful fighter, for the duration.", 3));
+                }
+
+                break;
+
+
+
+
+
+            default:
+                break;
+        }
+        //Instantiate a health potion effect on the target at this point
+
+
+    }
+
+
     public class Item
     {
         public string identifier; //stuff like "doner_kebab", "icecream_chocolate", "sword_steel"
         public string description;
-        public string name;
+        public string itemName;
         public Sprite itemSprite;
         public string rarity;
         public int value;
-        public int amtInStock; // standard amount in stock, duh.
-
+        public int amtInStock; // standard amount in stock, duh. This is for the shop.
+        public int itemQuantity; // quantity of items held. for potion mostly. or bombs. etc. consumables. Or perhaps en enchanted sword with limited amount of shots.
+        public bool beneficial; //for threat tracking and stuff.
         //for equipment
         public bool isEquipable;
         public Character currentWielder;
@@ -433,7 +533,7 @@ public class EntitiesDefinition : MonoBehaviour
         {
             this.identifier = id;
             this.description = description;
-            this.name = name;
+            this.itemName = name;
             this.itemSprite = iSprite;
             this.rarity = rarityString;
             this.value = itemValue;
@@ -467,7 +567,7 @@ public class EntitiesDefinition : MonoBehaviour
         public Sprite WalkSprites;
         public Sprite charAvatar;//head pic
 
-        public StatusEffect currentStatusEffect;
+        public List<StatusEffect> currentStatusEffects = new List<StatusEffect>();
 
         public int currentHealth;
 
@@ -533,7 +633,7 @@ public class EntitiesDefinition : MonoBehaviour
             }
             
 
-            MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(damageRoll, this);
+            MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(damageRoll, this, false);
             currentHealth -= damageRoll; //INCORPORATED ARMOR CALCULATION HERE 
             attacker.Threat += (damageRoll - defense); // WE APPLY THREAT
             if (!isPlayerPartyMember)
@@ -562,34 +662,71 @@ public class EntitiesDefinition : MonoBehaviour
             }
         }
 
-
-
-        public void GainStatusEffect(StatusEffect statusEffect, int turns)
+        public void GainHealth(int hp)
         {
-            this.currentStatusEffect = statusEffect;
-            this.currentStatusEffect.turnsRemaining = turns;
-        }
+
+            
 
 
-        public void StatusEffectProc(string type, int duration)
-        {
-            switch (type)
-            {
-                case "poison":
-                    this.currentStatusEffect = new StatusEffect(type, "This being is affected by substances that can cause injury or death.", duration);
-                    break;
-                case "burn":
-                    this.currentStatusEffect = new StatusEffect(type, "This being is on fire.", duration);
-                    break;
-                case "heal":
-                    this.currentStatusEffect = new StatusEffect(type, "Wether as an effect of natural biology or magical forces, this being is currently regaining health at an enhanced rate.", duration);
-                    break;
-                case "regeneration":
-                    this.currentStatusEffect = new StatusEffect(type, "Wether as an effect of natural biology or magical forces, " + this.charName + " is currently regenerating at a highly enhanced rate.", duration);
-                    break;
-                default:
-                    break;
+            //MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(hp, sssthis);
+            currentHealth += hp; //INCORPORATED ARMOR CALCULATION HERE 
+           
+            if (!isPlayerPartyMember)
+            {//this updates the health bar so we don't run the whole big total refresh method
+                MainData.MainLoop.UserInterfaceHelperComponent.RefreshViewEnemy();
+                MainData.MainLoop.UserInterfaceHelperComponent.RefreshHealthBarEnemy();
             }
+            else
+            {
+                MainData.MainLoop.UserInterfaceHelperComponent.RefreshHealthBarPlayer();
+            }
+            if (currentHealth >= this.maxHealth)
+            {
+                currentHealth = maxHealth;
+            }
+
+        }
+        public void StatusEffectProc()
+        {
+
+            if (currentStatusEffects.Count < 1)
+            {
+                return;
+            }
+
+            foreach (StatusEffect statusEff in currentStatusEffects)
+            {
+                switch (statusEff.type)
+                {
+                    case "poison":
+                        this.TakeDamage(3);
+                        MainData.MainLoop.EventLoggingComponent.LogGray(this.charName + " takes 3 poison damage.");
+                        break;
+                    case "burn":
+                        this.TakeDamage(5);
+                        MainData.MainLoop.EventLoggingComponent.LogGray(this.charName + " burns for 5 damage.");
+                        break;
+                    case "heal":
+                        this.GainHealth(5);
+                        MainData.MainLoop.EventLoggingComponent.LogGray(this.charName + " heals 5 damage.");
+                        break;
+                    case "regeneration":
+                        MainData.MainLoop.EventLoggingComponent.LogGray(this.charName + " regenerates 10 damage.");
+                        this.GainHealth(10);
+                        break;
+                    default:
+                        currentStatusEffects.Remove(statusEff);//
+                        break;
+                }
+                statusEff.turnsRemaining--;
+                if (statusEff.turnsRemaining < 1)
+                {
+                    currentStatusEffects.Remove(statusEff);
+                }
+            }
+
+
+            
         }
 
 
@@ -609,7 +746,7 @@ public class EntitiesDefinition : MonoBehaviour
 
             if (!isPlayerPartyMember)
             {
-                MainData.MainLoop.CombatHelperComponent.
+                MainData.MainLoop.CombatHelperComponent.TargetSelectionCheck();
             }
 
             HandleListsUponDeath();

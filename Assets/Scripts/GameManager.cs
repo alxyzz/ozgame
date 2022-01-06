@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
     public CombatHelper CombatHelperComponent;
     public GameObject backgroundObject;
     public VendorScript VendorScriptComponent;
-
+    public ObjectPooling ObjPooler;
 
     // Start is called before the first frame update
     void Start()//loads stuff up
@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviour
         MainData.MainLoop = this;
         MainData.SoundManagerRef = SoundManagerComponent;
         //StartLoading(); 
+        UserInterfaceHelperComponent.PopulateUISlotList();
         EntityDefComponent.LoadSpriteSheets();
         EventLoggingComponent.TMPComponent.text = "";
         PositionHolderComponent.RegisterEnemySpots();
@@ -41,6 +42,7 @@ public class GameManager : MonoBehaviour
         LevelHelperComponent.SetupDemoLevel();
         EntityDefComponent.BuildParty();
         PositionHolderComponent.PrepPartySpots();
+        //GivePlayerTestConsumables();
         UserInterfaceHelperComponent.RefreshCharacterTabs();
         ToggleMainMenu(true);//true for visible, false for not visible
 
@@ -111,7 +113,7 @@ public class GameManager : MonoBehaviour
             MainData.turnNumber++;
             Debug.Log("Turn " + MainData.turnNumber.ToString());
             EventLoggingComponent.LogDanger("Start of turn " + MainData.turnNumber.ToString() + ".");
-            ApplyEffectToAll(); //burns, poison, etc. Ticks down the duration left by one, too
+            ProcStatusEffects(); //burns, poison, etc. Ticks down the duration left by one, too
 
             if (MainData.livingEnemyParty.Count > 0) //if there's no enemy there's no need to fight
             {
@@ -138,46 +140,11 @@ public class GameManager : MonoBehaviour
     }
 
 
-    public void ApplyEffectToAll()
+    public void ProcStatusEffects()
     {//applies the status effect, if any, to every creature on map.
         foreach (Character item in MainData.allChars)
         {
-            if (item.currentStatusEffect != null)
-            {
-
-                //what do we do here?
-                //easy, just check the type of status effect ( a string )
-                //then decide what to do based on what type it is
-                switch (item.currentStatusEffect.type)
-                {
-                    case "poison":
-                        //AnimateParticles(EntityDefinition.poisonParticle); we will later have element-specific particles, dunno
-                        item.TakeDamage(-1);
-                        break;
-                    case "burn"://a stronger poisonlike Damage over Time (DOT) effect
-                        item.TakeDamage(-5);
-                        break;
-                    case "heal":
-                        item.TakeDamage(-1);
-                        break;
-                    case "regeneration": //a stronger heal over time effect
-                        item.TakeDamage(-5);
-                        break;
-                    //case "admired": //stat boost while it's on
-                    //    item.TakeDamage(-5);
-                    //    break;
-                    default:
-                        Debug.Log("Unknown status effect proc'd on " + item.charName + "... WTF happened");
-                        break;
-                }
-                item.currentStatusEffect.turnsRemaining--;
-                if (item.currentStatusEffect.turnsRemaining <= 0)
-                {
-                    item.currentStatusEffect = null;
-                }
-
-
-            }
+            item.StatusEffectProc();
         }
 
     }

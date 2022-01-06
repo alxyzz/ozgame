@@ -115,22 +115,32 @@ public class CharacterScript : MonoBehaviour
 
     public void GotClicked()
     {
-        if (!this.associatedCharacter.isPlayerPartyMember)
-        {//if it's not a party member, we select it as a target so we can attack it.
-            if (MainData.MainLoop.CombatHelperComponent.activeTarget == this)
+
+        //if it's not a party member, we select it as a target so we can attack it.
+        if (MainData.MainLoop.CombatHelperComponent.activeTarget == this)
+        {
+            MainData.MainLoop.CombatHelperComponent.activeTarget = null;
+            MainData.MainLoop.UserInterfaceHelperComponent.DisplayTargetedEnemyInfo(null);
+        }
+        else
+        {
+            Debug.Log(this.associatedCharacter.charName + " got clicked and was selected during combat.");
+            MainData.MainLoop.CombatHelperComponent.activeTarget = this;
+            if (!this.isEnemyCharacter)
             {
-                MainData.MainLoop.CombatHelperComponent.activeTarget = null;
-                MainData.MainLoop.UserInterfaceHelperComponent.DisplayTargetedEnemyInfo(null);
+                MainData.MainLoop.CombatHelperComponent.isTargetFriendly = true;
             }
             else
             {
-                Debug.Log(this.associatedCharacter.charName + " got clicked and was selected during combat.");
-                MainData.MainLoop.CombatHelperComponent.activeTarget = this;
-                MainData.MainLoop.UserInterfaceHelperComponent.DisplayTargetedEnemyInfo(this);
-
+                MainData.MainLoop.CombatHelperComponent.isTargetFriendly = false;
             }
 
+            MainData.MainLoop.UserInterfaceHelperComponent.DisplayTargetedEnemyInfo(this);
+
         }
+
+
+
         MainData.MainLoop.CombatHelperComponent.TargetSelectionCheck();
     }
 
