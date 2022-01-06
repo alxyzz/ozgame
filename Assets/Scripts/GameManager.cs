@@ -17,9 +17,7 @@ public class GameManager : MonoBehaviour
     public EventLogging EventLoggingComponent;
     public UserInterfaceHelper UserInterfaceHelperComponent;
     public CombatHelper CombatHelperComponent;
-    public GameObject backgroundObject;
     public VendorScript VendorScriptComponent;
-    public ObjectPooling ObjPooler;
 
     // Start is called before the first frame update
     void Start()//loads stuff up

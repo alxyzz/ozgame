@@ -7718,7 +7718,7 @@ MonoBehaviour:
   CurrentlyActiveChar: {fileID: 0}
   activeTarget: {fileID: 0}
   isTargetFriendly: 0
-  DamageIndicatorCanvas: {fileID: 0}
+  DamageIndicatorCanvas: {fileID: 948696013}
 --- !u!114 &462129125
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7765,9 +7765,7 @@ MonoBehaviour:
   EventLoggingComponent: {fileID: 1122834046}
   UserInterfaceHelperComponent: {fileID: 462129127}
   CombatHelperComponent: {fileID: 462129124}
-  backgroundObject: {fileID: 0}
   VendorScriptComponent: {fileID: 718212761}
-  ObjPooler: {fileID: 1527965780}
 --- !u!114 &462129127
 MonoBehaviour:
   m_ObjectHideFlags: 0

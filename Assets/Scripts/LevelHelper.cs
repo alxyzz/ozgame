@@ -194,7 +194,7 @@ public class LevelHelper : MonoBehaviour
 
 
 
-        ;
+        
         MapLevel darkForest = new MapLevel("Dark Forest",
                                            "A forest where it is very dark :D",
                                            "This forest contains numerous animals of the carnivorous persuasion, the wide of majority of which reminisce fondly upon past memories of anthropophagy.",
