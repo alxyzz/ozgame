@@ -20,7 +20,7 @@ public class CombatHelper : MonoBehaviour
     public bool allHaveActed = true;
     private Color friendlyColor = new Color(0f, 1f, 0.145f, 0.5f); //for targeting
     private Color enemyColor = new Color(1f, 0f, 0f, 0.5f);
-
+    public float threatDecayPerTurn;
 
     [Header("Animation stuff.")]
     public float animationDuration;
@@ -47,7 +47,7 @@ public class CombatHelper : MonoBehaviour
 
         GameObject TextObject = ObjectPooling.Instance.SpawnFromPool("damage_indicator", Camera.main.WorldToScreenPoint(target.selfScriptRef.transform.position), Quaternion.identity);
 
-        TextObject.transform.parent = DamageIndicatorCanvas.transform;
+        TextObject.transform.SetParent(DamageIndicatorCanvas.transform);
         TextMeshProUGUI ourtext = TextObject.GetComponent<TextMeshProUGUI>();
         if (heal)
         {
@@ -88,16 +88,14 @@ public class CombatHelper : MonoBehaviour
 
         TextObject.GetComponent<TextMeshProUGUI>().color = Color.white;
     }
-
-
-    // Update is called once per frame
-
     IEnumerator DoPatientCombatRound(List<Character> combatants)
     {//it waits for the current round to end, before it gives the next combatant the opportunity to fight.
         Debug.LogWarning("Now doing combat turn. Patiently.");
         for (int i = 0; i < combatants.Count - 1; i++)
         {
             MainData.MainLoop.EventLoggingComponent.LogDanger("It is now " + combatants[i].charName + "'s turn!");
+
+
             if (i > 0)
             {//waits for the previous one to finish their turn before actually doing anything. We are polite, after all.
                 yield return new WaitUntil(() => combatants[i - 1].hasActedThisTurn == true);
@@ -156,11 +154,6 @@ public class CombatHelper : MonoBehaviour
         }
         MainData.MainLoop.PassTurn();
     }
-
-
-
-
-
     public void InitiateCombatTurn()
     {
         MainData.MainLoop.LevelHelperComponent.MoveStop();
@@ -224,9 +217,13 @@ public class CombatHelper : MonoBehaviour
     {
         MainData.MainLoop.EventLoggingComponent.Log("Combat is over.");
         MainData.MainLoop.LevelHelperComponent.ButtonMoveOn.SetActive(true);
+        PurgeAllStatusEffects();
+       MainData.MainLoop.UserInterfaceHelperComponent.ToggleFightButtonVisiblity(false);
     }
 
-
+    /// <summary>
+    /// purges every player party member of their status effects after combat according to the current design
+    /// </summary>
     private void PurgeAllStatusEffects()
     {
 
@@ -236,7 +233,9 @@ public class CombatHelper : MonoBehaviour
             item.currentStatusEffects.Clear();
         }
     }
-
+    /// <summary>
+    /// this occurs after the active character, enemy or player, has acted.
+    /// </summary>
     public void EndCurrentTurn()
     {
         CurrentlyActiveChar.associatedCharacter.hasActedThisTurn = true;
@@ -255,6 +254,24 @@ public class CombatHelper : MonoBehaviour
         TargetSelectionCheck();
         CurrentlyActiveChar.associatedCharacter.hasActedThisTurn = true;
         CurrentlyActiveChar = null;
+        DecayThreat();
+
+    }
+
+
+   /// <summary>
+   /// decays threat for each player party member.
+   /// </summary>
+    private void DecayThreat()
+    {
+        foreach (Character item in MainData.livingPlayerParty)
+        {
+            item.Threat -= threatDecayPerTurn;
+            if (item.Threat < 0)
+            {
+                item.Threat = 0;
+            }
+        }
 
     }
 
@@ -278,6 +295,7 @@ public class CombatHelper : MonoBehaviour
                 }
                 ToggleCombatButtomVisibility(false);
                 StartCoroutine(AttackTargetedEnemy());
+                
             }
             else
             {
@@ -416,21 +434,22 @@ public class CombatHelper : MonoBehaviour
             return;
         }
 
+        GameObject highli = MainData.MainLoop.UserInterfaceHelperComponent.CombatHighlightObject;
         //highlights the current target, checks if there is no target in which case it hides the highlight
         if (!activeTarget.associatedCharacter.isDead || activeTarget.associatedCharacter.canAct)
         {
 
 
-            MainData.MainLoop.UserInterfaceHelperComponent.CombatHighlightObject.transform.position = activeTarget.transform.position;
-            MainData.MainLoop.UserInterfaceHelperComponent.CombatHighlightObject.SetActive(true);
+            highli.transform.position = activeTarget.transform.position;
+            highli.SetActive(true);
 
         }
         else
         {
-            MainData.MainLoop.UserInterfaceHelperComponent.CombatHighlightObject.SetActive(false);
+            highli.SetActive(false);
             return;
         }
-        SpriteRenderer targeterSprite = MainData.MainLoop.UserInterfaceHelperComponent.CombatHighlightObject.GetComponent<SpriteRenderer>();
+        SpriteRenderer targeterSprite = highli.GetComponent<SpriteRenderer>();
         if (!activeTarget.associatedCharacter.isPlayerPartyMember)
         {
             targeterSprite.color = enemyColor;

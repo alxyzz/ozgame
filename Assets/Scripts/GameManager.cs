@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
 {
     public UIParallax BackgroundParallaxObject;
     public bool gameStarted = false;
+    public int Currency = 0;
     public bool inCombat = false;
     public LayerMask IgnoreMe;
     public EntitiesDefinition EntityDefComponent;
@@ -26,7 +27,6 @@ public class GameManager : MonoBehaviour
         MainData.MainLoop = this;
         MainData.SoundManagerRef = SoundManagerComponent;
         //StartLoading(); 
-        UserInterfaceHelperComponent.PopulateUISlotList();
         EntityDefComponent.LoadSpriteSheets();
         EventLoggingComponent.TMPComponent.text = "";
         PositionHolderComponent.RegisterEnemySpots();
@@ -40,8 +40,8 @@ public class GameManager : MonoBehaviour
         LevelHelperComponent.SetupDemoLevel();
         EntityDefComponent.BuildParty();
         PositionHolderComponent.PrepPartySpots();
-        //GivePlayerTestConsumables();
-        UserInterfaceHelperComponent.RefreshCharacterTabs();
+        EntityDefComponent.GivePlayerTestConsumables();
+        UserInterfaceHelperComponent.ToggleFightButtonVisiblity(false);
         ToggleMainMenu(true);//true for visible, false for not visible
 
 
@@ -117,6 +117,7 @@ public class GameManager : MonoBehaviour
             {
                 inCombat = true;
                 CombatHelperComponent.InitiateCombatTurn();
+                MainData.MainLoop.UserInterfaceHelperComponent.ToggleFightButtonVisiblity(false);
             }
             else
             {
@@ -125,9 +126,6 @@ public class GameManager : MonoBehaviour
                 EventLoggingComponent.Log("All enemies have been vanquished.");
                 MainData.MainLoop.UserInterfaceHelperComponent.RefreshViewEnemy();
                 inCombat = false;
-                //PurgeStatusEffects();
-
-                //Highlight Map button
             }
         }
         else

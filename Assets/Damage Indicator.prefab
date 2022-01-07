@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8568430022672142732}
   - component: {fileID: 8568430022672142730}
   - component: {fileID: 8568430022672142733}
+  - component: {fileID: 4319853219784609221}
   m_Layer: 5
   m_Name: Damage Indicator
   m_TagString: Untagged
@@ -134,3 +135,15 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &4319853219784609221
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8568430022672142735}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b706e4354c11402418879226b33907d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

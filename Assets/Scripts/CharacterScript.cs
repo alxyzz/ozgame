@@ -45,7 +45,6 @@ public class CharacterScript : MonoBehaviour
         }
         gameObject.SetActive(false);
     }
-
     public void SetupCharacterByTemplate(Character template)
     {
         associatedCharacter = Character.CreateInstance<Character>();
@@ -74,30 +73,6 @@ public class CharacterScript : MonoBehaviour
         {
             // Debug.Log("Added a new enemy character - " + associatedCharacter.charName);
             // spriteRenderer.flipX = true;
-            string newname;
-            switch (UnityEngine.Random.Range(1, 7))
-            {
-                case 1:
-                    newname = "Billy";
-                    break;
-                case 2:
-                    newname = "John";
-                    break;
-                case 3:
-                    newname = "Maria";
-                    break;
-                case 4:
-                    newname = "Hans";
-                    break;
-                case 5:
-                    newname = "Harry Potter";
-                    break;
-                default:
-                    newname = "aasfasfasfasf";
-                    break;
-
-            }
-            associatedCharacter.charName = newname;
             MainData.livingEnemyParty.Add(associatedCharacter);
         }
         else
@@ -120,7 +95,7 @@ public class CharacterScript : MonoBehaviour
         if (MainData.MainLoop.CombatHelperComponent.activeTarget == this)
         {
             MainData.MainLoop.CombatHelperComponent.activeTarget = null;
-            MainData.MainLoop.UserInterfaceHelperComponent.DisplayTargetedEnemyInfo(null);
+            MainData.MainLoop.UserInterfaceHelperComponent.DisplayTargetedCharacterInfo(null);
         }
         else
         {
@@ -135,7 +110,7 @@ public class CharacterScript : MonoBehaviour
                 MainData.MainLoop.CombatHelperComponent.isTargetFriendly = false;
             }
 
-            MainData.MainLoop.UserInterfaceHelperComponent.DisplayTargetedEnemyInfo(this);
+            MainData.MainLoop.UserInterfaceHelperComponent.DisplayTargetedCharacterInfo(this);
 
         }
 
