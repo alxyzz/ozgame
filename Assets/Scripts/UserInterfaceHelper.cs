@@ -155,6 +155,12 @@ public class UserInterfaceHelper : MonoBehaviour
 
 
 
+    public void ToggleFightButtonVisiblity(bool boolin)
+    {
+        PassTurnButton.SetActive(boolin);
+    }
+
+
     /// <summary>
     /// refreshes the character tabs
     /// </summary>
@@ -172,27 +178,33 @@ public class UserInterfaceHelper : MonoBehaviour
 
     }
 
+    public TextMeshProUGUI CurrencyView;
+    public void UpdateCurrencyCounter()
+    {
+        CurrencyView.text = MainData.MainLoop.Currency.ToString();
+    }
     /// <summary>
     /// refreshes the consumable item icons. should be ran whenever the inventory contents change...
     /// </summary>
     public void RefreshInventorySlots()
     {//here we refresh the existence and quantity of items in the slot
-
-
-
         switch (MainData.consumableInventory.Count)
         {
             case 1:
                 ConsumableSlot1.SetActive(true);
                 ConsumableSlot1.GetComponent<consumableSlotScript>().itemContent = MainData.consumableInventory[0];
+                ConsumableSlot1.GetComponent<Image>().sprite = MainData.consumableInventory[0].itemSprite;
                 ConsumableSlot2.SetActive(false);
                 ConsumableSlot3.SetActive(false);
                 break;
             case 2:
                 ConsumableSlot1.SetActive(true);
                 ConsumableSlot1.GetComponent<consumableSlotScript>().itemContent = MainData.consumableInventory[0];
+                ConsumableSlot1.GetComponent<Image>().sprite = MainData.consumableInventory[0].itemSprite;
+
                 ConsumableSlot2.SetActive(true);
                 ConsumableSlot2.GetComponent<consumableSlotScript>().itemContent = MainData.consumableInventory[1];
+                ConsumableSlot2.GetComponent<Image>().sprite = MainData.consumableInventory[1].itemSprite;
                 ConsumableSlot3.SetActive(false);
                 break;
             case 3:
@@ -202,6 +214,9 @@ public class UserInterfaceHelper : MonoBehaviour
                 ConsumableSlot1.GetComponent<consumableSlotScript>().itemContent = MainData.consumableInventory[0];
                 ConsumableSlot2.GetComponent<consumableSlotScript>().itemContent = MainData.consumableInventory[1];
                 ConsumableSlot3.GetComponent<consumableSlotScript>().itemContent = MainData.consumableInventory[2];
+                ConsumableSlot1.GetComponent<Image>().sprite = MainData.consumableInventory[0].itemSprite;
+                ConsumableSlot2.GetComponent<Image>().sprite = MainData.consumableInventory[1].itemSprite;
+                ConsumableSlot3.GetComponent<Image>().sprite = MainData.consumableInventory[2].itemSprite;
                 break;
 
             default:
@@ -214,14 +229,11 @@ public class UserInterfaceHelper : MonoBehaviour
                 break;
         }
 
+
         foreach (GameObject item in consumableSlots)
         {//every slot gets dealt with
-
             consumableSlotScript slotScript = item.GetComponent<consumableSlotScript>();
-            if (slotScript.itemContent == null)
-            {
-                return;
-            }
+            if (slotScript.itemContent == null) { return; }
             if (slotScript.itemContent.itemQuantity == 0)
             {
                 MainData.consumableInventory.Remove(slotScript.itemContent);

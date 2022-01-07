@@ -79,6 +79,7 @@ public class LevelHelper : MonoBehaviour
                 MainData.MainLoop.EntityDefComponent.SpawnEncounter(MainData.currentLevel.Encounters[encounterOrder]);
                 MainData.currentLevel.Encounters[encounterOrder].spawned = false; //so we have a nice stable loop.
                 encounterOrder++;
+                MainData.MainLoop.UserInterfaceHelperComponent.ToggleFightButtonVisiblity(true);
             }
         }
         if (encounterOrder == MainData.currentLevel.Encounters.Count+1)

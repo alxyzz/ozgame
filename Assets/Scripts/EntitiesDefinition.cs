@@ -90,7 +90,7 @@ public class EntitiesDefinition : MonoBehaviour
     /// <param name="newCharSprite"></param>
     /// <param name="newCharAvatar"></param>
     /// <returns></returns>
-    public void MakeMobTemplate(string characterID, string charName, string charDesc, string attackVerb, bool isPlayer, int baseHP, int baseMinDMG, int baseMaxDMG, int baseSPD, int Defense, int Luck, int Mana, AudioClip newCharTurnSound, Sprite[] newCharSprite, Sprite newCharAvatar)
+    public void MakeMobTemplate(string characterID, string charName, string charDesc, string attackVerb, bool isPlayer, int baseHP, int baseMinDMG, int baseMaxDMG, int baseSPD, int Defense, int Luck, int Mana, AudioClip newCharTurnSound, Sprite[] newCharSprite, Sprite newCharAvatar, int bountyy)
     {
         Character newCharacterDefinition = Character.CreateInstance<Character>();
 
@@ -121,7 +121,7 @@ public class EntitiesDefinition : MonoBehaviour
         newCharacterDefinition.damageMax = baseMaxDMG;
         newCharacterDefinition.speed = baseSPD; //to be recalculated later whenever a modifier gets applied.
         newCharacterDefinition.defense = Defense;
-
+        newCharacterDefinition.Bounty = bountyy;
 
         newCharacterDefinition.hasActedThisTurn = false;
 
@@ -146,7 +146,7 @@ public class EntitiesDefinition : MonoBehaviour
                        100, //mana
                        null, //sound for when it is this character's turn to act
                        scarecrowAttackSheet, //character's sprite 
-                       scarecrowAvatar); //character's avatar sprite
+                       scarecrowAvatar, 0); //character's avatar sprite
 
         MakeMobTemplate("tin_man",
                        "Tin Man",
@@ -162,7 +162,7 @@ public class EntitiesDefinition : MonoBehaviour
                        100, //mana
                        null, //sound for when it is this character's turn to act
                        tinmanAttackSheet, //character's sprite 
-                       tinmanAvatar); //character's avatar sprite
+                       tinmanAvatar, 0); //character's avatar sprite
 
         MakeMobTemplate("lion",
                        "Lion",
@@ -178,7 +178,7 @@ public class EntitiesDefinition : MonoBehaviour
                        100, //mana
                        null, //sound for when it is this character's turn to act
                        tinmanAttackSheet, //character's sprite 
-                       tinmanAvatar); //character's avatar sprite
+                       tinmanAvatar, 0); //character's avatar sprite
 
         MakeMobTemplate("dorothy",
                        "Dorothy",
@@ -194,7 +194,7 @@ public class EntitiesDefinition : MonoBehaviour
                        100, //mana
                        null, //sound for when it is this character's turn to act
                        scarecrowAttackSheet, //character's sprite 
-                       scarecrowAvatar); //character's avatar sprite
+                       scarecrowAvatar, 0); //character's avatar sprite
 
 
     }
@@ -203,7 +203,7 @@ public class EntitiesDefinition : MonoBehaviour
     public void DefineNPC()
     {
         MakeMobTemplate("flyingmonkey", //characterID
-                       "George", // charName
+                       "Flying Monkey", // charName
                        "Evil flying monkey hellbent on causing mischief and wreaking havok.", // charDesc
                        "claws", //verb used when attacking
                        false, //is it a player character(true), or is it an enemy(false)?
@@ -216,7 +216,7 @@ public class EntitiesDefinition : MonoBehaviour
                        100, //mana
                        null, //sound for when it is this character's turn to act
                        monkeyAttackSheet, //character's sprite 
-                       monkeyAvatar); //character's avatar sprite
+                       monkeyAvatar, 2); //character's avatar sprite
     }
 
     public void SpawnEnemyTest()
@@ -253,35 +253,9 @@ public class EntitiesDefinition : MonoBehaviour
 
 
 
-        
+
         d.SetupCharacterByTemplate(MainData.characterTypes["flyingmonkey"]); //assign an enemy template
-                                                                         //StaticDataHolder.livingEnemyParty.Add(d.associatedCharacter);//they are added to the living list in the above method
-        string newname;
-        switch (UnityEngine.Random.Range(1, 7))
-        {
-            case 1:
-                newname = "Shady";
-                break;
-            case 2:
-                newname = "Spooky";
-                break;
-            case 3:
-                newname = "Baddie";
-                break;
-            case 4:
-                newname = "John";
-                break;
-            case 5:
-                newname = "Slim";
-                break;
-            default:
-                newname = "aasfasfasfasf";
-                break;
-
-        }
-        d.associatedCharacter.charName = newname;
-
-
+                                                                             //StaticDataHolder.livingEnemyParty.Add(d.associatedCharacter);//they are added to the living list in the above method
         MainData.MainLoop.EventLoggingComponent.LogGray("A new friend has arrived.");
         MainData.MainLoop.inCombat = true;
         MainData.MainLoop.UserInterfaceHelperComponent.RefreshViewEnemy();
@@ -328,18 +302,6 @@ public class EntitiesDefinition : MonoBehaviour
         MainData.MainLoop.inCombat = true;
         MainData.MainLoop.UserInterfaceHelperComponent.RefreshViewEnemy();
     }
-
-
-
-
-
-
-
-    private void DefineItem()
-    {
-        //ConsumableItem b = new ConsumableItem("doner", "Doner");
-    }
-
     /// <summary>
     /// 
     /// </summary>
@@ -359,13 +321,13 @@ public class EntitiesDefinition : MonoBehaviour
         newConsumableDefinition.itemQuantity = itemQuantityy;
 
         MainData.allConsumables.Add(id, newConsumableDefinition);
-        
+
     }
 
     public void DefineConsumables()
     {
         MakeItemTemplate("health_potion",//string ID
-                         "Wondrous concoction that heals the body and mends the mind.",//description
+                         "Wondrous concoction that makes wounds close before one's very eyes.",//description
                          "Health Potion", //name
                          "uncommon", //quality string
                          4,// value in eyes
@@ -458,48 +420,51 @@ public class EntitiesDefinition : MonoBehaviour
     public void GivePlayerTestConsumables()
     {
 
-        GiveConsumable("health_potion");
-        GiveConsumable("health_potion");
-        GiveConsumable("health_potion");
+        GiveConsumable("health_potion", 3);
+
     }
 
     /// <summary>
     /// gives the party a consumable. if consumable already exists, adds to it's charges
     /// </summary>
     /// <param name="itemID"></param>
-    public void GiveConsumable(string itemID)
+    public void GiveConsumable(string itemID, int amt)
     {
-
         Item c = MainData.allConsumables[itemID];
         Item b = new Item(c.identifier, c.description, c.itemName, c.rarity, c.value, c.amtInStock, c.itemSprite, false);
+        //now we check if we already have that item in our inventory.
+        //if we do? we just add the quantity of this to that one.
         List<Item> results = MainData.consumableInventory.FindAll(x => x.identifier == itemID);
+        Debug.Log(results);
         if (results.Count != 0)
         {
-            Debug.LogError("results.Count was "+ results.Count.ToString());
-            results[0].itemQuantity += b.itemQuantity;//gives a new item's worth of charges to the existing consumable
+            results[0].itemQuantity += b.itemQuantity;//gives amt * new item's worth of charges to the existing consumable
+            return;
         }
-        
-
+        b.itemQuantity = amt;
         MainData.consumableInventory.Add(b);//adds it to the inventory
-        Debug.Log("MainData.consumableInventory.Add(b);");
         MainData.MainLoop.UserInterfaceHelperComponent.RefreshInventorySlots();//refreshes the inventory buttons/slots
     }
 
-    public void UseConsumable(Item consu, Character target)
+    public void UseConsumable(Item consumable, Character target)
     {
         CombatHelper combathelp = MainData.MainLoop.CombatHelperComponent;
         EventLogging eventlog = MainData.MainLoop.EventLoggingComponent;
-
-        if (consu.itemQuantity < 1)
+        if (consumable.itemQuantity < 1)
         {
-            eventlog.Log("There's not enough " + consu.itemName + " to do this. You only have "+consu.itemQuantity + " of " + consu.itemName);
+            eventlog.Log("There's not enough " + consumable.itemName + " to do this. you don't have any " + consumable.itemName + "...");
+            consumableInventory.Remove(consumable);
             MainData.MainLoop.UserInterfaceHelperComponent.RefreshInventorySlots();
             return;
-
         }
-        consu.itemQuantity--;
 
-        if (consu.beneficial && !target.isPlayerPartyMember)
+        if (!target.isPlayerPartyMember)
+        {
+            eventlog.Log(MainData.livingPlayerParty[UnityEngine.Random.Range(0, MainData.livingPlayerParty.Count)].charName + " has given " + target.charName + " a " + consumable.itemName + ".");
+        }
+
+        eventlog.Log(target.charName + " has quaffed a " + consumable.itemName + ".");
+        if (consumable.beneficial && !target.isPlayerPartyMember)
         {
             string say = "";
             switch (UnityEngine.Random.Range(1, 6))
@@ -525,35 +490,23 @@ public class EntitiesDefinition : MonoBehaviour
             }
             eventlog.LogGray(target.charName + ": " + say);
         }
-
-
-        if (!combathelp.CurrentlyActiveChar.isEnemyCharacter)
-        {
-            eventlog.Log(combathelp.CurrentlyActiveChar.associatedCharacter.charName + " has given " + target.charName + " a " + consu.itemName + ".");
-        }
-        else
-        {
-            eventlog.Log(target.charName + " has quaffed a "+ consu.itemName+ ".");
-        }
-
-
-
-        switch (consu.identifier)
+        switch (consumable.identifier)
         {
             case "health_potion":
                 target.GainHealth(HealthPotionHealthGiven);//set this variable in the inspector above. for easy setting during runtime, too.
+                MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(HealthPotionHealthGiven, target, true);
                 break;
             case "antidote_potion":
                 List<StatusEffect> results = target.currentStatusEffects.FindAll(x => x.type == "poison");
                 if (results.Count > 0)
-                    {
+                {
                     foreach (StatusEffect item in results)
                     {
                         target.currentStatusEffects.Remove(item);
                     }
                     eventlog.Log(target.charName + " is no longer poisoned!");
-                    }
-                
+                }
+
                 break;
             case "berserk_potion":
                 List<StatusEffect> results2 = target.currentStatusEffects.FindAll(x => x.type == "berserk");
@@ -561,7 +514,7 @@ public class EntitiesDefinition : MonoBehaviour
                 {
                     target.currentStatusEffects.Add(new StatusEffect("berserk", "A state of murderous anger which turns the affected into a powerful fighter, for the duration.", 3)); //NOT IMPLEMENTED AND JUST FOR TESTING
                 }
-
+                eventlog.Log(target.charName + " is now berserk!");
                 break;
 
 
@@ -572,6 +525,15 @@ public class EntitiesDefinition : MonoBehaviour
                 break;
         }
         //Instantiate a health potion effect on the target at this point
+
+        consumable.itemQuantity--;
+
+
+        if (consumable.itemQuantity == 0)
+        {
+            consumableInventory.Remove(consumable);
+            MainData.MainLoop.UserInterfaceHelperComponent.RefreshInventorySlots();
+        }
 
 
     }
@@ -592,7 +554,7 @@ public class EntitiesDefinition : MonoBehaviour
         public bool isEquipable;
         public Character currentWielder;
 
-        public Item(string id,string description,string name, string rarityString, int itemValue, int itemStock, Sprite iSprite, bool isEquipment)
+        public Item(string id, string description, string name, string rarityString, int itemValue, int itemStock, Sprite iSprite, bool isEquipment)
         {
             this.identifier = id;
             this.description = description;
@@ -633,7 +595,7 @@ public class EntitiesDefinition : MonoBehaviour
         public List<StatusEffect> currentStatusEffects = new List<StatusEffect>();
 
         public int currentHealth;
-
+        public int Bounty = 2; //eyes given for kill
         public int maxHealth;
         public int baseDamageMin;
         public int baseDamageMax;
@@ -694,7 +656,7 @@ public class EntitiesDefinition : MonoBehaviour
                         break;
                 }
             }
-            
+
 
             MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(damageRoll, this, false);
             currentHealth -= damageRoll; //INCORPORATED ARMOR CALCULATION HERE 
@@ -718,6 +680,7 @@ public class EntitiesDefinition : MonoBehaviour
         { //generic take damage function
             currentHealth -= dmg;
             MainData.MainLoop.EventLoggingComponent.Log(this.charName + " the " + charTrait.name + " is hurt " + "for " + dmg + " damage!");
+            MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(dmg, this, false);
             HealthBar.value -= dmg / maxHealth * 100f;
             if (currentHealth <= 0)
             {
@@ -728,12 +691,12 @@ public class EntitiesDefinition : MonoBehaviour
         public void GainHealth(int hp)
         {
 
-            
 
 
-            //MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(hp, sssthis);
+
+
             currentHealth += hp; //INCORPORATED ARMOR CALCULATION HERE 
-           
+            MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(hp, this, true);
             if (!isPlayerPartyMember)
             {//this updates the health bar so we don't run the whole big total refresh method
                 MainData.MainLoop.UserInterfaceHelperComponent.RefreshViewEnemy();
@@ -789,7 +752,7 @@ public class EntitiesDefinition : MonoBehaviour
             }
 
 
-            
+
         }
 
 
@@ -797,21 +760,27 @@ public class EntitiesDefinition : MonoBehaviour
         {
             if (killer != null)
             {
-                MainData.MainLoop.EventLoggingComponent.Log(this.charName + " has been vanquished by " + killer.charName + ".");
+                MainData.MainLoop.EventLoggingComponent.Log(charName + " has been vanquished by " + killer.charName + ".");
             }
             else
             {
-                MainData.MainLoop.EventLoggingComponent.Log(this.charName + " was killed in action.");
+                MainData.MainLoop.EventLoggingComponent.Log(charName + " was killed in action.");
             }
             canAct = false;
-            MainData.MainLoop.UserInterfaceHelperComponent.RefreshViewEnemy();
-
-
             if (!isPlayerPartyMember)
-            {
+            {//this updates the health bar so we don't run the whole big total refresh method
+                MainData.MainLoop.UserInterfaceHelperComponent.RefreshViewEnemy();
+                MainData.MainLoop.UserInterfaceHelperComponent.RefreshHealthBarEnemy();
                 MainData.MainLoop.CombatHelperComponent.TargetSelectionCheck();
-            }
 
+                MainData.MainLoop.Currency += Bounty;
+                MainData.MainLoop.EventLoggingComponent.LogGray("The " + charName + " dropped " + Bounty + " eyes.");
+                MainData.MainLoop.UserInterfaceHelperComponent.UpdateCurrencyCounter();
+            }
+            else
+            {
+                MainData.MainLoop.UserInterfaceHelperComponent.RefreshHealthBarPlayer();
+            }
             HandleListsUponDeath();
 
             selfScriptRef.Die();
