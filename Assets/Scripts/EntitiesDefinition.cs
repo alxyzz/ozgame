@@ -51,7 +51,97 @@ public class EntitiesDefinition : MonoBehaviour
     public int HealthPotionHealthGiven;
 
 
+    public void UseConsumable(Item consumable, Character target)
+    {
+        CombatHelper combathelp = MainData.MainLoop.CombatHelperComponent;
+        EventLogging eventlog = MainData.MainLoop.EventLoggingComponent;
+        if (consumable.itemQuantity < 1)
+        {
+            eventlog.Log("There's not enough " + consumable.itemName + " to do this. you don't have any " + consumable.itemName + "...");
+            consumableInventory.Remove(consumable);
+            MainData.MainLoop.UserInterfaceHelperComponent.RefreshInventorySlots();
+            return;
+        }
 
+        if (!target.isPlayerPartyMember)
+        {
+            eventlog.Log(MainData.livingPlayerParty[UnityEngine.Random.Range(0, MainData.livingPlayerParty.Count)].charName + " has given " + target.charName + " a " + consumable.itemName + ".");
+        }
+
+        eventlog.Log(target.charName + " has quaffed a " + consumable.itemName + ".");
+        if (consumable.beneficial && !target.isPlayerPartyMember)
+        {
+            string say = "";
+            switch (UnityEngine.Random.Range(1, 6))
+            {
+                case 1:
+                    say = "Thanks, fool.";
+                    break;
+                case 2:
+                    say = "Don't mind if I do.";
+                    break;
+                case 3:
+                    say = "How kind of you!";
+                    break;
+                case 4:
+                    say = "Hey, these guys are cool. Do we really have to murder them?";
+                    break;
+                case 5:
+                    say = "If you wish it.";
+                    break;
+                default://no six because it's exclusive on the upper range - let's do the default thing though just in case
+                    say = "WOW!";
+                    break;
+            }
+            eventlog.LogGray(target.charName + ": " + say);
+        }
+        switch (consumable.identifier)
+        {
+            case "health_potion":
+                target.GainHealth(HealthPotionHealthGiven);//set this variable in the inspector above. for easy setting during runtime, too.
+                MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(HealthPotionHealthGiven, target, true);
+                break;
+            case "antidote_potion":
+                List<StatusEffect> results = target.currentStatusEffects.FindAll(x => x.type == "poison");
+                if (results.Count > 0)
+                {
+                    foreach (StatusEffect item in results)
+                    {
+                        target.currentStatusEffects.Remove(item);
+                    }
+                    eventlog.Log(target.charName + " is no longer poisoned!");
+                }
+
+                break;
+            case "berserk_potion":
+                List<StatusEffect> results2 = target.currentStatusEffects.FindAll(x => x.type == "berserk");
+                if (results2.Count < 1)
+                {
+                    target.currentStatusEffects.Add(new StatusEffect("berserk", "A state of murderous anger which turns the affected into a powerful fighter, for the duration.", 3)); //NOT IMPLEMENTED AND JUST FOR TESTING
+                }
+                eventlog.Log(target.charName + " is now berserk!");
+                break;
+
+
+
+
+
+            default:
+                break;
+        }
+        //Instantiate a health potion effect on the target at this point
+
+        consumable.itemQuantity--;
+
+
+        if (consumable.itemQuantity == 0)
+        {
+            consumableInventory.Remove(consumable);
+            MainData.MainLoop.UserInterfaceHelperComponent.RefreshInventorySlots();
+        }
+
+
+    }
 
     public void LoadSpriteSheets()
     {
@@ -67,7 +157,38 @@ public class EntitiesDefinition : MonoBehaviour
 
 
 
+    public Item FetchRandomItem()
+    {//fetches a random t1 trait
+        List<string> keyList = new List<string>(allConsumables.Keys);
+        string randomKey = keyList[UnityEngine.Random.Range(0, keyList.Count + 1)];
+        Debug.Log("Fetched random item: " + randomKey);
+        return allConsumables[randomKey];
 
+    }
+    public Trait FetchRandomTrait()
+    {//fetches a random t1 trait
+        List<string> keyList = new List<string>(traitList.Keys);
+        string randomKey = keyList[UnityEngine.Random.Range(0, keyList.Count + 1)];
+        Debug.Log("Fetched random trait: " + randomKey);
+        return traitList[randomKey];
+
+    }
+    public Trait FetchRandomT1Trait()
+    {//fetches a random t1 trait
+        List<string> keyList = new List<string>(t1traitList.Keys);
+        string randomKey = keyList[UnityEngine.Random.Range(0, keyList.Count + 1)];
+        Debug.Log("Fetched random t1 trait: " + randomKey);
+        return t1traitList[randomKey];
+
+    }
+    public Trait FetchRandomT2Trait()
+    {//fetches a random t1 trait
+        List<string> keyList = new List<string>(t2traitList.Keys);
+        string randomKey = keyList[UnityEngine.Random.Range(0, keyList.Count + 1)];
+        Debug.Log("Fetched random t2 trait: " + randomKey);
+        return t2traitList[randomKey];
+
+    }
 
 
 
@@ -315,31 +436,71 @@ public class EntitiesDefinition : MonoBehaviour
     /// <param name="isEquipment">if it's equipment, true. If it's a potion/food/consumable, false.</param>
     /// <param name="itemQuantityy">quantity duh</param>
     /// <param name="beneficial">wether this is harmful, or helpful</param>
-    private void MakeItemTemplate(string id, string description, string name, string rarityString, int itemValue, int itemStock, Sprite iSprite, bool isEquipment, int itemQuantityy, bool beneficial)
-    {
-        Item newConsumableDefinition = new Item(id, description, name, rarityString, itemValue, itemStock, iSprite, isEquipment);
-        newConsumableDefinition.itemQuantity = itemQuantityy;
 
-        MainData.allConsumables.Add(id, newConsumableDefinition);
-
-    }
 
     public void DefineConsumables()
     {
-        MakeItemTemplate("health_potion",//string ID
-                         "Wondrous concoction that makes wounds close before one's very eyes.",//description
-                         "Health Potion", //name
-                         "uncommon", //quality string
-                         4,// value in eyes
-                         5,//how much of this does the bird boi get in stock
-                         HealthPotionSprite,//sprite?
-                         false, //wearable equipment that provides bonuses to a singular character?
-                         3, //quantity?
-                         true);//beneficial?
+        MakeConsumableItemTemplate("health_potion",
+                            "Wondrous concoction that makes wounds close before one's very eyes.",
+                            "Health Potion",
+                            HealthPotionSprite,
+                            "uncommon", //rarity as a string
+                            4,//value in eyes
+                            5, //how much the birb gets in stock
+                            1, //default quantity
+                            true); //true - helpful. false - harmful. 
+
 
 
 
     }
+    /// <summary>
+    /// method to make new consumable items
+    /// </summary>
+    /// <param name="identifier">shorthand name with _ instead of spaces and no capitalization</param>
+    /// <param name="description"></param>
+    /// <param name="itemName"></param>
+    /// <param name="itemSprite"></param>
+    /// <param name="rarity">rarity as a string.</param>
+    /// <param name="value">value in eyes</param>
+    /// <param name="amtInStock">stock in the trade place</param>
+    /// <param name="itemQuantity">quantity given.</param>
+    /// <param name="beneficial">is it poison/a bomb or is it a potion</param>
+    private void MakeConsumableItemTemplate(string identifier,
+                    string description,
+                    string itemName,
+                    Sprite itemSprite,
+                    string rarity,
+                    int value,
+                    int amtInStock = 1,
+                    int itemQuantity = 1,
+                    bool beneficial = true)
+    {
+        Item b = new Item(identifier,
+              description,
+              itemName,
+              itemSprite,
+              rarity,
+              value,
+              amtInStock,
+              itemQuantity,
+              beneficial,
+              false,
+              0,//irrelevant values for a consumable item
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0);
+        MainData.allConsumables.Add(identifier, b);
+    }
+
+
 
     public void BuildParty()
     {
@@ -372,6 +533,26 @@ public class EntitiesDefinition : MonoBehaviour
     public void GenerateEquipment()
     {//generates traits, stores them all in a dictionary in the dataholder
 
+        MakeEquipableItemTemplate("short_sword", //string ID
+                                          "Common implement of war. Can usually be found between your ribs.",//the desc
+                                          "Shortsword", //name
+                                          HealthPotionSprite, //sprite
+                                          "common", //rarity string
+                                          6, //value in eyes
+                                          1, //amount in birb's stock
+                                          1, //default quantity
+                                          true, //(true)beneficial or (false)harmful
+                                          0, //speed bonus
+                                          0, //health bonus
+                                          0, //mana bonus
+                                          2, //dmg bonus
+                                          0, //defense bonus 
+                                          0, //luck bonus 
+                                          0, //health amp, multiplicative. as a percentage.
+                                          0, //dam resist, multiplicative. as a percentage.
+                                          0, //dam bonus multiplicative. as a percentage.
+                                          0, //discount as a percentage, multiplicative
+                                          0); //lifesteal multiplicative. as a percentage.
 
 
 
@@ -384,39 +565,60 @@ public class EntitiesDefinition : MonoBehaviour
 
     }
 
-    public Item FetchRandomItem()
-    {//fetches a random t1 trait
-        List<string> keyList = new List<string>(allConsumables.Keys);
-        string randomKey = keyList[UnityEngine.Random.Range(0, keyList.Count + 1)];
-        Debug.Log("Fetched random item: " + randomKey);
-        return allConsumables[randomKey];
+
+    public void MakeEquipableItemTemplate(string identifier,
+                                          string description,
+                                          string itemName,
+                                          Sprite itemSprite,
+                                          string rarity,
+                                          int value,
+                                          int amtInStock = 1,
+                                          int itemQuantity = 1,
+                                          bool beneficial = true,
+                                          int speedmodifier = 0,
+                                          int healthmodifier = 0,
+                                          int manamodifier = 0,
+                                          int dmgmodifier = 0,
+                                          int defensemodifier = 0,
+                                          int luckmodifier = 0,
+                                          int multiplicativeHealingAmplification = 0,
+                                          int multiplicativeDamageResistance = 0,
+                                          int multiplicativeDamageBonus = 0,
+                                          float discountPercentage = 0,
+                                          int multiplicativeLifestealBonus = 0)
+    {
+
+        Item b = new Item(identifier,
+                          description,
+                          itemName,
+                          itemSprite,
+                          rarity,
+                          value,
+                          amtInStock,
+                          itemQuantity,
+                          beneficial,
+                          true,
+                          speedmodifier,
+                          healthmodifier,
+                          manamodifier,
+                          dmgmodifier,
+                          defensemodifier,
+                          luckmodifier,
+                          multiplicativeHealingAmplification,
+                          multiplicativeDamageResistance,
+                          multiplicativeDamageBonus,
+                          discountPercentage,
+                          multiplicativeLifestealBonus);
+        MainData.allEquipment.Add(identifier, b);
+
+
+
+
+
+
+
 
     }
-    public Trait FetchRandomTrait()
-    {//fetches a random t1 trait
-        List<string> keyList = new List<string>(traitList.Keys);
-        string randomKey = keyList[UnityEngine.Random.Range(0, keyList.Count + 1)];
-        Debug.Log("Fetched random trait: " + randomKey);
-        return traitList[randomKey];
-
-    }
-    public Trait FetchRandomT1Trait()
-    {//fetches a random t1 trait
-        List<string> keyList = new List<string>(t1traitList.Keys);
-        string randomKey = keyList[UnityEngine.Random.Range(0, keyList.Count + 1)];
-        Debug.Log("Fetched random t1 trait: " + randomKey);
-        return t1traitList[randomKey];
-
-    }
-    public Trait FetchRandomT2Trait()
-    {//fetches a random t1 trait
-        List<string> keyList = new List<string>(t2traitList.Keys);
-        string randomKey = keyList[UnityEngine.Random.Range(0, keyList.Count + 1)];
-        Debug.Log("Fetched random t2 trait: " + randomKey);
-        return t2traitList[randomKey];
-
-    }
-
     public void GivePlayerTestConsumables()
     {
 
@@ -431,7 +633,27 @@ public class EntitiesDefinition : MonoBehaviour
     public void GiveConsumable(string itemID, int amt)
     {
         Item c = MainData.allConsumables[itemID];
-        Item b = new Item(c.identifier, c.description, c.itemName, c.rarity, c.value, c.amtInStock, c.itemSprite, false);
+        Item b = new Item(c.identifier,
+                    c.description,
+                    c.itemName,
+                    c.itemSprite,
+                    c.rarity,
+                    c.value,
+                    c.amtInStock,
+                    c.itemQuantity,
+                    c.beneficial,
+                    c.isEquipable,
+                    c.speedmodifier,
+                    c.healthmodifier,
+                    c.manamodifier,
+                    c.dmgmodifier,
+                    c.defensemodifier,
+                    c.luckmodifier,
+                    c.multiplicativeHealingAmplification,
+                    c.multiplicativeDamageResistance,
+                    c.multiplicativeDamageBonus,
+                    c.discountPercentage,
+                    c.multiplicativeLifestealBonus); // so we don't have to define them for things that don't need them
         //now we check if we already have that item in our inventory.
         //if we do? we just add the quantity of this to that one.
         List<Item> results = MainData.consumableInventory.FindAll(x => x.identifier == itemID);
@@ -446,97 +668,8 @@ public class EntitiesDefinition : MonoBehaviour
         MainData.MainLoop.UserInterfaceHelperComponent.RefreshInventorySlots();//refreshes the inventory buttons/slots
     }
 
-    public void UseConsumable(Item consumable, Character target)
-    {
-        CombatHelper combathelp = MainData.MainLoop.CombatHelperComponent;
-        EventLogging eventlog = MainData.MainLoop.EventLoggingComponent;
-        if (consumable.itemQuantity < 1)
-        {
-            eventlog.Log("There's not enough " + consumable.itemName + " to do this. you don't have any " + consumable.itemName + "...");
-            consumableInventory.Remove(consumable);
-            MainData.MainLoop.UserInterfaceHelperComponent.RefreshInventorySlots();
-            return;
-        }
-
-        if (!target.isPlayerPartyMember)
-        {
-            eventlog.Log(MainData.livingPlayerParty[UnityEngine.Random.Range(0, MainData.livingPlayerParty.Count)].charName + " has given " + target.charName + " a " + consumable.itemName + ".");
-        }
-
-        eventlog.Log(target.charName + " has quaffed a " + consumable.itemName + ".");
-        if (consumable.beneficial && !target.isPlayerPartyMember)
-        {
-            string say = "";
-            switch (UnityEngine.Random.Range(1, 6))
-            {
-                case 1:
-                    say = "Thanks, fool.";
-                    break;
-                case 2:
-                    say = "Don't mind if I do.";
-                    break;
-                case 3:
-                    say = "How kind of you!";
-                    break;
-                case 4:
-                    say = "Hey, these guys are cool. Do we really have to murder them?";
-                    break;
-                case 5:
-                    say = "If you wish it.";
-                    break;
-                default://no six because it's exclusive on the upper range - let's do the default thing though just in case
-                    say = "WOW!";
-                    break;
-            }
-            eventlog.LogGray(target.charName + ": " + say);
-        }
-        switch (consumable.identifier)
-        {
-            case "health_potion":
-                target.GainHealth(HealthPotionHealthGiven);//set this variable in the inspector above. for easy setting during runtime, too.
-                MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(HealthPotionHealthGiven, target, true);
-                break;
-            case "antidote_potion":
-                List<StatusEffect> results = target.currentStatusEffects.FindAll(x => x.type == "poison");
-                if (results.Count > 0)
-                {
-                    foreach (StatusEffect item in results)
-                    {
-                        target.currentStatusEffects.Remove(item);
-                    }
-                    eventlog.Log(target.charName + " is no longer poisoned!");
-                }
-
-                break;
-            case "berserk_potion":
-                List<StatusEffect> results2 = target.currentStatusEffects.FindAll(x => x.type == "berserk");
-                if (results2.Count < 1)
-                {
-                    target.currentStatusEffects.Add(new StatusEffect("berserk", "A state of murderous anger which turns the affected into a powerful fighter, for the duration.", 3)); //NOT IMPLEMENTED AND JUST FOR TESTING
-                }
-                eventlog.Log(target.charName + " is now berserk!");
-                break;
 
 
-
-
-
-            default:
-                break;
-        }
-        //Instantiate a health potion effect on the target at this point
-
-        consumable.itemQuantity--;
-
-
-        if (consumable.itemQuantity == 0)
-        {
-            consumableInventory.Remove(consumable);
-            MainData.MainLoop.UserInterfaceHelperComponent.RefreshInventorySlots();
-        }
-
-
-    }
 
 
     public class Item
@@ -554,17 +687,81 @@ public class EntitiesDefinition : MonoBehaviour
         public bool isEquipable;
         public Character currentWielder;
 
-        public Item(string id, string description, string name, string rarityString, int itemValue, int itemStock, Sprite iSprite, bool isEquipment)
-        {
-            this.identifier = id;
-            this.description = description;
-            this.itemName = name;
-            this.itemSprite = iSprite;
-            this.rarity = rarityString;
-            this.value = itemValue;
-            this.amtInStock = itemStock;
-            this.isEquipable = isEquipment;
 
+
+
+        public int speedmodifier; //flat, just a +1 or -1 etc. for all of these modifiers
+        public int healthmodifier;
+        public int manamodifier;
+        public int dmgmodifier;
+        public int defensemodifier;
+        public int luckmodifier;
+        public int multiplicativeHealingAmplification;//affects healing others
+
+        public int multiplicativeDamageResistance;//affects damage taken.
+        public int multiplicativeDamageBonus;//affects damage output. applied after ALL other bonuses.
+
+        public float discountPercentage;//if positive, it's a discount yeah ,but if negative it increases price.
+        public int multiplicativeLifestealBonus;
+
+
+        /// <summary>
+        /// Item constructor.
+        /// </summary>
+        /// <param name="identifier">stuff like "doner_kebab", "icecream_chocolate", "sword_steel"</param>
+        /// <param name="description">description of the item</param>
+        /// <param name="itemName">the name of the item. capitalized, etc.</param>
+        /// <param name="itemSprite">the sprite of the item as shown in the inventory</param>
+        /// <param name="rarity">the rarity, as a string. goes from common, to uncommon, to rare, to historic</param>
+        /// <param name="value"> value in eyes. relevant in the shop</param>
+        /// <param name="amtInStock">standard amount in stock, duh. This is for the shop.</param>
+        /// <param name="itemQuantity">quantity of items held. for potion mostly. or bombs. etc. consumables. Or perhaps en enchanted sword with limited amount of shots.</param>
+        /// <param name="beneficial">for threat tracking and stuff.</param>
+        /// <param name="isEquipable">consumables don't have this. equipment and trinkets do.</param>
+        public Item(string identifier,
+                    string description,
+                    string itemName,
+                    Sprite itemSprite,
+                    string rarity,
+                    int value,
+                    int amtInStock = 1,
+                    int itemQuantity = 1,
+                    bool beneficial = true,
+                    bool isEquipable = true,
+                    int speedmodifier = 0,
+                    int healthmodifier = 0,
+                    int manamodifier = 0,
+                    int dmgmodifier = 0,
+                    int defensemodifier = 0,
+                    int luckmodifier = 0,
+
+                    int multiplicativeHealingAmplification = 0,
+                    int multiplicativeDamageResistance = 0,
+                    int multiplicativeDamageBonus = 0,
+                    float discountPercentage = 0,
+                    int multiplicativeLifestealBonus = 0) // so we don't have to define them for things that don't need them
+        {
+            this.identifier = identifier;
+            this.description = description;
+            this.itemName = itemName;
+            this.itemSprite = itemSprite;
+            this.rarity = rarity;
+            this.value = value;
+            this.amtInStock = amtInStock;
+            this.itemQuantity = itemQuantity;
+            this.beneficial = beneficial;
+            this.isEquipable = isEquipable;
+            this.speedmodifier = speedmodifier;
+            this.healthmodifier = healthmodifier;
+            this.manamodifier = manamodifier;
+            this.dmgmodifier = dmgmodifier;
+            this.defensemodifier = defensemodifier;
+            this.luckmodifier = luckmodifier;
+            this.multiplicativeHealingAmplification = multiplicativeHealingAmplification;
+            this.multiplicativeDamageResistance = multiplicativeDamageResistance;
+            this.multiplicativeDamageBonus = multiplicativeDamageBonus;
+            this.discountPercentage = discountPercentage;
+            this.multiplicativeLifestealBonus = multiplicativeLifestealBonus;
         }
     }
 
@@ -574,6 +771,8 @@ public class EntitiesDefinition : MonoBehaviour
     [System.Serializable]
     public class Character : ScriptableObject
     {
+
+        List<Item> equippedItems = new List<Item>(); //this does not contain any consumables. those are in the collective inventory pool. this only contains items with isEquipable = true
 
         public float threatFromStats;
         public float Threat = 0;
