@@ -2,10 +2,10 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using static EntitiesDefinition;
+using static EntityDefiner;
 using static TraitHelper;
 
-public class CharacterScript : MonoBehaviour
+public class CharacterWorldspaceScript : MonoBehaviour
 {
     [HideInInspector]
     public Character associatedCharacter;

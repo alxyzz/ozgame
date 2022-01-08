@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using static LevelHelper;
 using static MainData;
 using static TraitHelper;
 
-public class EntitiesDefinition : MonoBehaviour
+public class EntityDefiner : MonoBehaviour
 {
     [Header("define all entity assets here. sounds, sprites, etc.")]
     public Sprite tinmanAvatar;
@@ -27,10 +23,6 @@ public class EntitiesDefinition : MonoBehaviour
     public Sprite HealingMushroomSprite;
     [Space(10)]
     [Header("Consumables")]
-    public Sprite shawarma;
-    public Sprite doner;
-    public Sprite lahmacun;
-    public Sprite cocacola;
 
 
     [Space(10)]
@@ -46,9 +38,7 @@ public class EntitiesDefinition : MonoBehaviour
     public Sprite[] tinmanAttackSheet;
 
     public GameObject ItemUseEffect;
-    [Space(10)]
-    [Header("Item properties")]
-    public int HealthPotionHealthGiven;
+
 
 
     public void UseConsumable(Item consumable, Character target)
@@ -98,9 +88,32 @@ public class EntitiesDefinition : MonoBehaviour
         switch (consumable.identifier)
         {
             case "health_potion":
-                target.GainHealth(HealthPotionHealthGiven);//set this variable in the inspector above. for easy setting during runtime, too.
-                MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(HealthPotionHealthGiven, target, true);
+
+                if (target.charTrait != null)
+                {
+                    switch (target.charTrait.identifier)
+                    {
+                        case "caring":
+                            int healthAfterCaringModifier = (MainData.MainLoop.DesignerEasyTweakProPremium.HealthPotionHealthGiven / 100) * MainData.MainLoop.DesignerEasyTweakProPremium.caringHealingPotionPercentageHealingTakenMalus;
+                            target.GainHealth(healthAfterCaringModifier);//set this variable in the inspector above. for easy setting during runtime, too.
+                            MainData.MainLoop.EventLoggingComponent.LogGray(target.charName + " feels guilty for drinking a healing potion their friends could have used...");
+                            MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(healthAfterCaringModifier, target, true);
+                            break;
+
+                        default:
+                            target.GainHealth(MainData.MainLoop.DesignerEasyTweakProPremium.HealthPotionHealthGiven);//set this variable in the inspector above. for easy setting during runtime, too.
+                            MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(MainData.MainLoop.DesignerEasyTweakProPremium.HealthPotionHealthGiven, target, true);
+                            break;
+                    }
+                }
+                else
+                {
+                    target.GainHealth(MainData.MainLoop.DesignerEasyTweakProPremium.HealthPotionHealthGiven);//set this variable in the inspector above. for easy setting during runtime, too.
+                    MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(MainData.MainLoop.DesignerEasyTweakProPremium.HealthPotionHealthGiven, target, true);
+                    break;
+                }
                 break;
+
             case "antidote_potion":
                 List<StatusEffect> results = target.currentStatusEffects.FindAll(x => x.type == "poison");
                 if (results.Count > 0)
@@ -242,7 +255,7 @@ public class EntitiesDefinition : MonoBehaviour
         newCharacterDefinition.damageMax = baseMaxDMG;
         newCharacterDefinition.speed = baseSPD; //to be recalculated later whenever a modifier gets applied.
         newCharacterDefinition.defense = Defense;
-        newCharacterDefinition.Bounty = bountyy;
+        newCharacterDefinition.valueBounty = bountyy;
 
         newCharacterDefinition.hasActedThisTurn = false;
 
@@ -258,12 +271,12 @@ public class EntitiesDefinition : MonoBehaviour
                        "'Too many thoughts dull your blade, they say', 'But I would rather have a dull blade than a dull mind.'", // charDesc
                        "rends", //verb used when attacking
                        true, //is it a player character(true), or is it an enemy(false)?
-                       100, //the base HP value
-                       40, // the base minimum damage value
-                       50, //the base maximum damage value.
-                       20, //base speed, higher is better
-                       1, //defense
-                       2, //luck
+                       MainData.MainLoop.DesignerEasyTweakProPremium.PCStartingMaxHealth, //the base HP value
+                       MainData.MainLoop.DesignerEasyTweakProPremium.PCStartingMinDamage, // the base minimum damage value
+                       MainData.MainLoop.DesignerEasyTweakProPremium.PCStartingMaxDamage, //the base maximum damage value.
+                       MainData.MainLoop.DesignerEasyTweakProPremium.PCStartingSpeed, //base speed, higher is better
+                       MainData.MainLoop.DesignerEasyTweakProPremium.PCStartingDefense, //defense
+                       MainData.MainLoop.DesignerEasyTweakProPremium.PCStartingLuck, //luck
                        100, //mana
                        null, //sound for when it is this character's turn to act
                        scarecrowAttackSheet, //character's sprite 
@@ -274,12 +287,12 @@ public class EntitiesDefinition : MonoBehaviour
                        "'There are wounds that never show on the body that are deeper and more hurtful than anything that bleeds.'",
                        "chops", //verb used when attacking
                        true, //is it a player character(true), or is it an enemy(false)?
-                       100, //the base HP value
-                       40, // the base minimum damage value
-                       50, //the base maximum damage value.
-                       60, //base speed, higher is better
-                       1, //defense
-                       2, //luck
+                       MainData.MainLoop.DesignerEasyTweakProPremium.PCStartingMaxHealth, //the base HP value
+                       MainData.MainLoop.DesignerEasyTweakProPremium.PCStartingMinDamage, // the base minimum damage value
+                       MainData.MainLoop.DesignerEasyTweakProPremium.PCStartingMaxDamage, //the base maximum damage value.
+                       MainData.MainLoop.DesignerEasyTweakProPremium.PCStartingSpeed, //base speed, higher is better
+                       MainData.MainLoop.DesignerEasyTweakProPremium.PCStartingDefense, //defense
+                       MainData.MainLoop.DesignerEasyTweakProPremium.PCStartingLuck, //luck
                        100, //mana
                        null, //sound for when it is this character's turn to act
                        tinmanAttackSheet, //character's sprite 
@@ -290,12 +303,12 @@ public class EntitiesDefinition : MonoBehaviour
                        "'Fear is weakness, they say. But even a coward can be dangerous, if cornered.'",
                        "rends", //verb used when attacking
                        true, //is it a player character(true), or is it an enemy(false)?
-                       100, //the base HP value
-                       40, // the base  minimum damage value
-                       50, //the base maximum damage value.
-                       40, //base speed, higher is better
-                       1, //defense
-                       2, //luck
+                       MainData.MainLoop.DesignerEasyTweakProPremium.PCStartingMaxHealth, //the base HP value
+                       MainData.MainLoop.DesignerEasyTweakProPremium.PCStartingMinDamage, // the base  minimum damage value
+                       MainData.MainLoop.DesignerEasyTweakProPremium.PCStartingMaxDamage, //the base maximum damage value.
+                       MainData.MainLoop.DesignerEasyTweakProPremium.PCStartingSpeed, //base speed, higher is better
+                       MainData.MainLoop.DesignerEasyTweakProPremium.PCStartingDefense, //defense
+                       MainData.MainLoop.DesignerEasyTweakProPremium.PCStartingLuck, //luck
                        100, //mana
                        null, //sound for when it is this character's turn to act
                        tinmanAttackSheet, //character's sprite 
@@ -306,12 +319,12 @@ public class EntitiesDefinition : MonoBehaviour
                        "'You don’t have a home until you leave it and then, when you have left it, you never can go back.'",
                       "cuts", //verb used when attacking
                        true, //is it a player character(true), or is it an enemy(false)?
-                       100, //the base HP value
-                       40, // the base  minimum damage value
-                       50, //the base maximum damage value.
-                       30, //base speed, higher is better
-                       1, //defense
-                       2, //luck
+                       MainData.MainLoop.DesignerEasyTweakProPremium.PCStartingMaxHealth, //the base HP value
+                       MainData.MainLoop.DesignerEasyTweakProPremium.PCStartingMinDamage, // the base  minimum damage value
+                       MainData.MainLoop.DesignerEasyTweakProPremium.PCStartingMaxDamage, //the base maximum damage value.
+                       MainData.MainLoop.DesignerEasyTweakProPremium.PCStartingSpeed, //base speed, higher is better
+                       MainData.MainLoop.DesignerEasyTweakProPremium.PCStartingDefense, //defense
+                       MainData.MainLoop.DesignerEasyTweakProPremium.PCStartingLuck, //luck
                        100, //mana
                        null, //sound for when it is this character's turn to act
                        scarecrowAttackSheet, //character's sprite 
@@ -328,17 +341,27 @@ public class EntitiesDefinition : MonoBehaviour
                        "Evil flying monkey hellbent on causing mischief and wreaking havok.", // charDesc
                        "claws", //verb used when attacking
                        false, //is it a player character(true), or is it an enemy(false)?
-                       45, //the base HP value
-                       20, // the minimum damage value
-                       30, //the maximum damage value.
-                       5, //base speed, higher is better
-                       1, //defense
-                       2, //luck
+                       MainData.MainLoop.DesignerEasyTweakProPremium.flyingMonkeyMaxHealth, //the base HP value
+                       MainData.MainLoop.DesignerEasyTweakProPremium.flyingMonkeyMinDamage, // the minimum damage value
+                       MainData.MainLoop.DesignerEasyTweakProPremium.flyingMonkeyMaxDamage, //the maximum damage value.
+                       MainData.MainLoop.DesignerEasyTweakProPremium.flyingMonkeySpeed, //base speed, higher is better
+                       MainData.MainLoop.DesignerEasyTweakProPremium.flyingMonkeyDefense, //defense
+                       MainData.MainLoop.DesignerEasyTweakProPremium.flyingMonkeyLuck, //luck
                        100, //mana
                        null, //sound for when it is this character's turn to act
                        monkeyAttackSheet, //character's sprite 
                        monkeyAvatar, 2); //character's avatar sprite
     }
+
+
+
+    //public int flyingMonkeyMaxHealth = 0;
+    //public int flyingMonkeyMaxDamage = 0;
+    //public int flyingMonkeyMinDamage = 0;
+    //public int flyingMonkeySpeed = 0;
+    //public int flyingMonkeyLuck = 0;
+    //public int flyingMonkeyDefense = 0;
+
 
     public void SpawnEnemyTest()
     {//creates new enemies using a random, free, enemy spot. that's up to 7 enemies currently but just copy and arrange more if desired...
@@ -369,7 +392,7 @@ public class EntitiesDefinition : MonoBehaviour
         usedEnemyPartyMemberObjects.Add(b); //tracks usage
         //freeEnemyPartyMemberObjects.Remove(b);//officialy live
         b.SetActive(true);//we turn it on
-        CharacterScript d = b.GetComponent<CharacterScript>();//get the Cscript reference
+        CharacterWorldspaceScript d = b.GetComponent<CharacterWorldspaceScript>();//get the Cscript reference
 
 
 
@@ -413,13 +436,13 @@ public class EntitiesDefinition : MonoBehaviour
             freeEnemyPartyMemberObjects.RemoveAt(x); //we remove the spot from the inactive/free enemy spot list
             usedEnemyPartyMemberObjects.Add(f); //track usage...
             f.SetActive(true);//we turn the spot on on
-            CharacterScript d = f.GetComponent<CharacterScript>();//get the Cscript reference
+            CharacterWorldspaceScript d = f.GetComponent<CharacterWorldspaceScript>();//get the Cscript reference
             d.SetupCharacterByTemplate(MainData.characterTypes[item]); //assign and set up an enemy template to the spot
             //they are added to the living list in the above method
             MainData.MainLoop.EventLoggingComponent.LogGray("A " + d.associatedCharacter.charName + " suddenly steps out of the shadows.");
 
         }
-        //refresh the miniview thingies whenever we spawn or kill shit
+        //refresh the miniview thingies whenever we spawn or kill stuff
         MainData.MainLoop.inCombat = true;
         MainData.MainLoop.UserInterfaceHelperComponent.RefreshViewEnemy();
     }
@@ -442,6 +465,27 @@ public class EntitiesDefinition : MonoBehaviour
     {
         MakeConsumableItemTemplate("health_potion",
                             "Wondrous concoction that makes wounds close before one's very eyes.",
+                            "Shortsword", //blurb
+                            "Health Potion",
+                            HealthPotionSprite,
+                            "uncommon", //rarity as a string
+                            4,//value in eyes
+                            5, //how much the birb gets in stock
+                            1, //default quantity
+                            true); //true - helpful. false - harmful. 
+        MakeConsumableItemTemplate("mana_potion",
+                            "Willpower, concentration and pure energy of self-expression in a bottle.",
+                            "Shortsword", //blurb
+                            "Mana Potion",
+                            HealthPotionSprite,
+                            "uncommon", //rarity as a string
+                            4,//value in eyes
+                            5, //how much the birb gets in stock
+                            1, //default quantity
+                            true); //true - helpful. false - harmful. 
+        MakeConsumableItemTemplate("antidote_potion",
+                            "A must-have in the forest.",
+                            "Shortsword", //blurb
                             "Health Potion",
                             HealthPotionSprite,
                             "uncommon", //rarity as a string
@@ -459,6 +503,7 @@ public class EntitiesDefinition : MonoBehaviour
     /// </summary>
     /// <param name="identifier">shorthand name with _ instead of spaces and no capitalization</param>
     /// <param name="description"></param>
+    ///<param name="blurby"> short quote/description. for the shop.</param>
     /// <param name="itemName"></param>
     /// <param name="itemSprite"></param>
     /// <param name="rarity">rarity as a string.</param>
@@ -468,6 +513,7 @@ public class EntitiesDefinition : MonoBehaviour
     /// <param name="beneficial">is it poison/a bomb or is it a potion</param>
     private void MakeConsumableItemTemplate(string identifier,
                     string description,
+                    string blurby,
                     string itemName,
                     Sprite itemSprite,
                     string rarity,
@@ -478,6 +524,7 @@ public class EntitiesDefinition : MonoBehaviour
     {
         Item b = new Item(identifier,
               description,
+              blurby,
               itemName,
               itemSprite,
               rarity,
@@ -506,10 +553,10 @@ public class EntitiesDefinition : MonoBehaviour
     {
 
         //this takes the needed template, applies it to the charscript in the party slot, then calls the refresh method
-        CharacterScript slot1ref = MainData.MainLoop.PositionHolderComponent.PartySlot1.GetComponent<CharacterScript>();
-        CharacterScript slot2ref = MainData.MainLoop.PositionHolderComponent.PartySlot2.GetComponent<CharacterScript>();
-        CharacterScript slot3ref = MainData.MainLoop.PositionHolderComponent.PartySlot3.GetComponent<CharacterScript>();
-        CharacterScript slot4ref = MainData.MainLoop.PositionHolderComponent.PartySlot4.GetComponent<CharacterScript>();
+        CharacterWorldspaceScript slot1ref = MainData.MainLoop.PositionHolderComponent.PartySlot1.GetComponent<CharacterWorldspaceScript>();
+        CharacterWorldspaceScript slot2ref = MainData.MainLoop.PositionHolderComponent.PartySlot2.GetComponent<CharacterWorldspaceScript>();
+        CharacterWorldspaceScript slot3ref = MainData.MainLoop.PositionHolderComponent.PartySlot3.GetComponent<CharacterWorldspaceScript>();
+        CharacterWorldspaceScript slot4ref = MainData.MainLoop.PositionHolderComponent.PartySlot4.GetComponent<CharacterWorldspaceScript>();
 
 
         slot1ref.SetupCharacterByTemplate(MainData.characterTypes["scarecrow"]);
@@ -520,6 +567,17 @@ public class EntitiesDefinition : MonoBehaviour
         {
             item.RecalculateThreatFromStats();
         }
+
+        //get random trait
+        //nonrepeating
+        foreach (Character item in MainData.livingPlayerParty)
+        {
+
+
+
+
+        }
+
 
         MainData.MainLoop.UserInterfaceHelperComponent.PC1 = slot1ref;
         MainData.MainLoop.UserInterfaceHelperComponent.PC2 = slot2ref;
@@ -536,6 +594,55 @@ public class EntitiesDefinition : MonoBehaviour
         MakeEquipableItemTemplate("short_sword", //string ID
                                           "Common implement of war. Can usually be found between your ribs.",//the desc
                                           "Shortsword", //name
+                                          "Shortsword", //blurb
+                                          HealthPotionSprite, //sprite
+                                          "common", //rarity string
+                                          6, //value in eyes
+                                          1, //amount in birb's stock
+                                          1, //default quantity
+                                          true, //(true)beneficial or (false)harmful
+                                          0, //speed bonus
+                                          0, //health bonus
+                                          0, //mana bonus
+                                          2, //dmg bonus
+                                          0, //defense bonus 
+                                          0, //luck bonus 
+                                          0, //healing, multiplicative. as a percentage.
+                                          0, //dam resist, multiplicative. as a percentage.
+                                          0, //dam bonus multiplicative. as a percentage.
+                                          0, //discount as a percentage, multiplicative
+                                          0); //lifesteal multiplicative. as a percentage.
+
+
+
+        MakeEquipableItemTemplate("short_sword", //string ID
+                                          "Common implement of war. Can usually be found between your ribs.",//the desc
+                                          "Shortsword", //name
+                                          "Shortsword", //blurb
+                                          HealthPotionSprite, //sprite
+                                          "common", //rarity string
+                                          6, //value in eyes
+                                          1, //amount in birb's stock
+                                          1, //default quantity
+                                          true, //(true)beneficial or (false)harmful
+                                          0, //speed bonus
+                                          0, //health bonus
+                                          0, //mana bonus
+                                          2, //dmg bonus
+                                          0, //defense bonus 
+                                          0, //luck bonus 
+                                          0, //healing amp, multiplicative. as a percentage.
+                                          0, //dam resist, multiplicative. as a percentage.
+                                          0, //dam bonus multiplicative. as a percentage.
+                                          0, //discount as a percentage, multiplicative
+                                          0); //lifesteal multiplicative. as a percentage.
+
+
+
+        MakeEquipableItemTemplate("short_sword", //string ID
+                                          "Common implement of war. Can usually be found between your ribs.",//the desc
+                                          "Shortsword", //name
+                                          "Shortsword", //blurb
                                           HealthPotionSprite, //sprite
                                           "common", //rarity string
                                           6, //value in eyes
@@ -560,7 +667,14 @@ public class EntitiesDefinition : MonoBehaviour
     public void DefineTraits()
     {//generates traits, stores them all in a dictionary in the dataholder
 
-
+        Trait healing1 = new Trait("caring", //string ID
+                                   "Caring", //name
+                                   "Caring", //adjective given to characters with this
+                                   "The power which lies in the heart is not to be underestimated.", // blurb. wax poetic here as much as you want
+                                   "Passive: Healing potions are less effective on this character. Active: [<color=#45BA3D >Heal</color>] Heals an ally for 50% HP.", //functional description
+                                   null, //sprite
+                                   false); //false = t1. true = t2.
+        //gets automatically sent to the desired trait list upon generation, in the constructor
 
 
     }
@@ -568,6 +682,7 @@ public class EntitiesDefinition : MonoBehaviour
 
     public void MakeEquipableItemTemplate(string identifier,
                                           string description,
+                                          string blurby,
                                           string itemName,
                                           Sprite itemSprite,
                                           string rarity,
@@ -581,15 +696,16 @@ public class EntitiesDefinition : MonoBehaviour
                                           int dmgmodifier = 0,
                                           int defensemodifier = 0,
                                           int luckmodifier = 0,
-                                          int multiplicativeHealingAmplification = 0,
-                                          int multiplicativeDamageResistance = 0,
-                                          int multiplicativeDamageBonus = 0,
+                                          int multiplicativeHealingAmplification = 1,
+                                          int multiplicativeDamageResistance = 1,
+                                          int multiplicativeDamageBonus = 1,
                                           float discountPercentage = 0,
-                                          int multiplicativeLifestealBonus = 0)
+                                          int multiplicativeLifestealBonus = 1)
     {
 
         Item b = new Item(identifier,
                           description,
+                          blurby,
                           itemName,
                           itemSprite,
                           rarity,
@@ -635,6 +751,7 @@ public class EntitiesDefinition : MonoBehaviour
         Item c = MainData.allConsumables[itemID];
         Item b = new Item(c.identifier,
                     c.description,
+                     c.itemBlurb,
                     c.itemName,
                     c.itemSprite,
                     c.rarity,
@@ -676,6 +793,7 @@ public class EntitiesDefinition : MonoBehaviour
     {
         public string identifier; //stuff like "doner_kebab", "icecream_chocolate", "sword_steel"
         public string description;
+        public string itemBlurb;
         public string itemName;
         public Sprite itemSprite;
         public string rarity;
@@ -720,6 +838,7 @@ public class EntitiesDefinition : MonoBehaviour
         /// <param name="isEquipable">consumables don't have this. equipment and trinkets do.</param>
         public Item(string identifier,
                     string description,
+                    string blurb,
                     string itemName,
                     Sprite itemSprite,
                     string rarity,
@@ -735,14 +854,15 @@ public class EntitiesDefinition : MonoBehaviour
                     int defensemodifier = 0,
                     int luckmodifier = 0,
 
-                    int multiplicativeHealingAmplification = 0,
-                    int multiplicativeDamageResistance = 0,
-                    int multiplicativeDamageBonus = 0,
+                    int multiplicativeHealingAmplification = 1,
+                    int multiplicativeDamageResistance = 1,
+                    int multiplicativeDamageBonus = 1,
                     float discountPercentage = 0,
-                    int multiplicativeLifestealBonus = 0) // so we don't have to define them for things that don't need them
+                    int multiplicativeLifestealBonus = 1) // so we don't have to define them for things that don't need them
         {
             this.identifier = identifier;
             this.description = description;
+            this.itemBlurb = blurb;
             this.itemName = itemName;
             this.itemSprite = itemSprite;
             this.rarity = rarity;
@@ -773,6 +893,8 @@ public class EntitiesDefinition : MonoBehaviour
     {
 
         List<Item> equippedItems = new List<Item>(); //this does not contain any consumables. those are in the collective inventory pool. this only contains items with isEquipable = true
+        public Trait charTrait;
+
 
         public float threatFromStats;
         public float Threat = 0;
@@ -780,11 +902,11 @@ public class EntitiesDefinition : MonoBehaviour
         public string charType; //something like "goblin_spear", "tin_man" or "scarecrow" for the dictionary. 
         public string charName;
         public string entityDescription;
-        public CharacterScript selfScriptRef;
+        public CharacterWorldspaceScript selfScriptRef;
         public Vector3 InitialPosition; //yeah screw having a single variable in CombatHelper.cs we're doing this. set in CharacterScript or template use
         public bool isPlayerPartyMember;
 
-        public Trait charTrait;
+
         public AudioClip turnSound;
         public Sprite[] charSprite; //this contains the attack too. the first sprite is the standing sprite.
 
@@ -794,16 +916,18 @@ public class EntitiesDefinition : MonoBehaviour
         public List<StatusEffect> currentStatusEffects = new List<StatusEffect>();
 
         public int currentHealth;
-        public int Bounty = 2; //eyes given for kill
+        public float valueBounty = 2f; //eyes given for kill
         public int maxHealth;
         public int baseDamageMin;
         public int baseDamageMax;
         public int baseSpeed;
         public Slider HealthBar;
-        public int speed; //NOTE - RECOMPUTE THESE BEFORE EVERY TURN TO TRACK TRAITS CHANGING IT
-        public int defense;
+
+
         public int damageMin;
         public int damageMax;
+        public int speed; //NOTE - RECOMPUTE THESE BEFORE EVERY TURN TO TRACK TRAITS CHANGING IT
+        public int defense;
         public int luck;
         public int mana;
         public bool canAct = true; //wether it's stunned or not
@@ -818,19 +942,145 @@ public class EntitiesDefinition : MonoBehaviour
 
         public void RecalculateThreatFromStats()
         {
-            threatFromStats = ((((currentHealth + damageMin) / 2) / speed) * 100);
+            threatFromStats = (speed + currentHealth + damageMin + defense)/4;
         }
 
 
 
-        public void RecalculateSpeed() // maybe make it recompute all traits later 
-        {//another thing to watch out for is wether the monster copy from the dictionary is really a copy or a reference. dont want to change the dictionary entry (in case of being a ref)
+        public void RecalculateStatsFromTraits() //recalculates stats on the start of each round.  handles applying stats the first time, too.
+        {
+            // Wrath: Increased damage, lower defense. Double strike: Attacks twice.
+            //+5 damage, +3 speed
+
+            if (charTrait != null)
+            {
+                switch (charTrait.identifier)
+                {
+                    case "wrath":
+                        if (!charTrait.hasAppliedStats)
+                        {
+                            damageMax += MainData.MainLoop.DesignerEasyTweakProPremium.wrathDamageIncrease;
+                            damageMin += MainData.MainLoop.DesignerEasyTweakProPremium.wrathDamageIncrease;
+                            speed += MainData.MainLoop.DesignerEasyTweakProPremium.wrathSpeedIncrease;
+                            charTrait.hasAppliedStats = true;
+                        }
+                        break;
+
+                    case "greed":
+                        if (!charTrait.hasAppliedStats)
+                        {
+                            maxHealth -= MainData.MainLoop.DesignerEasyTweakProPremium.greedPassiveHealthMalus;
+                            currentHealth -= MainData.MainLoop.DesignerEasyTweakProPremium.greedPassiveHealthMalus;
+                            if (currentHealth <= 0) //i think you could
+                            {
+                                currentHealth = 1;
+                            }
+                            speed -= MainData.MainLoop.DesignerEasyTweakProPremium.greedPassiveSpeedMalus;
+                            charTrait.hasAppliedStats = true;
+                        }
+                        break;
+
+                    case "caring":
+                        if (!charTrait.hasAppliedStats)
+                        {
+                            damageMax -= MainData.MainLoop.DesignerEasyTweakProPremium.caringPassiveDamageMalus;
+                            damageMin -= MainData.MainLoop.DesignerEasyTweakProPremium.caringPassiveDamageMalus;
+                            maxHealth += MainData.MainLoop.DesignerEasyTweakProPremium.caringPassiveHealthBonus;
+                            charTrait.hasAppliedStats = true;
+                        }
+                        break;
+
+                    case "angry":
+                        if (!charTrait.hasAppliedStats)
+                        {
+                            damageMax += MainData.MainLoop.DesignerEasyTweakProPremium.angryPassiveDamageBonus;
+                            damageMin += MainData.MainLoop.DesignerEasyTweakProPremium.angryPassiveDamageBonus;
+                            defense -= MainData.MainLoop.DesignerEasyTweakProPremium.angryPassiveDefenseMalus;
+                            charTrait.hasAppliedStats = true;
+                        }
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+
+        }
+
+
+        public void RemoveTraitSafely()// this NEEDS to be used ANYTIME we change the trait of a character. otherwise bonuses/maluses will stack.... that's bad.
+        {
+
+            if (charTrait != null)
+            {
+                switch (charTrait.identifier)
+                {
+                    case "wrath":
+
+                        damageMax -= MainData.MainLoop.DesignerEasyTweakProPremium.wrathDamageIncrease;
+                        damageMin -= MainData.MainLoop.DesignerEasyTweakProPremium.wrathDamageIncrease;
+                        speed -= MainData.MainLoop.DesignerEasyTweakProPremium.wrathSpeedIncrease;
+                        charTrait = null;
+
+                        break;
+
+                    case "greed":
+
+                        maxHealth += MainData.MainLoop.DesignerEasyTweakProPremium.greedPassiveHealthMalus;
+                        currentHealth += MainData.MainLoop.DesignerEasyTweakProPremium.greedPassiveHealthMalus;
+                        if (currentHealth > maxHealth)
+                        {
+                            currentHealth = maxHealth;
+                        }
+                        speed += MainData.MainLoop.DesignerEasyTweakProPremium.greedPassiveSpeedMalus;
+                        charTrait = null;
+
+                        break;
+
+                    case "caring":
+
+                        damageMax += MainData.MainLoop.DesignerEasyTweakProPremium.caringPassiveDamageMalus;
+                        damageMin += MainData.MainLoop.DesignerEasyTweakProPremium.caringPassiveDamageMalus;
+                        maxHealth -= MainData.MainLoop.DesignerEasyTweakProPremium.caringPassiveHealthBonus;
+                        charTrait = null;
+
+                        break;
+
+                    case "angry":
+
+                        damageMax -= MainData.MainLoop.DesignerEasyTweakProPremium.angryPassiveDamageBonus;
+                        damageMin -= MainData.MainLoop.DesignerEasyTweakProPremium.angryPassiveDamageBonus;
+                        defense += MainData.MainLoop.DesignerEasyTweakProPremium.angryPassiveDefenseMalus;
+                        charTrait = null;
+
+                        break;
+
+                    default:
+                        Debug.LogError("Unknown trait at RemoveTraitSafely(). switch -> default case");
+                        break;
+                }
+
+            }
+            else
+            {
+                Debug.LogError("RemoveTraitSafely() ran for a traitless mob, for some reason. " + charName + " is the name of the mob, " + this.selfScriptRef.name + " is the script reference.");
+            }
 
 
         }
+
+        public void ChangeTrait(Trait newTrait)
+        {
+
+            MainData.MainLoop.EventLoggingComponent.Log(charName + " is no longer " + charTrait.adjective + ". ");
+            RemoveTraitSafely();
+            MainData.MainLoop.EventLoggingComponent.Log(charName + " is now " + newTrait.adjective + ". ");
+            charTrait = (Trait)newTrait.Clone();//so we can have multiple characters with same trait because we're not just using a reference from the central trait lists
+        }
+
         public bool CheckTrait(string b)
         {
-            if (this.charTrait.name == b)
+            if (this.charTrait.traitName == b)
             {
                 return true;
             }
@@ -841,14 +1091,67 @@ public class EntitiesDefinition : MonoBehaviour
         }
         public void TakeDamageFromCharacter(Character attacker)
         {
-            int damageRoll = UnityEngine.Random.Range(attacker.damageMin, attacker.damageMax + 1) - defense;
-            MainData.MainLoop.EventLoggingComponent.Log(attacker.charName + " " + attacker.attackverb + " the " + charName + " for " + (damageRoll + defense) + " damage. Armor protects for " + defense + " damage!");
+            //here we deal with the generic damage modification
+            int damagemod = 0;
+            foreach (Item item in attacker.equippedItems)
+            {
+                damagemod += item.dmgmodifier;
+            }
+            int defensemod = 0;
+            foreach (Item item in attacker.equippedItems)
+            {
+                defensemod += item.defensemodifier;
+            }
+
+            if (attacker.charTrait != null)
+            {//here we deal with the attacker's traits.
+                switch (charTrait.identifier)
+                {
+                    case "angry":
+                        damagemod += charTrait.GenericTraitValue; //adds the whole value to damage output
+                        charTrait.GenericTraitValue = 0;//resets it upon use
+                        break;
+
+                    default:
+                        break;
+                }
+
+
+            }
+
+
+
+
+            int baseDamageRoll = UnityEngine.Random.Range(attacker.damageMin, attacker.damageMax + 1);
+            int damageRoll = (baseDamageRoll + damagemod) - (defense + defensemod);
+
+            MainData.MainLoop.EventLoggingComponent.Log(attacker.charName + " " + attacker.attackverb + " the " + charName + " for " + (baseDamageRoll + damagemod) + " damage. Armor protects for " + defense + defensemod + " damage!");
+
+
+
+            //Lifesteal
+            if (attacker.equippedItems.FindIndex(f => f.multiplicativeLifestealBonus > 0) != -1) //it returns -1 if none are found
+            {
+                int lifestealmod = 1;
+                foreach (Item item in attacker.equippedItems)
+                {
+                    lifestealmod *= item.multiplicativeLifestealBonus;
+                }
+                // 1 − ((1 − first instance) × (1 - second instance) × (1 - third instance) × ...)
+                int percentageheal = (damageRoll / 100) * lifestealmod;
+                attacker.GainHealth(percentageheal);
+            }
+
+
+            //This is where we deal with traits deal with incoming damage
             if (charTrait != null)
             {
-                //This is where we deal with traits that do stuff to our damage.
-                switch (charTrait.traitName)
+
+                switch (charTrait.identifier)
                 {
-                    case "blah":
+                    case "angry":            //Anger's damage increase on getting hit
+
+                        charTrait.GenericTraitValue += MainData.MainLoop.DesignerEasyTweakProPremium.angryPassiveDamageBonus;
                         break;
 
                     default:
@@ -878,9 +1181,18 @@ public class EntitiesDefinition : MonoBehaviour
         public void TakeDamage(int dmg)
         { //generic take damage function
             currentHealth -= dmg;
-            MainData.MainLoop.EventLoggingComponent.Log(this.charName + " the " + charTrait.name + " is hurt " + "for " + dmg + " damage!");
+            MainData.MainLoop.EventLoggingComponent.Log(this.charName + " the " + charTrait.traitName + " is hurt " + "for " + dmg + " damage!");
             MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(dmg, this, false);
-            HealthBar.value -= dmg / maxHealth * 100f;
+
+            if (!isPlayerPartyMember)
+            {//this updates the health bar so we don't run the whole big total refresh method
+                MainData.MainLoop.UserInterfaceHelperComponent.RefreshViewEnemy();
+                MainData.MainLoop.UserInterfaceHelperComponent.RefreshHealthBarEnemy();
+            }
+            else
+            {
+                MainData.MainLoop.UserInterfaceHelperComponent.RefreshHealthBarPlayer();
+            }
             if (currentHealth <= 0)
             {
                 GotKilled();
@@ -972,8 +1284,10 @@ public class EntitiesDefinition : MonoBehaviour
                 MainData.MainLoop.UserInterfaceHelperComponent.RefreshHealthBarEnemy();
                 MainData.MainLoop.CombatHelperComponent.TargetSelectionCheck();
 
-                MainData.MainLoop.Currency += Bounty;
-                MainData.MainLoop.EventLoggingComponent.LogGray("The " + charName + " dropped " + Bounty + " eyes.");
+
+
+                MainData.MainLoop.Currency += valueBounty;
+                MainData.MainLoop.EventLoggingComponent.LogGray("The " + charName + " dropped " + valueBounty + " eyes.");
                 MainData.MainLoop.UserInterfaceHelperComponent.UpdateCurrencyCounter();
             }
             else
@@ -984,7 +1298,6 @@ public class EntitiesDefinition : MonoBehaviour
 
             selfScriptRef.Die();
         }
-
         private void HandleListsUponDeath()
         {
             MainData.allChars.Remove(this);
@@ -1000,8 +1313,6 @@ public class EntitiesDefinition : MonoBehaviour
             }
 
         }
-
-
         public string GetID()
         {
             return charType;

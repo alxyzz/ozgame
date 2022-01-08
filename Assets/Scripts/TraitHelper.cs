@@ -15,15 +15,9 @@ public class TraitHelper : MonoBehaviour
     }
 
 
-    void GenerateTraits()
-    {
 
 
-
-
-    }
-
-    public class Trait : MonoBehaviour
+    public class Trait : System.ICloneable
     {
         public string identifier;
         public string traitName;
@@ -31,7 +25,10 @@ public class TraitHelper : MonoBehaviour
         public string traitDescription;
         public string adjective;
         public Sprite traitSprite;
-
+        public int manaCost;
+        public bool forceCooldown;//in case we want to turn that stuff off for a while
+        public int GenericTraitValue = 0; //we will just use this for whatever is needed at the moment. things like stacking damage boosts for Angry, since it's simpler than adding yet another value to the character class 
+        public bool hasAppliedStats = false;
         /// <summary>
         /// 
         /// </summary>
@@ -51,16 +48,19 @@ public class TraitHelper : MonoBehaviour
             this.traitSprite = sprit;
             if (t2)
             {
-                MainData.traitList.Add(id, this);
+                MainData.t2traitList.Add(id, this);//this is so we can drop a random t1/t2 trait after a boss fight or something
             }
             else
             {
-                MainData.traitList.Add(id, this);
+                MainData.t1traitList.Add(id, this);
             }
             MainData.traitList.Add(id, this);
         }
 
-
+        public object Clone()
+        {
+            return this.MemberwiseClone();
+        }
 
 
 
