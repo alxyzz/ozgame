@@ -1,17 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static EntitiesDefinition;
+using static EntityDefiner;
 using static LevelHelper;
 
 public class GameManager : MonoBehaviour
 {
     public UIParallax BackgroundParallaxObject;
     public bool gameStarted = false;
-    public int Currency = 0;
+    public float Currency = 0f;
     public bool inCombat = false;
     public LayerMask IgnoreMe;
-    public EntitiesDefinition EntityDefComponent;
+    public EntityDefiner EntityDefComponent;
     public LevelHelper LevelHelperComponent;
     public SoundManager SoundManagerComponent;
     public PositionHolder PositionHolderComponent;
@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     public UserInterfaceHelper UserInterfaceHelperComponent;
     public CombatHelper CombatHelperComponent;
     public VendorScript VendorScriptComponent;
+    public DesignerEasyValueTweaking DesignerEasyTweakProPremium;
 
     // Start is called before the first frame update
     void Start()//loads stuff up

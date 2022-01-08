@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using static EntitiesDefinition;
+using static EntityDefiner;
 
 public class VendorItemScript : MonoBehaviour
 {

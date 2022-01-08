@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using static EntitiesDefinition;
+using static EntityDefiner;
 
 public class LevelHelper : MonoBehaviour
 {

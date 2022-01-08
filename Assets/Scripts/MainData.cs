@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using static EntitiesDefinition;
+using static EntityDefiner;
 using static LevelHelper;
 using static TraitHelper;
 
@@ -15,7 +15,7 @@ public static class MainData
     public static AudioSource SoundtrackPlayer;
     [Space(10)]
     public static Material MatCatacombs;
-    public static DesignerTuningInterface itemManager; //script that allows easy value tweaking for designers
+    public static DesignerEasyValueTweaking itemManager; //script that allows easy value tweaking for designers
 
 
     public static PositionHolder references;

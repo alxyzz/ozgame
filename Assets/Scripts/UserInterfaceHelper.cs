@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using static EntitiesDefinition;
+using static EntityDefiner;
 using static LevelHelper;
 
 public class UserInterfaceHelper : MonoBehaviour
@@ -24,7 +24,7 @@ public class UserInterfaceHelper : MonoBehaviour
     [Space(10)]
     [Header("the stuff related to PLAYER party members in the lower part of the UI - the little images + name + health bar")]
     [HideInInspector]
-    public CharacterScript PC1;
+    public CharacterWorldspaceScript PC1;
     public Image firstCharAvatar; //we will replace this object's image with the currently selected character's avatar
     public TextMeshProUGUI firstCharName;//the name of the current player char
     public TextMeshProUGUI firstCharTrait;//the name of the current player char
@@ -32,7 +32,7 @@ public class UserInterfaceHelper : MonoBehaviour
     public GameObject firstselectionRectangle; // A REFERENCE TO THE RECTANGLE THAT HOLDS A REFERENCE TO THE CHARACTER'S SCRIPT, WHICH WILL THEN GET CLICKED IF YOU CLICK THE 
     [Space(10)]
     [HideInInspector]
-    public CharacterScript PC2;
+    public CharacterWorldspaceScript PC2;
     public Image secondCharAvatar; //we will replace this object's image with the currently selected character's avatar
     public TextMeshProUGUI secondCharName;//the name of the current player char
     public TextMeshProUGUI secondCharTrait;//the name of the current player char
@@ -40,7 +40,7 @@ public class UserInterfaceHelper : MonoBehaviour
     public GameObject secondselectionRectangle; // A REFERENCE TO THE RECTANGLE THAT HOLDS A REFERENCE TO THE CHARACTER'S SCRIPT, WHICH WILL THEN GET CLICKED IF YOU CLICK TH
     [Space(10)]
     [HideInInspector]
-    public CharacterScript PC3;
+    public CharacterWorldspaceScript PC3;
     public Image thirdCharAvatar; //we will replace this object's image with the currently selected character's avatar
     public TextMeshProUGUI thirdCharName;//the name of the current player char
     public TextMeshProUGUI thirdCharTrait;//the name of the current player char
@@ -48,7 +48,7 @@ public class UserInterfaceHelper : MonoBehaviour
     public GameObject thirdselectionRectangle; // A REFERENCE TO THE RECTANGLE THAT HOLDS A REFERENCE TO THE CHARACTER'S SCRIPT, WHICH WILL THEN GET CLICKED IF YOU CLICK THE 
     [Space(10)]
     [HideInInspector]
-    public CharacterScript PC4;
+    public CharacterWorldspaceScript PC4;
     public Image fourthCharAvatar; //we will replace this object's image with the currently selected character's avatar
     public TextMeshProUGUI fourthCharName;//the name of the current player char
     public TextMeshProUGUI fourthCharTrait;//the name of the current player char
@@ -59,28 +59,28 @@ public class UserInterfaceHelper : MonoBehaviour
     [Header("NOTE - there are >4, so refresh based on lowest health. so you can just click the buttons to target them")]
     [Space(10)]
     [HideInInspector]
-    public CharacterScript NPC1;// NOTE - THESE ARE DEFINED IN EntityDefinition.cs
+    public CharacterWorldspaceScript NPC1;// NOTE - THESE ARE DEFINED IN EntityDefinition.cs
     public Image NPC1Avatar; //we will replace this object's image with the currently selected character's avatar
     public TextMeshProUGUI NPC1Name;//the name of the current player char
     public Slider NPC1HPbar;//HEALTH BAR REF
     public GameObject firstEnemyselectionRectangle;//the name of the current player char
     [Space(10)]
     [HideInInspector]
-    public CharacterScript NPC2;
+    public CharacterWorldspaceScript NPC2;
     public Image NPC2Avatar; //we will replace this object's image with the currently selected character's avatar
     public TextMeshProUGUI NPC2Name;//the name of the current player char
     public Slider NPC2HPbar;//HEALTH BAR REF
     public GameObject secondEnemyselectionRectangle;//the name of the current player char
     [Space(10)]
     [HideInInspector]
-    public CharacterScript NPC3;
+    public CharacterWorldspaceScript NPC3;
     public Image NPC3Avatar; //we will replace this object's image with the currently selected character's avatar
     public TextMeshProUGUI NPC3Name;//the name of the current player char
     public Slider NPC3HPbar;//HEALTH BAR REF
     public GameObject thirdEnemyselectionRectangle;//the name of the current player char
     [Space(10)]
     [HideInInspector]
-    public CharacterScript NPC4;
+    public CharacterWorldspaceScript NPC4;
     public Image NPC4Avatar; //we will replace this object's image with the currently selected character's avatar
     public TextMeshProUGUI NPC4Name;//the name of the current player char
     public Slider NPC4HPbar;//HEALTH BAR REF
@@ -282,7 +282,7 @@ public class UserInterfaceHelper : MonoBehaviour
     /// this displays the info of currently selected character (allied or enemy) in the top right part of the bottom bar
     /// </summary>
     /// <param name="Target"></param>
-    public void DisplayTargetedCharacterInfo(CharacterScript Target = null)
+    public void DisplayTargetedCharacterInfo(CharacterWorldspaceScript Target = null)
     {//this sets the viewable info for the current targeted character, in the right top part of the bottom UI. it is possible to select one target and hover over another to compare them.
         if (Target == null || Target.associatedCharacter == null)
         {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using static EntitiesDefinition;
+using static EntityDefiner;
 
 public class consumableSlotScript : MonoBehaviour
 {
