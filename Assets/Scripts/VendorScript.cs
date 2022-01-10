@@ -183,4 +183,25 @@ public class VendorScript : MonoBehaviour
         
     }
 
+    public void ClickMoveMerchant()
+    {
+        if (cartMoving)
+        {
+            return;
+        }
+        if (isVendorHere == false)
+        {
+            MainData.MainLoop.EventLoggingComponent.Log("You've stumbled across a merchant.");
+            StartCoroutine(ArrivalAnimation());
+            return;
+        }
+        else if (isVendorHere == false)
+        {
+            MainData.MainLoop.EventLoggingComponent.LogGray("The merchant silently watches you depart.");
+            StartCoroutine(LeavingAnimation());
+            return;
+        }
+
+    }
+
 }
