@@ -166,7 +166,7 @@ public class CombatHelper : MonoBehaviour
         {
             item.RecalculateStatsFromTraits();
             item.RecalculateThreatFromStats();
-            
+
         }
         combatants.Sort((x, y) => y.speed.CompareTo(x.speed)); // descending. swap y and x on the right side for ascending.
 
@@ -400,12 +400,21 @@ public class CombatHelper : MonoBehaviour
 
         Debug.Log("attacking enemy. Currently active character is " + activeCharacterWorldspaceObject.associatedCharacter.charName);
 
-        for (int i = 0; i < activeCharacterWorldspaceObject.associatedCharacter.charSprite.Length; i++)
+        for (int i = 0; i < activeCharacterWorldspaceObject.associatedCharacter.attackAnimation.Length; i++)
         {
-            activeCharacterWorldspaceObject.spriteRenderer.sprite = activeCharacterWorldspaceObject.associatedCharacter.charSprite[i];
+            activeCharacterWorldspaceObject.spriteRenderer.sprite = activeCharacterWorldspaceObject.associatedCharacter.attackAnimation[i];
             yield return new WaitForSecondsRealtime(0.04f);
         }
-        activeCharacterWorldspaceObject.spriteRenderer.sprite = activeCharacterWorldspaceObject.associatedCharacter.charSprite[0];
+        if (activeCharacterWorldspaceObject.associatedCharacter.standingSprite != null)
+        {
+            activeCharacterWorldspaceObject.spriteRenderer.sprite = activeCharacterWorldspaceObject.associatedCharacter.standingSprite;
+            
+        }
+        else
+        {
+            activeCharacterWorldspaceObject.spriteRenderer.sprite = activeCharacterWorldspaceObject.associatedCharacter.attackAnimation[0];
+        }
+
         //play attack animation here
 
 
@@ -595,12 +604,20 @@ public class CombatHelper : MonoBehaviour
         Debug.Log("attacking player at playerParty[" + b.ToString() + "]!");
 
         Fool.TakeDamageFromCharacter(chara.associatedCharacter);//this also handles the damage indicator 
-        for (int i = 0; i < activeCharacterWorldspaceObject.associatedCharacter.charSprite.Length; i++)
+        for (int i = 0; i < activeCharacterWorldspaceObject.associatedCharacter.attackAnimation.Length; i++)
         {
-            activeCharacterWorldspaceObject.spriteRenderer.sprite = activeCharacterWorldspaceObject.associatedCharacter.charSprite[i];
+            activeCharacterWorldspaceObject.spriteRenderer.sprite = activeCharacterWorldspaceObject.associatedCharacter.attackAnimation[i];
             yield return new WaitForSecondsRealtime(0.06f);
         }
-        activeCharacterWorldspaceObject.spriteRenderer.sprite = activeCharacterWorldspaceObject.associatedCharacter.charSprite[0];
+        if (activeCharacterWorldspaceObject.associatedCharacter.standingSprite != null)
+        {
+            activeCharacterWorldspaceObject.spriteRenderer.sprite = activeCharacterWorldspaceObject.associatedCharacter.standingSprite;
+        }
+        else
+        {
+            activeCharacterWorldspaceObject.spriteRenderer.sprite = activeCharacterWorldspaceObject.associatedCharacter.attackAnimation[0];
+        }
+        
         //play attack animation here
         yield return new WaitForSeconds(1f);
 

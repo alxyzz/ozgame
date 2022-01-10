@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using static LevelHelper;
@@ -11,6 +12,7 @@ public class EntityDefiner : MonoBehaviour
     public Sprite tinmanAvatar;
     public Sprite scarecrowAvatar;
     public Sprite monkeyAvatar;
+    public Sprite lionAvatar;
 
 
 
@@ -36,7 +38,7 @@ public class EntityDefiner : MonoBehaviour
     public Sprite[] monkeyHurtSheet;
     [HideInInspector]
     public Sprite[] tinmanAttackSheet;
-
+    public Sprite lionSprite;
     public GameObject ItemUseEffect;
 
 
@@ -221,10 +223,10 @@ public class EntityDefiner : MonoBehaviour
     /// <param name="Luck"></param>
     /// <param name="Mana"></param>
     /// <param name="newCharTurnSound"></param>
-    /// <param name="newCharSprite"></param>
+    /// <param name="attackAnimationSprites"></param>
     /// <param name="newCharAvatar"></param>
     /// <returns></returns>
-    public void MakeMobTemplate(string characterID, string charName, string charDesc, string attackVerb, bool isPlayer, int baseHP, int baseMinDMG, int baseMaxDMG, int baseSPD, int Defense, int Luck, int Mana, AudioClip newCharTurnSound, Sprite[] newCharSprite, Sprite newCharAvatar, int bountyy)
+    public void MakeMobTemplate(string characterID, string charName, string charDesc, string attackVerb, bool isPlayer, int baseHP, int baseMinDMG, int baseMaxDMG, int baseSPD, int Defense, int Luck, int Mana, AudioClip newCharTurnSound, Sprite[] attackAnimationSprites, int bountyy, Sprite newCharAvatar, Sprite noAnimSprite = null)
     {
         Character newCharacterDefinition = Character.CreateInstance<Character>();
 
@@ -237,7 +239,15 @@ public class EntityDefiner : MonoBehaviour
 
 
         newCharacterDefinition.turnSound = newCharTurnSound;
-        newCharacterDefinition.charSprite = newCharSprite;
+        newCharacterDefinition.attackAnimation = attackAnimationSprites;
+        if (noAnimSprite == null)
+        {
+            newCharacterDefinition.standingSprite = attackAnimationSprites[0];
+        }
+        else
+        {
+            newCharacterDefinition.standingSprite = noAnimSprite;
+        }
         newCharacterDefinition.charAvatar = newCharAvatar;
 
 
@@ -279,12 +289,14 @@ public class EntityDefiner : MonoBehaviour
                        MainData.MainLoop.DesignerEasyTweakProPremium.PCStartingLuck, //luck
                        100, //mana
                        null, //sound for when it is this character's turn to act
-                       scarecrowAttackSheet, //character's sprite 
-                       scarecrowAvatar, 0); //character's avatar sprite
+                       scarecrowAttackSheet, //character's attack animation sprite 
+                       0, //bounty, not relevant for PC
+                       scarecrowAvatar, //avatar
+                       null); //standing sprite if there is no attacksheet since we usually just use the first frame
 
         MakeMobTemplate("tin_man",
                        "Tin Man",
-                       "'There are wounds that never show on the body that are deeper and more hurtful than anything that bleeds.'",
+                       "'Tin guy'",
                        "chops", //verb used when attacking
                        true, //is it a player character(true), or is it an enemy(false)?
                        MainData.MainLoop.DesignerEasyTweakProPremium.PCStartingMaxHealth, //the base HP value
@@ -295,8 +307,10 @@ public class EntityDefiner : MonoBehaviour
                        MainData.MainLoop.DesignerEasyTweakProPremium.PCStartingLuck, //luck
                        100, //mana
                        null, //sound for when it is this character's turn to act
-                       tinmanAttackSheet, //character's sprite 
-                       tinmanAvatar, 0); //character's avatar sprite
+                       tinmanAttackSheet, //character's attack animation sprite 
+                       0, //bounty, not relevant for PC
+                       tinmanAvatar, //avatar
+                       null); //standing sprite if there is no attacksheet since we usually just use the first frame
 
         MakeMobTemplate("lion",
                        "Lion",
@@ -311,8 +325,10 @@ public class EntityDefiner : MonoBehaviour
                        MainData.MainLoop.DesignerEasyTweakProPremium.PCStartingLuck, //luck
                        100, //mana
                        null, //sound for when it is this character's turn to act
-                       tinmanAttackSheet, //character's sprite 
-                       tinmanAvatar, 0); //character's avatar sprite
+                       scarecrowAttackSheet, //character's attack animation sprite 
+                       0, //bounty, not relevant for PC
+                       lionAvatar, //avatar
+                       lionSprite); //standing sprite if there is no attacksheet since we usually just use the first frame
 
         MakeMobTemplate("dorothy",
                        "Dorothy",
@@ -327,8 +343,10 @@ public class EntityDefiner : MonoBehaviour
                        MainData.MainLoop.DesignerEasyTweakProPremium.PCStartingLuck, //luck
                        100, //mana
                        null, //sound for when it is this character's turn to act
-                       scarecrowAttackSheet, //character's sprite 
-                       scarecrowAvatar, 0); //character's avatar sprite
+                       scarecrowAttackSheet, //character's attack animation sprite 
+                       0, //bounty, not relevant for PC
+                       scarecrowAvatar, //avatar
+                       null); //standing sprite if there is no attacksheet since we usually just use the first frame
 
 
     }
@@ -347,10 +365,12 @@ public class EntityDefiner : MonoBehaviour
                        MainData.MainLoop.DesignerEasyTweakProPremium.flyingMonkeySpeed, //base speed, higher is better
                        MainData.MainLoop.DesignerEasyTweakProPremium.flyingMonkeyDefense, //defense
                        MainData.MainLoop.DesignerEasyTweakProPremium.flyingMonkeyLuck, //luck
-                       100, //mana
+                       0, //mana
                        null, //sound for when it is this character's turn to act
-                       monkeyAttackSheet, //character's sprite 
-                       monkeyAvatar, 2); //character's avatar sprite
+                       monkeyAttackSheet, //character's attack animation sprite 
+                       2, //bounty
+                       monkeyAvatar, //avatar
+                       null); //standing sprite if there is no attacksheet since we usually just use the first frame
     }
 
 
@@ -463,36 +483,36 @@ public class EntityDefiner : MonoBehaviour
 
     public void DefineConsumables()
     {
-        MakeConsumableItemTemplate("health_potion",
+        MakeConsumableItemTemplate("health_potion", //dictionary key string
                             "Wondrous concoction that makes wounds close before one's very eyes.",
-                            "Shortsword", //blurb
+                            "lorem ipsum dolor sic amet", //short flavourful blurb
                             "Health Potion",
                             HealthPotionSprite,
                             "uncommon", //rarity as a string
-                            4,//value in eyes
-                            5, //how much the birb gets in stock
+                            4,//value in currency
+                            5, //how much the trader gets in stock
                             1, //default quantity
-                            true); //true - helpful. false - harmful. 
-        MakeConsumableItemTemplate("mana_potion",
+                            true); //helpful(true) or harmful(false)? Used for threat
+        MakeConsumableItemTemplate("mana_potion",  //dictionary key string
                             "Willpower, concentration and pure energy of self-expression in a bottle.",
-                            "Shortsword", //blurb
+                            "lorem ipsum dolor sic amet", //short flavourful blurb
                             "Mana Potion",
                             HealthPotionSprite,
                             "uncommon", //rarity as a string
-                            4,//value in eyes
-                            5, //how much the birb gets in stock
+                            4,//value in currency
+                            5, //how much the trader gets in stock
                             1, //default quantity
-                            true); //true - helpful. false - harmful. 
-        MakeConsumableItemTemplate("antidote_potion",
+                            true); //true - helpful.               false - harmful. 
+        MakeConsumableItemTemplate("antidote_potion",  //dictionary key string
                             "A must-have in the forest.",
-                            "Shortsword", //blurb
+                            "lorem ipsum dolor sic amet", //short flavourful blurb
                             "Health Potion",
                             HealthPotionSprite,
                             "uncommon", //rarity as a string
-                            4,//value in eyes
-                            5, //how much the birb gets in stock
+                            4,//value in currency
+                            5, //how much the trader gets in stock
                             1, //default quantity
-                            true); //true - helpful. false - harmful. 
+                            true); //true - helpful.               false - harmful. 
 
 
 
@@ -585,6 +605,23 @@ public class EntityDefiner : MonoBehaviour
         MainData.MainLoop.UserInterfaceHelperComponent.PC4 = slot4ref;
 
 
+    }
+
+    public void DistributeStartingTraits()
+    {
+        List<Trait> t1copy = MainData.t1traitList.Values.ToList();
+        List<Trait> partyNewTraits = new List<Trait>();
+        for (int i = 0; i < 4; i++)
+        {
+            int randy = Random.Range(0, t1copy.Count + 1);
+            partyNewTraits.Add(t1copy[randy]);
+            t1copy.RemoveAt(randy);
+            livingPlayerParty[i].ChangeTrait(partyNewTraits[i]);
+            MainData.MainLoop.EventLoggingComponent.LogDanger(t1copy[randy].traitName + "has been given to " + livingPlayerParty[i].charName);
+        }
+
+
+        MainData.MainLoop.UserInterfaceHelperComponent.RefreshCharacterTabs();
     }
 
 
@@ -766,11 +803,11 @@ public class EntityDefiner : MonoBehaviour
                     c.dmgmodifier,
                     c.defensemodifier,
                     c.luckmodifier,
-                    c.multiplicativeHealingAmplification,
-                    c.multiplicativeDamageResistance,
-                    c.multiplicativeDamageBonus,
+                    c.healingAmp,
+                    c.DamageResistancePercentage,
+                    c.DamageBonusPercentage,
                     c.discountPercentage,
-                    c.multiplicativeLifestealBonus); // so we don't have to define them for things that don't need them
+                    c.Lifesteal); // so we don't have to define them for things that don't need them
         //now we check if we already have that item in our inventory.
         //if we do? we just add the quantity of this to that one.
         List<Item> results = MainData.consumableInventory.FindAll(x => x.identifier == itemID);
@@ -805,22 +842,19 @@ public class EntityDefiner : MonoBehaviour
         public bool isEquipable;
         public Character currentWielder;
 
-
-
-
-        public int speedmodifier; //flat, just a +1 or -1 etc. for all of these modifiers
+        public int speedmodifier; //just a +5 or -5 or the like. for all of these modifiers
         public int healthmodifier;
         public int manamodifier;
         public int dmgmodifier;
         public int defensemodifier;
         public int luckmodifier;
-        public int multiplicativeHealingAmplification;//affects healing others
+        public float healingAmp;//affects healing others
 
-        public int multiplicativeDamageResistance;//affects damage taken.
-        public int multiplicativeDamageBonus;//affects damage output. applied after ALL other bonuses.
+        public float DamageResistancePercentage;//affects damage taken.
+        public float DamageBonusPercentage;//affects damage output. applied after ALL other bonuses.
 
         public float discountPercentage;//if positive, it's a discount yeah ,but if negative it increases price.
-        public int multiplicativeLifestealBonus;
+        public int Lifesteal;
 
 
         /// <summary>
@@ -854,10 +888,10 @@ public class EntityDefiner : MonoBehaviour
                     int defensemodifier = 0,
                     int luckmodifier = 0,
 
-                    int multiplicativeHealingAmplification = 1,
-                    int multiplicativeDamageResistance = 1,
-                    int multiplicativeDamageBonus = 1,
-                    float discountPercentage = 0,
+                    float multiplicativeHealingAmplification = 1f,
+                    float multiplicativeDamageResistance = 1f,
+                    float multiplicativeDamageBonus = 1f,
+                    float discountPercentage = 0f,
                     int multiplicativeLifestealBonus = 1) // so we don't have to define them for things that don't need them
         {
             this.identifier = identifier;
@@ -877,11 +911,11 @@ public class EntityDefiner : MonoBehaviour
             this.dmgmodifier = dmgmodifier;
             this.defensemodifier = defensemodifier;
             this.luckmodifier = luckmodifier;
-            this.multiplicativeHealingAmplification = multiplicativeHealingAmplification;
-            this.multiplicativeDamageResistance = multiplicativeDamageResistance;
-            this.multiplicativeDamageBonus = multiplicativeDamageBonus;
+            this.healingAmp = multiplicativeHealingAmplification;
+            this.DamageResistancePercentage = multiplicativeDamageResistance;
+            this.DamageBonusPercentage = multiplicativeDamageBonus;
             this.discountPercentage = discountPercentage;
-            this.multiplicativeLifestealBonus = multiplicativeLifestealBonus;
+            this.Lifesteal = multiplicativeLifestealBonus;
         }
     }
 
@@ -908,9 +942,9 @@ public class EntityDefiner : MonoBehaviour
 
 
         public AudioClip turnSound;
-        public Sprite[] charSprite; //this contains the attack too. the first sprite is the standing sprite.
-
-        public Sprite WalkSprites;
+        public Sprite[] attackAnimation; //this contains the attack too. the first sprite is the standing sprite if one is not supplied.
+        public Sprite standingSprite;
+        public Sprite[] WalkSprites;
         public Sprite charAvatar;//head pic
 
         public List<StatusEffect> currentStatusEffects = new List<StatusEffect>();
@@ -1098,10 +1132,11 @@ public class EntityDefiner : MonoBehaviour
                 damagemod += item.dmgmodifier;
             }
             int defensemod = 0;
-            foreach (Item item in attacker.equippedItems)
-            {
-                defensemod += item.defensemodifier;
-            }
+            //foreach (Item item in attacker.equippedItems)
+            //{
+                
+            //    defensemod += item.defensemodifier;
+            //}
 
             if (attacker.charTrait != null)
             {//here we deal with the attacker's traits.
@@ -1130,12 +1165,12 @@ public class EntityDefiner : MonoBehaviour
 
 
             //Lifesteal
-            if (attacker.equippedItems.FindIndex(f => f.multiplicativeLifestealBonus > 0) != -1) //it returns -1 if none are found
+            if (attacker.equippedItems.FindIndex(f => f.Lifesteal > 0) != -1) //it returns -1 if none are found
             {
                 int lifestealmod = 1;
                 foreach (Item item in attacker.equippedItems)
                 {
-                    lifestealmod *= item.multiplicativeLifestealBonus;
+                    lifestealmod *= item.Lifesteal;
                 }
                 // 1 − ((1 − first instance) × (1 - second instance) × (1 - third instance) × ...)
                 int percentageheal = (damageRoll / 100) * lifestealmod;

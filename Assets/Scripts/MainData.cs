@@ -15,7 +15,7 @@ public static class MainData
     public static AudioSource SoundtrackPlayer;
     [Space(10)]
     public static Material MatCatacombs;
-    public static DesignerEasyValueTweaking itemManager; //script that allows easy value tweaking for designers
+    public static ContentTweakingInterface itemManager; //script that allows easy value tweaking for designers
 
 
     public static PositionHolder references;

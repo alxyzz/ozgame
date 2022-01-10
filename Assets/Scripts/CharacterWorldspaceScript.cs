@@ -54,7 +54,7 @@ public class CharacterWorldspaceScript : MonoBehaviour
         associatedCharacter.baseSpeed = template.baseSpeed;
         associatedCharacter.charAvatar = template.charAvatar;
         associatedCharacter.charName = template.charName;
-        associatedCharacter.charSprite = template.charSprite;
+        associatedCharacter.attackAnimation = template.attackAnimation;
         associatedCharacter.charTrait = template.charTrait;
         associatedCharacter.charType = template.charType;
         associatedCharacter.selfScriptRef = this;
@@ -68,7 +68,16 @@ public class CharacterWorldspaceScript : MonoBehaviour
         associatedCharacter.turnSound = template.turnSound;
         associatedCharacter.speed = template.speed;
         associatedCharacter.InitialPosition = this.transform.position;
-        spriteRenderer.sprite = associatedCharacter.charSprite[0];
+        if (associatedCharacter.standingSprite == null)
+        {
+            spriteRenderer.sprite = associatedCharacter.attackAnimation[0];
+        }
+        else
+        {
+
+            spriteRenderer.sprite = associatedCharacter.standingSprite;
+        }
+       
         if (isEnemyCharacter)
         {
             // Debug.Log("Added a new enemy character - " + associatedCharacter.charName);
