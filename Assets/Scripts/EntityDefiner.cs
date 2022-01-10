@@ -96,22 +96,22 @@ public class EntityDefiner : MonoBehaviour
                     switch (target.charTrait.identifier)
                     {
                         case "caring":
-                            int healthAfterCaringModifier = (MainData.MainLoop.DesignerEasyTweakProPremium.HealthPotionHealthGiven / 100) * MainData.MainLoop.DesignerEasyTweakProPremium.caringHealingPotionPercentageHealingTakenMalus;
+                            int healthAfterCaringModifier = (MainData.MainLoop.ContentValueTweaking.HealthPotionHealthGiven / 100) * MainData.MainLoop.ContentValueTweaking.caringHealingPotionPercentageHealingTakenMalus;
                             target.GainHealth(healthAfterCaringModifier);//set this variable in the inspector above. for easy setting during runtime, too.
                             MainData.MainLoop.EventLoggingComponent.LogGray(target.charName + " feels guilty for drinking a healing potion their friends could have used...");
                             MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(healthAfterCaringModifier, target, true);
                             break;
 
                         default:
-                            target.GainHealth(MainData.MainLoop.DesignerEasyTweakProPremium.HealthPotionHealthGiven);//set this variable in the inspector above. for easy setting during runtime, too.
-                            MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(MainData.MainLoop.DesignerEasyTweakProPremium.HealthPotionHealthGiven, target, true);
+                            target.GainHealth(MainData.MainLoop.ContentValueTweaking.HealthPotionHealthGiven);//set this variable in the inspector above. for easy setting during runtime, too.
+                            MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(MainData.MainLoop.ContentValueTweaking.HealthPotionHealthGiven, target, true);
                             break;
                     }
                 }
                 else
                 {
-                    target.GainHealth(MainData.MainLoop.DesignerEasyTweakProPremium.HealthPotionHealthGiven);//set this variable in the inspector above. for easy setting during runtime, too.
-                    MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(MainData.MainLoop.DesignerEasyTweakProPremium.HealthPotionHealthGiven, target, true);
+                    target.GainHealth(MainData.MainLoop.ContentValueTweaking.HealthPotionHealthGiven);//set this variable in the inspector above. for easy setting during runtime, too.
+                    MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(MainData.MainLoop.ContentValueTweaking.HealthPotionHealthGiven, target, true);
                     break;
                 }
                 break;
@@ -226,7 +226,23 @@ public class EntityDefiner : MonoBehaviour
     /// <param name="attackAnimationSprites"></param>
     /// <param name="newCharAvatar"></param>
     /// <returns></returns>
-    public void MakeMobTemplate(string characterID, string charName, string charDesc, string attackVerb, bool isPlayer, int baseHP, int baseMinDMG, int baseMaxDMG, int baseSPD, int Defense, int Luck, int Mana, AudioClip newCharTurnSound, Sprite[] attackAnimationSprites, int bountyy, Sprite newCharAvatar, Sprite noAnimSprite = null)
+    public void MakeMobTemplate(string characterID,
+                                string charName,
+                                string charDesc,
+                                string attackVerb,
+                                bool isPlayer,
+                                int baseHP,
+                                int baseMinDMG,
+                                int baseMaxDMG,
+                                int baseSPD,
+                                int Defense,
+                                int Luck,
+                                int Mana,
+                                AudioClip newCharTurnSound,
+                                Sprite[] attackAnimationSprites,
+                                int bountyy,
+                                Sprite newCharAvatar,
+                                Sprite noAnimSprite)
     {
         Character newCharacterDefinition = Character.CreateInstance<Character>();
 
@@ -240,13 +256,16 @@ public class EntityDefiner : MonoBehaviour
 
         newCharacterDefinition.turnSound = newCharTurnSound;
         newCharacterDefinition.attackAnimation = attackAnimationSprites;
-        if (noAnimSprite == null)
+        if (noAnimSprite != null)
         {
-            newCharacterDefinition.standingSprite = attackAnimationSprites[0];
+            newCharacterDefinition.standingSprite = noAnimSprite;
+            MainData.MainLoop.EventLoggingComponent.Log("noAnimsprite not null");
+
         }
         else
         {
-            newCharacterDefinition.standingSprite = noAnimSprite;
+            newCharacterDefinition.standingSprite = attackAnimationSprites[0];
+            MainData.MainLoop.EventLoggingComponent.Log("noAnimsprite null");
         }
         newCharacterDefinition.charAvatar = newCharAvatar;
 
@@ -278,15 +297,15 @@ public class EntityDefiner : MonoBehaviour
         //string characterID, string charName, string charDesc, string attackVerb, bool isPlayer, int baseHP, int baseDMG, int baseSPD, int Defense,  int Luck, int Mana, AudioClip newCharTurnSound, Sprite newCharSprite, Sprite newCharAvatar)
         MakeMobTemplate("scarecrow", //characterID
                        "Scarecrow", // charName
-                       "'Too many thoughts dull your blade, they say', 'But I would rather have a dull blade than a dull mind.'", // charDesc
+                       "'Scarecrow '", // charDesc
                        "rends", //verb used when attacking
                        true, //is it a player character(true), or is it an enemy(false)?
-                       MainData.MainLoop.DesignerEasyTweakProPremium.PCStartingMaxHealth, //the base HP value
-                       MainData.MainLoop.DesignerEasyTweakProPremium.PCStartingMinDamage, // the base minimum damage value
-                       MainData.MainLoop.DesignerEasyTweakProPremium.PCStartingMaxDamage, //the base maximum damage value.
-                       MainData.MainLoop.DesignerEasyTweakProPremium.PCStartingSpeed, //base speed, higher is better
-                       MainData.MainLoop.DesignerEasyTweakProPremium.PCStartingDefense, //defense
-                       MainData.MainLoop.DesignerEasyTweakProPremium.PCStartingLuck, //luck
+                       MainData.MainLoop.ContentValueTweaking.PCStartingMaxHealth, //the base HP value
+                       MainData.MainLoop.ContentValueTweaking.PCStartingMinDamage, // the base minimum damage value
+                       MainData.MainLoop.ContentValueTweaking.PCStartingMaxDamage, //the base maximum damage value.
+                       MainData.MainLoop.ContentValueTweaking.PCStartingSpeed, //base speed, higher is better
+                       MainData.MainLoop.ContentValueTweaking.PCStartingDefense, //defense
+                       MainData.MainLoop.ContentValueTweaking.PCStartingLuck, //luck
                        100, //mana
                        null, //sound for when it is this character's turn to act
                        scarecrowAttackSheet, //character's attack animation sprite 
@@ -299,12 +318,12 @@ public class EntityDefiner : MonoBehaviour
                        "'Tin guy'",
                        "chops", //verb used when attacking
                        true, //is it a player character(true), or is it an enemy(false)?
-                       MainData.MainLoop.DesignerEasyTweakProPremium.PCStartingMaxHealth, //the base HP value
-                       MainData.MainLoop.DesignerEasyTweakProPremium.PCStartingMinDamage, // the base minimum damage value
-                       MainData.MainLoop.DesignerEasyTweakProPremium.PCStartingMaxDamage, //the base maximum damage value.
-                       MainData.MainLoop.DesignerEasyTweakProPremium.PCStartingSpeed, //base speed, higher is better
-                       MainData.MainLoop.DesignerEasyTweakProPremium.PCStartingDefense, //defense
-                       MainData.MainLoop.DesignerEasyTweakProPremium.PCStartingLuck, //luck
+                       MainData.MainLoop.ContentValueTweaking.PCStartingMaxHealth, //the base HP value
+                       MainData.MainLoop.ContentValueTweaking.PCStartingMinDamage, // the base minimum damage value
+                       MainData.MainLoop.ContentValueTweaking.PCStartingMaxDamage, //the base maximum damage value.
+                       MainData.MainLoop.ContentValueTweaking.PCStartingSpeed, //base speed, higher is better
+                       MainData.MainLoop.ContentValueTweaking.PCStartingDefense, //defense
+                       MainData.MainLoop.ContentValueTweaking.PCStartingLuck, //luck
                        100, //mana
                        null, //sound for when it is this character's turn to act
                        tinmanAttackSheet, //character's attack animation sprite 
@@ -317,12 +336,12 @@ public class EntityDefiner : MonoBehaviour
                        "'Fear is weakness, they say. But even a coward can be dangerous, if cornered.'",
                        "rends", //verb used when attacking
                        true, //is it a player character(true), or is it an enemy(false)?
-                       MainData.MainLoop.DesignerEasyTweakProPremium.PCStartingMaxHealth, //the base HP value
-                       MainData.MainLoop.DesignerEasyTweakProPremium.PCStartingMinDamage, // the base  minimum damage value
-                       MainData.MainLoop.DesignerEasyTweakProPremium.PCStartingMaxDamage, //the base maximum damage value.
-                       MainData.MainLoop.DesignerEasyTweakProPremium.PCStartingSpeed, //base speed, higher is better
-                       MainData.MainLoop.DesignerEasyTweakProPremium.PCStartingDefense, //defense
-                       MainData.MainLoop.DesignerEasyTweakProPremium.PCStartingLuck, //luck
+                       MainData.MainLoop.ContentValueTweaking.PCStartingMaxHealth, //the base HP value
+                       MainData.MainLoop.ContentValueTweaking.PCStartingMinDamage, // the base  minimum damage value
+                       MainData.MainLoop.ContentValueTweaking.PCStartingMaxDamage, //the base maximum damage value.
+                       MainData.MainLoop.ContentValueTweaking.PCStartingSpeed, //base speed, higher is better
+                       MainData.MainLoop.ContentValueTweaking.PCStartingDefense, //defense
+                       MainData.MainLoop.ContentValueTweaking.PCStartingLuck, //luck
                        100, //mana
                        null, //sound for when it is this character's turn to act
                        scarecrowAttackSheet, //character's attack animation sprite 
@@ -335,12 +354,12 @@ public class EntityDefiner : MonoBehaviour
                        "'You don’t have a home until you leave it and then, when you have left it, you never can go back.'",
                       "cuts", //verb used when attacking
                        true, //is it a player character(true), or is it an enemy(false)?
-                       MainData.MainLoop.DesignerEasyTweakProPremium.PCStartingMaxHealth, //the base HP value
-                       MainData.MainLoop.DesignerEasyTweakProPremium.PCStartingMinDamage, // the base  minimum damage value
-                       MainData.MainLoop.DesignerEasyTweakProPremium.PCStartingMaxDamage, //the base maximum damage value.
-                       MainData.MainLoop.DesignerEasyTweakProPremium.PCStartingSpeed, //base speed, higher is better
-                       MainData.MainLoop.DesignerEasyTweakProPremium.PCStartingDefense, //defense
-                       MainData.MainLoop.DesignerEasyTweakProPremium.PCStartingLuck, //luck
+                       MainData.MainLoop.ContentValueTweaking.PCStartingMaxHealth, //the base HP value
+                       MainData.MainLoop.ContentValueTweaking.PCStartingMinDamage, // the base  minimum damage value
+                       MainData.MainLoop.ContentValueTweaking.PCStartingMaxDamage, //the base maximum damage value.
+                       MainData.MainLoop.ContentValueTweaking.PCStartingSpeed, //base speed, higher is better
+                       MainData.MainLoop.ContentValueTweaking.PCStartingDefense, //defense
+                       MainData.MainLoop.ContentValueTweaking.PCStartingLuck, //luck
                        100, //mana
                        null, //sound for when it is this character's turn to act
                        scarecrowAttackSheet, //character's attack animation sprite 
@@ -359,12 +378,12 @@ public class EntityDefiner : MonoBehaviour
                        "Evil flying monkey hellbent on causing mischief and wreaking havok.", // charDesc
                        "claws", //verb used when attacking
                        false, //is it a player character(true), or is it an enemy(false)?
-                       MainData.MainLoop.DesignerEasyTweakProPremium.flyingMonkeyMaxHealth, //the base HP value
-                       MainData.MainLoop.DesignerEasyTweakProPremium.flyingMonkeyMinDamage, // the minimum damage value
-                       MainData.MainLoop.DesignerEasyTweakProPremium.flyingMonkeyMaxDamage, //the maximum damage value.
-                       MainData.MainLoop.DesignerEasyTweakProPremium.flyingMonkeySpeed, //base speed, higher is better
-                       MainData.MainLoop.DesignerEasyTweakProPremium.flyingMonkeyDefense, //defense
-                       MainData.MainLoop.DesignerEasyTweakProPremium.flyingMonkeyLuck, //luck
+                       MainData.MainLoop.ContentValueTweaking.flyingMonkeyMaxHealth, //the base HP value
+                       MainData.MainLoop.ContentValueTweaking.flyingMonkeyMinDamage, // the minimum damage value
+                       MainData.MainLoop.ContentValueTweaking.flyingMonkeyMaxDamage, //the maximum damage value.
+                       MainData.MainLoop.ContentValueTweaking.flyingMonkeySpeed, //base speed, higher is better
+                       MainData.MainLoop.ContentValueTweaking.flyingMonkeyDefense, //defense
+                       MainData.MainLoop.ContentValueTweaking.flyingMonkeyLuck, //luck
                        0, //mana
                        null, //sound for when it is this character's turn to act
                        monkeyAttackSheet, //character's attack animation sprite 
@@ -609,23 +628,35 @@ public class EntityDefiner : MonoBehaviour
 
     public void DistributeStartingTraits()
     {
-        List<Trait> t1copy = MainData.t1traitList.Values.ToList();
-        List<Trait> partyNewTraits = new List<Trait>();
-        for (int i = 0; i < 4; i++)
-        {
-            int randy = Random.Range(0, t1copy.Count + 1);
-            partyNewTraits.Add(t1copy[randy]);
-            t1copy.RemoveAt(randy);
-            livingPlayerParty[i].ChangeTrait(partyNewTraits[i]);
-            MainData.MainLoop.EventLoggingComponent.LogDanger(t1copy[randy].traitName + "has been given to " + livingPlayerParty[i].charName);
-        }
+        //List<Trait> t1copy = MainData.t1traitList.Values.ToList();
+        //List<Trait> partyNewTraits = new List<Trait>();
+        //for (int i = 0; i < 4; i++)
+        //{
+        //    int randy = Random.Range(0, t1copy.Count + 1);
+        //    partyNewTraits.Add(t1copy[randy]);
+        //    t1copy.RemoveAt(randy);
+        //    livingPlayerParty[i].ChangeTrait(partyNewTraits[i]);
+        //    MainData.MainLoop.EventLoggingComponent.LogDanger(t1copy[randy].traitName + "has been given to " + livingPlayerParty[i].charName);
+        //}
+
+        CharacterWorldspaceScript slot1ref = MainData.MainLoop.PositionHolderComponent.PartySlot1.GetComponent<CharacterWorldspaceScript>();
+        CharacterWorldspaceScript slot2ref = MainData.MainLoop.PositionHolderComponent.PartySlot2.GetComponent<CharacterWorldspaceScript>();
+        CharacterWorldspaceScript slot3ref = MainData.MainLoop.PositionHolderComponent.PartySlot3.GetComponent<CharacterWorldspaceScript>();
+        CharacterWorldspaceScript slot4ref = MainData.MainLoop.PositionHolderComponent.PartySlot4.GetComponent<CharacterWorldspaceScript>();
+
+
+        slot1ref.associatedCharacter.ChangeTrait(MainData.t1traitList["greed"]);
+        slot2ref.associatedCharacter.ChangeTrait(MainData.t1traitList["wrath"]);
+        slot3ref.associatedCharacter.ChangeTrait(MainData.t1traitList["caring"]);
+        slot4ref.associatedCharacter.ChangeTrait(MainData.t1traitList["angry"]);
+
 
 
         MainData.MainLoop.UserInterfaceHelperComponent.RefreshCharacterTabs();
     }
 
 
-    public void GenerateEquipment()
+    public void DefineEquipment()
     {//generates traits, stores them all in a dictionary in the dataholder
 
         MakeEquipableItemTemplate("short_sword", //string ID
@@ -652,7 +683,7 @@ public class EntityDefiner : MonoBehaviour
 
 
 
-        MakeEquipableItemTemplate("short_sword", //string ID
+        MakeEquipableItemTemplate("long_sword", //string ID
                                           "Common implement of war. Can usually be found between your ribs.",//the desc
                                           "Shortsword", //name
                                           "Shortsword", //blurb
@@ -676,7 +707,7 @@ public class EntityDefiner : MonoBehaviour
 
 
 
-        MakeEquipableItemTemplate("short_sword", //string ID
+        MakeEquipableItemTemplate("medium_sword", //string ID
                                           "Common implement of war. Can usually be found between your ribs.",//the desc
                                           "Shortsword", //name
                                           "Shortsword", //blurb
@@ -704,14 +735,45 @@ public class EntityDefiner : MonoBehaviour
     public void DefineTraits()
     {//generates traits, stores them all in a dictionary in the dataholder
 
-        Trait healing1 = new Trait("caring", //string ID
+        Trait t1 = new Trait("caring", //string ID
                                    "Caring", //name
                                    "Caring", //adjective given to characters with this
                                    "The power which lies in the heart is not to be underestimated.", // blurb. wax poetic here as much as you want
                                    "Passive: Healing potions are less effective on this character. Active: [<color=#45BA3D >Heal</color>] Heals an ally for 50% HP.", //functional description
                                    null, //sprite
                                    false); //false = t1. true = t2.
+                                           //gets automatically sent to the desired trait list upon generation, in the constructor
+
+
+
+        Trait t2 = new Trait("wrath", //string ID
+                                   "Wrath", //name
+                                   "Wrathful", //adjective given to characters with this
+                                   "wrath stuff", // blurb. wax poetic here as much as you want
+                                   "Passive: Healing potions are less effective on this character. Active: [<color=#45BA3D >Heal</color>] Heals an ally for 50% HP.", //functional description
+                                   null, //sprite
+                                   false); //false = t1. true = t2.
         //gets automatically sent to the desired trait list upon generation, in the constructor
+
+        Trait t3 = new Trait("greed", //string ID
+                                   "Greed", //name
+                                   "Greedy", //adjective given to characters with this
+                                   "greed stuff", // blurb. wax poetic here as much as you want
+                                   "Passive: Healing potions are less effective on this character. Active: [<color=#45BA3D >Heal</color>] Heals an ally for 50% HP.", //functional description
+                                   null, //sprite
+                                   false); //false = t1. true = t2.
+        //gets automatically sent to the desired trait list upon generation, in the constructor
+
+        Trait t4 = new Trait("angry", //string ID
+                                   "Anger", //name
+                                   "Angry", //adjective given to characters with this
+                                   "anger stuff.", // blurb. wax poetic here as much as you want
+                                   "Passive: Healing potions are less effective on this character. Active: [<color=#45BA3D >Heal</color>] Heals an ally for 50% HP.", //functional description
+                                   null, //sprite
+                                   false); //false = t1. true = t2.
+        //gets automatically sent to the desired trait list upon generation, in the constructor
+
+
 
 
     }
@@ -811,7 +873,6 @@ public class EntityDefiner : MonoBehaviour
         //now we check if we already have that item in our inventory.
         //if we do? we just add the quantity of this to that one.
         List<Item> results = MainData.consumableInventory.FindAll(x => x.identifier == itemID);
-        Debug.Log(results);
         if (results.Count != 0)
         {
             results[0].itemQuantity += b.itemQuantity;//gives amt * new item's worth of charges to the existing consumable
@@ -976,9 +1037,13 @@ public class EntityDefiner : MonoBehaviour
 
         public void RecalculateThreatFromStats()
         {
-            threatFromStats = (speed + currentHealth + damageMin + defense)/4;
+            threatFromStats = (speed + currentHealth + damageMin + defense) / 4;
         }
 
+        public void RecalculateStatsFromItems()
+        {
+
+        }
 
 
         public void RecalculateStatsFromTraits() //recalculates stats on the start of each round.  handles applying stats the first time, too.
@@ -993,9 +1058,9 @@ public class EntityDefiner : MonoBehaviour
                     case "wrath":
                         if (!charTrait.hasAppliedStats)
                         {
-                            damageMax += MainData.MainLoop.DesignerEasyTweakProPremium.wrathDamageIncrease;
-                            damageMin += MainData.MainLoop.DesignerEasyTweakProPremium.wrathDamageIncrease;
-                            speed += MainData.MainLoop.DesignerEasyTweakProPremium.wrathSpeedIncrease;
+                            damageMax += MainData.MainLoop.ContentValueTweaking.wrathDamageIncrease;
+                            damageMin += MainData.MainLoop.ContentValueTweaking.wrathDamageIncrease;
+                            speed += MainData.MainLoop.ContentValueTweaking.wrathSpeedIncrease;
                             charTrait.hasAppliedStats = true;
                         }
                         break;
@@ -1003,13 +1068,13 @@ public class EntityDefiner : MonoBehaviour
                     case "greed":
                         if (!charTrait.hasAppliedStats)
                         {
-                            maxHealth -= MainData.MainLoop.DesignerEasyTweakProPremium.greedPassiveHealthMalus;
-                            currentHealth -= MainData.MainLoop.DesignerEasyTweakProPremium.greedPassiveHealthMalus;
+                            maxHealth -= MainData.MainLoop.ContentValueTweaking.greedPassiveHealthMalus;
+                            currentHealth -= MainData.MainLoop.ContentValueTweaking.greedPassiveHealthMalus;
                             if (currentHealth <= 0) //i think you could
                             {
                                 currentHealth = 1;
                             }
-                            speed -= MainData.MainLoop.DesignerEasyTweakProPremium.greedPassiveSpeedMalus;
+                            speed -= MainData.MainLoop.ContentValueTweaking.greedPassiveSpeedMalus;
                             charTrait.hasAppliedStats = true;
                         }
                         break;
@@ -1017,9 +1082,9 @@ public class EntityDefiner : MonoBehaviour
                     case "caring":
                         if (!charTrait.hasAppliedStats)
                         {
-                            damageMax -= MainData.MainLoop.DesignerEasyTweakProPremium.caringPassiveDamageMalus;
-                            damageMin -= MainData.MainLoop.DesignerEasyTweakProPremium.caringPassiveDamageMalus;
-                            maxHealth += MainData.MainLoop.DesignerEasyTweakProPremium.caringPassiveHealthBonus;
+                            damageMax -= MainData.MainLoop.ContentValueTweaking.caringPassiveDamageMalus;
+                            damageMin -= MainData.MainLoop.ContentValueTweaking.caringPassiveDamageMalus;
+                            maxHealth += MainData.MainLoop.ContentValueTweaking.caringPassiveHealthBonus;
                             charTrait.hasAppliedStats = true;
                         }
                         break;
@@ -1027,9 +1092,9 @@ public class EntityDefiner : MonoBehaviour
                     case "angry":
                         if (!charTrait.hasAppliedStats)
                         {
-                            damageMax += MainData.MainLoop.DesignerEasyTweakProPremium.angryPassiveDamageBonus;
-                            damageMin += MainData.MainLoop.DesignerEasyTweakProPremium.angryPassiveDamageBonus;
-                            defense -= MainData.MainLoop.DesignerEasyTweakProPremium.angryPassiveDefenseMalus;
+                            damageMax += MainData.MainLoop.ContentValueTweaking.angryPassiveDamageBonus;
+                            damageMin += MainData.MainLoop.ContentValueTweaking.angryPassiveDamageBonus;
+                            defense -= MainData.MainLoop.ContentValueTweaking.angryPassiveDefenseMalus;
                             charTrait.hasAppliedStats = true;
                         }
                         break;
@@ -1051,40 +1116,40 @@ public class EntityDefiner : MonoBehaviour
                 {
                     case "wrath":
 
-                        damageMax -= MainData.MainLoop.DesignerEasyTweakProPremium.wrathDamageIncrease;
-                        damageMin -= MainData.MainLoop.DesignerEasyTweakProPremium.wrathDamageIncrease;
-                        speed -= MainData.MainLoop.DesignerEasyTweakProPremium.wrathSpeedIncrease;
+                        damageMax -= MainData.MainLoop.ContentValueTweaking.wrathDamageIncrease;
+                        damageMin -= MainData.MainLoop.ContentValueTweaking.wrathDamageIncrease;
+                        speed -= MainData.MainLoop.ContentValueTweaking.wrathSpeedIncrease;
                         charTrait = null;
 
                         break;
 
                     case "greed":
 
-                        maxHealth += MainData.MainLoop.DesignerEasyTweakProPremium.greedPassiveHealthMalus;
-                        currentHealth += MainData.MainLoop.DesignerEasyTweakProPremium.greedPassiveHealthMalus;
+                        maxHealth += MainData.MainLoop.ContentValueTweaking.greedPassiveHealthMalus;
+                        currentHealth += MainData.MainLoop.ContentValueTweaking.greedPassiveHealthMalus;
                         if (currentHealth > maxHealth)
                         {
                             currentHealth = maxHealth;
                         }
-                        speed += MainData.MainLoop.DesignerEasyTweakProPremium.greedPassiveSpeedMalus;
+                        speed += MainData.MainLoop.ContentValueTweaking.greedPassiveSpeedMalus;
                         charTrait = null;
 
                         break;
 
                     case "caring":
 
-                        damageMax += MainData.MainLoop.DesignerEasyTweakProPremium.caringPassiveDamageMalus;
-                        damageMin += MainData.MainLoop.DesignerEasyTweakProPremium.caringPassiveDamageMalus;
-                        maxHealth -= MainData.MainLoop.DesignerEasyTweakProPremium.caringPassiveHealthBonus;
+                        damageMax += MainData.MainLoop.ContentValueTweaking.caringPassiveDamageMalus;
+                        damageMin += MainData.MainLoop.ContentValueTweaking.caringPassiveDamageMalus;
+                        maxHealth -= MainData.MainLoop.ContentValueTweaking.caringPassiveHealthBonus;
                         charTrait = null;
 
                         break;
 
                     case "angry":
 
-                        damageMax -= MainData.MainLoop.DesignerEasyTweakProPremium.angryPassiveDamageBonus;
-                        damageMin -= MainData.MainLoop.DesignerEasyTweakProPremium.angryPassiveDamageBonus;
-                        defense += MainData.MainLoop.DesignerEasyTweakProPremium.angryPassiveDefenseMalus;
+                        damageMax -= MainData.MainLoop.ContentValueTweaking.angryPassiveDamageBonus;
+                        damageMin -= MainData.MainLoop.ContentValueTweaking.angryPassiveDamageBonus;
+                        defense += MainData.MainLoop.ContentValueTweaking.angryPassiveDefenseMalus;
                         charTrait = null;
 
                         break;
@@ -1105,10 +1170,14 @@ public class EntityDefiner : MonoBehaviour
 
         public void ChangeTrait(Trait newTrait)
         {
+            if (charTrait != null)
+            {
+                MainData.MainLoop.EventLoggingComponent.Log(this.charName + " is no longer " + charTrait.adjective + ". ");
+                RemoveTraitSafely();
+            }
 
-            MainData.MainLoop.EventLoggingComponent.Log(charName + " is no longer " + charTrait.adjective + ". ");
-            RemoveTraitSafely();
-            MainData.MainLoop.EventLoggingComponent.Log(charName + " is now " + newTrait.adjective + ". ");
+
+            MainData.MainLoop.EventLoggingComponent.Log(this.charName + " is now " + newTrait.adjective + ". ");
             charTrait = (Trait)newTrait.Clone();//so we can have multiple characters with same trait because we're not just using a reference from the central trait lists
         }
 
@@ -1132,27 +1201,32 @@ public class EntityDefiner : MonoBehaviour
                 damagemod += item.dmgmodifier;
             }
             int defensemod = 0;
-            //foreach (Item item in attacker.equippedItems)
-            //{
-                
-            //    defensemod += item.defensemodifier;
-            //}
 
-            if (attacker.charTrait != null)
-            {//here we deal with the attacker's traits.
-                switch (charTrait.identifier)
+            if (attacker.equippedItems.Count >0)
+            {
+                foreach (Item item in attacker.equippedItems)
                 {
-                    case "angry":
-                        damagemod += charTrait.GenericTraitValue; //adds the whole value to damage output
-                        charTrait.GenericTraitValue = 0;//resets it upon use
-                        break;
 
-                    default:
-                        break;
+                    defensemod += item.defensemodifier;
                 }
 
+                if (attacker.charTrait != null)
+                {//here we deal with the attacker's traits.
+                    switch (charTrait.identifier)
+                    {
+                        case "angry":
+                            damagemod += charTrait.GenericTraitValue; //adds the whole value to damage output
+                            charTrait.GenericTraitValue = 0;//resets it upon use
+                            break;
 
+                        default:
+                            break;
+                    }
+
+
+                }
             }
+            
 
 
 
@@ -1160,7 +1234,7 @@ public class EntityDefiner : MonoBehaviour
             int baseDamageRoll = UnityEngine.Random.Range(attacker.damageMin, attacker.damageMax + 1);
             int damageRoll = (baseDamageRoll + damagemod) - (defense + defensemod);
 
-            MainData.MainLoop.EventLoggingComponent.Log(attacker.charName + " " + attacker.attackverb + " the " + charName + " for " + (baseDamageRoll + damagemod) + " damage. Armor protects for " + defense + defensemod + " damage!");
+            MainData.MainLoop.EventLoggingComponent.Log(attacker.charName + " " + attacker.attackverb + " the " + charName + " for " + (baseDamageRoll + damagemod) + " damage. Armor protects for " + (defense + defensemod) + " damage!");
 
 
 
@@ -1176,7 +1250,7 @@ public class EntityDefiner : MonoBehaviour
                 int percentageheal = (damageRoll / 100) * lifestealmod;
                 attacker.GainHealth(percentageheal);
             }
-
+           
 
             //This is where we deal with traits deal with incoming damage
             if (charTrait != null)
@@ -1186,10 +1260,11 @@ public class EntityDefiner : MonoBehaviour
                 {
                     case "angry":            //Anger's damage increase on getting hit
 
-                        charTrait.GenericTraitValue += MainData.MainLoop.DesignerEasyTweakProPremium.angryPassiveDamageBonus;
+                        charTrait.GenericTraitValue += MainData.MainLoop.ContentValueTweaking.angryPassiveDamageBonus;
                         break;
 
                     default:
+                        Debug.LogWarning(charTrait.identifier + " unused trait at TakeDamageFromCharacter(). Not a bad thing usually.");
                         break;
                 }
             }
@@ -1237,7 +1312,10 @@ public class EntityDefiner : MonoBehaviour
         public void GainHealth(int hp)
         {
 
-
+            if (hp == 0)
+            {
+                return;
+            }
 
 
 
@@ -1322,7 +1400,7 @@ public class EntityDefiner : MonoBehaviour
 
 
                 MainData.MainLoop.Currency += valueBounty;
-                MainData.MainLoop.EventLoggingComponent.LogGray("The " + charName + " dropped " + valueBounty + " eyes.");
+                MainData.MainLoop.EventLoggingComponent.LogGray("The " + charName + " dropped " + valueBounty + " coins.");
                 MainData.MainLoop.UserInterfaceHelperComponent.UpdateCurrencyCounter();
             }
             else

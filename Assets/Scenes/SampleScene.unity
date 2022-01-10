@@ -8325,9 +8325,9 @@ MonoBehaviour:
   caringPassiveDamageMalus: 5
   greedActiveSelfDamage: 10
   greedActiveRevenue: 10
-  greedBountyPercentageBonus: 0
-  greedPassiveHealthMalus: 0
-  greedPassiveSpeedMalus: 0
+  greedBountyPercentageBonus: 10
+  greedPassiveHealthMalus: 5
+  greedPassiveSpeedMalus: 3
   angryActiveDamageMalus: 3
   angryActivePowerDamage: 20
   angryPassiveDamageBonus: 3
@@ -8420,7 +8420,7 @@ MonoBehaviour:
   UserInterfaceHelperComponent: {fileID: 462129127}
   CombatHelperComponent: {fileID: 462129124}
   VendorScriptComponent: {fileID: 718212761}
-  DesignerEasyTweakProPremium: {fileID: 462129122}
+  ContentValueTweaking: {fileID: 462129122}
 --- !u!114 &462129127
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8526,6 +8526,8 @@ MonoBehaviour:
   PCDead4: {fileID: 1777698367}
   isDraggingItem: 0
   draggedItemSprite: {fileID: 0}
+  cursornormal: {fileID: 2800000, guid: aae6a1094c767c04dbec657531934fea, type: 3}
+  cursorpressed: {fileID: 2800000, guid: e6a357970d18ea240b3dd9df34067524, type: 3}
   CurrencyView: {fileID: 780245551}
 --- !u!1 &468998282
 GameObject:
@@ -11468,7 +11470,7 @@ SpriteRenderer:
   m_SortingLayerID: 419256511
   m_SortingLayer: 2
   m_SortingOrder: -2
-  m_Sprite: {fileID: 21300000, guid: 0f84d536dbd418942848ec9fb29c6f96, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 2cee61877577af54a9adbffaa2ca5f2f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -26059,7 +26061,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 968, y: 72.0325}
+  m_AnchoredPosition: {x: 972.9, y: 72.0325}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1564352209

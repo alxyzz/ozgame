@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
     public UserInterfaceHelper UserInterfaceHelperComponent;
     public CombatHelper CombatHelperComponent;
     public VendorScript VendorScriptComponent;
-    public ContentTweakingInterface DesignerEasyTweakProPremium;
+    public ContentTweakingInterface ContentValueTweaking;
 
     // Start is called before the first frame update
     void Start()//loads stuff up
@@ -37,7 +37,7 @@ public class GameManager : MonoBehaviour
         EntityDefComponent.DefinePC(); //set up Pcharacter templates
         EntityDefComponent.DefineNPC();//set up NPcharacter templates
         EntityDefComponent.DefineConsumables();
-
+        EntityDefComponent.DefineEquipment();
         LevelHelperComponent.GenerateLevels(); //set up templates
         LevelHelperComponent.SetupDemoLevel();
 
@@ -45,9 +45,9 @@ public class GameManager : MonoBehaviour
         PositionHolderComponent.PrepPartySpots();
 
         EntityDefComponent.GivePlayerTestConsumables();
-        //EntityDefComponent.DistributeStartingTraits();
+        EntityDefComponent.DistributeStartingTraits();
         UserInterfaceHelperComponent.RefreshCharacterTabs();
-
+        //UserInterfaceHelperComponent.SetCursorTexture();
 
 
         UserInterfaceHelperComponent.ToggleFightButtonVisiblity(false);

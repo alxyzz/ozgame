@@ -104,7 +104,6 @@ public class UserInterfaceHelper : MonoBehaviour
     public TextMeshProUGUI PC4nmbr;
 
 
-
     [Space(15)]
     [Header("references to consumable slots - this is just so you can change their sprite based on what item is in that slot")]
     public GameObject ConsumableSlot1;
@@ -151,14 +150,31 @@ public class UserInterfaceHelper : MonoBehaviour
     public Sprite draggedItemSprite;
     public Item draggedItem;
     private List<GameObject> consumableSlots = new List<GameObject>();
+    [Space(5)]
+    public Texture2D cursornormal;
+    public Texture2D cursorpressed;
 
 
+
+
+
+
+
+    public void Update()
+    {
+        if (Input.GetMouseButton(0))
+            Cursor.SetCursor(cursorpressed, new Vector2(0, 0), CursorMode.Auto);
+        else
+            Cursor.SetCursor(cursornormal, new Vector2(0, 0), CursorMode.Auto);
+    }
 
 
     public void ToggleFightButtonVisiblity(bool boolin)
     {
         PassTurnButton.SetActive(boolin);
     }
+
+
 
 
     /// <summary>
@@ -311,7 +327,7 @@ public class UserInterfaceHelper : MonoBehaviour
         if (MainData.livingEnemyParty.Count < 1)
         {
             SetActiveEnemyTabs(0);
-            Debug.LogWarning("RefreshEnemyCharacterView() - livingEnemyParty has no enemies in it.");
+            //Debug.LogWarning("RefreshEnemyCharacterView() - livingEnemyParty has no enemies in it.");
             NPC1 = null;
             NPC2 = null;
             NPC3 = null;
@@ -322,7 +338,7 @@ public class UserInterfaceHelper : MonoBehaviour
         NPC2 = null;
         NPC3 = null;
         NPC4 = null;
-        Debug.LogWarning("RefreshEnemyCharacterView() just ran");
+        //Debug.LogWarning("RefreshEnemyCharacterView() just ran");
         List<Character> characters = new List<Character>(MainData.livingEnemyParty);
 
         characters.Sort((x, y) => x.currentHealth.CompareTo(y.currentHealth));
@@ -408,59 +424,12 @@ public class UserInterfaceHelper : MonoBehaviour
     {//run this after every spawning or death of an enemy
         if (MainData.livingEnemyParty.Count == 0)
         {
-            Debug.LogWarning("RefreshEnemyCharacterView() - livingEnemyParty has no enemies in it.");
-
-
-
-
-
             NPC1HPbar.transform.parent.gameObject.SetActive(false);
             NPC2HPbar.transform.parent.gameObject.SetActive(false);
             NPC3HPbar.transform.parent.gameObject.SetActive(false);
             NPC4HPbar.transform.parent.gameObject.SetActive(false);
-
-
-
-            //NPC1HPbar.gameObject.SetActive(false);
-            //NPC2HPbar.gameObject.SetActive(false);
-            //NPC3HPbar.gameObject.SetActive(false);
-            //NPC4HPbar.gameObject.SetActive(false);
-
-
-            //NPC1Avatar.gameObject.SetActive(false);
-            //NPC2Avatar.gameObject.SetActive(false);
-            //NPC3Avatar.gameObject.SetActive(false);
-            //NPC4Avatar.gameObject.SetActive(false);
-
-            //NPC1HPbar.gameObject.SetActive(false);
-            //NPC2HPbar.gameObject.SetActive(false);
-            //NPC3HPbar.gameObject.SetActive(false);
-            //NPC4HPbar.gameObject.SetActive(false);
-
-            //NPC1Avatar.gameObject.SetActive(false);
-            //NPC2Avatar.gameObject.SetActive(false);
-            //NPC3Avatar.gameObject.SetActive(false);
-            //NPC4Avatar.gameObject.SetActive(false);
-
-
-
-
-
-
-            ////health numbers
-            //NPC1nmbr.gameObject.SetActive(false);
-            //NPC2nmbr.gameObject.SetActive(false);
-            //NPC3nmbr.gameObject.SetActive(false);
-            //NPC4nmbr.gameObject.SetActive(false);
-
-            //PC1nmbr.gameObject.SetActive(false);
-            //PC2nmbr.gameObject.SetActive(false);
-            //PC3nmbr.gameObject.SetActive(false);
-            //PC4nmbr.gameObject.SetActive(false);
             return;
         }
-
-        Debug.LogWarning("RefreshViewEnemy() ran.");
         ReferenceEnemiesForDisplay();
         if (NPC1 != null && NPC1.associatedCharacter != null)//checks if it exists
         {
@@ -505,7 +474,7 @@ public class UserInterfaceHelper : MonoBehaviour
             NPC4HPbar.transform.parent.gameObject.SetActive(false);
         }
 
-
+        RefreshHealthBarEnemy();
 
     }
     private void RefreshViewPlayer()
@@ -570,7 +539,7 @@ public class UserInterfaceHelper : MonoBehaviour
         }
 
 
-
+        RefreshHealthBarPlayer();
         RefreshPlayerDeathStatus();
 
 
