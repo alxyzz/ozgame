@@ -1382,7 +1382,7 @@ public class EntityDefiner : MonoBehaviour
                 MainData.MainLoop.UserInterfaceHelperComponent.RefreshHealthBarEnemy();
                 MainData.MainLoop.CombatHelperComponent.TargetSelectionCheck();
 
-
+                MainData.recentDeadEnemies.Add(this);
 
                 MainData.MainLoop.Currency += valueBounty;
                 MainData.MainLoop.EventLoggingComponent.LogGray("The " + charName + " dropped " + valueBounty + " coins.");
@@ -1392,6 +1392,7 @@ public class EntityDefiner : MonoBehaviour
             {
                 MainData.MainLoop.UserInterfaceHelperComponent.RefreshHealthBarPlayer();
             }
+            MainData.recentDeadEnemies.Add(this);
             selfScriptRef.Die();
         }
         public void HandleListsUponDeath()

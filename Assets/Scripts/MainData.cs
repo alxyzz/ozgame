@@ -55,7 +55,7 @@ public static class MainData
 
     //party
     public static List<Character> allChars = new List<Character>(); //all chars on current level
-
+    public static List<Character> recentDeadEnemies = new List<Character>();
     public static List<Character> livingPlayerParty = new List<Character>(); //all living player party chars
     public static List<Character> deadPlayerParty = new List<Character>(); //all dead player party chars
     public static List<GameObject> playerPartyMemberObjects = new List<GameObject>();

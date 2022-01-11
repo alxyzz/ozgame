@@ -1,7 +1,202 @@
 fileFormatVersion: 2
 guid: 9596c729bbdecb343bb5d3ed982fb482
 TextureImporter:
-  internalIDToNameTable: []
+  internalIDToNameTable:
+  - first:
+      213: -1476214577310709061
+    second: merchant_animation_1_0
+  - first:
+      213: -489035509237996880
+    second: merchant_animation_1_1
+  - first:
+      213: -5237613866531279791
+    second: merchant_animation_1_2
+  - first:
+      213: -1326134683093749283
+    second: merchant_animation_1_3
+  - first:
+      213: 9035455962911363204
+    second: merchant_animation_1_4
+  - first:
+      213: 4226181629125195525
+    second: merchant_animation_1_5
+  - first:
+      213: 6199994779800833741
+    second: merchant_animation_1_6
+  - first:
+      213: -8411085282169015221
+    second: merchant_animation_1_7
+  - first:
+      213: -5538046713847303
+    second: merchant_animation_1_8
+  - first:
+      213: -664921975120919440
+    second: merchant_animation_1_9
+  - first:
+      213: -8679057937378543200
+    second: merchant_animation_1_10
+  - first:
+      213: -8593760014270471629
+    second: merchant_animation_1_11
+  - first:
+      213: 6294667317557510438
+    second: merchant_animation_1_12
+  - first:
+      213: -6873755728670542823
+    second: merchant_animation_1_13
+  - first:
+      213: 4391597020175765083
+    second: merchant_animation_1_14
+  - first:
+      213: 7066248600397863845
+    second: merchant_animation_1_15
+  - first:
+      213: -5682023661216838439
+    second: merchant_animation_1_16
+  - first:
+      213: -4874880507199937634
+    second: merchant_animation_1_17
+  - first:
+      213: 8630604520018546801
+    second: merchant_animation_1_18
+  - first:
+      213: -2367043024880262723
+    second: merchant_animation_1_19
+  - first:
+      213: 2382259849107454303
+    second: merchant_animation_1_20
+  - first:
+      213: 8273752425811213257
+    second: merchant_animation_1_21
+  - first:
+      213: 5068245747373727176
+    second: merchant_animation_1_22
+  - first:
+      213: -1519388244999776580
+    second: merchant_animation_1_23
+  - first:
+      213: -5585594931474042583
+    second: merchant_animation_1_24
+  - first:
+      213: -5908349391286390908
+    second: merchant_animation_1_25
+  - first:
+      213: 7765517333153295637
+    second: merchant_animation_1_26
+  - first:
+      213: -5030135538565229996
+    second: merchant_animation_1_27
+  - first:
+      213: 5930224653187021367
+    second: merchant_animation_1_28
+  - first:
+      213: 2058841918519490827
+    second: merchant_animation_1_29
+  - first:
+      213: -672254206537139853
+    second: merchant_animation_1_30
+  - first:
+      213: 1660936035792692157
+    second: merchant_animation_1_31
+  - first:
+      213: -791181410583741936
+    second: merchant_animation_1_32
+  - first:
+      213: 7593760290055276351
+    second: merchant_animation_1_33
+  - first:
+      213: -240125790433489940
+    second: merchant_animation_1_34
+  - first:
+      213: 5407134725814614233
+    second: merchant_animation_1_35
+  - first:
+      213: 6435753205561480455
+    second: merchant_animation_1_36
+  - first:
+      213: -3266257674654645983
+    second: merchant_animation_1_37
+  - first:
+      213: -4457307398698340777
+    second: merchant_animation_1_38
+  - first:
+      213: 5543740350923298118
+    second: merchant_animation_1_39
+  - first:
+      213: -3629175838835736709
+    second: merchant_animation_1_40
+  - first:
+      213: 7458849403298089504
+    second: merchant_animation_1_41
+  - first:
+      213: -7704718212201911096
+    second: merchant_animation_1_42
+  - first:
+      213: -2905826893726815314
+    second: merchant_animation_1_43
+  - first:
+      213: 48406771016442435
+    second: merchant_animation_1_44
+  - first:
+      213: 2599518456203653961
+    second: merchant_animation_1_45
+  - first:
+      213: 174990566466840230
+    second: merchant_animation_1_46
+  - first:
+      213: -7437407607549423689
+    second: merchant_animation_1_47
+  - first:
+      213: 4209959824017519824
+    second: merchant_animation_1_48
+  - first:
+      213: 8196318166534683603
+    second: merchant_animation_1_49
+  - first:
+      213: 837975047957891901
+    second: merchant_animation_1_50
+  - first:
+      213: -153308604065366815
+    second: merchant_animation_1_51
+  - first:
+      213: 1908248314697249501
+    second: merchant_animation_1_52
+  - first:
+      213: 7295433234264512416
+    second: merchant_animation_1_53
+  - first:
+      213: 3636980162170255175
+    second: merchant_animation_1_54
+  - first:
+      213: 5738061608022198132
+    second: merchant_animation_1_55
+  - first:
+      213: 1737819300035747772
+    second: merchant_animation_1_56
+  - first:
+      213: 5486526159638953035
+    second: merchant_animation_1_57
+  - first:
+      213: -1380632002016450136
+    second: merchant_animation_1_58
+  - first:
+      213: -4943481529933713436
+    second: merchant_animation_1_59
+  - first:
+      213: 7207620687094468193
+    second: merchant_animation_1_60
+  - first:
+      213: -5026302496647184438
+    second: merchant_animation_1_61
+  - first:
+      213: 4259152902776707975
+    second: merchant_animation_1_62
+  - first:
+      213: -2862539196916502343
+    second: merchant_animation_1_63
+  - first:
+      213: -3978719477132621471
+    second: merchant_animation_1_64
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -41,12 +236,12 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 50
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -87,7 +282,1246 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: merchant_animation_1_0
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 7383
+        width: 1157
+        height: 808
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bba442bc9ae638be0800000000000000
+      internalID: -1476214577310709061
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: merchant_animation_1_1
+      rect:
+        serializedVersion: 2
+        x: 1162
+        y: 7385
+        width: 1155
+        height: 806
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0b2215d9bc89639f0800000000000000
+      internalID: -489035509237996880
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: merchant_animation_1_2
+      rect:
+        serializedVersion: 2
+        x: 2320
+        y: 7387
+        width: 1153
+        height: 804
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 15c2ebe30f14057b0800000000000000
+      internalID: -5237613866531279791
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: merchant_animation_1_3
+      rect:
+        serializedVersion: 2
+        x: 3476
+        y: 7389
+        width: 1151
+        height: 802
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dd13fd9288f989de0800000000000000
+      internalID: -1326134683093749283
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: merchant_animation_1_4
+      rect:
+        serializedVersion: 2
+        x: 4630
+        y: 7391
+        width: 1150
+        height: 800
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 480540d8353646d70800000000000000
+      internalID: 9035455962911363204
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: merchant_animation_1_5
+      rect:
+        serializedVersion: 2
+        x: 5782
+        y: 7393
+        width: 1147
+        height: 798
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 507f948ecc966aa30800000000000000
+      internalID: 4226181629125195525
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: merchant_animation_1_6
+      rect:
+        serializedVersion: 2
+        x: 6932
+        y: 7395
+        width: 1145
+        height: 796
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dce0e4b376eca0650800000000000000
+      internalID: 6199994779800833741
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: merchant_animation_1_7
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 6586
+        width: 1144
+        height: 796
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b44bcccef72d54b80800000000000000
+      internalID: -8411085282169015221
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: merchant_animation_1_8
+      rect:
+        serializedVersion: 2
+        x: 1148
+        y: 6589
+        width: 1142
+        height: 793
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9f12fd40d235ceff0800000000000000
+      internalID: -5538046713847303
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: merchant_animation_1_9
+      rect:
+        serializedVersion: 2
+        x: 2292
+        y: 6590
+        width: 1140
+        height: 792
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 074019d8cf8b5c6f0800000000000000
+      internalID: -664921975120919440
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: merchant_animation_1_10
+      rect:
+        serializedVersion: 2
+        x: 3434
+        y: 6592
+        width: 1138
+        height: 790
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0a974812acacd8780800000000000000
+      internalID: -8679057937378543200
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: merchant_animation_1_11
+      rect:
+        serializedVersion: 2
+        x: 4575
+        y: 6594
+        width: 1136
+        height: 788
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 332e3787cc4dcb880800000000000000
+      internalID: -8593760014270471629
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: merchant_animation_1_12
+      rect:
+        serializedVersion: 2
+        x: 5714
+        y: 6596
+        width: 1134
+        height: 786
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 621c64223962b5750800000000000000
+      internalID: 6294667317557510438
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: merchant_animation_1_13
+      rect:
+        serializedVersion: 2
+        x: 6851
+        y: 6598
+        width: 1132
+        height: 784
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 91439cf55938b90a0800000000000000
+      internalID: -6873755728670542823
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: merchant_animation_1_14
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 5804
+        width: 1130
+        height: 782
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b5e8d30e83612fc30800000000000000
+      internalID: 4391597020175765083
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: merchant_animation_1_15
+      rect:
+        serializedVersion: 2
+        x: 1135
+        y: 5806
+        width: 1128
+        height: 780
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5abd059d9ab501260800000000000000
+      internalID: 7066248600397863845
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: merchant_animation_1_16
+      rect:
+        serializedVersion: 2
+        x: 2266
+        y: 5804
+        width: 1130
+        height: 782
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9dc4ec3b5956521b0800000000000000
+      internalID: -5682023661216838439
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: merchant_animation_1_17
+      rect:
+        serializedVersion: 2
+        x: 3399
+        y: 5802
+        width: 1132
+        height: 784
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e932fd5c102f85cb0800000000000000
+      internalID: -4874880507199937634
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: merchant_animation_1_18
+      rect:
+        serializedVersion: 2
+        x: 4534
+        y: 5800
+        width: 1134
+        height: 786
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1701694851116c770800000000000000
+      internalID: 8630604520018546801
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: merchant_animation_1_19
+      rect:
+        serializedVersion: 2
+        x: 5671
+        y: 5798
+        width: 1136
+        height: 788
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: db122f5f8e2962fd0800000000000000
+      internalID: -2367043024880262723
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: merchant_animation_1_20
+      rect:
+        serializedVersion: 2
+        x: 6810
+        y: 5796
+        width: 1138
+        height: 790
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f59b9b406bc7f0120800000000000000
+      internalID: 2382259849107454303
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: merchant_animation_1_21
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 5004
+        width: 1140
+        height: 792
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9cbf00cbef542d270800000000000000
+      internalID: 8273752425811213257
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: merchant_animation_1_22
+      rect:
+        serializedVersion: 2
+        x: 1144
+        y: 5003
+        width: 1142
+        height: 793
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8cd589e87a6065640800000000000000
+      internalID: 5068245747373727176
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: merchant_animation_1_23
+      rect:
+        serializedVersion: 2
+        x: 2288
+        y: 5000
+        width: 1144
+        height: 796
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cb652e4f07c0aeae0800000000000000
+      internalID: -1519388244999776580
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: merchant_animation_1_24
+      rect:
+        serializedVersion: 2
+        x: 3434
+        y: 4999
+        width: 1146
+        height: 797
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 921744ae00bfb72b0800000000000000
+      internalID: -5585594931474042583
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: merchant_animation_1_25
+      rect:
+        serializedVersion: 2
+        x: 4582
+        y: 4997
+        width: 1147
+        height: 799
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 48faa7b4883510ea0800000000000000
+      internalID: -5908349391286390908
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: merchant_animation_1_26
+      rect:
+        serializedVersion: 2
+        x: 5732
+        y: 4995
+        width: 1150
+        height: 801
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 51dadbbfed8a4cb60800000000000000
+      internalID: 7765517333153295637
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: merchant_animation_1_27
+      rect:
+        serializedVersion: 2
+        x: 6884
+        y: 4993
+        width: 1151
+        height: 803
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 45250c3e06e513ab0800000000000000
+      internalID: -5030135538565229996
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: merchant_animation_1_28
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 4187
+        width: 1153
+        height: 805
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 73af97307e36c4250800000000000000
+      internalID: 5930224653187021367
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: merchant_animation_1_29
+      rect:
+        serializedVersion: 2
+        x: 1158
+        y: 4185
+        width: 1155
+        height: 807
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b09b90211d9729c10800000000000000
+      internalID: 2058841918519490827
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: merchant_animation_1_30
+      rect:
+        serializedVersion: 2
+        x: 2316
+        y: 4183
+        width: 1157
+        height: 809
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 37977946c5caba6f0800000000000000
+      internalID: -672254206537139853
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: merchant_animation_1_31
+      rect:
+        serializedVersion: 2
+        x: 3476
+        y: 4185
+        width: 1155
+        height: 807
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: db3a1184684dc0710800000000000000
+      internalID: 1660936035792692157
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: merchant_animation_1_32
+      rect:
+        serializedVersion: 2
+        x: 4634
+        y: 4188
+        width: 1152
+        height: 804
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 01a734de2b82505f0800000000000000
+      internalID: -791181410583741936
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: merchant_animation_1_33
+      rect:
+        serializedVersion: 2
+        x: 5789
+        y: 4190
+        width: 1150
+        height: 802
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f37463610c4726960800000000000000
+      internalID: 7593760290055276351
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: merchant_animation_1_34
+      rect:
+        serializedVersion: 2
+        x: 6942
+        y: 4192
+        width: 1148
+        height: 800
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ceb4dc7add6eaacf0800000000000000
+      internalID: -240125790433489940
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: merchant_animation_1_35
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 3384
+        width: 1146
+        height: 798
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9d8fbd882600a0b40800000000000000
+      internalID: 5407134725814614233
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: merchant_animation_1_36
+      rect:
+        serializedVersion: 2
+        x: 1151
+        y: 3386
+        width: 1144
+        height: 796
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 705d29f3173605950800000000000000
+      internalID: 6435753205561480455
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: merchant_animation_1_37
+      rect:
+        serializedVersion: 2
+        x: 2297
+        y: 3388
+        width: 1141
+        height: 794
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 121015543fbeba2d0800000000000000
+      internalID: -3266257674654645983
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: merchant_animation_1_38
+      rect:
+        serializedVersion: 2
+        x: 3441
+        y: 3391
+        width: 1140
+        height: 791
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 75e6dd569867422c0800000000000000
+      internalID: -4457307398698340777
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: merchant_animation_1_39
+      rect:
+        serializedVersion: 2
+        x: 4583
+        y: 3393
+        width: 1137
+        height: 789
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 64558c72a725fec40800000000000000
+      internalID: 5543740350923298118
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: merchant_animation_1_40
+      rect:
+        serializedVersion: 2
+        x: 5723
+        y: 3395
+        width: 1135
+        height: 787
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b7ff3c28dc392adc0800000000000000
+      internalID: -3629175838835736709
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: merchant_animation_1_41
+      rect:
+        serializedVersion: 2
+        x: 6861
+        y: 3397
+        width: 1133
+        height: 785
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 02a87bc7308238760800000000000000
+      internalID: 7458849403298089504
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: merchant_animation_1_42
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 2601
+        width: 1130
+        height: 782
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8cce83b7b97531590800000000000000
+      internalID: -7704718212201911096
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: merchant_animation_1_43
+      rect:
+        serializedVersion: 2
+        x: 1135
+        y: 2603
+        width: 1128
+        height: 780
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eabe2acf5dd6ca7d0800000000000000
+      internalID: -2905826893726815314
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: merchant_animation_1_44
+      rect:
+        serializedVersion: 2
+        x: 2266
+        y: 2601
+        width: 1130
+        height: 782
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 342a827a3b9fba000800000000000000
+      internalID: 48406771016442435
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: merchant_animation_1_45
+      rect:
+        serializedVersion: 2
+        x: 3399
+        y: 2599
+        width: 1132
+        height: 784
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 94337195348531420800000000000000
+      internalID: 2599518456203653961
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: merchant_animation_1_46
+      rect:
+        serializedVersion: 2
+        x: 4533
+        y: 2597
+        width: 1134
+        height: 786
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6a6ec493ef0bd6200800000000000000
+      internalID: 174990566466840230
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: merchant_animation_1_47
+      rect:
+        serializedVersion: 2
+        x: 5669
+        y: 2596
+        width: 1136
+        height: 787
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7bf8a3e9f2509c890800000000000000
+      internalID: -7437407607549423689
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: merchant_animation_1_48
+      rect:
+        serializedVersion: 2
+        x: 6807
+        y: 2594
+        width: 1137
+        height: 789
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0d4fa359728cc6a30800000000000000
+      internalID: 4209959824017519824
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: merchant_animation_1_49
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 1802
+        width: 1139
+        height: 791
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3db716e42fb2fb170800000000000000
+      internalID: 8196318166534683603
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: merchant_animation_1_50
+      rect:
+        serializedVersion: 2
+        x: 1144
+        y: 1800
+        width: 1141
+        height: 793
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d3bcb28cdd511ab00800000000000000
+      internalID: 837975047957891901
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: merchant_animation_1_51
+      rect:
+        serializedVersion: 2
+        x: 2287
+        y: 1798
+        width: 1143
+        height: 795
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1ec3ca903a65fddf0800000000000000
+      internalID: -153308604065366815
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: merchant_animation_1_52
+      rect:
+        serializedVersion: 2
+        x: 3432
+        y: 1796
+        width: 1144
+        height: 797
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dd274cc5bb57b7a10800000000000000
+      internalID: 1908248314697249501
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: merchant_animation_1_53
+      rect:
+        serializedVersion: 2
+        x: 4579
+        y: 1794
+        width: 1146
+        height: 799
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0a75aeaafd59e3560800000000000000
+      internalID: 7295433234264512416
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: merchant_animation_1_54
+      rect:
+        serializedVersion: 2
+        x: 5728
+        y: 1793
+        width: 1148
+        height: 800
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 747fc4d1036297230800000000000000
+      internalID: 3636980162170255175
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: merchant_animation_1_55
+      rect:
+        serializedVersion: 2
+        x: 6879
+        y: 1791
+        width: 1150
+        height: 802
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 477487581a0b1af40800000000000000
+      internalID: 5738061608022198132
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: merchant_animation_1_56
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 988
+        width: 1152
+        height: 803
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cbfd27e2279fd1810800000000000000
+      internalID: 1737819300035747772
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: merchant_animation_1_57
+      rect:
+        serializedVersion: 2
+        x: 1156
+        y: 986
+        width: 1154
+        height: 805
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b4cfa2c297e042c40800000000000000
+      internalID: 5486526159638953035
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: merchant_animation_1_58
+      rect:
+        serializedVersion: 2
+        x: 2312
+        y: 984
+        width: 1155
+        height: 807
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8a9e542528207dce0800000000000000
+      internalID: -1380632002016450136
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []

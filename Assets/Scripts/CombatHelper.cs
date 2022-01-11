@@ -6,7 +6,7 @@ using static EntityDefiner;
 
 public class CombatHelper : MonoBehaviour
 {
-
+    private bool endNext = false;
     public float textFloatingDuration;
     public float textFloatSpeed;
     public float textOffset;
@@ -78,6 +78,8 @@ public class CombatHelper : MonoBehaviour
     IEnumerator DoPatientCombatRound(List<Character> combatants)
     {//it waits for the current round to end, before it gives the next combatant the opportunity to fight.
         Debug.LogWarning("Now doing combat turn. Patiently.");
+
+       
         for (int i = 0; i < combatants.Count - 1; i++)
         {
             if (combatants[i].charTrait != null)
@@ -89,25 +91,30 @@ public class CombatHelper : MonoBehaviour
                 MainData.MainLoop.EventLoggingComponent.LogDanger("It is now " + combatants[i].charName + "'s turn!");
             }
 
-            //if (combatants[i].isDead || !combatants[i].canAct)
-            //{//
 
-            //    allHaveActed = true;
-            //    Debug.Log("Finished a combat round.");
-            //    ToggleCombatButtomVisibility(false);
-            //    foreach (Character item in combatants)
-            //    {//refreshes that boolean so we can act again next turn
-            //        item.hasActedThisTurn = false;
-            //        item.selfScriptRef.transform.position = item.InitialPosition; // JUST in case we get a straggler, resets their position to where they should be. This works because we don't actually move in the environment, we just move the world around us like a boss.
-            //    }
-            //    MainData.MainLoop.PassTurn();
-            //    yield break;
-            //}//
+
             if (i > 0)
             {//waits for the previous one to finish their turn before actually doing anything. We are polite, after all.
                 yield return new WaitUntil(() => combatants[i - 1].hasActedThisTurn == true);
             }
 
+
+
+
+            if (combatants[i].isDead || !combatants[i].canAct)
+            {//
+
+                allHaveActed = true;
+                Debug.Log("Finished a combat round.");
+                ToggleCombatButtomVisibility(false);
+                foreach (Character item in combatants)
+                {//refreshes that boolean so we can act again next turn
+                    item.hasActedThisTurn = false;
+                    item.selfScriptRef.transform.position = item.InitialPosition; // JUST in case we get a straggler, resets their position to where they should be. This works because we don't actually move in the environment, we just move the world around us like a boss.
+                }
+                MainData.MainLoop.PassTurn();
+                yield break;
+            }//
             if (MainData.livingEnemyParty.Count < 1)
             {//just an additional check for enemies so we don't waste player's time
                 allHaveActed = true;
@@ -131,11 +138,24 @@ public class CombatHelper : MonoBehaviour
                 MoveToActiveSpot(activeCharacterWorldspaceObject);
 
                 //Debug.LogWarning("Moving to active spot - " + activeCharacterWorldspaceObject.associatedCharacter.charName);
-
+                List<Character> results = new List<Character>();
+                results = MainData.livingEnemyParty.FindAll(x => x.isDead == false);
+                if (results.Count == 1)
+                {
+                    endNext = true;
+                }
                 if (combatants[i].isPlayerPartyMember)
                 {
-                    //enable controls here
-                    DoPlayerCharacterTurn(combatants[i]);
+                    if (results.Count > 0)
+                    {
+                        DoPlayerCharacterTurn(combatants[i]);
+                    }
+                    else
+                    {
+                        combatants[i].hasActedThisTurn = true;
+                        allHaveActed = true;
+                    }
+
                 }
                 else
                 {
@@ -152,9 +172,16 @@ public class CombatHelper : MonoBehaviour
 
 
                 yield return new WaitForSecondsRealtime(0.4f);
-
-
             }
+            else
+            {
+                EndCombat();
+            }
+
+
+
+
+
             //MainData.MainLoop.EventLoggingComponent.LogDanger("we're here!");
         }
         allHaveActed = true;
@@ -171,6 +198,8 @@ public class CombatHelper : MonoBehaviour
         //{ //cleans up dead ppl
         //    item.HandleListsUponDeath();
         //}
+
+
 
         MainData.MainLoop.LevelHelperComponent.MoveStop();
         List<Character> combatants = MainData.allChars;
@@ -297,8 +326,14 @@ public class CombatHelper : MonoBehaviour
     {
         MainData.MainLoop.EventLoggingComponent.Log("Combat is over.");
         MainData.MainLoop.LevelHelperComponent.ButtonMoveOn.SetActive(true);
+        List<Character> clone = new List<Character>(MainData.allChars);
+        foreach (Character item in clone)
+        {
+            item.HandleListsUponDeath();
+        }
         PurgeAllStatusEffects();
         MainData.MainLoop.UserInterfaceHelperComponent.ToggleFightButtonVisiblity(false);
+        MainData.MainLoop.inCombat = false;
     }
     /// <summary>
     /// purges every player party member of their status effects after combat according to the current design
@@ -337,7 +372,7 @@ public class CombatHelper : MonoBehaviour
         }
         ToggleCombatButtomVisibility(false);
         TargetSelectionCheck();
-        
+
         activeCharacterWorldspaceObject = null;
         DecayThreat();
 
@@ -481,6 +516,7 @@ public class CombatHelper : MonoBehaviour
         activeCharacterWorldspaceObject.transform.position = ActiveCharSpot.transform.position; //MOVE CHAR TO SPOT
         ToggleCombatButtomVisibility(true);
         MainData.controlsEnabled = true;
+
     }
     public void MoveToActiveSpot(CharacterWorldspaceScript chara)
     {

@@ -64,8 +64,8 @@ public class VendorScript : MonoBehaviour
     {
 
 
-        idleAnimation = Resources.LoadAll<Sprite>("scarecrow_attack");
-        mouseOverAnimation = Resources.LoadAll<Sprite>("Monkey_attack_sheet");
+        idleAnimation = Resources.LoadAll<Sprite>("merchant_animation_1");
+        mouseOverAnimation = Resources.LoadAll<Sprite>("merchant_animation_mouseover");
         
     }
 
@@ -188,6 +188,9 @@ public class VendorScript : MonoBehaviour
         MainData.MainLoop.LevelHelperComponent.MoveStop();
         isVendorHere = false;
         cartMoving = false;
+        MainData.MainLoop.LevelHelperComponent.distanceWalked = 0;
+        MainData.MainLoop.LevelHelperComponent.EncountersPaused = false;
+
     }
     //click the vendor
     //this could play a short nice animation, perhaps

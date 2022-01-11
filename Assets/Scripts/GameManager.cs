@@ -129,11 +129,37 @@ public class GameManager : MonoBehaviour
 
     public void PassTurn()
     {
+        StopAllCoroutines();
+        List<Character> clone = new List<Character>(MainData.allChars);
+        foreach (Character item in clone)
+        {
+            item.HandleListsUponDeath();
+        }
 
         if (MainData.livingEnemyParty.Count < 1)
         {
-            MainData.MainLoop.CombatHelperComponent.EndCombat();
+            CombatHelperComponent.EndCombat();
+            StopAllCoroutines();
         }
+
+        List<Character> results = new List<Character>();
+        //MainData.MainLoop.EventLoggingComponent.LogDanger("results.Count! " + results.Count);
+        try
+        {
+            results = MainData.livingEnemyParty.FindAll(x => x.isDead == false);
+        }
+        catch (System.Exception)
+        {
+            MainData.MainLoop.CombatHelperComponent.EndCombat();
+            EventLoggingComponent.Log("All enemies have been vanquished.");
+            MainData.MainLoop.UserInterfaceHelperComponent.RefreshViewEnemy();
+           
+            inCombat = false;
+            return;
+        }
+       
+
+
         if (CombatHelperComponent.allHaveActed)
         {
             //play new turn sound here
@@ -142,7 +168,7 @@ public class GameManager : MonoBehaviour
             EventLoggingComponent.LogDanger("Start of turn " + MainData.turnNumber.ToString() + ".");
             ProcStatusEffects(); //burns, poison, etc. Ticks down the duration left by one, too
 
-            if (MainData.livingEnemyParty.Count > 0) //if there's no enemy there's no need to fight
+            if (results.Count > 0) //if there's no enemy there's no need to fight
             {
                 inCombat = true;
                 CombatHelperComponent.InitiateCombatTurn();

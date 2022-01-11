@@ -8443,6 +8443,7 @@ MonoBehaviour:
   - {fileID: 1939908679}
   distanceWalked: 0
   maximumDistance: 1500
+  EncountersPaused: 0
   ButtonMoveOn: {fileID: 1736543281}
 --- !u!114 &462129122
 MonoBehaviour:
@@ -12555,7 +12556,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &716087176
 RectTransform:
   m_ObjectHideFlags: 0

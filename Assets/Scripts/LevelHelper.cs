@@ -22,7 +22,7 @@ public class LevelHelper : MonoBehaviour
     public float maximumDistance = 1500; //maximum distance before the level fades to black and you go on the overmap
     [Space(15)]
     private bool isAtVendor = false;
-    private bool EncountersPaused = false;
+    public bool EncountersPaused = false;
     public GameObject ButtonMoveOn;
 
     public void Update()
@@ -44,22 +44,23 @@ public class LevelHelper : MonoBehaviour
     /// </summary>
     private void CheckForVendor()
     {
+        //if (MainData.currentLevel == null || !MainData.MainLoop.inCombat || isAtVendor)
+        //{
+        //    return;
+        //}
 
-        if (MainData.currentLevel == null || !MainData.MainLoop.inCombat || isAtVendor || MainData.currentLevel.localMerchant == null)
-        {
-            return;
-        }
-
-        if (IsBetween(distanceWalked, MainData.currentLevel.localMerchant.xLocation - 5, MainData.currentLevel.localMerchant.xLocation + 5) && !MainData.MainLoop.VendorScriptComponent.isVendorHere)
+        if (FoughtOnce && distanceWalked > 70)
         {
             MoveStop();
-
+            EncountersPaused = true;
+            distanceWalked = -20;//back to beginning.
+            FoughtOnce = false;
             MainData.MainLoop.VendorScriptComponent.MoveMerchant();
         }
 
     }
 
-    int encounterOrder = 0;
+    bool FoughtOnce = false;
     /// <summary>
     /// checks if player has walked 5 integers near an encounter. if so, trigger it to spawn and turns combat on.
     /// </summary>
@@ -67,31 +68,32 @@ public class LevelHelper : MonoBehaviour
     private void CheckForEncounter()
     {
 
+        if (EncountersPaused)
+        {
+            return;
+        }
+
+
         if (MainData.currentLevel == null || MainData.MainLoop.inCombat)
         {
             return;
         }
-        if (MainData.currentLevel.Encounters[encounterOrder] != null)
+
+       
+        if (FoughtOnce == false)
         {
-            if (distanceWalked >= MainData.currentLevel.Encounters[encounterOrder].distancePoint && !EncountersPaused)
+            if (distanceWalked > 40)
             {
                 MoveStop();
                 ButtonMoveOn.SetActive(false);
-                MainData.MainLoop.EntityDefComponent.SpawnEncounter(MainData.currentLevel.Encounters[encounterOrder]);
-                MainData.currentLevel.Encounters[encounterOrder].spawned = false; //so we have a nice stable loop.
-                encounterOrder++;
-                MainData.MainLoop.EventLoggingComponent.Log("Spawned an encounter. EncounterOrder is " + encounterOrder);
+                MainData.MainLoop.EntityDefComponent.SpawnEncounter(MainData.currentLevel.Encounters[0]);
+                //MainData.currentLevel.Encounters[1].spawned = false; //so we have a nice stable loop.
+                FoughtOnce = true;
+                MainData.MainLoop.EventLoggingComponent.Log("Spawned an encounter. EncounterOrder is " + FoughtOnce);
                 MainData.MainLoop.UserInterfaceHelperComponent.ToggleFightButtonVisiblity(true);
             }
         }
-        if (encounterOrder == MainData.currentLevel.Encounters.Count+1)
-        {
-            EncountersPaused = true;
-            MoveStop();
-            MainData.MainLoop.VendorScriptComponent.MoveMerchant();
-            distanceWalked = 0;//back to beginning.
-            encounterOrder = 0;
-        }
+
         
 
         
@@ -200,7 +202,7 @@ public class LevelHelper : MonoBehaviour
 
 
         List<string> teamrocket = new List<string>();
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < 1; i++)
         {
             teamrocket.Add("flyingmonkey");
         }
