@@ -89,7 +89,7 @@ public class LevelHelper : MonoBehaviour
                 MainData.MainLoop.EntityDefComponent.SpawnEncounter(MainData.currentLevel.Encounters[0]);
                 //MainData.currentLevel.Encounters[1].spawned = false; //so we have a nice stable loop.
                 FoughtOnce = true;
-                MainData.MainLoop.EventLoggingComponent.Log("Spawned an encounter. EncounterOrder is " + FoughtOnce);
+               // MainData.MainLoop.EventLoggingComponent.Log("Spawned an encounter. EncounterOrder is " + FoughtOnce);
                 MainData.MainLoop.UserInterfaceHelperComponent.ToggleFightButtonVisiblity(true);
             }
         }
@@ -202,7 +202,7 @@ public class LevelHelper : MonoBehaviour
 
 
         List<string> teamrocket = new List<string>();
-        for (int i = 0; i < 1; i++)
+        for (int i = 0; i < 5; i++) //change the 5 to whatever amount to change monkey quantity.
         {
             teamrocket.Add("flyingmonkey");
         }

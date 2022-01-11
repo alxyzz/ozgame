@@ -268,13 +268,13 @@ public class EntityDefiner : MonoBehaviour
         if (noAnimSprite != null)
         {
             newCharacterDefinition.standingSprite = noAnimSprite;
-            MainData.MainLoop.EventLoggingComponent.Log("noAnimsprite not null");
+            //MainData.MainLoop.EventLoggingComponent.Log("noAnimsprite not null");
 
         }
         else
         {
             newCharacterDefinition.standingSprite = attackAnimationSprites[0];
-            MainData.MainLoop.EventLoggingComponent.Log("noAnimsprite null");
+            //MainData.MainLoop.EventLoggingComponent.Log("noAnimsprite null");
         }
         newCharacterDefinition.charAvatar = newCharAvatar;
 
@@ -1147,7 +1147,7 @@ public class EntityDefiner : MonoBehaviour
             }
 
 
-            MainData.MainLoop.EventLoggingComponent.Log(this.charName + " is now " + newTrait.adjective + ". ");
+            //MainData.MainLoop.EventLoggingComponent.Log(this.charName + " is now " + newTrait.adjective + ". ");
             charTrait = (Trait)newTrait.Clone();//so we can have multiple characters with same trait because we're not just using a reference from the central trait lists
         }
 
