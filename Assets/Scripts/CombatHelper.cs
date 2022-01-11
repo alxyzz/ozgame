@@ -80,9 +80,29 @@ public class CombatHelper : MonoBehaviour
         Debug.LogWarning("Now doing combat turn. Patiently.");
         for (int i = 0; i < combatants.Count - 1; i++)
         {
-            MainData.MainLoop.EventLoggingComponent.LogDanger("It is now " + combatants[i].charName + "'s turn!");
+            if (combatants[i].charTrait != null)
+            {
+                MainData.MainLoop.EventLoggingComponent.LogDanger("It is now " + combatants[i].charName + " the " + combatants[i].charTrait.adjective + "'s turn!");
+            }
+            else
+            {
+                MainData.MainLoop.EventLoggingComponent.LogDanger("It is now " + combatants[i].charName + "'s turn!");
+            }
 
+            //if (combatants[i].isDead || !combatants[i].canAct)
+            //{//
 
+            //    allHaveActed = true;
+            //    Debug.Log("Finished a combat round.");
+            //    ToggleCombatButtomVisibility(false);
+            //    foreach (Character item in combatants)
+            //    {//refreshes that boolean so we can act again next turn
+            //        item.hasActedThisTurn = false;
+            //        item.selfScriptRef.transform.position = item.InitialPosition; // JUST in case we get a straggler, resets their position to where they should be. This works because we don't actually move in the environment, we just move the world around us like a boss.
+            //    }
+            //    MainData.MainLoop.PassTurn();
+            //    yield break;
+            //}//
             if (i > 0)
             {//waits for the previous one to finish their turn before actually doing anything. We are polite, after all.
                 yield return new WaitUntil(() => combatants[i - 1].hasActedThisTurn == true);
@@ -96,12 +116,12 @@ public class CombatHelper : MonoBehaviour
                 foreach (Character item in combatants)
                 {//refreshes that boolean so we can act again next turn
                     item.hasActedThisTurn = false;
-                    item.selfScriptRef.transform.position = item.InitialPosition; // JUST in case we get a straggler, resets their position to where they should be. This works because we don't actually move in the environment, we just move the world around us like a boss. solipsism vibe?
+                    item.selfScriptRef.transform.position = item.InitialPosition; // JUST in case we get a straggler, resets their position to where they should be. This works because we don't actually move in the environment, we just move the world around us like a boss.
                 }
                 MainData.MainLoop.PassTurn();
                 yield break;
             }
-            if (combatants[i].canAct)
+            if (combatants[i].canAct && !combatants[i].isDead)
             {
 
                 //StaticDataHolder.MainLoop.SoundManagerComponent.sfxSource.PlayOneShot(item.turnSound); //plays the character specific noise/vocalization
@@ -125,6 +145,7 @@ public class CombatHelper : MonoBehaviour
                 if (combatants[i].isDead || !combatants[i].canAct)
                 {
                     combatants[i].hasActedThisTurn = true;
+                    continue;
                 }
                 yield return new WaitUntil(() => combatants[i].hasActedThisTurn == true);
                 //disable controls here
@@ -134,7 +155,7 @@ public class CombatHelper : MonoBehaviour
 
 
             }
-
+            //MainData.MainLoop.EventLoggingComponent.LogDanger("we're here!");
         }
         allHaveActed = true;
         Debug.Log("Finished a combat round.");
@@ -146,6 +167,11 @@ public class CombatHelper : MonoBehaviour
     }
     public void InitiateCombatTurn()
     {
+        //foreach (Character item in MainData.livingPlayerParty)
+        //{ //cleans up dead ppl
+        //    item.HandleListsUponDeath();
+        //}
+
         MainData.MainLoop.LevelHelperComponent.MoveStop();
         List<Character> combatants = MainData.allChars;
         foreach (Character item in MainData.livingPlayerParty)
@@ -252,7 +278,7 @@ public class CombatHelper : MonoBehaviour
                     if (activeTarget.associatedCharacter = null) { return; }
                     activeCharacterWorldspaceObject.associatedCharacter.damageMax -= gameloop.ContentValueTweaking.angryActiveDamageMalus;
                     activeCharacterWorldspaceObject.associatedCharacter.damageMin -= gameloop.ContentValueTweaking.angryActiveDamageMalus;
-
+                    gameloop.EventLoggingComponent.Log(activeCharacterWorldspaceObject.associatedCharacter.charName + " lashes out! " + activeTarget.associatedCharacter.charName + " takes " + gameloop.ContentValueTweaking.angryActivePowerDamage + " damage!");
                     activeTarget.associatedCharacter.TakeDamage(gameloop.ContentValueTweaking.angryActivePowerDamage);
                     EndCurrentTurn();
 
@@ -291,21 +317,27 @@ public class CombatHelper : MonoBehaviour
     /// </summary>
     public void EndCurrentTurn()
     {
-        activeCharacterWorldspaceObject.associatedCharacter.hasActedThisTurn = true;
         ReturnFromActiveSpot(); //we send the character back in this moment.
-
-        if (MainData.livingEnemyParty.Count < 1)
+        foreach (Character item in MainData.allChars)
         {
-            EndCombat();
+            item.selfScriptRef.transform.position = item.InitialPosition;
         }
 
-        if (activeCharacterWorldspaceObject.isEnemyCharacter)
+        if (activeCharacterWorldspaceObject != null)
         {
-            activeTarget = null;
-            ToggleCombatButtomVisibility(false);
+            if (activeCharacterWorldspaceObject.associatedCharacter != null)
+            {
+                activeCharacterWorldspaceObject.associatedCharacter.hasActedThisTurn = true;
+            }
+
         }
+        if (activeCharacterWorldspaceObject != null)
+        {
+            activeCharacterWorldspaceObject.associatedCharacter.hasActedThisTurn = true;
+        }
+        ToggleCombatButtomVisibility(false);
         TargetSelectionCheck();
-        activeCharacterWorldspaceObject.associatedCharacter.hasActedThisTurn = true;
+        
         activeCharacterWorldspaceObject = null;
         DecayThreat();
 
@@ -385,7 +417,7 @@ public class CombatHelper : MonoBehaviour
         //animation
         Fool.TakeDamageFromCharacter(activeCharacterWorldspaceObject.associatedCharacter);//this also handles damage indicator
 
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.1f);
 
         ReturnFromActiveSpot();
         activeCharacterWorldspaceObject.associatedCharacter.hasActedThisTurn = true;
@@ -521,8 +553,34 @@ public class CombatHelper : MonoBehaviour
     }
     public void ReturnFromActiveSpot()
     { //this does not need an argument, since it always works with the currently active character
+        if (activeCharacterWorldspaceObject == null)
+        {
+            return;
+        }
+
         activeCharacterWorldspaceObject.transform.position = activeCharacterWorldspaceObject.associatedCharacter.InitialPosition;//yaaaay
         Debug.Log("Just returned from active spot to coordinates " + activeCharacterWorldspaceObject.associatedCharacter.InitialPosition.ToString());
+
+
+
+        switch (activeCharacterWorldspaceObject.associatedCharacter.charType)
+        {
+            case "lion":
+
+                activeCharacterWorldspaceObject.spriteRenderer.sprite = MainData.MainLoop.EntityDefComponent.lionsSprite;
+
+                break;
+            case "dorothy":
+
+
+                activeCharacterWorldspaceObject.spriteRenderer.sprite = MainData.MainLoop.EntityDefComponent.dorothyStillTest;
+                break;
+            case "tin_man":
+
+                activeCharacterWorldspaceObject.spriteRenderer.sprite = MainData.MainLoop.EntityDefComponent.tinmanAttackSheet[0];
+                break;
+        }
+
     }
     public void DoEnemyCharacterTurn(Character npc)
     {
@@ -543,8 +601,11 @@ public class CombatHelper : MonoBehaviour
         Character Fool = MainData.livingPlayerParty[b];
 
         //Debug.Log("attacking player at playerParty[" + b.ToString() + "]!");
+        if (chara.associatedCharacter != null)
+        {
+            Fool.TakeDamageFromCharacter(chara.associatedCharacter);//this also handles the damage indicator 
+        }
 
-        Fool.TakeDamageFromCharacter(chara.associatedCharacter);//this also handles the damage indicator 
 
         for (int i = 0; i < activeCharacterWorldspaceObject.associatedCharacter.attackAnimation.Length; i++)
         {

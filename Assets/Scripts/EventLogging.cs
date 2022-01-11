@@ -50,6 +50,7 @@ public class EventLogging : MonoBehaviour
     private void RefreshTextField()
     {
        TMPComponent.pageToDisplay = TMPComponent.textInfo.pageCount;
+       
     }
 
 

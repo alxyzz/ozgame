@@ -14,15 +14,16 @@ public class VendorClickDetection : MonoBehaviour
         }
     }
 
-    //void OnMouseEnter()
-    //{
-    //}
+    void OnMouseEnter()
+    {
+        MainData.MainLoop.VendorScriptComponent.MouseEnterCart();
+    }
 
 
-    //Could make the vendor animate when hovered over.
 
-    //void OnMouseExit()
-    //{
 
-    //}
+    void OnMouseExit()
+    {
+        MainData.MainLoop.VendorScriptComponent.MouseExitCart();
+    }
 }

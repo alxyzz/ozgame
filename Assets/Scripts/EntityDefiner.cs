@@ -13,19 +13,20 @@ public class EntityDefiner : MonoBehaviour
     public Sprite scarecrowAvatar;
     public Sprite monkeyAvatar;
     public Sprite lionAvatar;
-
-
-
-    [Space(10)]
+    public Sprite dorothyAvatar;
+    public Sprite dorothyStillTest;
     [Header("Enemies")]
 
+    [Space(10)]
+    
+    [Header("Consumables")]
     [Space(10)]
     public Sprite HealthPotionSprite;
     public Sprite SharpeningStoneSprite;
     public Sprite HealingMushroomSprite;
     [Space(10)]
-    [Header("Consumables")]
-
+    [Header("Equipment")]
+    public Sprite shortSwordSprite;
 
     [Space(10)]
     //public GameObject EnemyPrefab;
@@ -33,15 +34,18 @@ public class EntityDefiner : MonoBehaviour
     [HideInInspector]
     public Sprite[] scarecrowAttackSheet;
     [HideInInspector]
+    public Sprite[] lionAttackSheet;
+    [HideInInspector]
+    public Sprite[] dorothyAttackSheet;
+    [HideInInspector]
+    public Sprite[] tinmanAttackSheet;
+    public Sprite lionsSprite;
+    public GameObject ItemUseEffect;
+
+    [HideInInspector]
     public Sprite[] monkeyAttackSheet;
     [HideInInspector]
     public Sprite[] monkeyHurtSheet;
-    [HideInInspector]
-    public Sprite[] tinmanAttackSheet;
-    public Sprite lionSprite;
-    public GameObject ItemUseEffect;
-
-
 
     public void UseConsumable(Item consumable, Character target)
     {
@@ -60,7 +64,7 @@ public class EntityDefiner : MonoBehaviour
             eventlog.Log(MainData.livingPlayerParty[UnityEngine.Random.Range(0, MainData.livingPlayerParty.Count)].charName + " has given " + target.charName + " a " + consumable.itemName + ".");
         }
 
-        eventlog.Log(target.charName + " has quaffed a " + consumable.itemName + ".");
+        eventlog.Log(target.charName + " has used a " + consumable.itemName + ".");
         if (consumable.beneficial && !target.isPlayerPartyMember)
         {
             string say = "";
@@ -98,7 +102,7 @@ public class EntityDefiner : MonoBehaviour
                         case "caring":
                             int healthAfterCaringModifier = (MainData.MainLoop.ContentValueTweaking.HealthPotionHealthGiven / 100) * MainData.MainLoop.ContentValueTweaking.caringHealingPotionPercentageHealingTakenMalus;
                             target.GainHealth(healthAfterCaringModifier);//set this variable in the inspector above. for easy setting during runtime, too.
-                            MainData.MainLoop.EventLoggingComponent.LogGray(target.charName + " feels guilty for drinking a healing potion their friends could have used...");
+                            MainData.MainLoop.EventLoggingComponent.LogGray(target.charName + " feels sad knowing that the potion would be more effective for the others.");
                             MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(healthAfterCaringModifier, target, true);
                             break;
 
@@ -242,7 +246,8 @@ public class EntityDefiner : MonoBehaviour
                                 Sprite[] attackAnimationSprites,
                                 int bountyy,
                                 Sprite newCharAvatar,
-                                Sprite noAnimSprite)
+                                Sprite noAnimSprite,
+                                Sprite[] HurtSprites)
     {
         Character newCharacterDefinition = Character.CreateInstance<Character>();
 
@@ -253,6 +258,10 @@ public class EntityDefiner : MonoBehaviour
 
         newCharacterDefinition.isPlayerPartyMember = isPlayer;
 
+        if (HurtSprites != null)
+        {
+            newCharacterDefinition.hurtSprites = HurtSprites;
+        }
 
         newCharacterDefinition.turnSound = newCharTurnSound;
         newCharacterDefinition.attackAnimation = attackAnimationSprites;
@@ -311,7 +320,8 @@ public class EntityDefiner : MonoBehaviour
                        scarecrowAttackSheet, //character's attack animation sprite 
                        0, //bounty, not relevant for PC
                        scarecrowAvatar, //avatar
-                       null); //standing sprite if there is no attacksheet since we usually just use the first frame
+                       null, //standing sprite if there is no attacksheet since we usually just use the first frame
+                       null); //hurt sprites
 
         MakeMobTemplate("tin_man",
                        "Tin Man",
@@ -329,7 +339,8 @@ public class EntityDefiner : MonoBehaviour
                        tinmanAttackSheet, //character's attack animation sprite 
                        0, //bounty, not relevant for PC
                        tinmanAvatar, //avatar
-                       null); //standing sprite if there is no attacksheet since we usually just use the first frame
+                       tinmanAttackSheet[0],//standing sprite if there is no attacksheet since we usually just use the first frame
+                       null); //hurt sprites 
 
         MakeMobTemplate("lion",
                        "Lion",
@@ -347,7 +358,8 @@ public class EntityDefiner : MonoBehaviour
                        scarecrowAttackSheet, //character's attack animation sprite 
                        0, //bounty, not relevant for PC
                        lionAvatar, //avatar
-                       lionSprite); //standing sprite if there is no attacksheet since we usually just use the first frame
+                       lionsSprite, //standing sprite if there is no attacksheet since we usually just use the first frame
+                       null); //null
 
         MakeMobTemplate("dorothy",
                        "Dorothy",
@@ -364,8 +376,9 @@ public class EntityDefiner : MonoBehaviour
                        null, //sound for when it is this character's turn to act
                        scarecrowAttackSheet, //character's attack animation sprite 
                        0, //bounty, not relevant for PC
-                       scarecrowAvatar, //avatar
-                       null); //standing sprite if there is no attacksheet since we usually just use the first frame
+                       dorothyAvatar, //avatar
+                       dorothyStillTest, //standing sprite if there is no attacksheet since we usually just use the first frame
+                       null); //hurt sprites
 
 
     }
@@ -389,7 +402,8 @@ public class EntityDefiner : MonoBehaviour
                        monkeyAttackSheet, //character's attack animation sprite 
                        2, //bounty
                        monkeyAvatar, //avatar
-                       null); //standing sprite if there is no attacksheet since we usually just use the first frame
+                       null,
+                       monkeyHurtSheet); //standing sprite if there is no attacksheet since we usually just use the first frame
     }
 
 
@@ -660,10 +674,10 @@ public class EntityDefiner : MonoBehaviour
     {//generates traits, stores them all in a dictionary in the dataholder
 
         MakeEquipableItemTemplate("short_sword", //string ID
-                                          "Common implement of war. Can usually be found between your ribs.",//the desc
+                                          "A sword, preeminent hand weapon through a long period of history. It consists of a metal blade varying in length, breadth, and configuration but longer than a dagger and fitted with a handle or hilt usually equipped with a guard. This one is short.",//the desc
+                                          "Common implement of war. Can usually be found between your ribs.", //blurb
                                           "Shortsword", //name
-                                          "Shortsword", //blurb
-                                          HealthPotionSprite, //sprite
+                                          shortSwordSprite, //sprite
                                           "common", //rarity string
                                           6, //value in eyes
                                           1, //amount in birb's stock
@@ -681,53 +695,6 @@ public class EntityDefiner : MonoBehaviour
                                           0, //discount as a percentage, multiplicative
                                           0); //lifesteal multiplicative. as a percentage.
 
-
-
-        MakeEquipableItemTemplate("long_sword", //string ID
-                                          "Common implement of war. Can usually be found between your ribs.",//the desc
-                                          "Shortsword", //name
-                                          "Shortsword", //blurb
-                                          HealthPotionSprite, //sprite
-                                          "common", //rarity string
-                                          6, //value in eyes
-                                          1, //amount in birb's stock
-                                          1, //default quantity
-                                          true, //(true)beneficial or (false)harmful
-                                          0, //speed bonus
-                                          0, //health bonus
-                                          0, //mana bonus
-                                          2, //dmg bonus
-                                          0, //defense bonus 
-                                          0, //luck bonus 
-                                          0, //healing amp, multiplicative. as a percentage.
-                                          0, //dam resist, multiplicative. as a percentage.
-                                          0, //dam bonus multiplicative. as a percentage.
-                                          0, //discount as a percentage, multiplicative
-                                          0); //lifesteal multiplicative. as a percentage.
-
-
-
-        MakeEquipableItemTemplate("medium_sword", //string ID
-                                          "Common implement of war. Can usually be found between your ribs.",//the desc
-                                          "Shortsword", //name
-                                          "Shortsword", //blurb
-                                          HealthPotionSprite, //sprite
-                                          "common", //rarity string
-                                          6, //value in eyes
-                                          1, //amount in birb's stock
-                                          1, //default quantity
-                                          true, //(true)beneficial or (false)harmful
-                                          0, //speed bonus
-                                          0, //health bonus
-                                          0, //mana bonus
-                                          2, //dmg bonus
-                                          0, //defense bonus 
-                                          0, //luck bonus 
-                                          0, //health amp, multiplicative. as a percentage.
-                                          0, //dam resist, multiplicative. as a percentage.
-                                          0, //dam bonus multiplicative. as a percentage.
-                                          0, //discount as a percentage, multiplicative
-                                          0); //lifesteal multiplicative. as a percentage.
 
 
 
@@ -836,9 +803,7 @@ public class EntityDefiner : MonoBehaviour
     }
     public void GivePlayerTestConsumables()
     {
-
         GiveConsumable("health_potion", 3);
-
     }
 
     /// <summary>
@@ -1006,6 +971,7 @@ public class EntityDefiner : MonoBehaviour
         public Sprite[] attackAnimation; //this contains the attack too. the first sprite is the standing sprite if one is not supplied.
         public Sprite standingSprite;
         public Sprite[] WalkSprites;
+        public Sprite[] hurtSprites;
         public Sprite charAvatar;//head pic
 
         public List<StatusEffect> currentStatusEffects = new List<StatusEffect>();
@@ -1045,8 +1011,10 @@ public class EntityDefiner : MonoBehaviour
 
         }
 
-
-        public void RecalculateStatsFromTraits() //recalculates stats on the start of each round.  handles applying stats the first time, too.
+        /// <summary>
+        /// recalculates stats on the start of each round.  handles applying stats the first time, too.
+        /// </summary>
+        public void RecalculateStatsFromTraits() 
         {
             // Wrath: Increased damage, lower defense. Double strike: Attacks twice.
             //+5 damage, +3 speed
@@ -1106,8 +1074,10 @@ public class EntityDefiner : MonoBehaviour
 
         }
 
-
-        public void RemoveTraitSafely()// this NEEDS to be used ANYTIME we change the trait of a character. otherwise bonuses/maluses will stack.... that's bad.
+        /// <summary>
+        /// this NEEDS to be used ANYTIME we change the trait of a character. otherwise bonuses/maluses will stack.... that's bad.
+        /// </summary>
+        public void RemoveTraitSafely()
         {
 
             if (charTrait != null)
@@ -1196,14 +1166,19 @@ public class EntityDefiner : MonoBehaviour
         {
             //here we deal with the generic damage modification
             int damagemod = 0;
-            foreach (Item item in attacker.equippedItems)
-            {
-                damagemod += item.dmgmodifier;
-            }
+            
             int defensemod = 0;
 
-            if (attacker.equippedItems.Count >0)
+            if (attacker.equippedItems.Count > 0)
             {
+
+                foreach (Item item in attacker.equippedItems)
+                {
+                    damagemod += item.dmgmodifier;
+                }
+
+
+
                 foreach (Item item in attacker.equippedItems)
                 {
 
@@ -1226,15 +1201,24 @@ public class EntityDefiner : MonoBehaviour
 
                 }
             }
-            
 
 
 
 
-            int baseDamageRoll = UnityEngine.Random.Range(attacker.damageMin, attacker.damageMax + 1);
-            int damageRoll = (baseDamageRoll + damagemod) - (defense + defensemod);
+            defense += defensemod;
+            int baseDamageRoll = UnityEngine.Random.Range(attacker.damageMin, attacker.damageMax + 1) + damagemod;
+            int damageRoll = baseDamageRoll - defense;
+            if (damageRoll <= 0 )
+            {
+                damageRoll = 0;
+            }
 
-            MainData.MainLoop.EventLoggingComponent.Log(attacker.charName + " " + attacker.attackverb + " the " + charName + " for " + (baseDamageRoll + damagemod) + " damage. Armor protects for " + (defense + defensemod) + " damage!");
+            if (defense < 0)
+            {
+                defense = 0;
+            }
+
+            MainData.MainLoop.EventLoggingComponent.Log(attacker.charName + " " + attacker.attackverb + " the " + charName + " for " + (damageRoll + defense) + " damage. Armor protects for " + defense + " damage!");
 
 
 
@@ -1250,7 +1234,7 @@ public class EntityDefiner : MonoBehaviour
                 int percentageheal = (damageRoll / 100) * lifestealmod;
                 attacker.GainHealth(percentageheal);
             }
-           
+
 
             //This is where we deal with traits deal with incoming damage
             if (charTrait != null)
@@ -1391,6 +1375,7 @@ public class EntityDefiner : MonoBehaviour
                 MainData.MainLoop.EventLoggingComponent.Log(charName + " was killed in action.");
             }
             canAct = false;
+            isDead = true;
             if (!isPlayerPartyMember)
             {//this updates the health bar so we don't run the whole big total refresh method
                 MainData.MainLoop.UserInterfaceHelperComponent.RefreshViewEnemy();
@@ -1407,23 +1392,25 @@ public class EntityDefiner : MonoBehaviour
             {
                 MainData.MainLoop.UserInterfaceHelperComponent.RefreshHealthBarPlayer();
             }
-            HandleListsUponDeath();
-
             selfScriptRef.Die();
         }
-        private void HandleListsUponDeath()
+        public void HandleListsUponDeath()
         {
-            MainData.allChars.Remove(this);
-            if (isPlayerPartyMember)
+            if (isDead)
             {
-                MainData.livingPlayerParty.Remove(this);
-                MainData.deadPlayerParty.Add(this);
+                MainData.allChars.Remove(this);
+                if (isPlayerPartyMember)
+                {
+                    MainData.livingPlayerParty.Remove(this);
+                    MainData.deadPlayerParty.Add(this);
+                }
+                else
+                {
+                    MainData.livingEnemyParty.Remove(this);
+                    MainData.deadEnemyParty.Add(this);
+                }
             }
-            else
-            {
-                MainData.livingEnemyParty.Remove(this);
-                MainData.deadEnemyParty.Add(this);
-            }
+
 
         }
         public string GetID()

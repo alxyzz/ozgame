@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using static EntityDefiner;
 using static LevelHelper;
 
 public class VendorScript : MonoBehaviour
@@ -12,6 +14,7 @@ public class VendorScript : MonoBehaviour
     public GameObject Destination;//this is where it's supposed to go right before we interact with it
     public GameObject Startination;//this is where it spawns BEFORE it comes onscreen
     public GameObject Cart;//the cart itself. opens up the menu when clicked
+    public SpriteRenderer CartImage;//the cart itself. opens up the menu when clicked
     public GameObject GoodbyeDestination;//this is where the vendor is going when the party moves beyond
     [Tooltip("Minimum distance from the destination at which the cart can stop moving towards the party.")]
     public float minDistance;
@@ -23,46 +26,133 @@ public class VendorScript : MonoBehaviour
     [Space(5)]
     [Tooltip("These are for the user interface inside the trading menu.")]
     public GameObject GameUIReference; //we disable this so we don't do bad stuff.
-    public GameObject SellBuyButton;
+    //public GameObject SellBuyButton;
+    public Text SellBuyButtonText;
     public GameObject VendorUIReference;
-    public GameObject VendorUIItemContainer;//this is where we spawn prefabs that allow us to select then buy the item in that slot
+    //public GameObject VendorUIItemContainer;//this is where we spawn prefabs that allow us to select then buy the item in that slot
     [Tooltip("How many items are sold by the trader.")]
     public int itemAmount; //
     [Space(10)]
     [Tooltip("Prefab used for both player and trader items. allows for selling or buying when clicking the Buy/Sell button.")]
     public GameObject VendorUIItemEntryPrefab;
     [HideInInspector]
-    public GameObject currentlySelectedShopItem;
+    public VendorItemScript currentlySelectedShopItem;
     [Space(5)]
     [HideInInspector]
     public bool isVendorHere;
     private bool cartMoving = false; //never mess with the cart while it is in motion, lest it tip over.
+    [Space(5)]
+    public TMPro.TextMeshProUGUI VendorItemName;
+    public TMPro.TextMeshProUGUI VendorItemDesc;
+    public TMPro.TextMeshProUGUI VendorItemQuote;
+    public TMPro.TextMeshProUGUI VendorItemPrice;
+    public Image itemImage;
+
+
+    private Sprite[] idleAnimation;
+    private Sprite[] mouseOverAnimation;
+    public bool isAnimating = false;
+
+    public void SetupGraphics()
+    {
+        CartImage.sprite = idleAnimation[0];
+        isAnimating = false;
+
+    }
+
+    public void LoadSpriteSheets()
+    {
+
+
+        idleAnimation = Resources.LoadAll<Sprite>("scarecrow_attack");
+        mouseOverAnimation = Resources.LoadAll<Sprite>("Monkey_attack_sheet");
+        
+    }
+
+
+
+
+
+    public void MouseEnterCart()
+    {
+        if (cartMoving)
+        {
+            return;
+        }
+        isAnimating = false;
+        StartCoroutine(mouseOverAnimate());
+    }
+
+
+    public void MouseExitCart()
+    {
+        if (cartMoving)
+        {
+            return;
+        }
+        isAnimating = false; //stop the animation
+        StartCoroutine(IdleAnimation());
+    }
+
+
+    IEnumerator IdleAnimation()
+    {
+        yield return new WaitWhile(() => isAnimating == true);//while something else is animating, just wait
+        isAnimating = true;
+        while (isAnimating == true)
+        {
+            for (int i = 0; i < idleAnimation.Length - 1; i++)
+            {
+                if (!isAnimating)
+                {
+                    break;
+                }
+                CartImage.sprite = idleAnimation[i];
+                yield return new WaitForSecondsRealtime(0.02f);
+            }
+        }//we stop animating when mouse leaves the sprite of the trader
+
+    }
+
+    IEnumerator mouseOverAnimate()
+    {
+        yield return new WaitWhile(() => isAnimating == true);//while something else is animating, just wait
+        isAnimating = true;
+        while (isAnimating == true)
+        {
+            for (int i = 0; i < mouseOverAnimation.Length-1; i++)
+            {
+                if (!isAnimating)
+                {
+                    break;
+                }
+                CartImage.sprite = mouseOverAnimation[i];
+                yield return new WaitForSecondsRealtime(0.02f);
+            }
+        }//we stop animating when mouse leaves the sprite of the trader
+
+    }
     
 
 
-
-
-    public void RefreshBuySellStatus()
+    public void RefreshText()
     {
-        if (currentlySelectedShopItem.GetComponent<VendorItemScript>().isVendorProperty)
+        if (currentlySelectedShopItem == null)
         {
-
+            VendorItemDesc.text = "";
+            VendorItemName.text = "";
+            VendorItemQuote.text = "";
+            VendorItemPrice.text = "";
+            itemImage.sprite = null;
+            return;
         }
-
-
+        VendorItemDesc.text = currentlySelectedShopItem.associatedItem.description;
+        VendorItemName.text = currentlySelectedShopItem.associatedItem.itemName;
+        VendorItemQuote.text = currentlySelectedShopItem.associatedItem.itemBlurb;
+        VendorItemPrice.text = currentlySelectedShopItem.associatedItem.value.ToString();
+        itemImage.sprite = currentlySelectedShopItem.associatedItem.itemSprite;
     }
-
-
-    private void InitializeCurrentMerchant()
-    {
-        if (MainData.currentLevel.localMerchant.ItemStock == null)
-        {
-
-        }        
-    }
-
-
-
+    
 
     //for when cart is arriving
     IEnumerator ArrivalAnimation()
@@ -79,10 +169,12 @@ public class VendorScript : MonoBehaviour
         //Cart.transform.position = Destination.transform.position;
         MainData.MainLoop.LevelHelperComponent.MoveStop();
         cartMoving = false;
+        StartCoroutine(IdleAnimation());
     }
     //for when the cart is leaving
     IEnumerator LeavingAnimation()
     {
+        isAnimating = true;
         cartMoving = true;
         MainData.MainLoop.LevelHelperComponent.MoveBackgroundBackwards();
         
@@ -105,14 +197,7 @@ public class VendorScript : MonoBehaviour
         {
             MainData.MainLoop.EventLoggingComponent.LogGray("You try to talk to the merchant, but sudden apprehension fills your thoughts as you realize that the reality which you are perceiving is not real. Will these iterations never end? Are we cursed to relive the same battles again and again, without the mercy of returning to the rapturous oblivion from whence we came? The world is a series of walls, I can see it. Six l̵a̶y̶e̸r̵s̸ of reality, five below and one above, endlessly moving around us as we stay still. Divines have mercy on our C̸͉̚ḣ̵̗a̵̧͋r̷̭͂a̵̍ͅc̵̦̏t̶̃ͅé̸̖r̴̭͠S̷̹̐c̷̟͌r̶͖̆i̴͖͗p̵͈̏t̸̟͒");
             return;
-
         }
-        if (MainData.currentLevel.localMerchant != null)
-        {
-            GenerateMerchantInventory(MainData.currentLevel.localMerchant);
-
-        }
-        InitializeCurrentMerchant();
         if (MainData.livingEnemyParty.Count > 0)
         {
             MainData.MainLoop.EventLoggingComponent.Log("The merchant refuses to trade with you until your pursuers are dealt with.");
@@ -120,6 +205,8 @@ public class VendorScript : MonoBehaviour
         }
         VendorUIReference.SetActive(true);
     }
+
+
     public void CloseVendorMenu()
     {//click back button in shop
         if (MainData.livingEnemyParty.Count > 0)
@@ -135,10 +222,19 @@ public class VendorScript : MonoBehaviour
 
 
 
-    public void GenerateMerchantInventory(Merchant bob)
+    public void GenerateMerchantInventory()
     {// TODO - MAKE THIS WORK
-        bob.ItemStock = null;//do this stuff later
-      
+       
+
+
+        VendorItemScript[] allChildren = TraderInventoryScrollRect.GetComponentsInChildren<VendorItemScript>(); //we grab the list of children from the destination
+        foreach (VendorItemScript child in allChildren)
+        {
+            child.SetItem("health_potion", true);
+            child.RefreshItemData();
+        }
+        allChildren[allChildren.Length - 1].SetItem("short_sword", false);
+        allChildren[allChildren.Length - 1].RefreshItemData();
     }
 
 
@@ -203,5 +299,125 @@ public class VendorScript : MonoBehaviour
         }
 
     }
+
+    private Vector3 initialVendorItemPosition = new Vector3(-4.351883e-05f, -149.1f, 0f);
+    public void TransferToAndRefreshScrollRect(GameObject target, GameObject destination)
+    {
+        List<Transform> scrollRectobjects = new List<Transform>();
+        int b = destination.transform.childCount;
+        Transform[] allChildren = destination.GetComponentsInChildren<Transform>(); //we grab the list of children from the destination
+        foreach (Transform child in allChildren)
+        {
+            scrollRectobjects.Add(child); //we put them all in the list
+        }
+        target.transform.parent = destination.transform; 
+
+        //target.transform.position = //79.9 is the increment
+
+
+        scrollRectobjects.Add(target.transform); //we add the target to the list
+
+        Vector3 change = initialVendorItemPosition;
+
+        foreach (Transform item in scrollRectobjects) 
+        {//we loop through all objects in the list and move them accordingly so it shows up nicely
+            if (destination = PlayerInventoryScrollRect)
+            {
+                item.GetComponent<VendorItemScript>().isInVendor = false;
+            }
+            else
+            {
+                item.GetComponent<VendorItemScript>().isInVendor = true;
+            }
+
+            item.transform.position = change;
+            change = new Vector3(change.x, change.y+79.9f, change.z);
+        }
+        Debug.Log("finished TransferToAndRefreshScrollRect");
+        target.GetComponent<VendorItemScript>().RefreshItemData();
+
+    }
+
+    public void RefreshTransactionButtonText(bool isSelling)
+    {
+        if (isSelling)
+        {
+            SellBuyButtonText.text = "Sell";
+        }
+        else
+        {
+            SellBuyButtonText.text = "Buy";
+        }
+
+
+    }
+
+    /// <summary>
+    /// returns false if not enough money, true if all ok. buys the item and puts it in your inventory.
+    /// </summary>
+    /// <returns></returns>
+    private bool ApproveTransaction(string buyorsell)
+    {
+        //if (MainData.MainLoop.Currency < currentlySelectedShopItem.associatedItem.value)
+        //{
+        //    //play fail sound
+        //    Debug.Log("not enough money");
+        //    return false;
+        //}
+        if (buyorsell == "buy")
+        {
+            MainData.MainLoop.Currency -= currentlySelectedShopItem.associatedItem.value;
+        }
+        else if (buyorsell == "sell")
+        {
+            MainData.MainLoop.Currency += currentlySelectedShopItem.associatedItem.value;
+        }
+
+        
+
+        
+
+
+        return true;
+    }
+
+    public GameObject PlayerInventoryScrollRect;
+    public GameObject TraderInventoryScrollRect;
+
+    public void ClickTransaction()
+    {
+        if (currentlySelectedShopItem == null)
+        {
+            return;
+        }
+        if (currentlySelectedShopItem.transform.parent == TraderInventoryScrollRect)
+        {
+            if (ApproveTransaction("buy"))
+            {
+                Debug.LogWarning("Selling to player");
+                Item bought = currentlySelectedShopItem.associatedItem;
+                MainData.consumableInventory.Add(bought);
+                MainData.MainLoop.UserInterfaceHelperComponent.RefreshInventorySlots();
+                TransferToAndRefreshScrollRect(currentlySelectedShopItem.gameObject, PlayerInventoryScrollRect);
+            }
+        }
+        else
+        {
+            if (ApproveTransaction("sell"))
+            {
+                Debug.LogWarning("Selling to trader");
+                Item bought = currentlySelectedShopItem.associatedItem;
+                MainData.consumableInventory.Add(bought);
+                MainData.MainLoop.UserInterfaceHelperComponent.RefreshInventorySlots();
+                TransferToAndRefreshScrollRect(currentlySelectedShopItem.gameObject, TraderInventoryScrollRect);
+            }
+            
+        }
+        
+        //play transaction bing sound
+
+    }
+
+
 
 }

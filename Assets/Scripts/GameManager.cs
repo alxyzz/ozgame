@@ -8,7 +8,8 @@ public class GameManager : MonoBehaviour
 {
     public UIParallax BackgroundParallaxObject;
     public bool gameStarted = false;
-    public float Currency = 0f;
+    [HideInInspector]
+    public float Currency = 999f;
     public bool inCombat = false;
     public LayerMask IgnoreMe;
     public EntityDefiner EntityDefComponent;
@@ -46,13 +47,19 @@ public class GameManager : MonoBehaviour
 
         EntityDefComponent.GivePlayerTestConsumables();
         EntityDefComponent.DistributeStartingTraits();
+
+        VendorScriptComponent.LoadSpriteSheets();
+        VendorScriptComponent.SetupGraphics();
+        VendorScriptComponent.GenerateMerchantInventory();
+        VendorScriptComponent.RefreshText();
+
         UserInterfaceHelperComponent.RefreshCharacterTabs();
         //UserInterfaceHelperComponent.SetCursorTexture();
 
 
         UserInterfaceHelperComponent.ToggleFightButtonVisiblity(false);
         ToggleMainMenu(true);//true for visible, false for not visible
-        
+        DirtyFixStilLSprites();
 
 
 
@@ -68,7 +75,15 @@ public class GameManager : MonoBehaviour
 
     }
 
+    private void DirtyFixStilLSprites()
+    {
+        //because we need animation for them to work properly
 
+        Character Lion = MainData.livingPlayerParty.Find(e => e.charType == "lion");
+        Lion.selfScriptRef.spriteRenderer.sprite = EntityDefComponent.lionsSprite;
+        Character Dorothy = MainData.livingPlayerParty.Find(e => e.charType == "dorothy");
+        Dorothy.selfScriptRef.spriteRenderer.sprite = EntityDefComponent.dorothyStillTest;
+    }
 
 
     private void ToggleMainMenu(bool togg)//true for visible, false for not visible
@@ -114,6 +129,11 @@ public class GameManager : MonoBehaviour
 
     public void PassTurn()
     {
+
+        if (MainData.livingEnemyParty.Count < 1)
+        {
+            MainData.MainLoop.CombatHelperComponent.EndCombat();
+        }
         if (CombatHelperComponent.allHaveActed)
         {
             //play new turn sound here

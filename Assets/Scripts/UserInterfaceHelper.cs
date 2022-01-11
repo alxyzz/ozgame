@@ -486,7 +486,7 @@ public class UserInterfaceHelper : MonoBehaviour
             PC1.associatedCharacter.HealthBar = firstHealthBar;
             if (PC1.associatedCharacter.charTrait != null)
             {
-                firstCharTrait.text = PC1.associatedCharacter.charTrait.traitName;
+                firstCharTrait.text = PC1.associatedCharacter.charTrait.adjective;
             }
             else
             {
@@ -502,7 +502,7 @@ public class UserInterfaceHelper : MonoBehaviour
 
             if (PC2.associatedCharacter.charTrait != null)
             {
-                secondCharTrait.text = PC2.associatedCharacter.charTrait.traitName;
+                secondCharTrait.text = PC2.associatedCharacter.charTrait.adjective;
             }
             else
             {
@@ -516,7 +516,7 @@ public class UserInterfaceHelper : MonoBehaviour
             PC3.associatedCharacter.HealthBar = thirdHealthBar;
             if (PC3.associatedCharacter.charTrait != null)
             {
-                thirdCharTrait.text = PC3.associatedCharacter.charTrait.traitName;
+                thirdCharTrait.text = PC3.associatedCharacter.charTrait.adjective;
             }
             else
             {
@@ -530,7 +530,7 @@ public class UserInterfaceHelper : MonoBehaviour
             PC4.associatedCharacter.HealthBar = fourthHealthBar;
             if (PC1.associatedCharacter.charTrait != null)
             {
-                fourthCharTrait.text = PC4.associatedCharacter.charTrait.traitName;
+                fourthCharTrait.text = PC4.associatedCharacter.charTrait.adjective;
             }
             else
             {
@@ -701,7 +701,7 @@ public class UserInterfaceHelper : MonoBehaviour
             thirdHealthBar.gameObject.SetActive(false);
         }
         //
-        if (PC4 != null)
+        if (PC4 != null || !PC4.associatedCharacter.isDead || !PC4.associatedCharacter.canAct)
         {
             PC4.associatedCharacter.HealthBar = fourthHealthBar;
             fourthHealthBar.maxValue = PC4.associatedCharacter.maxHealth;
