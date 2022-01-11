@@ -80,7 +80,7 @@ public class VendorScript : MonoBehaviour
             return;
         }
         isAnimating = false;
-        StartCoroutine(mouseOverAnimate());
+        //StartCoroutine(mouseOverAnimate());
     }
 
 
@@ -91,7 +91,7 @@ public class VendorScript : MonoBehaviour
             return;
         }
         isAnimating = false; //stop the animation
-        StartCoroutine(IdleAnimation());
+        //StartCoroutine(IdleAnimation());
     }
 
 
@@ -160,17 +160,23 @@ public class VendorScript : MonoBehaviour
         cartMoving = true;
         MainData.MainLoop.LevelHelperComponent.MoveBackgroundBackwards(); //ATTENTION - IF THIS SOMEHOW MAKES IT MOVE THE OTHER WAY - THE ORDER IS FLIPPED IN LEVELmANAGER. JUST USE MOVEBACKWARDS.
         isVendorHere = true;
-        while (Vector3.Distance(Cart.transform.position, Destination.transform.position) > 0.2f)
+        while (Vector3.Distance(Cart.transform.position, Destination.transform.position) > 0.1f)
         {
             Cart.transform.position = Vector3.MoveTowards(Cart.transform.position, Destination.transform.position, speed * Time.deltaTime);
             yield return new WaitForSecondsRealtime(moveInterval);
         }
 
-        //Cart.transform.position = Destination.transform.position;
+
+
+        Cart.transform.position = Destination.transform.position;
         MainData.MainLoop.LevelHelperComponent.MoveStop();
         cartMoving = false;
-        StartCoroutine(IdleAnimation());
+        //StartCoroutine(IdleAnimation());
     }
+
+
+
+
     //for when the cart is leaving
     IEnumerator LeavingAnimation()
     {
@@ -261,6 +267,8 @@ public class VendorScript : MonoBehaviour
         {
             MainData.MainLoop.EventLoggingComponent.LogGray("The merchant silently watches you depart.");
             StartCoroutine(LeavingAnimation());
+            MainData.MainLoop.LevelHelperComponent.EncountersPaused = false;
+            MainData.MainLoop.LevelHelperComponent.distanceWalked = -60;//back to beginning.
             return;
         }
 
@@ -326,11 +334,11 @@ public class VendorScript : MonoBehaviour
         {//we loop through all objects in the list and move them accordingly so it shows up nicely
             if (destination = PlayerInventoryScrollRect)
             {
-                item.GetComponent<VendorItemScript>().isInVendor = false;
+                item.gameObject.GetComponent<VendorItemScript>().isInVendor = false;
             }
             else
             {
-                item.GetComponent<VendorItemScript>().isInVendor = true;
+                item.gameObject.GetComponent<VendorItemScript>().isInVendor = true;
             }
 
             item.transform.position = change;
