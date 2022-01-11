@@ -217,7 +217,7 @@ public class LevelHelper : MonoBehaviour
                                            1f,//difficulty increment
                                            testsound,//background music
                                            false,//wether there's a campfire
-                                           GenerateEncountersForLevel(5, //how many encounters
+                                           GenerateEncountersForLevel(1, //how many encounters
                                                                       teamrocket,
                                                                       50));//encounters start from this point
 
