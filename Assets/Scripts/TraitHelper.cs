@@ -54,6 +54,7 @@ public class TraitHelper : MonoBehaviour
             {
                 MainData.t1traitList.Add(id, this);
             }
+            Debug.Log("Added new trait - [" + this.identifier + "].");
             MainData.traitList.Add(id, this);
         }
 

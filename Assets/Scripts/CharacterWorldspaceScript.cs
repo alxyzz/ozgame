@@ -15,25 +15,11 @@ public class CharacterWorldspaceScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
         if (associatedCharacter != null)
         {
             associatedCharacter.selfScriptRef = this;
         }
-
-        //if (!isEnemyCharacter)
-        //{
-        //    StaticDataHolder.playerPartyMemberObjects.Add(gameObject);
-        //}
-        //else
-        //{
-        //    StaticDataHolder.enemyPartyMemberObjects.Add(gameObject);
-        //}
     }
-
-
-
-    //make a different button for this
 
     public void Die() //visually show character has died
     {
@@ -67,17 +53,15 @@ public class CharacterWorldspaceScript : MonoBehaviour
         associatedCharacter.mana = template.mana;
         associatedCharacter.turnSound = template.turnSound;
         associatedCharacter.speed = template.speed;
+        associatedCharacter.valueBounty = template.valueBounty;
         associatedCharacter.InitialPosition = this.transform.position;
+
         if (associatedCharacter.standingSprite == null)
         {
-            spriteRenderer.sprite = associatedCharacter.attackAnimation[0];
+            associatedCharacter.standingSprite = associatedCharacter.attackAnimation[0];
         }
-        else
-        {
+        spriteRenderer.sprite = associatedCharacter.standingSprite;
 
-            spriteRenderer.sprite = associatedCharacter.standingSprite;
-        }
-       
         if (isEnemyCharacter)
         {
             // Debug.Log("Added a new enemy character - " + associatedCharacter.charName);

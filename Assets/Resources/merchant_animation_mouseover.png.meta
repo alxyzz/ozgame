@@ -1,0 +1,808 @@
+fileFormatVersion: 2
+guid: c9726b2f3a8188f41ac60d52ffd6346c
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 8053972677966285486
+    second: merchant_animation_mouseover_0
+  - first:
+      213: -9124565346385119653
+    second: merchant_animation_mouseover_1
+  - first:
+      213: -2772807540597517052
+    second: merchant_animation_mouseover_2
+  - first:
+      213: -6722810144688758056
+    second: merchant_animation_mouseover_3
+  - first:
+      213: 7236855080880637896
+    second: merchant_animation_mouseover_4
+  - first:
+      213: -8769873741261090317
+    second: merchant_animation_mouseover_5
+  - first:
+      213: 794923573125166333
+    second: merchant_animation_mouseover_6
+  - first:
+      213: 9069951355420952637
+    second: merchant_animation_mouseover_7
+  - first:
+      213: -5902786989715290212
+    second: merchant_animation_mouseover_8
+  - first:
+      213: 5357735365445570708
+    second: merchant_animation_mouseover_9
+  - first:
+      213: -2495053887220041922
+    second: merchant_animation_mouseover_10
+  - first:
+      213: -3268177795444820360
+    second: merchant_animation_mouseover_11
+  - first:
+      213: -8250595489618902870
+    second: merchant_animation_mouseover_12
+  - first:
+      213: -1834444627345858062
+    second: merchant_animation_mouseover_13
+  - first:
+      213: -7948091421547713831
+    second: merchant_animation_mouseover_14
+  - first:
+      213: -2872862968297130908
+    second: merchant_animation_mouseover_15
+  - first:
+      213: 5088567610540971116
+    second: merchant_animation_mouseover_16
+  - first:
+      213: -7121164175269866128
+    second: merchant_animation_mouseover_17
+  - first:
+      213: 310896416191328432
+    second: merchant_animation_mouseover_18
+  - first:
+      213: -588639730038614730
+    second: merchant_animation_mouseover_19
+  - first:
+      213: 1890176770958676104
+    second: merchant_animation_mouseover_20
+  - first:
+      213: -6334962762469116807
+    second: merchant_animation_mouseover_21
+  - first:
+      213: 7847173440804617171
+    second: merchant_animation_mouseover_22
+  - first:
+      213: -1775641634366160340
+    second: merchant_animation_mouseover_23
+  - first:
+      213: 1387108390826525122
+    second: merchant_animation_mouseover_24
+  - first:
+      213: -7260389953598237030
+    second: merchant_animation_mouseover_25
+  - first:
+      213: -7071567112915552628
+    second: merchant_animation_mouseover_26
+  - first:
+      213: 1795703736975097217
+    second: merchant_animation_mouseover_27
+  - first:
+      213: 5065340562656988966
+    second: merchant_animation_mouseover_28
+  - first:
+      213: -2576478446215139924
+    second: merchant_animation_mouseover_29
+  - first:
+      213: 2816482666019308838
+    second: merchant_animation_mouseover_30
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: -1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 50
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 8192
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 8192
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: merchant_animation_mouseover_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 3284
+        width: 1163
+        height: 812
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eaac1e49a7575cf60800000000000000
+      internalID: 8053972677966285486
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: merchant_animation_mouseover_1
+      rect:
+        serializedVersion: 2
+        x: 1162
+        y: 3286
+        width: 1162
+        height: 810
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b5630e659280f5180800000000000000
+      internalID: -9124565346385119653
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: merchant_animation_mouseover_2
+      rect:
+        serializedVersion: 2
+        x: 2323
+        y: 3288
+        width: 1160
+        height: 808
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 40519289b320589d0800000000000000
+      internalID: -2772807540597517052
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: merchant_animation_mouseover_3
+      rect:
+        serializedVersion: 2
+        x: 3483
+        y: 3290
+        width: 1158
+        height: 806
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8d22f69dac7c3b2a0800000000000000
+      internalID: -6722810144688758056
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: merchant_animation_mouseover_4
+      rect:
+        serializedVersion: 2
+        x: 4641
+        y: 3292
+        width: 1156
+        height: 804
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8c70fd28a597e6460800000000000000
+      internalID: 7236855080880637896
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: merchant_animation_mouseover_5
+      rect:
+        serializedVersion: 2
+        x: 5797
+        y: 3294
+        width: 1154
+        height: 802
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3f15b1f0c462b4680800000000000000
+      internalID: -8769873741261090317
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: merchant_animation_mouseover_6
+      rect:
+        serializedVersion: 2
+        x: 6951
+        y: 3296
+        width: 1152
+        height: 800
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: df4b5bf27c2280b00800000000000000
+      internalID: 794923573125166333
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: merchant_animation_mouseover_7
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2486
+        width: 1149
+        height: 798
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d3840fdf3b0fedd70800000000000000
+      internalID: 9069951355420952637
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: merchant_animation_mouseover_8
+      rect:
+        serializedVersion: 2
+        x: 1149
+        y: 2488
+        width: 1149
+        height: 796
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c970935d186151ea0800000000000000
+      internalID: -5902786989715290212
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: merchant_animation_mouseover_9
+      rect:
+        serializedVersion: 2
+        x: 2297
+        y: 2490
+        width: 1146
+        height: 794
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4905ee9adef7a5a40800000000000000
+      internalID: 5357735365445570708
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: merchant_animation_mouseover_10
+      rect:
+        serializedVersion: 2
+        x: 3443
+        y: 2492
+        width: 1145
+        height: 792
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e37bacc75b9cf5dd0800000000000000
+      internalID: -2495053887220041922
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: merchant_animation_mouseover_11
+      rect:
+        serializedVersion: 2
+        x: 4587
+        y: 2493
+        width: 1143
+        height: 791
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 87631bf4c9915a2d0800000000000000
+      internalID: -3268177795444820360
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: merchant_animation_mouseover_12
+      rect:
+        serializedVersion: 2
+        x: 5729
+        y: 2495
+        width: 1141
+        height: 789
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aa043df9d1fff7d80800000000000000
+      internalID: -8250595489618902870
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: merchant_animation_mouseover_13
+      rect:
+        serializedVersion: 2
+        x: 6869
+        y: 2497
+        width: 1138
+        height: 787
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2f12deaa45eba86e0800000000000000
+      internalID: -1834444627345858062
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: merchant_animation_mouseover_14
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1700
+        width: 1136
+        height: 785
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9daa15086f4b2b190800000000000000
+      internalID: -7948091421547713831
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: merchant_animation_mouseover_15
+      rect:
+        serializedVersion: 2
+        x: 1135
+        y: 1702
+        width: 1135
+        height: 783
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4647646f95a8128d0800000000000000
+      internalID: -2872862968297130908
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: merchant_animation_mouseover_16
+      rect:
+        serializedVersion: 2
+        x: 2269
+        y: 1700
+        width: 1137
+        height: 785
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c645ad908493e9640800000000000000
+      internalID: 5088567610540971116
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: merchant_animation_mouseover_17
+      rect:
+        serializedVersion: 2
+        x: 3405
+        y: 1698
+        width: 1139
+        height: 787
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0755dc189ea8c2d90800000000000000
+      internalID: -7121164175269866128
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: merchant_animation_mouseover_18
+      rect:
+        serializedVersion: 2
+        x: 4544
+        y: 1696
+        width: 1141
+        height: 789
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0b0b601b4a6805400800000000000000
+      internalID: 310896416191328432
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: merchant_animation_mouseover_19
+      rect:
+        serializedVersion: 2
+        x: 5685
+        y: 1694
+        width: 1143
+        height: 791
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 635dd56c84bb4d7f0800000000000000
+      internalID: -588639730038614730
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: merchant_animation_mouseover_20
+      rect:
+        serializedVersion: 2
+        x: 6828
+        y: 1692
+        width: 1145
+        height: 793
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 880dfa332c14b3a10800000000000000
+      internalID: 1890176770958676104
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: merchant_animation_mouseover_21
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 896
+        width: 1146
+        height: 795
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 97473bd7ee0b518a0800000000000000
+      internalID: -6334962762469116807
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: merchant_animation_mouseover_22
+      rect:
+        serializedVersion: 2
+        x: 1146
+        y: 894
+        width: 1150
+        height: 797
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3dbf9061ba2c6ec60800000000000000
+      internalID: 7847173440804617171
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: merchant_animation_mouseover_23
+      rect:
+        serializedVersion: 2
+        x: 2295
+        y: 892
+        width: 1151
+        height: 799
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c22063f5757ab57e0800000000000000
+      internalID: -1775641634366160340
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: merchant_animation_mouseover_24
+      rect:
+        serializedVersion: 2
+        x: 3446
+        y: 890
+        width: 1153
+        height: 801
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2c1cd247bbfff3310800000000000000
+      internalID: 1387108390826525122
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: merchant_animation_mouseover_25
+      rect:
+        serializedVersion: 2
+        x: 4599
+        y: 888
+        width: 1155
+        height: 803
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a9656fcedc9ed3b90800000000000000
+      internalID: -7260389953598237030
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: merchant_animation_mouseover_26
+      rect:
+        serializedVersion: 2
+        x: 5754
+        y: 885
+        width: 1158
+        height: 806
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c8675557d2fbcdd90800000000000000
+      internalID: -7071567112915552628
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: merchant_animation_mouseover_27
+      rect:
+        serializedVersion: 2
+        x: 6911
+        y: 884
+        width: 1159
+        height: 807
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 18dfd34e80f9be810800000000000000
+      internalID: 1795703736975097217
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: merchant_animation_mouseover_28
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 73
+        width: 1161
+        height: 810
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 62f0c878764bb4640800000000000000
+      internalID: 5065340562656988966
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 0e199dd8141dcbe438a29aef291f5b8a
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
