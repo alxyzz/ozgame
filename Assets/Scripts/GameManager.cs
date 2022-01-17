@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
     public CombatHelper CombatHelperComponent;
     public VendorScript VendorScriptComponent;
     public ContentTweakingInterface ContentValueTweaking;
+    public MouseInteractionsHelper MouseHelper;
 
     // Start is called before the first frame update
     void Start()//loads stuff up

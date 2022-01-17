@@ -212,7 +212,7 @@ public class CombatHelper : MonoBehaviour
             item.RecalculateStatsFromItems();
             item.RecalculateThreatFromStats();
         }
-        combatants.Sort((x, y) => y.speed.CompareTo(x.speed));
+        combatants.Sort((x, y) => y.GetCompoundSpeed().CompareTo(x.GetCompoundSpeed()));
         StartCoroutine(DoPatientCombatRound(combatants));
     }
 

@@ -216,7 +216,7 @@ public class LevelHelper : MonoBehaviour
 
 
         List<string> teamrocket = new List<string>();
-        for (int i = 0; i < 1; i++) //change the 5 to whatever amount to change monkey quantity.
+        for (int i = 0; i < 5; i++) //change the 5 to whatever amount to change monkey quantity.
         {
             teamrocket.Add("flyingmonkey");
         }

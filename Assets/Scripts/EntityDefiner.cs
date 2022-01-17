@@ -93,7 +93,7 @@ public class EntityDefiner : MonoBehaviour
         {
             eventlog.Log("There's not enough " + consumable.itemName + " to do this. you don't have any " + consumable.itemName + "...");
             consumableInventory.Remove(consumable);
-            MainData.MainLoop.UserInterfaceHelperComponent.RefreshInventorySlots();
+            MainData.MainLoop.UserInterfaceHelperComponent.RefreshConsumableSlots();
             return;
         }
 
@@ -194,7 +194,7 @@ public class EntityDefiner : MonoBehaviour
         if (consumable.itemQuantity == 0)
         {
             consumableInventory.Remove(consumable);
-            MainData.MainLoop.UserInterfaceHelperComponent.RefreshInventorySlots();
+            MainData.MainLoop.UserInterfaceHelperComponent.RefreshConsumableSlots();
         }
 
 
@@ -884,7 +884,7 @@ public class EntityDefiner : MonoBehaviour
         }
         b.itemQuantity = amt;
         MainData.consumableInventory.Add(b);//adds it to the inventory
-        MainData.MainLoop.UserInterfaceHelperComponent.RefreshInventorySlots();//refreshes the inventory buttons/slots
+        MainData.MainLoop.UserInterfaceHelperComponent.RefreshConsumableSlots();//refreshes the inventory buttons/slots
     }
 
 
@@ -991,7 +991,7 @@ public class EntityDefiner : MonoBehaviour
     public class Character : ScriptableObject
     {
 
-        List<Item> equippedItems = new List<Item>(); //this does not contain any consumables. those are in the collective inventory pool. this only contains items with isEquipable = true
+        public List<Item> equippedItems = new List<Item>(); //this does not contain any consumables. those are in the collective inventory pool. this only contains items with isEquipable = true, which have an effect on stats
         public Trait charTrait;
 
 
@@ -1039,6 +1039,18 @@ public class EntityDefiner : MonoBehaviour
 
 
 
+        public int GetCompoundSpeed()
+        {
+            int speednew = speed;
+            foreach (Item item in equippedItems)
+            {
+                speed += item.speedmodifier;
+            }
+            return speednew;
+        }
+
+
+
 
         public void RecalculateThreatFromStats()
         {
@@ -1047,6 +1059,9 @@ public class EntityDefiner : MonoBehaviour
 
         public void RecalculateStatsFromItems()
         {
+
+
+
 
         }
 

@@ -382,7 +382,7 @@ public class VendorScript : MonoBehaviour
                 MainData.MainLoop.Currency -= currentlySelectedShopItem.associatedItem.value;
                 Item bought = currentlySelectedShopItem.associatedItem;
                 MainData.consumableInventory.Add(bought);
-                MainData.MainLoop.UserInterfaceHelperComponent.RefreshInventorySlots();
+                MainData.MainLoop.UserInterfaceHelperComponent.RefreshConsumableSlots();
                 TransferToAndRefreshScrollRect(currentlySelectedShopItem.gameObject, PlayerInventoryScrollRect);
             }
         }
