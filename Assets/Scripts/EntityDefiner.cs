@@ -54,7 +54,7 @@ public class EntityDefiner : MonoBehaviour
 
 
     [HideInInspector]
-    public Sprite[] scarecrowWalkSheet;
+    public Sprite[] scarecrowWalk_Sheet;
     [HideInInspector]
     public Sprite[] lionWalkSheet;
     [HideInInspector]
@@ -209,7 +209,7 @@ public class EntityDefiner : MonoBehaviour
         monkeyHurtSheet = Resources.LoadAll<Sprite>("Monkey_hurt_sheet");
 
         scarecrowAttackSheet = Resources.LoadAll<Sprite>("scarecrow_attack");
-        scarecrowWalkSheet = Resources.LoadAll<Sprite>("scarecrow_walk");
+        scarecrowWalk_Sheet = Resources.LoadAll<Sprite>("scarecrow_walk");
         scarecrowHurtSheet = Resources.LoadAll<Sprite>("scarecrow_hurt");
 
         tinmanAttackSheet = Resources.LoadAll<Sprite>("tinman_attack");
@@ -279,7 +279,7 @@ public class EntityDefiner : MonoBehaviour
     /// <param name="attackAnimationSprites"></param>
     /// <param name="newCharAvatar"></param>
     /// <returns></returns>
-    public void MakeMobTemplate(string characterID, string charName, string charDesc, string attackVerb, bool isPlayer, int baseHP, int baseMinDMG, int baseMaxDMG, int baseSPD, int Defense, int Luck, int Mana, AudioClip newCharTurnSound, Sprite[] attackAnimationSprites, int bountyy, Sprite newCharAvatar, Sprite noAnimSprite, Sprite[] HurtSprites, Sprite[] WalkSprite = null)
+    public void MakeMobTemplate(string characterID, string charName, string charDesc, string attackVerb, bool isPlayer, int baseHP, int baseMinDMG, int baseMaxDMG, int baseSPD, int Defense, int Luck, int Mana, AudioClip newCharTurnSound, Sprite[] attackAnimationSprites, int bountyy, Sprite newCharAvatar, Sprite noAnimSprite, Sprite[] HurtSprites, Sprite[] WalkSprite)
     {
         Character newCharacterDefinition = Character.CreateInstance<Character>();
 
@@ -295,10 +295,9 @@ public class EntityDefiner : MonoBehaviour
             newCharacterDefinition.hurtSprites = HurtSprites;
         }
 
-        if (WalkSprite != null)
-        {
+        
             newCharacterDefinition.WalkSprites = WalkSprite;
-        }
+        
 
 
 
@@ -361,7 +360,7 @@ public class EntityDefiner : MonoBehaviour
                        scarecrowAvatar, //avatar
                        scarecrowStanding, //standing sprite if there is no attacksheet since we usually just use the first frame
                        null,
-                       scarecrowWalkSheet); //hurt sprites
+                       scarecrowWalk_Sheet); //hurt sprites
 
         MakeMobTemplate("tin_man",
                        "Tin Man",
@@ -401,7 +400,7 @@ public class EntityDefiner : MonoBehaviour
                        lionAvatar, //avatar
                        lionStanding, //standing sprite if there is no attacksheet since we usually just use the first frame
                        null,
-                       lionWalkSheet); //null
+                       scarecrowWalk_Sheet); //null
 
         MakeMobTemplate("dorothy",
                        "Dorothy",
@@ -421,7 +420,7 @@ public class EntityDefiner : MonoBehaviour
                        dorothyAvatar, //avatar
                        dorothyStanding, //standing sprite if there is no attacksheet since we usually just use the first frame
                        dorothyHurtSheet,
-                       dorothyWalkSheet); //hurt sprites
+                       tinmanWalkSheet); //hurt sprites
 
 
     }
@@ -443,7 +442,7 @@ public class EntityDefiner : MonoBehaviour
                        0, //mana
                        null, //sound for when it is this character's turn to act
                        monkeyAttackSheet, //character's attack animation sprite 
-                       2, monkeyAvatar, monkeyAttackSheet[0], monkeyHurtSheet);
+                       2, monkeyAvatar, monkeyAttackSheet[0], monkeyHurtSheet, scarecrowWalk_Sheet);
     }
 
 

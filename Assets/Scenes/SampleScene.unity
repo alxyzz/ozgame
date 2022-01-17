@@ -8386,7 +8386,7 @@ MonoBehaviour:
   lionAttackSheet: []
   dorothyAttackSheet: []
   tinmanAttackSheet: []
-  scarecrowWalkSheet: []
+  scarecrowWalk_Sheet: []
   lionWalkSheet: []
   dorothyWalkSheet: []
   tinmanWalkSheet: []
@@ -29229,7 +29229,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 462129121}
         m_TargetAssemblyTypeName: LevelHelper, Assembly-CSharp
-        m_MethodName: MoveBackgroundBackwards
+        m_MethodName: MovePartyForwards
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

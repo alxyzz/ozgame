@@ -211,36 +211,31 @@ public class CharacterWorldspaceScript : MonoBehaviour
 
     public System.Collections.IEnumerator HurtAnim()
     {
-
-        for (int i = 0; i < associatedCharacter.WalkSprites.Length - 1; i++)
+        for (int i = 0; i < associatedCharacter.WalkSprites.Length-1; i++)
         {
             spriteRenderer.sprite = associatedCharacter.hurtSprites[i];
-            yield return new WaitForSecondsRealtime(0.01f);
+            yield return new WaitForSeconds(0.01f);
         }
-
-
-
-
     }
 
 
 
     public System.Collections.IEnumerator WalkAnim()
     {
-        for (int b = 0; b < (240 / 0.04f); b++)
-        {
-            for (int i = 0; i < associatedCharacter.WalkSprites.Length -1; i++)
+        
+            for (int i = 0; i < associatedCharacter.WalkSprites.Length-1; i++)
             {
                 spriteRenderer.sprite = associatedCharacter.WalkSprites[i];
-                yield return new WaitForSecondsRealtime(0.04f);
+                yield return new WaitForSeconds(0.04f);
             }
-        }
+        
 
     }
 
 
     public void StopWalk()
     {
+        spriteRenderer.sprite = associatedCharacter.standingSprite;
         Debug.Log("Stopped walking.");
         isWalking = false;
         StopCoroutine(WalkAnim());
