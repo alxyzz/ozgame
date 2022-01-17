@@ -1,49 +1,52 @@
 fileFormatVersion: 2
-guid: b535cd5fb0ee3ed40926968cbe33deca
+guid: b4841d687782be24d968c95c79cc9e98
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 1573687664973937809
-    second: tinman_attack_sheet_0
+      213: 9016912881448488234
+    second: lion_attack_0
   - first:
-      213: -4342926719674496456
-    second: tinman_attack_sheet_1
+      213: 3987893966172626858
+    second: lion_attack_1
   - first:
-      213: 3183057803157599513
-    second: tinman_attack_sheet_2
+      213: 7823058274842558734
+    second: lion_attack_2
   - first:
-      213: 9052926777099572008
-    second: tinman_attack_sheet_3
+      213: -2737047515798155961
+    second: lion_attack_3
   - first:
-      213: -9132369990089244844
-    second: tinman_attack_sheet_4
+      213: -1410096159701033339
+    second: lion_attack_4
   - first:
-      213: 2617261433629268227
-    second: tinman_attack_sheet_5
+      213: -5989228833077722993
+    second: lion_attack_5
   - first:
-      213: 4935466017826043687
-    second: tinman_attack_sheet_6
+      213: 6438565351353218025
+    second: lion_attack_6
   - first:
-      213: 2053696701648403103
-    second: tinman_attack_sheet_7
+      213: 7873215147812559334
+    second: lion_attack_7
   - first:
-      213: -1467262806273795967
-    second: tinman_attack_sheet_8
+      213: -2240378850236545477
+    second: lion_attack_8
   - first:
-      213: -9209253539883684040
-    second: tinman_attack_sheet_9
+      213: 4954551583280550456
+    second: lion_attack_9
   - first:
-      213: -5312190538051640068
-    second: tinman_attack_sheet_10
+      213: 3570117494160173879
+    second: lion_attack_10
   - first:
-      213: -6042783783699267346
-    second: tinman_attack_sheet_11
+      213: 7421318134486152848
+    second: lion_attack_11
   - first:
-      213: -4002968583243309619
-    second: tinman_attack_sheet_12
+      213: -5251928313087852150
+    second: lion_attack_12
   - first:
-      213: 1369876570069885553
-    second: tinman_attack_sheet_13
+      213: 3495238787646256710
+    second: lion_attack_13
+  - first:
+      213: -7590056815008717939
+    second: lion_attack_14
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -131,7 +134,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: tinman_attack_sheet_0
+      name: lion_attack_0
       rect:
         serializedVersion: 2
         x: 0
@@ -139,20 +142,20 @@ TextureImporter:
         width: 1420
         height: 1368
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 19c7f22f79cd6d510800000000000000
-      internalID: 1573687664973937809
+      spriteID: a2d8165fd72822d70800000000000000
+      internalID: 9016912881448488234
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: tinman_attack_sheet_1
+      name: lion_attack_1
       rect:
         serializedVersion: 2
         x: 1420
@@ -160,20 +163,20 @@ TextureImporter:
         width: 1420
         height: 1368
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 83acf348823dab3c0800000000000000
-      internalID: -4342926719674496456
+      spriteID: aaf94a7fe68d75730800000000000000
+      internalID: 3987893966172626858
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: tinman_attack_sheet_2
+      name: lion_attack_2
       rect:
         serializedVersion: 2
         x: 2840
@@ -181,20 +184,20 @@ TextureImporter:
         width: 1420
         height: 1368
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9157eb8153e7c2c20800000000000000
-      internalID: 3183057803157599513
+      spriteID: e01cb297d06119c60800000000000000
+      internalID: 7823058274842558734
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: tinman_attack_sheet_3
+      name: lion_attack_3
       rect:
         serializedVersion: 2
         x: 4260
@@ -202,20 +205,20 @@ TextureImporter:
         width: 1420
         height: 1368
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 82354a670f472ad70800000000000000
-      internalID: 9052926777099572008
+      spriteID: 74d4c7f29cd040ad0800000000000000
+      internalID: -2737047515798155961
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: tinman_attack_sheet_4
+      name: lion_attack_4
       rect:
         serializedVersion: 2
         x: 0
@@ -223,20 +226,20 @@ TextureImporter:
         width: 1420
         height: 1368
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 45ffa4f11ed434180800000000000000
-      internalID: -9132369990089244844
+      spriteID: 58e90e583055e6ce0800000000000000
+      internalID: -1410096159701033339
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: tinman_attack_sheet_5
+      name: lion_attack_5
       rect:
         serializedVersion: 2
         x: 1420
@@ -244,20 +247,20 @@ TextureImporter:
         width: 1420
         height: 1368
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3095dc33861625420800000000000000
-      internalID: 2617261433629268227
+      spriteID: f8000edcb1cf1eca0800000000000000
+      internalID: -5989228833077722993
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: tinman_attack_sheet_6
+      name: lion_attack_6
       rect:
         serializedVersion: 2
         x: 2840
@@ -265,20 +268,20 @@ TextureImporter:
         width: 1420
         height: 1368
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7277889a13c4e7440800000000000000
-      internalID: 4935466017826043687
+      spriteID: 9e3fb86f2116a5950800000000000000
+      internalID: 6438565351353218025
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: tinman_attack_sheet_7
+      name: lion_attack_7
       rect:
         serializedVersion: 2
         x: 4260
@@ -286,20 +289,20 @@ TextureImporter:
         width: 1420
         height: 1368
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f9af42ae442308c10800000000000000
-      internalID: 2053696701648403103
+      spriteID: 6e9979d7677434d60800000000000000
+      internalID: 7873215147812559334
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: tinman_attack_sheet_8
+      name: lion_attack_8
       rect:
         serializedVersion: 2
         x: 0
@@ -307,20 +310,20 @@ TextureImporter:
         width: 1420
         height: 1368
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 18858e7604c33abe0800000000000000
-      internalID: -1467262806273795967
+      spriteID: b364a554e4398e0e0800000000000000
+      internalID: -2240378850236545477
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: tinman_attack_sheet_9
+      name: lion_attack_9
       rect:
         serializedVersion: 2
         x: 1420
@@ -328,20 +331,20 @@ TextureImporter:
         width: 1420
         height: 1368
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 83f69bcb2b8223080800000000000000
-      internalID: -9209253539883684040
+      spriteID: 83259c62a6a12c440800000000000000
+      internalID: 4954551583280550456
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: tinman_attack_sheet_10
+      name: lion_attack_10
       rect:
         serializedVersion: 2
         x: 2840
@@ -349,20 +352,20 @@ TextureImporter:
         width: 1420
         height: 1368
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cf4ad30d9de4746b0800000000000000
-      internalID: -5312190538051640068
+      spriteID: 73b23d512fa9b8130800000000000000
+      internalID: 3570117494160173879
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: tinman_attack_sheet_11
+      name: lion_attack_11
       rect:
         serializedVersion: 2
         x: 4260
@@ -370,20 +373,20 @@ TextureImporter:
         width: 1420
         height: 1368
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ee04d1e2a28b32ca0800000000000000
-      internalID: -6042783783699267346
+      spriteID: 09636330681ddf660800000000000000
+      internalID: 7421318134486152848
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: tinman_attack_sheet_12
+      name: lion_attack_12
       rect:
         serializedVersion: 2
         x: 0
@@ -391,20 +394,20 @@ TextureImporter:
         width: 1420
         height: 1368
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: dcddbbc38499278c0800000000000000
-      internalID: -4002968583243309619
+      spriteID: a81059076076d17b0800000000000000
+      internalID: -5251928313087852150
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: tinman_attack_sheet_13
+      name: lion_attack_13
       rect:
         serializedVersion: 2
         x: 1420
@@ -412,14 +415,35 @@ TextureImporter:
         width: 1420
         height: 1368
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 17265298b77c20310800000000000000
-      internalID: 1369876570069885553
+      spriteID: 64672d6a825918030800000000000000
+      internalID: 3495238787646256710
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lion_attack_14
+      rect:
+        serializedVersion: 2
+        x: 2840
+        y: 0
+        width: 1420
+        height: 1368
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d836f546a83baa690800000000000000
+      internalID: -7590056815008717939
       vertices: []
       indices: 
       edges: []
@@ -427,7 +451,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 233542f051c58bc47b2adc0952de3c10
     internalID: 0
     vertices: []
     indices: 

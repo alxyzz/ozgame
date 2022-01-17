@@ -1,49 +1,31 @@
 fileFormatVersion: 2
-guid: b535cd5fb0ee3ed40926968cbe33deca
+guid: 3a79575d852f2e94bb3f43687b627bae
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 1573687664973937809
-    second: tinman_attack_sheet_0
+      213: -6097059919693824947
+    second: dorothy_walk_0
   - first:
-      213: -4342926719674496456
-    second: tinman_attack_sheet_1
+      213: 7969800731160877407
+    second: dorothy_walk_1
   - first:
-      213: 3183057803157599513
-    second: tinman_attack_sheet_2
+      213: -1387589724332354939
+    second: dorothy_walk_2
   - first:
-      213: 9052926777099572008
-    second: tinman_attack_sheet_3
+      213: -1605772083246379336
+    second: dorothy_walk_3
   - first:
-      213: -9132369990089244844
-    second: tinman_attack_sheet_4
+      213: -5397992025965216405
+    second: dorothy_walk_4
   - first:
-      213: 2617261433629268227
-    second: tinman_attack_sheet_5
+      213: 7465105137148064580
+    second: dorothy_walk_5
   - first:
-      213: 4935466017826043687
-    second: tinman_attack_sheet_6
+      213: 4698311784620468936
+    second: dorothy_walk_6
   - first:
-      213: 2053696701648403103
-    second: tinman_attack_sheet_7
-  - first:
-      213: -1467262806273795967
-    second: tinman_attack_sheet_8
-  - first:
-      213: -9209253539883684040
-    second: tinman_attack_sheet_9
-  - first:
-      213: -5312190538051640068
-    second: tinman_attack_sheet_10
-  - first:
-      213: -6042783783699267346
-    second: tinman_attack_sheet_11
-  - first:
-      213: -4002968583243309619
-    second: tinman_attack_sheet_12
-  - first:
-      213: 1369876570069885553
-    second: tinman_attack_sheet_13
+      213: 8985714841706891615
+    second: dorothy_walk_7
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -105,7 +87,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 4096
+    maxTextureSize: 8192
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -117,7 +99,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Standalone
-    maxTextureSize: 4096
+    maxTextureSize: 8192
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -131,175 +113,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: tinman_attack_sheet_0
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 4104
-        width: 1420
-        height: 1368
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 19c7f22f79cd6d510800000000000000
-      internalID: 1573687664973937809
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: tinman_attack_sheet_1
-      rect:
-        serializedVersion: 2
-        x: 1420
-        y: 4104
-        width: 1420
-        height: 1368
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 83acf348823dab3c0800000000000000
-      internalID: -4342926719674496456
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: tinman_attack_sheet_2
-      rect:
-        serializedVersion: 2
-        x: 2840
-        y: 4104
-        width: 1420
-        height: 1368
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 9157eb8153e7c2c20800000000000000
-      internalID: 3183057803157599513
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: tinman_attack_sheet_3
-      rect:
-        serializedVersion: 2
-        x: 4260
-        y: 4104
-        width: 1420
-        height: 1368
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 82354a670f472ad70800000000000000
-      internalID: 9052926777099572008
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: tinman_attack_sheet_4
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 2736
-        width: 1420
-        height: 1368
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 45ffa4f11ed434180800000000000000
-      internalID: -9132369990089244844
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: tinman_attack_sheet_5
-      rect:
-        serializedVersion: 2
-        x: 1420
-        y: 2736
-        width: 1420
-        height: 1368
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 3095dc33861625420800000000000000
-      internalID: 2617261433629268227
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: tinman_attack_sheet_6
-      rect:
-        serializedVersion: 2
-        x: 2840
-        y: 2736
-        width: 1420
-        height: 1368
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 7277889a13c4e7440800000000000000
-      internalID: 4935466017826043687
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: tinman_attack_sheet_7
-      rect:
-        serializedVersion: 2
-        x: 4260
-        y: 2736
-        width: 1420
-        height: 1368
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: f9af42ae442308c10800000000000000
-      internalID: 2053696701648403103
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: tinman_attack_sheet_8
+      name: dorothy_walk_0
       rect:
         serializedVersion: 2
         x: 0
@@ -313,14 +127,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 18858e7604c33abe0800000000000000
-      internalID: -1467262806273795967
+      spriteID: d4cb0608e44e26ba0800000000000000
+      internalID: -6097059919693824947
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: tinman_attack_sheet_9
+      name: dorothy_walk_1
       rect:
         serializedVersion: 2
         x: 1420
@@ -334,14 +148,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 83f69bcb2b8223080800000000000000
-      internalID: -9209253539883684040
+      spriteID: f591e770a8b6a9e60800000000000000
+      internalID: 7969800731160877407
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: tinman_attack_sheet_10
+      name: dorothy_walk_2
       rect:
         serializedVersion: 2
         x: 2840
@@ -355,14 +169,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cf4ad30d9de4746b0800000000000000
-      internalID: -5312190538051640068
+      spriteID: 582103b5f7a4ebce0800000000000000
+      internalID: -1387589724332354939
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: tinman_attack_sheet_11
+      name: dorothy_walk_3
       rect:
         serializedVersion: 2
         x: 4260
@@ -376,14 +190,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ee04d1e2a28b32ca0800000000000000
-      internalID: -6042783783699267346
+      spriteID: 8be4cdb4cc627b9e0800000000000000
+      internalID: -1605772083246379336
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: tinman_attack_sheet_12
+      name: dorothy_walk_4
       rect:
         serializedVersion: 2
         x: 0
@@ -397,14 +211,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: dcddbbc38499278c0800000000000000
-      internalID: -4002968583243309619
+      spriteID: b6db3f72ada7615b0800000000000000
+      internalID: -5397992025965216405
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: tinman_attack_sheet_13
+      name: dorothy_walk_5
       rect:
         serializedVersion: 2
         x: 1420
@@ -418,8 +232,50 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 17265298b77c20310800000000000000
-      internalID: 1369876570069885553
+      spriteID: 44377a60291699760800000000000000
+      internalID: 7465105137148064580
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dorothy_walk_6
+      rect:
+        serializedVersion: 2
+        x: 2840
+        y: 0
+        width: 1420
+        height: 1368
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8caa556eca1c33140800000000000000
+      internalID: 4698311784620468936
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dorothy_walk_7
+      rect:
+        serializedVersion: 2
+        x: 4260
+        y: 0
+        width: 1420
+        height: 1368
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f5905e84a0ca3bc70800000000000000
+      internalID: 8985714841706891615
       vertices: []
       indices: 
       edges: []
@@ -427,7 +283,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: fe1a7b4e8891b90408e48f3e3806f597
     internalID: 0
     vertices: []
     indices: 
