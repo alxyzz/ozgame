@@ -209,7 +209,7 @@ public class CombatHelper : MonoBehaviour
         foreach (Character item in MainData.livingPlayerParty)
         {
             item.RecalculateStatsFromTraits();
-            item.RecalculateStatsFromItems();
+            //item.RecalculateStatsFromItems(); this is done when we attack or use the stat in most cases, using either GetCompoundSpeed() or such, or a foreach loop looking into the items
             item.RecalculateThreatFromStats();
         }
         combatants.Sort((x, y) => y.GetCompoundSpeed().CompareTo(x.GetCompoundSpeed()));

@@ -138,21 +138,21 @@ public class EntityDefiner : MonoBehaviour
                     switch (target.charTrait.identifier)
                     {
                         case "caring":
-                            int healthAfterCaringModifier = (MainData.MainLoop.ContentValueTweaking.HealthPotionHealthGiven / 100) * MainData.MainLoop.ContentValueTweaking.caringHealingPotionPercentageHealingTakenMalus;
-                            target.GainHealth(healthAfterCaringModifier);//set this variable in the inspector above. for easy setting during runtime, too.
+                            int healthAfterCaringModifier = (MainData.MainLoop.ContentValueTweaking.HealthPotionHealthGiven / 100) * (100 -MainData.MainLoop.ContentValueTweaking.caringHealingPotionPercentageHealingTakenMalus);
+                            target.GainHealth(healthAfterCaringModifier);
                             MainData.MainLoop.EventLoggingComponent.LogGray(target.charName + " feels sad knowing that the potion would be more effective for the others.");
                             MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(healthAfterCaringModifier, target, true);
                             break;
 
                         default:
-                            target.GainHealth(MainData.MainLoop.ContentValueTweaking.HealthPotionHealthGiven);//set this variable in the inspector above. for easy setting during runtime, too.
+                            target.GainHealth(MainData.MainLoop.ContentValueTweaking.HealthPotionHealthGiven);//set this variable in the inspector above
                             MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(MainData.MainLoop.ContentValueTweaking.HealthPotionHealthGiven, target, true);
                             break;
                     }
                 }
                 else
                 {
-                    target.GainHealth(MainData.MainLoop.ContentValueTweaking.HealthPotionHealthGiven);//set this variable in the inspector above. for easy setting during runtime, too.
+                    target.GainHealth(MainData.MainLoop.ContentValueTweaking.HealthPotionHealthGiven);
                     MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(MainData.MainLoop.ContentValueTweaking.HealthPotionHealthGiven, target, true);
                     break;
                 }
@@ -948,10 +948,10 @@ public class EntityDefiner : MonoBehaviour
                     bool isEquipable = true,
                     int speedmodifier = 0,
                     int healthmodifier = 0,
-                    int manamodifier = 0,
-                    int dmgmodifier = 0,
-                    int defensemodifier = 0,
-                    int luckmodifier = 0,
+                    int manamodifier = 0, //not yet handled
+                    int dmgmodifier = 0, //handled
+                    int defensemodifier = 0, //handled
+                    int luckmodifier = 0, //not yet
 
                     float multiplicativeHealingAmplification = 1f,
                     float multiplicativeDamageResistance = 1f,
@@ -1019,17 +1019,17 @@ public class EntityDefiner : MonoBehaviour
         public float valueBounty = 2f; //eyes given for kill
         public int maxHealth;
         public int baseDamageMin;
-        public int baseDamageMax;
-        public int baseSpeed;
+        public int baseDamageMax; //NOTE - damage is taken into calculation directly in the attack method.
+        public int baseSpeed; //good to go
         public Slider HealthBar;
 
 
         public int damageMin;
-        public int damageMax;
-        public int speed; //NOTE - RECOMPUTE THESE BEFORE EVERY TURN TO TRACK TRAITS CHANGING IT
-        public int defense;
-        public int luck;
-        public int mana;
+        public int damageMax;//handled
+        public int speed; //NOTE - these are calculated by calling the GetCompoundSpeed(), GetCompoundDefense() and GetCompoundLuck() methods, just like you'd use the variable
+        public int defense; //handled in attacking code
+        public int luck; //not yet
+        public int mana; //not yet
         public bool canAct = true; //wether it's stunned or not
         public bool isDead = false;
         public bool hasActedThisTurn = false;
@@ -1041,32 +1041,45 @@ public class EntityDefiner : MonoBehaviour
 
         public int GetCompoundSpeed()
         {
-            int speednew = speed;
+            int speednew = baseSpeed;
             foreach (Item item in equippedItems)
             {
-                speed += item.speedmodifier;
+                speednew += item.speedmodifier;
             }
             return speednew;
         }
 
+        public int GetCompoundDefense()
+        {
+            int Defensenew = defense;
+            foreach (Item item in equippedItems)
+            {
+                Defensenew += item.defensemodifier;
+            }
+            return Defensenew;
+        }
+
+        public int GetCompoundLuck()
+        {
+            int Lucknew = luck;
+            foreach (Item item in equippedItems)
+            {
+                Lucknew += item.luckmodifier;
+            }
+            return Lucknew;
+        }
 
 
 
         public void RecalculateThreatFromStats()
         {
-            threatFromStats = (speed + currentHealth + damageMin + defense) / 4;
+            threatFromStats = (speed + currentHealth + damageMin + defense) / 4; //averages them, sounds reasonable
         }
 
-        public void RecalculateStatsFromItems()
-        {
 
-
-
-
-        }
 
         /// <summary>
-        /// recalculates stats on the start of each round.  handles applying stats the first time, too.
+        /// recalculates stats on the start of each round.  handles applying stats the first time, too. use the method to safely remove stats so we don't build up/lose more stats than expected
         /// </summary>
         public void RecalculateStatsFromTraits()
         {
@@ -1233,7 +1246,7 @@ public class EntityDefiner : MonoBehaviour
 
 
 
-                foreach (Item item in attacker.equippedItems)
+                foreach (Item item in equippedItems)
                 {
 
                     defensemod += item.defensemodifier;
@@ -1312,8 +1325,31 @@ public class EntityDefiner : MonoBehaviour
 
             selfScriptRef.GotHurt();
 
+            int damageMult = 0;
+            int damageResist = 0;
+            foreach (Item item in attacker.equippedItems)
+            {
+                damageMult += (int)item.DamageBonusPercentage; //typecast parsing, just removes digits beyond the .
+            }
+
+            foreach (Item item in equippedItems)
+            {
+                damageResist += (int)item.DamageResistancePercentage;
+            }
+
+
+            if (damageMult != 0)
+            {
+                damageRoll = (damageRoll / 100) * (100 + damageMult);
+            }
+
+            if (damageResist != 0)
+            {
+                damageRoll = damageRoll / 100 * (100 - damageResist);
+            }  
+            //(2 / 10) * 100
             currentHealth -= damageRoll; //INCORPORATED ARMOR CALCULATION HERE 
-            attacker.Threat += (damageRoll - defense); // WE APPLY THREAT
+            attacker.Threat += (damageRoll); // WE APPLY THREAT
             if (!isPlayerPartyMember)
             {//this updates the health bar so we don't run the whole big total refresh method
                 MainData.MainLoop.UserInterfaceHelperComponent.RefreshViewEnemy();
@@ -1358,9 +1394,15 @@ public class EntityDefiner : MonoBehaviour
                 return;
             }
 
+            int healthAmp = 0;
+            foreach (Item item in equipmentInventory)
+            {
+                healthAmp += (int)item.healingAmp;
+            }
 
+            hp = (hp / 100) * (100 + healthAmp);
 
-            currentHealth += hp; //INCORPORATED ARMOR CALCULATION HERE 
+            currentHealth += hp; 
             MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(hp, this, true);
             if (!isPlayerPartyMember)
             {//this updates the health bar so we don't run the whole big total refresh method
