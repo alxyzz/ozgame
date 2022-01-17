@@ -14,17 +14,29 @@ public class VendorItemScript : MonoBehaviour
     public TextMeshProUGUI itemName;
     public TextMeshProUGUI itemDescription;
     public TextMeshProUGUI itemPrice;
+    public TextMeshProUGUI itemQuantity;
     public Button itemBackground;//we might tint this based on rarity?
     public Item associatedItem;
     [HideInInspector]
     public bool isInVendor = true;
-    public void RefreshItemData(Item newItem = null)
+    public void RefreshItemData()
     {
-
+        if (associatedItem == null)
+        {
+            return;
+        }
         itemImage.sprite = associatedItem.itemSprite;
         itemName.text = associatedItem.itemName;
         itemDescription.text = associatedItem.description;
-
+        //if (associatedItem.value != 0)
+        //{
+        //    itemQuantity.text = associatedItem.value.ToString();
+        //}
+        //else
+        //{
+        //    itemQuantity.text = "";
+        //}
+        
         //var colors = itemBackground.colors;
         //switch (associatedItem.rarity)
         //{
@@ -54,7 +66,7 @@ public class VendorItemScript : MonoBehaviour
 
 
     /// <summary>
-    /// this method sets the price. we are not doing it in RefreshItemData because we will use a bit of randomization based on the vendor's specific price modifier.
+    /// this method sets the item associated.
     /// </summary>
     public void SetItem(string item, bool consumable)
     {
@@ -68,7 +80,7 @@ public class VendorItemScript : MonoBehaviour
         {
             associatedItem = MainData.allEquipment[item];
         }
-        
+
         RefreshItemData();
     }
 

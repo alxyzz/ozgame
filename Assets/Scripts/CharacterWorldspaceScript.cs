@@ -188,8 +188,35 @@ public class CharacterWorldspaceScript : MonoBehaviour
     }
 
 
+    [HideInInspector]
+    public bool isWalking = false;
+    public void StartWalk()
+    {
+        StartCoroutine(WalkAnim());
+    }
+
+    public System.Collections.IEnumerator WalkAnim()
+    {
+        while (isWalking)
+        {
+            for (int i = 0; i < associatedCharacter.WalkSprites.Length; i++)
+            {
+                if (!isWalking)
+                {
+                    break;
+                }
+                spriteRenderer.sprite = associatedCharacter.WalkSprites[i];
+                yield return new WaitForSecondsRealtime(0.04f);
+            }
+        }
+    }
 
 
+    public void StopWalk()
+    {
+        isWalking = false;
+        StopCoroutine(WalkAnim());
+    }
 
 
 

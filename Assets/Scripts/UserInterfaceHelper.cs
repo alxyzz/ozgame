@@ -156,7 +156,10 @@ public class UserInterfaceHelper : MonoBehaviour
 
 
 
-
+    public void Awake()
+    {
+        Cursor.SetCursor(cursorpressed, new Vector2(0, 0), CursorMode.Auto);
+    }
 
 
 
@@ -166,6 +169,11 @@ public class UserInterfaceHelper : MonoBehaviour
             Cursor.SetCursor(cursorpressed, new Vector2(0, 0), CursorMode.Auto);
         else
             Cursor.SetCursor(cursornormal, new Vector2(0, 0), CursorMode.Auto);
+
+
+
+
+        Screen.lockCursor = false;
     }
 
 

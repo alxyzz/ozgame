@@ -111,6 +111,12 @@ public class LevelHelper : MonoBehaviour
         {
             return;
         }
+
+        foreach (Character item in MainData.livingPlayerParty)
+        {
+            item.selfScriptRef.StartWalk();
+        }
+
         foreach (BackgroundLayerMovementParallax item in parallaxLayers)
         {
             item.ChangeDirection(false);
@@ -140,6 +146,13 @@ public class LevelHelper : MonoBehaviour
         {
             return;
         }
+
+        foreach (Character item in MainData.livingPlayerParty)
+        {
+            item.selfScriptRef.StopWalk();
+        }
+
+
         foreach (BackgroundLayerMovementParallax item in parallaxLayers)
         {
             item.ChangeDirection(null);
@@ -202,7 +215,7 @@ public class LevelHelper : MonoBehaviour
 
 
         List<string> teamrocket = new List<string>();
-        for (int i = 0; i < 5; i++) //change the 5 to whatever amount to change monkey quantity.
+        for (int i = 0; i < 1; i++) //change the 5 to whatever amount to change monkey quantity.
         {
             teamrocket.Add("flyingmonkey");
         }

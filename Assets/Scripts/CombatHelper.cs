@@ -78,7 +78,10 @@ public class CombatHelper : MonoBehaviour
     IEnumerator DoPatientCombatRound(List<Character> combatants)
     {//it waits for the current round to end, before it gives the next combatant the opportunity to fight.
         Debug.LogWarning("Now doing combat turn. Patiently.");
-
+        if (AreEnemiesDead())
+        {
+            EndCombat();
+        }
        
         for (int i = 0; i < combatants.Count - 1; i++)
         {
@@ -212,6 +215,23 @@ public class CombatHelper : MonoBehaviour
         combatants.Sort((x, y) => y.speed.CompareTo(x.speed));
         StartCoroutine(DoPatientCombatRound(combatants));
     }
+
+
+    private bool AreEnemiesDead()
+    {
+
+        foreach (Character item in MainData.livingEnemyParty)
+        {
+            if (!item.isDead)
+            {
+                return false;
+            }
+        }
+        return true;
+
+
+    }
+
     public void ClickPlayButton()
     {
         if (MainData.livingEnemyParty.Count < 1)
@@ -228,7 +248,16 @@ public class CombatHelper : MonoBehaviour
             {
                 MainData.MainLoop.EventLoggingComponent.LogGray(item.charName + " is still alive.");
             }
-            MainData.MainLoop.EventLoggingComponent.LogGray("Turn in progress.");
+            MainData.MainLoop.EventLoggingComponent.LogGray("Turn in progress. Active char is "+ activeCharacterWorldspaceObject.associatedCharacter.charName);
+            if (activeCharacterWorldspaceObject.associatedCharacter.isPlayerPartyMember)
+            {
+                DoPlayerCharacterTurn(activeCharacterWorldspaceObject.associatedCharacter);
+            }
+            else
+            {
+                DoEnemyCharacterTurn(activeCharacterWorldspaceObject.associatedCharacter);
+            }
+            MainData.MainLoop.UserInterfaceHelperComponent.ToggleFightButtonVisiblity(false);
             return;
         }
         if (MainData.MainLoop.CombatHelperComponent.allHaveActed)
@@ -602,18 +631,16 @@ public class CombatHelper : MonoBehaviour
         switch (activeCharacterWorldspaceObject.associatedCharacter.charType)
         {
             case "lion":
-
-                activeCharacterWorldspaceObject.spriteRenderer.sprite = MainData.MainLoop.EntityDefComponent.lionsSprite;
-
+                activeCharacterWorldspaceObject.spriteRenderer.sprite = MainData.MainLoop.EntityDefComponent.lionStanding;
                 break;
             case "dorothy":
-
-
-                activeCharacterWorldspaceObject.spriteRenderer.sprite = MainData.MainLoop.EntityDefComponent.dorothyStillTest;
+                activeCharacterWorldspaceObject.spriteRenderer.sprite = MainData.MainLoop.EntityDefComponent.dorothyStanding;
                 break;
             case "tin_man":
-
-                activeCharacterWorldspaceObject.spriteRenderer.sprite = MainData.MainLoop.EntityDefComponent.tinmanAttackSheet[0];
+                activeCharacterWorldspaceObject.spriteRenderer.sprite = MainData.MainLoop.EntityDefComponent.tinmanStanding;
+                break;
+            case "scarecrow":
+                activeCharacterWorldspaceObject.spriteRenderer.sprite = MainData.MainLoop.EntityDefComponent.scarecrowStanding;
                 break;
         }
 
@@ -633,8 +660,8 @@ public class CombatHelper : MonoBehaviour
     }
     public IEnumerator AttackRandomEnemy(CharacterWorldspaceScript chara)
     {
-        int b = Random.Range(0, MainData.livingPlayerParty.Count);
-        Character Fool = MainData.livingPlayerParty[b];
+        List<Character> results = MainData.livingPlayerParty.FindAll(x => x.isDead == false);
+        Character Fool = results[Random.Range(0, results.Count)];
 
         //Debug.Log("attacking player at playerParty[" + b.ToString() + "]!");
         if (chara.associatedCharacter != null)
@@ -660,7 +687,7 @@ public class CombatHelper : MonoBehaviour
 
 
         //play attack animation here
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.3f);
 
         ReturnFromActiveSpot();
         activeCharacterWorldspaceObject.associatedCharacter.hasActedThisTurn = true;

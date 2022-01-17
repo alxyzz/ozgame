@@ -637,6 +637,7 @@ MonoBehaviour:
   expandOnMouseOver: 0.01
   spriteRenderer: {fileID: 12294268}
   isEnemyCharacter: 1
+  isWalking: 0
 --- !u!212 &12294268
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -750,6 +751,7 @@ MonoBehaviour:
   expandOnMouseOver: 0.01
   spriteRenderer: {fileID: 12937826}
   isEnemyCharacter: 1
+  isWalking: 0
 --- !u!212 &12937826
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -5217,6 +5219,7 @@ MonoBehaviour:
   expandOnMouseOver: 0.01
   spriteRenderer: {fileID: 231988630}
   isEnemyCharacter: 1
+  isWalking: 0
 --- !u!212 &231988630
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -8370,7 +8373,10 @@ MonoBehaviour:
   monkeyAvatar: {fileID: 21300000, guid: 064f81b25eb5474428489de75a121f4a, type: 3}
   lionAvatar: {fileID: 21300000, guid: 2b5f3ae52ef97654e8c3880f9bde062f, type: 3}
   dorothyAvatar: {fileID: 21300000, guid: 60829e81689498a43abf56a607631e14, type: 3}
-  dorothyStillTest: {fileID: 21300000, guid: 6266370c4ed6df441ba375eca2186b55, type: 3}
+  scarecrowStanding: {fileID: 21300000, guid: 6c434a86223cd454da0225a93ef760e4, type: 3}
+  tinmanStanding: {fileID: 21300000, guid: 1765c78cc85876b43b9238d1f97fc6d6, type: 3}
+  lionStanding: {fileID: 21300000, guid: 9f2da6b9b24e76441af7ca820789421a, type: 3}
+  dorothyStanding: {fileID: 21300000, guid: f7a5a6f207399f849a8917b694d4efda, type: 3}
   HealthPotionSprite: {fileID: 21300000, guid: 0671f0f5d7b9dc5478caa9a0d6deba02, type: 3}
   SharpeningStoneSprite: {fileID: 0}
   HealingMushroomSprite: {fileID: 0}
@@ -8380,6 +8386,10 @@ MonoBehaviour:
   lionAttackSheet: []
   dorothyAttackSheet: []
   tinmanAttackSheet: []
+  scarecrowWalkSheet: []
+  lionWalkSheet: []
+  dorothyWalkSheet: []
+  tinmanWalkSheet: []
   lionsSprite: {fileID: 21300000, guid: 2cee61877577af54a9adbffaa2ca5f2f, type: 3}
   ItemUseEffect: {fileID: 0}
   monkeyAttackSheet: []
@@ -10034,6 +10044,7 @@ MonoBehaviour:
   itemName: {fileID: 42691001}
   itemDescription: {fileID: 1942702880}
   itemPrice: {fileID: 2008409798}
+  itemQuantity: {fileID: 0}
   itemBackground: {fileID: 0}
   isInVendor: 1
 --- !u!1 &610373494
@@ -11740,6 +11751,7 @@ MonoBehaviour:
   expandOnMouseOver: 0.01
   spriteRenderer: {fileID: 671921567}
   isEnemyCharacter: 0
+  isWalking: 0
 --- !u!1 &673929257
 GameObject:
   m_ObjectHideFlags: 0
@@ -12182,6 +12194,7 @@ MonoBehaviour:
   expandOnMouseOver: 0.01
   spriteRenderer: {fileID: 692489666}
   isEnemyCharacter: 0
+  isWalking: 0
 --- !u!114 &692489670
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15640,6 +15653,7 @@ MonoBehaviour:
   itemName: {fileID: 118148338}
   itemDescription: {fileID: 892302753}
   itemPrice: {fileID: 535408248}
+  itemQuantity: {fileID: 0}
   itemBackground: {fileID: 0}
   isInVendor: 1
 --- !u!1 &872533006
@@ -19245,6 +19259,7 @@ MonoBehaviour:
   expandOnMouseOver: 0.01
   spriteRenderer: {fileID: 1064174376}
   isEnemyCharacter: 1
+  isWalking: 0
 --- !u!212 &1064174376
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -22236,6 +22251,7 @@ MonoBehaviour:
   expandOnMouseOver: 0.01
   spriteRenderer: {fileID: 1282978570}
   isEnemyCharacter: 1
+  isWalking: 0
 --- !u!212 &1282978570
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -23145,6 +23161,7 @@ MonoBehaviour:
   itemName: {fileID: 1992309945}
   itemDescription: {fileID: 750030770}
   itemPrice: {fileID: 19948887}
+  itemQuantity: {fileID: 0}
   itemBackground: {fileID: 0}
   isInVendor: 1
 --- !u!1 &1364686695
@@ -25598,6 +25615,7 @@ MonoBehaviour:
   expandOnMouseOver: 0.01
   spriteRenderer: {fileID: 1495655619}
   isEnemyCharacter: 0
+  isWalking: 0
 --- !u!1 &1501843635
 GameObject:
   m_ObjectHideFlags: 0
@@ -25884,6 +25902,7 @@ MonoBehaviour:
   expandOnMouseOver: 0.01
   spriteRenderer: {fileID: 1516719323}
   isEnemyCharacter: 1
+  isWalking: 0
 --- !u!212 &1516719323
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -26044,6 +26063,7 @@ MonoBehaviour:
   expandOnMouseOver: 0.01
   spriteRenderer: {fileID: 1531823206}
   isEnemyCharacter: 1
+  isWalking: 0
 --- !u!212 &1531823206
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -27709,6 +27729,7 @@ MonoBehaviour:
   expandOnMouseOver: 0.01
   spriteRenderer: {fileID: 1645929956}
   isEnemyCharacter: 0
+  isWalking: 0
 --- !u!1 &1656377433
 GameObject:
   m_ObjectHideFlags: 0
@@ -29628,6 +29649,7 @@ MonoBehaviour:
   expandOnMouseOver: 0.01
   spriteRenderer: {fileID: 1755010566}
   isEnemyCharacter: 1
+  isWalking: 0
 --- !u!212 &1755010566
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -36092,6 +36114,7 @@ MonoBehaviour:
   itemName: {fileID: 2908922095211468228}
   itemDescription: {fileID: 2908922096029436950}
   itemPrice: {fileID: 2908922095499714808}
+  itemQuantity: {fileID: 0}
   itemBackground: {fileID: 0}
   isInVendor: 1
 --- !u!1 &2908922095135734713

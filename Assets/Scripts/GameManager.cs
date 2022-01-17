@@ -77,12 +77,17 @@ public class GameManager : MonoBehaviour
 
     private void DirtyFixStilLSprites()
     {
-        //because we need animation for them to work properly
-
         Character Lion = MainData.livingPlayerParty.Find(e => e.charType == "lion");
-        Lion.selfScriptRef.spriteRenderer.sprite = EntityDefComponent.lionsSprite;
+        Lion.selfScriptRef.spriteRenderer.sprite = EntityDefComponent.lionStanding;
+
         Character Dorothy = MainData.livingPlayerParty.Find(e => e.charType == "dorothy");
-        Dorothy.selfScriptRef.spriteRenderer.sprite = EntityDefComponent.dorothyStillTest;
+        Dorothy.selfScriptRef.spriteRenderer.sprite = EntityDefComponent.dorothyStanding;
+
+        Character scarecrow = MainData.livingPlayerParty.Find(e => e.charType == "scarecrow");
+        scarecrow.selfScriptRef.spriteRenderer.sprite = EntityDefComponent.scarecrowStanding;
+
+        Character tinguy = MainData.livingPlayerParty.Find(e => e.charType == "tin_man");
+        tinguy.selfScriptRef.spriteRenderer.sprite = EntityDefComponent.tinmanStanding;
     }
 
 
@@ -179,6 +184,7 @@ public class GameManager : MonoBehaviour
                 MainData.turnNumber = 0;
 
                 EventLoggingComponent.Log("All enemies have been vanquished.");
+                CombatHelperComponent.allHaveActed = true;
                 MainData.MainLoop.UserInterfaceHelperComponent.RefreshViewEnemy();
                 inCombat = false;
             }

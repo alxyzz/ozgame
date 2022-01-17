@@ -14,7 +14,14 @@ public class EntityDefiner : MonoBehaviour
     public Sprite monkeyAvatar;
     public Sprite lionAvatar;
     public Sprite dorothyAvatar;
-    public Sprite dorothyStillTest;
+    [Space(5)]
+    public Sprite scarecrowStanding;
+    public Sprite tinmanStanding;
+    public Sprite lionStanding;
+    public Sprite dorothyStanding;
+    [Space(5)]
+
+    [Space(5)]
     [Header("Enemies")]
 
     [Space(10)]
@@ -31,6 +38,10 @@ public class EntityDefiner : MonoBehaviour
     [Space(10)]
     //public GameObject EnemyPrefab;
     public GameObject SpawnAnimationPrefab;
+
+
+
+
     [HideInInspector]
     public Sprite[] scarecrowAttackSheet;
     [HideInInspector]
@@ -39,6 +50,22 @@ public class EntityDefiner : MonoBehaviour
     public Sprite[] dorothyAttackSheet;
     [HideInInspector]
     public Sprite[] tinmanAttackSheet;
+
+
+
+    [HideInInspector]
+    public Sprite[] scarecrowWalkSheet;
+    [HideInInspector]
+    public Sprite[] lionWalkSheet;
+    [HideInInspector]
+    public Sprite[] dorothyWalkSheet;
+    [HideInInspector]
+    public Sprite[] tinmanWalkSheet;
+
+
+
+
+
     public Sprite lionsSprite;
     public GameObject ItemUseEffect;
 
@@ -166,16 +193,29 @@ public class EntityDefiner : MonoBehaviour
     {
 
 
-        scarecrowAttackSheet = Resources.LoadAll<Sprite>("scarecrow_attack");
+
         monkeyAttackSheet = Resources.LoadAll<Sprite>("Monkey_attack_sheet");
         monkeyHurtSheet = Resources.LoadAll<Sprite>("Monkey_hurt_sheet");
+
+
+
+
+
+        scarecrowAttackSheet = Resources.LoadAll<Sprite>("scarecrow_attack");
+        scarecrowWalkSheet = Resources.LoadAll<Sprite>("scarecrow_walk");
+
         tinmanAttackSheet = Resources.LoadAll<Sprite>("tinman_attack_sheet");
+        tinmanWalkSheet = Resources.LoadAll<Sprite>("tinman_walk");
+
+        lionAttackSheet = Resources.LoadAll<Sprite>("lion_attack");
+        lionWalkSheet = Resources.LoadAll<Sprite>("lion_walk");
+
+        dorothyAttackSheet = Resources.LoadAll<Sprite>("dorothy_attack");
+        dorothyWalkSheet = Resources.LoadAll<Sprite>("dorothy_walk");
+
+
+
     }
-
-
-
-
-
     public Item FetchRandomItem()
     {//fetches a random t1 trait
         List<string> keyList = new List<string>(allConsumables.Keys);
@@ -230,24 +270,7 @@ public class EntityDefiner : MonoBehaviour
     /// <param name="attackAnimationSprites"></param>
     /// <param name="newCharAvatar"></param>
     /// <returns></returns>
-    public void MakeMobTemplate(string characterID,
-                                string charName,
-                                string charDesc,
-                                string attackVerb,
-                                bool isPlayer,
-                                int baseHP,
-                                int baseMinDMG,
-                                int baseMaxDMG,
-                                int baseSPD,
-                                int Defense,
-                                int Luck,
-                                int Mana,
-                                AudioClip newCharTurnSound,
-                                Sprite[] attackAnimationSprites,
-                                int bountyy,
-                                Sprite newCharAvatar,
-                                Sprite noAnimSprite,
-                                Sprite[] HurtSprites)
+    public void MakeMobTemplate(string characterID, string charName, string charDesc, string attackVerb, bool isPlayer, int baseHP, int baseMinDMG, int baseMaxDMG, int baseSPD, int Defense, int Luck, int Mana, AudioClip newCharTurnSound, Sprite[] attackAnimationSprites, int bountyy, Sprite newCharAvatar, Sprite noAnimSprite, Sprite[] HurtSprites, Sprite[] WalkSprite = null)
     {
         Character newCharacterDefinition = Character.CreateInstance<Character>();
 
@@ -262,6 +285,13 @@ public class EntityDefiner : MonoBehaviour
         {
             newCharacterDefinition.hurtSprites = HurtSprites;
         }
+
+        if (WalkSprite != null)
+        {
+            newCharacterDefinition.WalkSprites = WalkSprite;
+        }
+
+
 
         newCharacterDefinition.turnSound = newCharTurnSound;
         newCharacterDefinition.attackAnimation = attackAnimationSprites;
@@ -320,8 +350,9 @@ public class EntityDefiner : MonoBehaviour
                        scarecrowAttackSheet, //character's attack animation sprite 
                        0, //bounty, not relevant for PC
                        scarecrowAvatar, //avatar
-                       null, //standing sprite if there is no attacksheet since we usually just use the first frame
-                       null); //hurt sprites
+                       scarecrowStanding, //standing sprite if there is no attacksheet since we usually just use the first frame
+                       null,
+                       scarecrowWalkSheet); //hurt sprites
 
         MakeMobTemplate("tin_man",
                        "Tin Man",
@@ -339,8 +370,9 @@ public class EntityDefiner : MonoBehaviour
                        tinmanAttackSheet, //character's attack animation sprite 
                        0, //bounty, not relevant for PC
                        tinmanAvatar, //avatar
-                       tinmanAttackSheet[0],//standing sprite if there is no attacksheet since we usually just use the first frame
-                       null); //hurt sprites 
+                       tinmanStanding,//standing sprite if there is no attacksheet since we usually just use the first frame
+                       null,
+                       tinmanWalkSheet); //hurt sprites 
 
         MakeMobTemplate("lion",
                        "Lion",
@@ -355,11 +387,12 @@ public class EntityDefiner : MonoBehaviour
                        MainData.MainLoop.ContentValueTweaking.PCStartingLuck, //luck
                        100, //mana
                        null, //sound for when it is this character's turn to act
-                       scarecrowAttackSheet, //character's attack animation sprite 
+                       lionAttackSheet, //character's attack animation sprite 
                        0, //bounty, not relevant for PC
                        lionAvatar, //avatar
-                       lionsSprite, //standing sprite if there is no attacksheet since we usually just use the first frame
-                       null); //null
+                       lionStanding, //standing sprite if there is no attacksheet since we usually just use the first frame
+                       null,
+                       lionWalkSheet); //null
 
         MakeMobTemplate("dorothy",
                        "Dorothy",
@@ -374,11 +407,12 @@ public class EntityDefiner : MonoBehaviour
                        MainData.MainLoop.ContentValueTweaking.PCStartingLuck, //luck
                        100, //mana
                        null, //sound for when it is this character's turn to act
-                       scarecrowAttackSheet, //character's attack animation sprite 
+                       dorothyAttackSheet, //character's attack animation sprite 
                        0, //bounty, not relevant for PC
                        dorothyAvatar, //avatar
-                       dorothyStillTest, //standing sprite if there is no attacksheet since we usually just use the first frame
-                       null); //hurt sprites
+                       dorothyStanding, //standing sprite if there is no attacksheet since we usually just use the first frame
+                       null,
+                       dorothyWalkSheet); //hurt sprites
 
 
     }
