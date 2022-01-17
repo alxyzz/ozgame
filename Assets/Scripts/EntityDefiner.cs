@@ -1042,9 +1042,12 @@ public class EntityDefiner : MonoBehaviour
         public int GetCompoundSpeed()
         {
             int speednew = baseSpeed;
-            foreach (Item item in equippedItems)
+            if (equippedItems.Count != 0) 
             {
-                speednew += item.speedmodifier;
+                foreach (Item item in equippedItems)
+                {
+                    speednew += item.speedmodifier;
+                }
             }
             return speednew;
         }
@@ -1052,9 +1055,13 @@ public class EntityDefiner : MonoBehaviour
         public int GetCompoundDefense()
         {
             int Defensenew = defense;
-            foreach (Item item in equippedItems)
+            if (equippedItems.Count != 0) 
             {
-                Defensenew += item.defensemodifier;
+                
+                foreach (Item item in equippedItems)
+                {
+                    Defensenew += item.defensemodifier;
+                }
             }
             return Defensenew;
         }
@@ -1062,9 +1069,12 @@ public class EntityDefiner : MonoBehaviour
         public int GetCompoundLuck()
         {
             int Lucknew = luck;
-            foreach (Item item in equippedItems)
+            if (equippedItems.Count != 0) 
             {
-                Lucknew += item.luckmodifier;
+                foreach (Item item in equippedItems)
+                {
+                    Lucknew += item.luckmodifier;
+                }
             }
             return Lucknew;
         }
@@ -1233,44 +1243,37 @@ public class EntityDefiner : MonoBehaviour
         {
             //here we deal with the generic damage modification
             int damagemod = 0;
-
             int defensemod = 0;
-
             if (attacker.equippedItems.Count > 0)
             {
-
                 foreach (Item item in attacker.equippedItems)
                 {
                     damagemod += item.dmgmodifier;
                 }
-
-
-
                 foreach (Item item in equippedItems)
                 {
 
                     defensemod += item.defensemodifier;
                 }
-
-                if (attacker.charTrait != null)
-                {//here we deal with the attacker's traits.
-                    switch (charTrait.identifier)
-                    {
-                        case "angry":
-                            damagemod += charTrait.GenericTraitValue; //adds the whole value to damage output
-                            charTrait.GenericTraitValue = 0;//resets it upon use
-                            break;
-
-                        default:
-                            break;
-                    }
-
-
-                }
+                
             }
 
 
+            if (attacker.charTrait != null)
+            {//here we deal with the attacker's traits.
+                switch (charTrait.identifier)
+                {
+                    case "angry":
+                        damagemod += charTrait.GenericTraitValue; //adds the whole value to damage output
+                        charTrait.GenericTraitValue = 0;//resets it upon use
+                        break;
 
+                    default:
+                        break;
+                }
+
+
+            }
 
             defense += defensemod;
             int baseDamageRoll = UnityEngine.Random.Range(attacker.damageMin, attacker.damageMax + 1) + damagemod;
@@ -1293,12 +1296,14 @@ public class EntityDefiner : MonoBehaviour
             if (attacker.equippedItems.FindIndex(f => f.Lifesteal > 0) != -1) //it returns -1 if none are found
             {
                 int lifestealmod = 1;
+                int countyy = 1;
                 foreach (Item item in attacker.equippedItems)
                 {
                     lifestealmod *= item.Lifesteal;
+                    countyy++;
                 }
-                // 1 − ((1 − first instance) × (1 - second instance) × (1 - third instance) × ...)
-                int percentageheal = (damageRoll / 100) * lifestealmod;
+                lifestealmod /= countyy; //averages the lifesteal
+                int percentageheal = (damageRoll / 100) * lifestealmod; //could also add health amp here but seems overkill
                 attacker.GainHealth(percentageheal);
             }
 
@@ -1327,16 +1332,20 @@ public class EntityDefiner : MonoBehaviour
 
             int damageMult = 0;
             int damageResist = 0;
-            foreach (Item item in attacker.equippedItems)
+            if (attacker.equippedItems.FindIndex(f => f.DamageBonusPercentage > 0) != -1) //it returns -1 if none are found
             {
-                damageMult += (int)item.DamageBonusPercentage; //typecast parsing, just removes digits beyond the .
+                foreach (Item item in attacker.equippedItems)
+                {
+                    damageMult += (int)item.DamageBonusPercentage; //typecast parsing, just removes digits beyond the .
+                }
             }
-
-            foreach (Item item in equippedItems)
+            if (attacker.equippedItems.FindIndex(f => f.DamageResistancePercentage > 0) != -1) //it returns -1 if none are found
             {
-                damageResist += (int)item.DamageResistancePercentage;
+                foreach (Item item in equippedItems)
+                {
+                    damageResist += (int)item.DamageResistancePercentage;
+                }
             }
-
 
             if (damageMult != 0)
             {
