@@ -1,0 +1,394 @@
+fileFormatVersion: 2
+guid: 33b312c86ee9dd54facbfac1b3666fdb
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -5844955303906514569
+    second: tinman_hurt_0
+  - first:
+      213: -1845759654175297521
+    second: tinman_hurt_1
+  - first:
+      213: -723770300223698409
+    second: tinman_hurt_2
+  - first:
+      213: 2205441055409738943
+    second: tinman_hurt_3
+  - first:
+      213: -944428009055490804
+    second: tinman_hurt_4
+  - first:
+      213: -1201396730692555449
+    second: tinman_hurt_5
+  - first:
+      213: -3571306902810624848
+    second: tinman_hurt_6
+  - first:
+      213: 5719478731228952422
+    second: tinman_hurt_7
+  - first:
+      213: -7399298457328529231
+    second: tinman_hurt_8
+  - first:
+      213: -1045604332857303658
+    second: tinman_hurt_9
+  - first:
+      213: -4044997784035705452
+    second: tinman_hurt_10
+  - first:
+      213: -5056083454487660653
+    second: tinman_hurt_11
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: -1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 200
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 4096
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 2
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 4096
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 2
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: tinman_hurt_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2736
+        width: 1420
+        height: 1368
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 779ed967e1c82eea0800000000000000
+      internalID: -5844955303906514569
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tinman_hurt_1
+      rect:
+        serializedVersion: 2
+        x: 1420
+        y: 2736
+        width: 1420
+        height: 1368
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f003220bf5b8266e0800000000000000
+      internalID: -1845759654175297521
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tinman_hurt_2
+      rect:
+        serializedVersion: 2
+        x: 2840
+        y: 2736
+        width: 1420
+        height: 1368
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 71a40342fb6a4f5f0800000000000000
+      internalID: -723770300223698409
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tinman_hurt_3
+      rect:
+        serializedVersion: 2
+        x: 4260
+        y: 2736
+        width: 1420
+        height: 1368
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fb492c874fc4b9e10800000000000000
+      internalID: 2205441055409738943
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tinman_hurt_4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1368
+        width: 1420
+        height: 1368
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c0d6154cab7b4e2f0800000000000000
+      internalID: -944428009055490804
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tinman_hurt_5
+      rect:
+        serializedVersion: 2
+        x: 1420
+        y: 1368
+        width: 1420
+        height: 1368
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 74d21c8e908c35fe0800000000000000
+      internalID: -1201396730692555449
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tinman_hurt_6
+      rect:
+        serializedVersion: 2
+        x: 2840
+        y: 1368
+        width: 1420
+        height: 1368
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0bc72122b4b207ec0800000000000000
+      internalID: -3571306902810624848
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tinman_hurt_7
+      rect:
+        serializedVersion: 2
+        x: 4260
+        y: 1368
+        width: 1420
+        height: 1368
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 667bd4b5a9baf5f40800000000000000
+      internalID: 5719478731228952422
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tinman_hurt_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 1420
+        height: 1368
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1b056d79149605990800000000000000
+      internalID: -7399298457328529231
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tinman_hurt_9
+      rect:
+        serializedVersion: 2
+        x: 1420
+        y: 0
+        width: 1420
+        height: 1368
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 69d5e6c26644d71f0800000000000000
+      internalID: -1045604332857303658
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tinman_hurt_10
+      rect:
+        serializedVersion: 2
+        x: 2840
+        y: 0
+        width: 1420
+        height: 1368
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 49d3f4d52f74dd7c0800000000000000
+      internalID: -4044997784035705452
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tinman_hurt_11
+      rect:
+        serializedVersion: 2
+        x: 4260
+        y: 0
+        width: 1420
+        height: 1368
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 397788ce2ee25d9b0800000000000000
+      internalID: -5056083454487660653
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5f08218547a17d04985d970d7696f71b
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

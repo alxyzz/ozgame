@@ -192,30 +192,73 @@ public class CharacterWorldspaceScript : MonoBehaviour
     public bool isWalking = false;
     public void StartWalk()
     {
+        if (associatedCharacter == null)
+        {
+            Debug.Log("Associated character null.");
+            return;
+        }
+        if (associatedCharacter.WalkSprites == null)
+        {
+
+            Debug.Log("Associated character's walksprites null.");
+            return;
+        }
+
+
+
+        Debug.Log("Starting to walk.");
         StartCoroutine(WalkAnim());
     }
 
+
+    public void GotHurt()
+    {
+        MainData.MainLoop.EventLoggingComponent.Log("Got hurt, playing animation. At " + associatedCharacter.charName + ".");
+
+        if (associatedCharacter.hurtSprites != null)
+        {
+            StartCoroutine(HurtAnim());
+        }
+
+    }
+
+
+    public System.Collections.IEnumerator HurtAnim()
+    {
+        for (int i = 0; i < associatedCharacter.WalkSprites.Length-1; i++)
+        {
+            spriteRenderer.sprite = associatedCharacter.hurtSprites[i];
+            yield return new WaitForSeconds(0.01f);
+        }
+    }
+
+    int counter = 0;
+
     public System.Collections.IEnumerator WalkAnim()
     {
-        while (isWalking)
+        spriteRenderer.sprite = associatedCharacter.WalkSprites[counter];
+
+        if (counter < associatedCharacter.WalkSprites.Length)
         {
-            for (int i = 0; i < associatedCharacter.WalkSprites.Length; i++)
-            {
-                if (!isWalking)
-                {
-                    break;
-                }
-                spriteRenderer.sprite = associatedCharacter.WalkSprites[i];
-                yield return new WaitForSecondsRealtime(0.04f);
-            }
+            counter++;
         }
+        else
+        {
+            counter = 0;
+        }
+
+        yield return new WaitForSeconds(0.04f);
+        StartCoroutine("WalkAnim");
+
     }
 
 
     public void StopWalk()
     {
+        spriteRenderer.sprite = associatedCharacter.standingSprite;
+        Debug.Log("Stopped walking.");
         isWalking = false;
-        StopCoroutine(WalkAnim());
+        StopCoroutine("WalkAnim");
     }
 
 

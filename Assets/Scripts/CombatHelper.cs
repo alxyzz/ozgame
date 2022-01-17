@@ -82,7 +82,7 @@ public class CombatHelper : MonoBehaviour
         {
             EndCombat();
         }
-       
+
         for (int i = 0; i < combatants.Count - 1; i++)
         {
             if (combatants[i].charTrait != null)
@@ -209,10 +209,10 @@ public class CombatHelper : MonoBehaviour
         foreach (Character item in MainData.livingPlayerParty)
         {
             item.RecalculateStatsFromTraits();
-            item.RecalculateStatsFromItems();
+            //item.RecalculateStatsFromItems(); this is done when we attack or use the stat in most cases, using either GetCompoundSpeed() or such, or a foreach loop looking into the items
             item.RecalculateThreatFromStats();
         }
-        combatants.Sort((x, y) => y.speed.CompareTo(x.speed));
+        combatants.Sort((x, y) => y.GetCompoundSpeed().CompareTo(x.GetCompoundSpeed()));
         StartCoroutine(DoPatientCombatRound(combatants));
     }
 
@@ -248,7 +248,7 @@ public class CombatHelper : MonoBehaviour
             {
                 MainData.MainLoop.EventLoggingComponent.LogGray(item.charName + " is still alive.");
             }
-            MainData.MainLoop.EventLoggingComponent.LogGray("Turn in progress. Active char is "+ activeCharacterWorldspaceObject.associatedCharacter.charName);
+            MainData.MainLoop.EventLoggingComponent.LogGray("Turn in progress. Active char is " + activeCharacterWorldspaceObject.associatedCharacter.charName);
             if (activeCharacterWorldspaceObject.associatedCharacter.isPlayerPartyMember)
             {
                 DoPlayerCharacterTurn(activeCharacterWorldspaceObject.associatedCharacter);
@@ -503,43 +503,43 @@ public class CombatHelper : MonoBehaviour
 
 
     }
-    public IEnumerator HitKnockback(CharacterWorldspaceScript toAnimate)
-    {
+    //public IEnumerator HitKnockback(CharacterWorldspaceScript toAnimate)
+    //{
 
-        Vector3 Initial = toAnimate.transform.position;
+    //    Vector3 Initial = toAnimate.transform.position;
 
-        if (toAnimate.associatedCharacter.isPlayerPartyMember)
-        {
-            Vector3 final = new Vector3(Initial.x - 1f, Initial.y, Initial.z);
-            while (Vector3.Distance(toAnimate.transform.position, final) > 0.05f)
-            {
-                toAnimate.transform.position = Vector3.Lerp(toAnimate.transform.position, final, 0.5f * Time.deltaTime);
-            }
+    //    if (toAnimate.associatedCharacter.isPlayerPartyMember)
+    //    {
+    //        Vector3 final = new Vector3(Initial.x - 1f, Initial.y, Initial.z);
+    //        while (Vector3.Distance(toAnimate.transform.position, final) > 0.05f)
+    //        {
+    //            toAnimate.transform.position = Vector3.Lerp(toAnimate.transform.position, final, 0.5f * Time.deltaTime);
+    //        }
 
-            yield return new WaitForSecondsRealtime(0.3f);
-            while (Vector3.Distance(toAnimate.transform.position, Initial) > 0.05f)
-            {
-                toAnimate.transform.position = Vector3.Lerp(toAnimate.transform.position, Initial, 0.5f * Time.deltaTime);
-            }
-        }
-        else
-        {
-            Vector3 final = new Vector3(Initial.x + 1f, Initial.y, Initial.z);
-            while (Vector3.Distance(toAnimate.transform.position, final) > 0.05f)
-            {
-                toAnimate.transform.position = Vector3.Lerp(toAnimate.transform.position, final, 0.5f * Time.deltaTime);
-            }
-            Character poorFool = MainData.livingPlayerParty[Random.Range(0, MainData.livingPlayerParty.Count + 1)];
+    //        yield return new WaitForSecondsRealtime(0.3f);
+    //        while (Vector3.Distance(toAnimate.transform.position, Initial) > 0.05f)
+    //        {
+    //            toAnimate.transform.position = Vector3.Lerp(toAnimate.transform.position, Initial, 0.5f * Time.deltaTime);
+    //        }
+    //    }
+    //    else
+    //    {
+    //        Vector3 final = new Vector3(Initial.x + 1f, Initial.y, Initial.z);
+    //        while (Vector3.Distance(toAnimate.transform.position, final) > 0.05f)
+    //        {
+    //            toAnimate.transform.position = Vector3.Lerp(toAnimate.transform.position, final, 0.5f * Time.deltaTime);
+    //        }
+    //        Character poorFool = MainData.livingPlayerParty[Random.Range(0, MainData.livingPlayerParty.Count + 1)];
 
-            yield return new WaitForSecondsRealtime(0.3f);
-            while (Vector3.Distance(toAnimate.transform.position, Initial) > 0.05f)
-            {
-                toAnimate.transform.position = Vector3.Lerp(toAnimate.transform.position, Initial, 0.5f * Time.deltaTime);
-            }
-        }
+    //        yield return new WaitForSecondsRealtime(0.3f);
+    //        while (Vector3.Distance(toAnimate.transform.position, Initial) > 0.05f)
+    //        {
+    //            toAnimate.transform.position = Vector3.Lerp(toAnimate.transform.position, Initial, 0.5f * Time.deltaTime);
+    //        }
+    //    }
 
 
-    }
+    //}
     public void DoPlayerCharacterTurn(Character pc)
     {
         activeCharacterWorldspaceObject.transform.position = ActiveCharSpot.transform.position; //MOVE CHAR TO SPOT

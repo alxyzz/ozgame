@@ -104,6 +104,18 @@ public class UserInterfaceHelper : MonoBehaviour
     public TextMeshProUGUI PC4nmbr;
 
 
+
+
+
+
+
+    [Space(15)]
+    public miniviewScript pc1Miniview; //this is for the overview stuff we click to get the inventory
+    public miniviewScript pc2Miniview;
+    public miniviewScript pc3Miniview;
+    public miniviewScript pc4Miniview;
+
+
     [Space(15)]
     [Header("references to consumable slots - this is just so you can change their sprite based on what item is in that slot")]
     public GameObject ConsumableSlot1;
@@ -140,7 +152,7 @@ public class UserInterfaceHelper : MonoBehaviour
     [Space(10)]
     public GameObject CombatHighlightObject;
     [Space(10)]
-    public GameObject PCDead1;
+    public GameObject PCDead1;//reference to the object we activate when the char is dead
     public GameObject PCDead2;
     public GameObject PCDead3;
     public GameObject PCDead4;
@@ -153,6 +165,12 @@ public class UserInterfaceHelper : MonoBehaviour
     [Space(5)]
     public Texture2D cursornormal;
     public Texture2D cursorpressed;
+
+
+
+
+
+
 
 
 
@@ -184,7 +202,63 @@ public class UserInterfaceHelper : MonoBehaviour
 
 
 
+    [HideInInspector]
+    public Character TrinketScreenCharacter;
+    public GameObject PlayHUD; //the UI for playing. we turn that stuff off when we mess with trinkets
+    public TrinketMenuHandler TrinketMenu;
+    public void ToggleEquipmentInventory()
+    {
 
+        //click sound
+        if (!TrinketMenu.gameObject.activeSelf)
+        {        //we make it visible 
+            TrinketMenu.gameObject.SetActive(true);
+            PlayHUD.SetActive(false);
+            //display trinkets
+            TrinketMenu.RefreshItems(currChar: TrinketScreenCharacter);
+
+
+
+        }
+        else
+        {
+            //click sound.
+            TrinketMenu.gameObject.SetActive(false);
+            PlayHUD.SetActive(true);
+        }
+    }
+
+
+    public void ToggleTraitInventory()
+    {
+
+        //click sound
+        if (!TrinketMenu.gameObject.activeSelf)
+        {        //we make it visible 
+            TrinketMenu.gameObject.SetActive(true);
+            PlayHUD.SetActive(false);
+            //display trinkets
+            //TrinketMenuHandler
+            //display the character clicked
+
+            //display
+
+        }
+        else
+        {
+            //click sound.
+            TrinketMenu.gameObject.SetActive(false);
+            PlayHUD.SetActive(true);
+        }
+    }
+
+
+
+
+
+
+
+    //character UI stuff
     /// <summary>
     /// refreshes the character tabs
     /// </summary>
@@ -210,25 +284,25 @@ public class UserInterfaceHelper : MonoBehaviour
     /// <summary>
     /// refreshes the consumable item icons. should be ran whenever the inventory contents change...
     /// </summary>
-    public void RefreshInventorySlots()
+    public void RefreshConsumableSlots()
     {//here we refresh the existence and quantity of items in the slot
         switch (MainData.consumableInventory.Count)
         {
             case 1:
                 ConsumableSlot1.SetActive(true);
                 ConsumableSlot1.GetComponent<consumableSlotScript>().itemContent = MainData.consumableInventory[0];
-                ConsumableSlot1.GetComponent<Image>().sprite = MainData.consumableInventory[0].itemSprite;
+                ConsumableSlot1.GetComponent<consumableSlotScript>().selfImage.sprite = MainData.consumableInventory[0].itemSprite;
                 ConsumableSlot2.SetActive(false);
                 ConsumableSlot3.SetActive(false);
                 break;
             case 2:
                 ConsumableSlot1.SetActive(true);
                 ConsumableSlot1.GetComponent<consumableSlotScript>().itemContent = MainData.consumableInventory[0];
-                ConsumableSlot1.GetComponent<Image>().sprite = MainData.consumableInventory[0].itemSprite;
+                ConsumableSlot1.GetComponent<consumableSlotScript>().selfImage.sprite = MainData.consumableInventory[0].itemSprite;
 
                 ConsumableSlot2.SetActive(true);
                 ConsumableSlot2.GetComponent<consumableSlotScript>().itemContent = MainData.consumableInventory[1];
-                ConsumableSlot2.GetComponent<Image>().sprite = MainData.consumableInventory[1].itemSprite;
+                ConsumableSlot2.GetComponent<consumableSlotScript>().selfImage.sprite = MainData.consumableInventory[1].itemSprite;
                 ConsumableSlot3.SetActive(false);
                 break;
             case 3:
@@ -238,9 +312,9 @@ public class UserInterfaceHelper : MonoBehaviour
                 ConsumableSlot1.GetComponent<consumableSlotScript>().itemContent = MainData.consumableInventory[0];
                 ConsumableSlot2.GetComponent<consumableSlotScript>().itemContent = MainData.consumableInventory[1];
                 ConsumableSlot3.GetComponent<consumableSlotScript>().itemContent = MainData.consumableInventory[2];
-                ConsumableSlot1.GetComponent<Image>().sprite = MainData.consumableInventory[0].itemSprite;
-                ConsumableSlot2.GetComponent<Image>().sprite = MainData.consumableInventory[1].itemSprite;
-                ConsumableSlot3.GetComponent<Image>().sprite = MainData.consumableInventory[2].itemSprite;
+                ConsumableSlot1.GetComponent<consumableSlotScript>().selfImage.sprite = MainData.consumableInventory[0].itemSprite;
+                ConsumableSlot2.GetComponent<consumableSlotScript>().selfImage.sprite = MainData.consumableInventory[1].itemSprite;
+                ConsumableSlot3.GetComponent<consumableSlotScript>().selfImage.sprite = MainData.consumableInventory[2].itemSprite;
                 break;
 
             default:
@@ -287,20 +361,6 @@ public class UserInterfaceHelper : MonoBehaviour
                 item.GetComponent<Image>().sprite = null;
             }
         }
-    }
-    public void ClickConsumableSlotButton(GameObject source)
-    {
-        //just checking if target is valid first.
-        if (MainData.MainLoop.CombatHelperComponent.activeTarget == null)
-        {
-            return;
-        }
-        if (MainData.MainLoop.CombatHelperComponent.activeTarget.associatedCharacter == null)
-        {
-            MainData.MainLoop.EventLoggingComponent.LogGray("'It is unwise to give something to the nothingness, for occasionally, it gives back.'");
-            return;
-        }
-        MainData.MainLoop.EntityDefComponent.UseConsumable(source.GetComponent<consumableSlotScript>().itemContent, MainData.MainLoop.CombatHelperComponent.activeTarget.associatedCharacter);
     }
     /// <summary>
     /// this displays the info of currently selected character (allied or enemy) in the top right part of the bottom bar
@@ -492,6 +552,7 @@ public class UserInterfaceHelper : MonoBehaviour
             firstCharAvatar.sprite = PC1.associatedCharacter.charAvatar;
             firstCharName.text = PC1.associatedCharacter.charName;
             PC1.associatedCharacter.HealthBar = firstHealthBar;
+            pc1Miniview.associatedCharacter = PC1.associatedCharacter;
             if (PC1.associatedCharacter.charTrait != null)
             {
                 firstCharTrait.text = PC1.associatedCharacter.charTrait.adjective;
@@ -507,7 +568,7 @@ public class UserInterfaceHelper : MonoBehaviour
             secondCharAvatar.sprite = PC2.associatedCharacter.charAvatar;
             secondCharName.text = PC2.associatedCharacter.charName;
             PC2.associatedCharacter.HealthBar = secondHealthBar;
-
+            pc2Miniview.associatedCharacter = PC2.associatedCharacter;
             if (PC2.associatedCharacter.charTrait != null)
             {
                 secondCharTrait.text = PC2.associatedCharacter.charTrait.adjective;
@@ -522,6 +583,7 @@ public class UserInterfaceHelper : MonoBehaviour
             thirdCharAvatar.sprite = PC3.associatedCharacter.charAvatar;
             thirdCharName.text = PC3.associatedCharacter.charName;
             PC3.associatedCharacter.HealthBar = thirdHealthBar;
+            pc3Miniview.associatedCharacter = PC3.associatedCharacter;
             if (PC3.associatedCharacter.charTrait != null)
             {
                 thirdCharTrait.text = PC3.associatedCharacter.charTrait.adjective;
@@ -536,6 +598,7 @@ public class UserInterfaceHelper : MonoBehaviour
             fourthCharAvatar.sprite = PC4.associatedCharacter.charAvatar;
             fourthCharName.text = PC4.associatedCharacter.charName;
             PC4.associatedCharacter.HealthBar = fourthHealthBar;
+            pc4Miniview.associatedCharacter = PC4.associatedCharacter;
             if (PC1.associatedCharacter.charTrait != null)
             {
                 fourthCharTrait.text = PC4.associatedCharacter.charTrait.adjective;
@@ -770,6 +833,22 @@ public class UserInterfaceHelper : MonoBehaviour
             PCDead4.SetActive(false);
         }
 
+    }
+    //char UI stuff done
+
+    public void ClickConsumableSlotButton(GameObject source)
+    {
+        //just checking if target is valid first.
+        if (MainData.MainLoop.CombatHelperComponent.activeTarget == null)
+        {
+            return;
+        }
+        if (MainData.MainLoop.CombatHelperComponent.activeTarget.associatedCharacter == null)
+        {
+            MainData.MainLoop.EventLoggingComponent.LogGray("'It is unwise to give something to the nothingness, for occasionally, it gives back.'");
+            return;
+        }
+        MainData.MainLoop.EntityDefComponent.UseConsumable(source.GetComponent<consumableSlotScript>().itemContent, MainData.MainLoop.CombatHelperComponent.activeTarget.associatedCharacter);
     }
     public void ClickSendPause()
     {

@@ -153,6 +153,8 @@ MonoBehaviour:
   itemName: {fileID: 8648428047253627169}
   itemDescription: {fileID: 8648428047542794483}
   itemPrice: {fileID: 8648428047013581853}
+  itemQuantity: {fileID: 0}
+  itemBackground: {fileID: 0}
   isInVendor: 1
 --- !u!1 &8648428046757844613
 GameObject:
@@ -256,7 +258,7 @@ RectTransform:
   m_GameObject: {fileID: 8648428046958940714}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.97343, y: 0.97343, z: 0.97343}
   m_Children: []
   m_Father: {fileID: 5790488133776921681}
   m_RootOrder: 4
@@ -472,7 +474,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 36.174095, y: 23.800041}
+  m_AnchoredPosition: {x: 36.174095, y: 20}
   m_SizeDelta: {x: 120.45203, y: 30.292618}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8648428047253627168

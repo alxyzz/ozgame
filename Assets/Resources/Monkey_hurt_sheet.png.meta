@@ -35,6 +35,45 @@ TextureImporter:
   - first:
       213: 693176505801096848
     second: Monkey_hurt_sheet_10
+  - first:
+      213: 8920844430108992406
+    second: Monkey_hurt_sheet_0
+  - first:
+      213: -2824773481672896633
+    second: Monkey_hurt_sheet_1
+  - first:
+      213: -7863010502483575769
+    second: Monkey_hurt_sheet_2
+  - first:
+      213: 1282142388600471167
+    second: Monkey_hurt_sheet_3
+  - first:
+      213: -4974025847152679282
+    second: Monkey_hurt_sheet_4
+  - first:
+      213: 345603925215636298
+    second: Monkey_hurt_sheet_5
+  - first:
+      213: -3830380675984559125
+    second: Monkey_hurt_sheet_6
+  - first:
+      213: 4462107468596313623
+    second: Monkey_hurt_sheet_7
+  - first:
+      213: -2936690748914749944
+    second: Monkey_hurt_sheet_8
+  - first:
+      213: 3650100610415595479
+    second: Monkey_hurt_sheet_9
+  - first:
+      213: -2618601124266872176
+    second: Monkey_hurt_sheet_10
+  - first:
+      213: -3549608261575383889
+    second: Monkey_hurt_sheet_11
+  - first:
+      213: -1391313355529764810
+    second: Monkey_hurt_sheet_12
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -126,7 +165,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 2736
+        y: 4104
         width: 1420
         height: 1368
       alignment: 0
@@ -136,8 +175,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8e5d122cd933a3cd0800000000000000
-      internalID: -2577691084056308248
+      spriteID: 6932b299eb43dcb70800000000000000
+      internalID: 8920844430108992406
       vertices: []
       indices: 
       edges: []
@@ -147,7 +186,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1420
-        y: 2736
+        y: 4104
         width: 1420
         height: 1368
       alignment: 0
@@ -157,8 +196,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 75d66db33a7e588a0800000000000000
-      internalID: -6303377415165547177
+      spriteID: 78f81f51c736cc8d0800000000000000
+      internalID: -2824773481672896633
       vertices: []
       indices: 
       edges: []
@@ -168,7 +207,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 2840
-        y: 2736
+        y: 4104
         width: 1420
         height: 1368
       alignment: 0
@@ -178,8 +217,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7f04360eb7cb66620800000000000000
-      internalID: 2767106261297348855
+      spriteID: 72cfc46ab99f0e290800000000000000
+      internalID: -7863010502483575769
       vertices: []
       indices: 
       edges: []
@@ -189,6 +228,27 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 4260
+        y: 4104
+        width: 1420
+        height: 1368
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f7e700895b51bc110800000000000000
+      internalID: 1282142388600471167
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Monkey_hurt_sheet_4
+      rect:
+        serializedVersion: 2
+        x: 0
         y: 2736
         width: 1420
         height: 1368
@@ -199,14 +259,77 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8ab679efd1498f670800000000000000
-      internalID: 8572764747246037928
+      spriteID: e866ad478d5b8fab0800000000000000
+      internalID: -4974025847152679282
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Monkey_hurt_sheet_4
+      name: Monkey_hurt_sheet_5
+      rect:
+        serializedVersion: 2
+        x: 1420
+        y: 2736
+        width: 1420
+        height: 1368
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a4b657b50f4dbc400800000000000000
+      internalID: 345603925215636298
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Monkey_hurt_sheet_6
+      rect:
+        serializedVersion: 2
+        x: 2840
+        y: 2736
+        width: 1420
+        height: 1368
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: be37b65c111c7dac0800000000000000
+      internalID: -3830380675984559125
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Monkey_hurt_sheet_7
+      rect:
+        serializedVersion: 2
+        x: 4260
+        y: 2736
+        width: 1420
+        height: 1368
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 71efc47f9179ced30800000000000000
+      internalID: 4462107468596313623
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Monkey_hurt_sheet_8
       rect:
         serializedVersion: 2
         x: 0
@@ -220,14 +343,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 12bdfab5a90f12da0800000000000000
-      internalID: -5971227085162685663
+      spriteID: 80ea2c7b257ce37d0800000000000000
+      internalID: -2936690748914749944
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Monkey_hurt_sheet_5
+      name: Monkey_hurt_sheet_9
       rect:
         serializedVersion: 2
         x: 1420
@@ -241,14 +364,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2fa9acad7b1600010800000000000000
-      internalID: 1153028946884467442
+      spriteID: 7df02468a23c7a230800000000000000
+      internalID: 3650100610415595479
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Monkey_hurt_sheet_6
+      name: Monkey_hurt_sheet_10
       rect:
         serializedVersion: 2
         x: 2840
@@ -262,14 +385,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 12f0155805051dc70800000000000000
-      internalID: 8994058237599878945
+      spriteID: 09272a3c62cd8abd0800000000000000
+      internalID: -2618601124266872176
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Monkey_hurt_sheet_7
+      name: Monkey_hurt_sheet_11
       rect:
         serializedVersion: 2
         x: 4260
@@ -283,14 +406,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7d206301014cf6ae0800000000000000
-      internalID: -1553807773149035817
+      spriteID: fa4e10db7124dbec0800000000000000
+      internalID: -3549608261575383889
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Monkey_hurt_sheet_8
+      name: Monkey_hurt_sheet_12
       rect:
         serializedVersion: 2
         x: 0
@@ -304,50 +427,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cea3ebfa94c94ff00800000000000000
-      internalID: 1149715645181344492
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Monkey_hurt_sheet_9
-      rect:
-        serializedVersion: 2
-        x: 1420
-        y: 0
-        width: 1420
-        height: 1368
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 3893cda273215e520800000000000000
-      internalID: 2730608777221650819
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Monkey_hurt_sheet_10
-      rect:
-        serializedVersion: 2
-        x: 2840
-        y: 0
-        width: 1420
-        height: 1368
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 09ebbe20c58ae9900800000000000000
-      internalID: 693176505801096848
+      spriteID: 6304468efdf01bce0800000000000000
+      internalID: -1391313355529764810
       vertices: []
       indices: 
       edges: []
