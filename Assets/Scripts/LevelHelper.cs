@@ -112,9 +112,10 @@ public class LevelHelper : MonoBehaviour
             return;
         }
 
-        foreach (Character item in MainData.livingPlayerParty)
+        Debug.Log("Getting player objects for walking anim");
+        foreach (GameObject item in MainData.playerPartyMemberObjects)
         {
-            item.selfScriptRef.StartWalk();
+            item.GetComponent<CharacterWorldspaceScript>().StartWalk();
         }
 
         foreach (BackgroundLayerMovementParallax item in parallaxLayers)

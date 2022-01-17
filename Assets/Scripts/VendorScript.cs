@@ -62,8 +62,8 @@ public class VendorScript : MonoBehaviour
 
     public void LoadSpriteSheets()
     {
-        idleAnimation = Resources.LoadAll<Sprite>("merchant_animation_1");
-        mouseOverAnimation = Resources.LoadAll<Sprite>("merchant_animation_mouseover");
+        idleAnimation = Resources.LoadAll<Sprite>("merchant_idle");
+        mouseOverAnimation = Resources.LoadAll<Sprite>("merchant_mouseover");
     }
 
     public void MouseEnterCart()
@@ -92,28 +92,28 @@ public class VendorScript : MonoBehaviour
 
     IEnumerator IdleAnimation()
     {
-        while (true)
+
+        for (int i = 0; i < idleAnimation.Length - 1; i++)
         {
-            for (int i = 0; i < idleAnimation.Length - 1; i++)
-            {
-                CartImage.sprite = idleAnimation[i];
-                yield return new WaitForSecondsRealtime(0.02f);
-            }
-        }//we stop animating when mouse leaves the sprite of the trader
+            CartImage.sprite = idleAnimation[i];
+            yield return new WaitForSecondsRealtime(0.06f);
+        }
+        StartCoroutine(IdleAnimation());
 
     }
 
     IEnumerator mouseOverAnimate()
     {
-        yield return new WaitWhile(() => isAnimating == true);//while something else is animating, just wait
-        while (true)
+        for (int i = 0; i < 240/0.06; i++) //4 minutes is a good max animation time
         {
-            for (int i = 0; i < mouseOverAnimation.Length - 1; i++)
+            for (int b = 0; b < mouseOverAnimation.Length - 1; b++)
             {
-                CartImage.sprite = mouseOverAnimation[i];
-                yield return new WaitForSecondsRealtime(0.02f);
+                CartImage.sprite = mouseOverAnimation[b];
+                yield return new WaitForSecondsRealtime(0.06f);
             }
-        }//we stop animating when mouse leaves the sprite of the trader
+        }
+        
+        //we stop animating when mouse leaves the sprite of the trader
 
     }
 
@@ -155,7 +155,7 @@ public class VendorScript : MonoBehaviour
         Cart.transform.position = Destination.transform.position;
         MainData.MainLoop.LevelHelperComponent.MoveStop();
         cartMoving = false;
-        //StartCoroutine(IdleAnimation());
+        StartCoroutine(IdleAnimation());
     }
 
 

@@ -64,6 +64,17 @@ public class EntityDefiner : MonoBehaviour
 
 
 
+    [HideInInspector]
+    public Sprite[] scarecrowHurtSheet;
+    [HideInInspector]
+    public Sprite[] lionHurtSheet;
+    [HideInInspector]
+    public Sprite[] dorothyHurtSheet;
+    [HideInInspector]
+    public Sprite[] tinmanHurtSheet;
+
+
+
 
 
     public Sprite lionsSprite;
@@ -197,15 +208,13 @@ public class EntityDefiner : MonoBehaviour
         monkeyAttackSheet = Resources.LoadAll<Sprite>("Monkey_attack_sheet");
         monkeyHurtSheet = Resources.LoadAll<Sprite>("Monkey_hurt_sheet");
 
-
-
-
-
         scarecrowAttackSheet = Resources.LoadAll<Sprite>("scarecrow_attack");
         scarecrowWalkSheet = Resources.LoadAll<Sprite>("scarecrow_walk");
+        scarecrowHurtSheet = Resources.LoadAll<Sprite>("scarecrow_hurt");
 
-        tinmanAttackSheet = Resources.LoadAll<Sprite>("tinman_attack_sheet");
+        tinmanAttackSheet = Resources.LoadAll<Sprite>("tinman_attack");
         tinmanWalkSheet = Resources.LoadAll<Sprite>("tinman_walk");
+        tinmanHurtSheet = Resources.LoadAll<Sprite>("tinman_hurt");
 
         lionAttackSheet = Resources.LoadAll<Sprite>("lion_attack");
         lionWalkSheet = Resources.LoadAll<Sprite>("lion_walk");
@@ -1289,6 +1298,9 @@ public class EntityDefiner : MonoBehaviour
 
 
             MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(damageRoll, this, false);
+
+            selfScriptRef.GotHurt();
+
             currentHealth -= damageRoll; //INCORPORATED ARMOR CALCULATION HERE 
             attacker.Threat += (damageRoll - defense); // WE APPLY THREAT
             if (!isPlayerPartyMember)
