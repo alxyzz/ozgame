@@ -192,6 +192,20 @@ public class CharacterWorldspaceScript : MonoBehaviour
     public bool isWalking = false;
     public void StartWalk()
     {
+        if (associatedCharacter == null)
+        {
+            Debug.Log("Associated character null.");
+            return;
+        }
+        if (associatedCharacter.WalkSprites == null)
+        {
+
+            Debug.Log("Associated character's walksprites null.");
+            return;
+        }
+
+
+
         Debug.Log("Starting to walk.");
         StartCoroutine(WalkAnim());
     }
@@ -218,17 +232,23 @@ public class CharacterWorldspaceScript : MonoBehaviour
         }
     }
 
-
+    int counter = 0;
 
     public System.Collections.IEnumerator WalkAnim()
     {
-        
-            for (int i = 0; i < associatedCharacter.WalkSprites.Length-1; i++)
-            {
-                spriteRenderer.sprite = associatedCharacter.WalkSprites[i];
-                yield return new WaitForSeconds(0.04f);
-            }
-        
+        spriteRenderer.sprite = associatedCharacter.WalkSprites[counter];
+
+        if (counter < associatedCharacter.WalkSprites.Length)
+        {
+            counter++;
+        }
+        else
+        {
+            counter = 0;
+        }
+
+        yield return new WaitForSeconds(0.04f);
+        StartCoroutine("WalkAnim");
 
     }
 
@@ -238,7 +258,7 @@ public class CharacterWorldspaceScript : MonoBehaviour
         spriteRenderer.sprite = associatedCharacter.standingSprite;
         Debug.Log("Stopped walking.");
         isWalking = false;
-        StopCoroutine(WalkAnim());
+        StopCoroutine("WalkAnim");
     }
 
 
