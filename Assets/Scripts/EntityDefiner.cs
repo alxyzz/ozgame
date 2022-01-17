@@ -25,7 +25,7 @@ public class EntityDefiner : MonoBehaviour
     [Header("Enemies")]
 
     [Space(10)]
-    
+
     [Header("Consumables")]
     [Space(10)]
     public Sprite HealthPotionSprite;
@@ -420,7 +420,7 @@ public class EntityDefiner : MonoBehaviour
                        0, //bounty, not relevant for PC
                        dorothyAvatar, //avatar
                        dorothyStanding, //standing sprite if there is no attacksheet since we usually just use the first frame
-                       null,
+                       dorothyHurtSheet,
                        dorothyWalkSheet); //hurt sprites
 
 
@@ -443,10 +443,7 @@ public class EntityDefiner : MonoBehaviour
                        0, //mana
                        null, //sound for when it is this character's turn to act
                        monkeyAttackSheet, //character's attack animation sprite 
-                       2, //bounty
-                       monkeyAvatar, //avatar
-                       null,
-                       monkeyHurtSheet); //standing sprite if there is no attacksheet since we usually just use the first frame
+                       2, monkeyAvatar, monkeyAttackSheet[0], monkeyHurtSheet);
     }
 
 
@@ -1057,7 +1054,7 @@ public class EntityDefiner : MonoBehaviour
         /// <summary>
         /// recalculates stats on the start of each round.  handles applying stats the first time, too.
         /// </summary>
-        public void RecalculateStatsFromTraits() 
+        public void RecalculateStatsFromTraits()
         {
             // Wrath: Increased damage, lower defense. Double strike: Attacks twice.
             //+5 damage, +3 speed
@@ -1209,7 +1206,7 @@ public class EntityDefiner : MonoBehaviour
         {
             //here we deal with the generic damage modification
             int damagemod = 0;
-            
+
             int defensemod = 0;
 
             if (attacker.equippedItems.Count > 0)
@@ -1251,7 +1248,7 @@ public class EntityDefiner : MonoBehaviour
             defense += defensemod;
             int baseDamageRoll = UnityEngine.Random.Range(attacker.damageMin, attacker.damageMax + 1) + damagemod;
             int damageRoll = baseDamageRoll - defense;
-            if (damageRoll <= 0 )
+            if (damageRoll <= 0)
             {
                 damageRoll = 0;
             }

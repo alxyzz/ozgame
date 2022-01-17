@@ -142,7 +142,7 @@ public class VendorScript : MonoBehaviour
     IEnumerator ArrivalAnimation()
     {
         cartMoving = true;
-        MainData.MainLoop.LevelHelperComponent.MoveBackgroundBackwards(); //ATTENTION - IF THIS SOMEHOW MAKES IT MOVE THE OTHER WAY - THE ORDER IS FLIPPED IN LEVELmANAGER. JUST USE MOVEBACKWARDS.
+        MainData.MainLoop.LevelHelperComponent.MovePartyForwards(); //ATTENTION - IF THIS SOMEHOW MAKES IT MOVE THE OTHER WAY - THE ORDER IS FLIPPED IN LEVELmANAGER. JUST USE MOVEBACKWARDS.
         isVendorHere = true;
         while (Vector3.Distance(Cart.transform.position, Destination.transform.position) > 0.1f)
         {
@@ -166,7 +166,7 @@ public class VendorScript : MonoBehaviour
     {
         isAnimating = true;
         cartMoving = true;
-        MainData.MainLoop.LevelHelperComponent.MoveBackgroundBackwards();
+        MainData.MainLoop.LevelHelperComponent.MovePartyForwards();
 
         while (Vector3.Distance(Cart.transform.position, GoodbyeDestination.transform.position) > 0.2f)
         {

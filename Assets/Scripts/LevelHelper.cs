@@ -79,7 +79,7 @@ public class LevelHelper : MonoBehaviour
             return;
         }
 
-       
+
         if (FoughtOnce == false)
         {
             if (distanceWalked > 40)
@@ -89,14 +89,14 @@ public class LevelHelper : MonoBehaviour
                 MainData.MainLoop.EntityDefComponent.SpawnEncounter(MainData.currentLevel.Encounters[0]);
                 //MainData.currentLevel.Encounters[1].spawned = false; //so we have a nice stable loop.
                 FoughtOnce = true;
-               // MainData.MainLoop.EventLoggingComponent.Log("Spawned an encounter. EncounterOrder is " + FoughtOnce);
+                // MainData.MainLoop.EventLoggingComponent.Log("Spawned an encounter. EncounterOrder is " + FoughtOnce);
                 MainData.MainLoop.UserInterfaceHelperComponent.ToggleFightButtonVisiblity(true);
             }
         }
 
-        
 
-        
+
+
 
     }
 
@@ -105,7 +105,7 @@ public class LevelHelper : MonoBehaviour
     /// <summary>
     /// party moves forwards, aka Background moves backwards. 
     /// </summary>
-    public void MoveBackgroundBackwards()
+    public void MovePartyForwards()
     {
         if (MainData.MainLoop.inCombat)
         {
@@ -129,7 +129,7 @@ public class LevelHelper : MonoBehaviour
         ButtonMoveOn.SetActive(false);// for the demo.
     }
 
-    public void MoveBackgroundForwards()
+    public void MovePartyBackwards()
     {
         if (MainData.MainLoop.inCombat)
         {
@@ -193,7 +193,7 @@ public class LevelHelper : MonoBehaviour
             string descriptor = "";
             foreach (string item in monsters)
             {
-                descriptor = descriptor +  item + ", ";
+                descriptor = descriptor + item + ", ";
             }
             MainData.MainLoop.EventLoggingComponent.LogGray("Prepared a " + descriptor + " ambush at " + distance);
             encounter.Add(b);
@@ -220,9 +220,9 @@ public class LevelHelper : MonoBehaviour
         {
             teamrocket.Add("flyingmonkey");
         }
-       
 
-        
+
+
         MapLevel darkForest = new MapLevel("Dark Forest",
                                            "A forest where it is very dark :D",
                                            "This forest contains numerous animals of the carnivorous persuasion, the wide of majority of which reminisce fondly upon past memories of anthropophagy.",

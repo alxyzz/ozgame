@@ -38,7 +38,7 @@ public class TraitHelper : MonoBehaviour
         /// <param name="description">description, longer</param>
         /// <param name="sprit">the sprite of the trait</param>
         /// <param name="t2">true if it's a tier 2 trait, false if it's t1</param>
-        public Trait(string id,string name,string adjec, string blurb, string description, Sprite sprit, bool t2)
+        public Trait(string id, string name, string adjec, string blurb, string description, Sprite sprit, bool t2)
         {
             this.identifier = id;
             this.traitName = name;
@@ -48,11 +48,26 @@ public class TraitHelper : MonoBehaviour
             this.traitSprite = sprit;
             if (t2)
             {
-                MainData.t2traitList.Add(id, this);//this is so we can drop a random t1/t2 trait after a boss fight or something
+                if (!MainData.t2traitList.ContainsKey(id))
+                {
+                    MainData.t2traitList.Add(id, this);//this is so we can drop a random t1/t2 trait after a boss fight or something
+                }
+                else
+                {
+                    Debug.LogError("Duplicate key add attempt to t2traitlist. Key - " + id);
+                }
             }
             else
             {
-                MainData.t1traitList.Add(id, this);
+                if (!MainData.t1traitList.ContainsKey(id))
+                {
+                    MainData.t1traitList.Add(id, this);
+                }
+                else
+                {
+                    Debug.LogError("Duplicate key add attempt to t1traitlist. Key - " + id);
+                }
+
             }
             Debug.Log("Added new trait - [" + this.identifier + "].");
             MainData.traitList.Add(id, this);

@@ -199,24 +199,25 @@ public class CharacterWorldspaceScript : MonoBehaviour
 
     public void GotHurt()
     {
-        Debug.Log("Got hurt, playing animation. At " + associatedCharacter.charName + "n");
+        MainData.MainLoop.EventLoggingComponent.Log("Got hurt, playing animation. At " + associatedCharacter.charName + ".");
+
         if (associatedCharacter.hurtSprites != null)
         {
             StartCoroutine(HurtAnim());
         }
-        
+
     }
 
 
     public System.Collections.IEnumerator HurtAnim()
     {
-       
-            for (int i = 0; i < associatedCharacter.WalkSprites.Length; i++)
-            {
-                spriteRenderer.sprite = associatedCharacter.hurtSprites[i];
-                yield return new WaitForSecondsRealtime(0.01f);
-            }
-        
+
+        for (int i = 0; i < associatedCharacter.WalkSprites.Length - 1; i++)
+        {
+            spriteRenderer.sprite = associatedCharacter.hurtSprites[i];
+            yield return new WaitForSecondsRealtime(0.01f);
+        }
+
 
 
 
@@ -226,9 +227,9 @@ public class CharacterWorldspaceScript : MonoBehaviour
 
     public System.Collections.IEnumerator WalkAnim()
     {
-        for (int b = 0; b < (240/ 0.04f); b++)
+        for (int b = 0; b < (240 / 0.04f); b++)
         {
-            for (int i = 0; i < associatedCharacter.WalkSprites.Length; i++)
+            for (int i = 0; i < associatedCharacter.WalkSprites.Length -1; i++)
             {
                 spriteRenderer.sprite = associatedCharacter.WalkSprites[i];
                 yield return new WaitForSecondsRealtime(0.04f);
