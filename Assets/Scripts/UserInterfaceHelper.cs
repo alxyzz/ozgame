@@ -215,7 +215,7 @@ public class UserInterfaceHelper : MonoBehaviour
             TrinketMenu.gameObject.SetActive(true);
             PlayHUD.SetActive(false);
             //display trinkets
-            TrinketMenu.RefreshItems(currChar: TrinketScreenCharacter);
+            TrinketMenu.RefreshInventory(currChar: TrinketScreenCharacter);
 
 
 

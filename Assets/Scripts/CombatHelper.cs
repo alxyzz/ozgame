@@ -298,7 +298,7 @@ public class CombatHelper : MonoBehaviour
                         }
                         else
                         {
-                            activeTarget.associatedCharacter.GainHealth(gameloop.ContentValueTweaking.caringActiveHealing);
+                            activeTarget.associatedCharacter.GainHealth(gameloop.TweakingComponent.caringActiveHealing);
                             gameloop.EventLoggingComponent.Log(activeCharacterWorldspaceObject.associatedCharacter.charName + "'s caring nature mends " + activeTarget.associatedCharacter.charName + "'s wounds!");
                             activeCharacterWorldspaceObject.associatedCharacter.mana -= activeCharacterWorldspaceObject.associatedCharacter.charTrait.manaCost;
                             EndCurrentTurn();
@@ -314,12 +314,12 @@ public class CombatHelper : MonoBehaviour
 
                 case "greed":
                     //sell off HP for gold
-                    if (activeCharacterWorldspaceObject.associatedCharacter.currentHealth > gameloop.ContentValueTweaking.greedActiveSelfDamage)
+                    if (activeCharacterWorldspaceObject.associatedCharacter.currentHealth > gameloop.TweakingComponent.greedActiveSelfDamage)
                     {
 
-                        gameloop.EventLoggingComponent.Log(activeCharacterWorldspaceObject.associatedCharacter.charName + "'s sells off their vital energy for " + gameloop.ContentValueTweaking.greedActiveRevenue + " coins!");
-                        activeCharacterWorldspaceObject.associatedCharacter.TakeDamage(gameloop.ContentValueTweaking.greedActiveSelfDamage);
-                        gameloop.Currency += MainData.MainLoop.ContentValueTweaking.greedActiveRevenue;
+                        gameloop.EventLoggingComponent.Log(activeCharacterWorldspaceObject.associatedCharacter.charName + "'s sells off their vital energy for " + gameloop.TweakingComponent.greedActiveRevenue + " coins!");
+                        activeCharacterWorldspaceObject.associatedCharacter.TakeDamage(gameloop.TweakingComponent.greedActiveSelfDamage);
+                        gameloop.Currency += MainData.MainLoop.TweakingComponent.greedActiveRevenue;
                         gameloop.UserInterfaceHelperComponent.UpdateCurrencyCounter();
                         EndCurrentTurn();
                     }
@@ -334,10 +334,10 @@ public class CombatHelper : MonoBehaviour
                     //Lash out for massive damage.
                     if (activeTarget = null) { return; }
                     if (activeTarget.associatedCharacter = null) { return; }
-                    activeCharacterWorldspaceObject.associatedCharacter.damageMax -= gameloop.ContentValueTweaking.angryActiveDamageMalus;
-                    activeCharacterWorldspaceObject.associatedCharacter.damageMin -= gameloop.ContentValueTweaking.angryActiveDamageMalus;
-                    gameloop.EventLoggingComponent.Log(activeCharacterWorldspaceObject.associatedCharacter.charName + " lashes out! " + activeTarget.associatedCharacter.charName + " takes " + gameloop.ContentValueTweaking.angryActivePowerDamage + " damage!");
-                    activeTarget.associatedCharacter.TakeDamage(gameloop.ContentValueTweaking.angryActivePowerDamage);
+                    activeCharacterWorldspaceObject.associatedCharacter.damageMax -= gameloop.TweakingComponent.angryActiveDamageMalus;
+                    activeCharacterWorldspaceObject.associatedCharacter.damageMin -= gameloop.TweakingComponent.angryActiveDamageMalus;
+                    gameloop.EventLoggingComponent.Log(activeCharacterWorldspaceObject.associatedCharacter.charName + " lashes out! " + activeTarget.associatedCharacter.charName + " takes " + gameloop.TweakingComponent.angryActivePowerDamage + " damage!");
+                    activeTarget.associatedCharacter.TakeDamage(gameloop.TweakingComponent.angryActivePowerDamage);
                     EndCurrentTurn();
 
                     break;
@@ -624,7 +624,7 @@ public class CombatHelper : MonoBehaviour
         }
 
         activeCharacterWorldspaceObject.transform.position = activeCharacterWorldspaceObject.associatedCharacter.InitialPosition;//yaaaay
-        Debug.Log("Just returned from active spot to coordinates " + activeCharacterWorldspaceObject.associatedCharacter.InitialPosition.ToString());
+        //Debug.Log("Just returned from active spot to coordinates " + activeCharacterWorldspaceObject.associatedCharacter.InitialPosition.ToString());
 
 
 
