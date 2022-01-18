@@ -1,9 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class InventoryBagObject : MonoBehaviour
+public class InventoryBagObject : MonoBehaviour, IPointerClickHandler
 {
     public EntityDefiner.Item associatedItem;
     public Image selfImage; //this button is not very confident...
@@ -21,4 +22,15 @@ public class InventoryBagObject : MonoBehaviour
     {
         
     }
+
+
+
+
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        Debug.Log("Clicked: " + eventData.pointerCurrentRaycast.gameObject.name);
+        MainData.MainLoop.InventoryHelperComponent.ClickedSlot(BagItem: this);
+    }
+
 }

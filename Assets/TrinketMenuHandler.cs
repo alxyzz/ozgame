@@ -10,7 +10,7 @@ public class TrinketMenuHandler : MonoBehaviour
     private EntityDefiner.Character currentCharacter;
     private TextMeshProUGUI currentCharacterStatistics;
 
-    public List<InventoryBagObject> InventorySlots = new List<InventoryBagObject>(); //this is where we put all the items that we can equip
+    public List<InventoryBagObject> BagSlots = new List<InventoryBagObject>(); //this is where we put all the items that we can equip
     public List<InventoryEqObject> EquippedSlots = new List<InventoryEqObject>(); //this is where we put all the items that we can equip
 
     //selected item
@@ -22,17 +22,48 @@ public class TrinketMenuHandler : MonoBehaviour
     public TextMeshProUGUI ItemBonuses;//long string detailing the bonuses of an item, if any
 
 
+    //character
+
+    public Image CharacterImage;
+    public TextMeshProUGUI CharName;
 
 
 
-
-
-
-
-
-
-    public void RefreshItems(Character currChar = null, Item clickedItem = null)
+    public void ClickedSlot(InventoryEqObject CharItem = null, InventoryBagObject BagItem = null)
     {
+        if (CharItem != null)
+        {//we clicked an item that is equipped
+            Debug.Log(BagItem.associatedItem.itemName + " transferred from " + currentCharacter.charName + "'s inventory to main inventory.");
+            //we take the item from the character's inventory, and move it to the main inventory
+            currentCharacter.equippedItems.Remove(CharItem.associatedItem);
+            MainData.equipmentInventory.Add(CharItem.associatedItem);
+            currentlySelectedItem = CharItem.associatedItem;
+            CharItem.associatedItem = null;
+        }
+        else
+
+        if (BagItem != null)
+        {//we clicked an item in the main inventory
+            Debug.Log(BagItem.associatedItem.itemName + " transferred from main inventory to " + currentCharacter.charName + "'s inventory.");
+            //we take the item from the main inventory, and move it to the character's inventory
+            currentCharacter.equippedItems.Add(BagItem.associatedItem);
+            MainData.equipmentInventory.Remove(BagItem.associatedItem);
+            currentlySelectedItem = BagItem.associatedItem;
+            BagItem.associatedItem = null;
+
+        }
+
+        RefreshInventory();
+
+    }
+
+
+
+
+    public void RefreshInventory(Character currChar = null, Item clickedItem = null)
+    {
+       
+        
         if (currChar != null)
         {//just so we can use it just to refresh without having to provide a character
             currentCharacter = currChar;
@@ -41,55 +72,75 @@ public class TrinketMenuHandler : MonoBehaviour
         {//just so we can use it just to refresh without having to provide an item
             currentlySelectedItem = clickedItem;
         }
-        if (currentCharacterStatistics == null)
-        {
-            return;
-        }
 
 
 
 
-        PopulateItemSlots();
-        RefreshDescription();
+        PopulateItemSlots(); Debug.Log("refreshing items slots in inventory");
+        RefreshCharacterDescription(); Debug.Log("refreshing char description in inventory");
+        RefreshItemDescription(); Debug.Log("refreshing item description in inventory");
     }
 
 
     private void PopulateItemSlots()
     {//this might be a bit laggy 
 
-        foreach (InventoryBagObject item in InventorySlots)
+        for (int i = 0; i < BagSlots.Count - 1; i++)
         {
-            item.selfImage.sprite = null; //cleans them all first
+            BagSlots[i].selfImage.sprite = null; //cleans them all first
         }
 
-        foreach (InventoryEqObject item in EquippedSlots)
+        for (int i = 0; i < EquippedSlots.Count - 1; i++)
         {
-            item.selfImage.sprite = null; //cleans them all first
+            EquippedSlots[i].selfImage.sprite = null; //cleans them all first
         }
 
 
-        for (int i = 0; i < MainData.equipmentInventory.Count; i++)
+        for (int i = 0; i < MainData.equipmentInventory.Count - 1; i++)
         {//first we assign the equipment inventory stuff
-            InventorySlots[i].associatedItem = MainData.equipmentInventory[i];
-            InventorySlots[i].selfImage.sprite = InventorySlots[i].associatedItem.itemSprite;
+            if (MainData.equipmentInventory[i] != null)
+            {
+                BagSlots[i].associatedItem = MainData.equipmentInventory[i];
+                Debug.Log("changed backpack slot image");
+                BagSlots[i].selfImage.sprite = BagSlots[i].associatedItem.itemSprite;
+            }
+
         }
 
+        if (currentCharacter != null)
+        {
+            for (int b = 0; b < currentCharacter.equippedItems.Count; b++)
+            {//then the ones in inventory, unequipped
+                if (currentCharacter.equippedItems[b] != null)
+                {
+                    Debug.Log("populated equipped slot " + b);
+                    EquippedSlots[b].associatedItem = currentCharacter.equippedItems[b];
+                    EquippedSlots[b].selfImage.sprite = currentCharacter.equippedItems[b].itemSprite;
+                }
 
-        for (int b = 0; b < currentCharacter.equippedItems.Count; b++)
-        {//then the ones in inventory, unequipped
-            EquippedSlots[b].associatedItem = currentCharacter.equippedItems[b];
-            EquippedSlots[b].selfImage.sprite = currentCharacter.equippedItems[b].itemSprite;
+            }
         }
+
 
 
     }
 
 
 
-
-
-    private void RefreshDescription()
+    private void RefreshCharacterDescription()
     {
+
+        CharacterImage.sprite = currentCharacter.standingSprite;
+        CharName.text = currentCharacter.charName;
+
+    }
+
+    private void RefreshItemDescription()
+    {
+        
+
+
+
         ItemDesc.text = currentlySelectedItem.description;
         ItemName.text = currentlySelectedItem.itemName;
         ItemRarity.text = currentlySelectedItem.rarity;

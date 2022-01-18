@@ -20,8 +20,9 @@ public class GameManager : MonoBehaviour
     public UserInterfaceHelper UserInterfaceHelperComponent;
     public CombatHelper CombatHelperComponent;
     public VendorScript VendorScriptComponent;
-    public ContentTweakingInterface ContentValueTweaking;
-    public MouseInteractionsHelper MouseHelper;
+    public ContentTweakingInterface TweakingComponent;
+    public MouseInteractionsHelper MouseComponent;
+    public TrinketMenuHandler InventoryHelperComponent;
 
     // Start is called before the first frame update
     void Start()//loads stuff up
@@ -47,6 +48,7 @@ public class GameManager : MonoBehaviour
         PositionHolderComponent.PrepPartySpots();
 
         EntityDefComponent.GivePlayerTestConsumables();
+        EntityDefComponent.TestGivePlayerItems();
         EntityDefComponent.DistributeStartingTraits();
 
         VendorScriptComponent.LoadSpriteSheets();
