@@ -27,9 +27,21 @@ public class TrinketMenuHandler : MonoBehaviour
     public TextMeshProUGUI CharName;
 
 
+    public float clickCooldown;
+    public bool coolDown = false;
+
+    IEnumerator coolDownClick()
+    {
+        
+        yield return new WaitForSecondsRealtime(clickCooldown);
+        coolDown = false;
+    }
 
     public void ClickedSlot(InventoryEqObject CharItem = null, InventoryBagObject BagItem = null)
     {
+        coolDown = true;
+        StartCoroutine(coolDownClick());
+
         if (CharItem != null)
         {//we clicked an item that is equipped
             if (CharItem.associatedItem == null)
@@ -150,6 +162,12 @@ public class TrinketMenuHandler : MonoBehaviour
 
         if (currentlySelectedItem == null)
         {
+
+            ItemDesc.text = "";
+            ItemName.text = "";
+            ItemRarity.text = "";
+            ItemValue.text = "";
+            ItemBonuses.text = "";
             return;
         }
 

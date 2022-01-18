@@ -180,7 +180,6 @@ public class UserInterfaceHelper : MonoBehaviour
     }
 
 
-
     public void Update()
     {
         if (Input.GetMouseButton(0))
@@ -224,6 +223,7 @@ public class UserInterfaceHelper : MonoBehaviour
         {
             //click sound.
             TrinketMenu.gameObject.SetActive(false);
+            TrinketMenu.currentlySelectedItem = null;
             PlayHUD.SetActive(true);
         }
     }

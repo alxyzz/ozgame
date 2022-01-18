@@ -1,46 +1,31 @@
 fileFormatVersion: 2
-guid: 1dfa7039118fbaa4e809a83e14b90f82
+guid: 9541f4594ccea944ab521c4f3ce57c4d
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5907575002548200114
-    second: scarecrow_hurt_0
+      213: 3280388280168015112
+    second: monkey_idle_0
   - first:
-      213: 2620442580071401283
-    second: scarecrow_hurt_1
+      213: -2164998778636484577
+    second: monkey_idle_1
   - first:
-      213: 2741472061371294142
-    second: scarecrow_hurt_2
+      213: 3963746580929973426
+    second: monkey_idle_2
   - first:
-      213: -7775537982922177886
-    second: scarecrow_hurt_3
+      213: -6943944667614967476
+    second: monkey_idle_3
   - first:
-      213: -9038278613623236547
-    second: scarecrow_hurt_4
+      213: -950550375663868911
+    second: monkey_idle_4
   - first:
-      213: 4508603615663628374
-    second: scarecrow_hurt_5
+      213: 9119808398692718170
+    second: monkey_idle_5
   - first:
-      213: -1846287787054524191
-    second: scarecrow_hurt_6
+      213: 8222927616543567879
+    second: monkey_idle_6
   - first:
-      213: -3339603778384978263
-    second: scarecrow_hurt_7
-  - first:
-      213: -2750795332258157901
-    second: scarecrow_hurt_8
-  - first:
-      213: -4686435128733582847
-    second: scarecrow_hurt_9
-  - first:
-      213: -6289882840574408678
-    second: scarecrow_hurt_10
-  - first:
-      213: -7950157847074155951
-    second: scarecrow_hurt_11
-  - first:
-      213: 9063063496747660229
-    second: scarecrow_hurt_12
+      213: -5405946072551375038
+    second: monkey_idle_7
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -128,175 +113,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: scarecrow_hurt_0
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 4104
-        width: 1420
-        height: 1368
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 2b2ecd64a2cebf150800000000000000
-      internalID: 5907575002548200114
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: scarecrow_hurt_1
-      rect:
-        serializedVersion: 2
-        x: 1420
-        y: 4104
-        width: 1420
-        height: 1368
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 347c67394aead5420800000000000000
-      internalID: 2620442580071401283
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: scarecrow_hurt_2
-      rect:
-        serializedVersion: 2
-        x: 2840
-        y: 4104
-        width: 1420
-        height: 1368
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: eb1a1bb905aab0620800000000000000
-      internalID: 2741472061371294142
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: scarecrow_hurt_3
-      rect:
-        serializedVersion: 2
-        x: 4260
-        y: 4104
-        width: 1420
-        height: 1368
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 2a2cd5ea66db71490800000000000000
-      internalID: -7775537982922177886
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: scarecrow_hurt_4
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 2736
-        width: 1420
-        height: 1368
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: d381afddc75919280800000000000000
-      internalID: -9038278613623236547
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: scarecrow_hurt_5
-      rect:
-        serializedVersion: 2
-        x: 1420
-        y: 2736
-        width: 1420
-        height: 1368
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 6502ca0d917c19e30800000000000000
-      internalID: 4508603615663628374
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: scarecrow_hurt_6
-      rect:
-        serializedVersion: 2
-        x: 2840
-        y: 2736
-        width: 1420
-        height: 1368
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 1e8197b2a0ba066e0800000000000000
-      internalID: -1846287787054524191
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: scarecrow_hurt_7
-      rect:
-        serializedVersion: 2
-        x: 4260
-        y: 2736
-        width: 1420
-        height: 1368
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 9ae9fcabe0857a1d0800000000000000
-      internalID: -3339603778384978263
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: scarecrow_hurt_8
+      name: monkey_idle_0
       rect:
         serializedVersion: 2
         x: 0
@@ -310,14 +127,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3ba23fa383633d9d0800000000000000
-      internalID: -2750795332258157901
+      spriteID: 805e4c4b2c7468d20800000000000000
+      internalID: 3280388280168015112
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: scarecrow_hurt_9
+      name: monkey_idle_1
       rect:
         serializedVersion: 2
         x: 1420
@@ -331,14 +148,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 10a3ce8841076feb0800000000000000
-      internalID: -4686435128733582847
+      spriteID: f10c73cd41164f1e0800000000000000
+      internalID: -2164998778636484577
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: scarecrow_hurt_10
+      name: monkey_idle_2
       rect:
         serializedVersion: 2
         x: 2840
@@ -352,14 +169,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a18ccb8b1e8d5b8a0800000000000000
-      internalID: -6289882840574408678
+      spriteID: 2bc0008b38e020730800000000000000
+      internalID: 3963746580929973426
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: scarecrow_hurt_11
+      name: monkey_idle_3
       rect:
         serializedVersion: 2
         x: 4260
@@ -373,14 +190,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1525cd05f8d5ba190800000000000000
-      internalID: -7950157847074155951
+      spriteID: c4987da8d1722af90800000000000000
+      internalID: -6943944667614967476
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: scarecrow_hurt_12
+      name: monkey_idle_4
       rect:
         serializedVersion: 2
         x: 0
@@ -394,8 +211,71 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5c3347c6b3876cd70800000000000000
-      internalID: 9063063496747660229
+      spriteID: 114e0753877fec2f0800000000000000
+      internalID: -950550375663868911
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: monkey_idle_5
+      rect:
+        serializedVersion: 2
+        x: 1420
+        y: 0
+        width: 1420
+        height: 1368
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a5614b77b61109e70800000000000000
+      internalID: 9119808398692718170
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: monkey_idle_6
+      rect:
+        serializedVersion: 2
+        x: 2840
+        y: 0
+        width: 1420
+        height: 1368
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 70034dda915bd1270800000000000000
+      internalID: 8222927616543567879
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: monkey_idle_7
+      rect:
+        serializedVersion: 2
+        x: 4260
+        y: 0
+        width: 1420
+        height: 1368
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 24f38ae50b83af4b0800000000000000
+      internalID: -5405946072551375038
       vertices: []
       indices: 
       edges: []
@@ -403,7 +283,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 9f10487fd5a10e2409266f41d662390f
+    spriteID: 65d558ced5c518b4f95489b7e7674346
     internalID: 0
     vertices: []
     indices: 

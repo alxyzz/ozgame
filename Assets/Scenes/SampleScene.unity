@@ -739,6 +739,7 @@ MonoBehaviour:
   expandOnMouseOver: 0.01
   spriteRenderer: {fileID: 12294268}
   isEnemyCharacter: 1
+  idle: 0
   isWalking: 0
 --- !u!212 &12294268
 SpriteRenderer:
@@ -853,6 +854,7 @@ MonoBehaviour:
   expandOnMouseOver: 0.01
   spriteRenderer: {fileID: 12937826}
   isEnemyCharacter: 1
+  idle: 0
   isWalking: 0
 --- !u!212 &12937826
 SpriteRenderer:
@@ -5777,6 +5779,7 @@ MonoBehaviour:
   expandOnMouseOver: 0.01
   spriteRenderer: {fileID: 231988630}
   isEnemyCharacter: 1
+  idle: 0
   isWalking: 0
 --- !u!212 &231988630
 SpriteRenderer:
@@ -6686,7 +6689,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: ' '
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -6716,9 +6719,9 @@ MonoBehaviour:
   m_fontSize: 9
   m_fontSizeBase: 9
   m_fontWeight: 400
-  m_enableAutoSizing: 0
-  m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_enableAutoSizing: 1
+  m_fontSizeMin: 6
+  m_fontSizeMax: 14
   m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
@@ -6731,7 +6734,7 @@ MonoBehaviour:
   m_charWidthMaxAdj: 0
   m_enableWordWrapping: 1
   m_wordWrappingRatios: 0.4
-  m_overflowMode: 0
+  m_overflowMode: 1
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
@@ -9949,7 +9952,6 @@ GameObject:
   - component: {fileID: 462129126}
   - component: {fileID: 462129119}
   - component: {fileID: 462129122}
-  - component: {fileID: 462129123}
   m_Layer: 0
   m_Name: ScriptHolder
   m_TagString: Untagged
@@ -10009,10 +10011,15 @@ MonoBehaviour:
   lionHurtSheet: []
   dorothyHurtSheet: []
   tinmanHurtSheet: []
+  scarecrowIdleSheet: []
+  lionIdleSheet: []
+  dorothyIdleSheet: []
+  tinmanIdleSheet: []
   lionsSprite: {fileID: 21300000, guid: 2cee61877577af54a9adbffaa2ca5f2f, type: 3}
   ItemUseEffect: {fileID: 0}
   monkeyAttackSheet: []
   monkeyHurtSheet: []
+  monkeyIdleSheet: []
 --- !u!114 &462129120
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10048,6 +10055,7 @@ MonoBehaviour:
   EnemyCharacterSpot8: {fileID: 1516719319}
   EnemySpawnBoundaryLeft: {fileID: 789536339}
   EnemySpawnBoundaryRight: {fileID: 1989053343}
+  allspots: []
 --- !u!114 &462129121
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10115,18 +10123,6 @@ MonoBehaviour:
   flyingMonkeySpeed: 4
   flyingMonkeyLuck: 1
   flyingMonkeyDefense: 1
---- !u!114 &462129123
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 462129117}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb17bcbabd6ea0d4d96b61166c008ac1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &462129124
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13790,7 +13786,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: ' '
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -13817,10 +13813,10 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 10
+  m_fontSize: 18
   m_fontSizeBase: 10
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
@@ -14055,6 +14051,7 @@ MonoBehaviour:
   expandOnMouseOver: 0.01
   spriteRenderer: {fileID: 671921567}
   isEnemyCharacter: 0
+  idle: 0
   isWalking: 0
 --- !u!1 &673929257
 GameObject:
@@ -14611,6 +14608,7 @@ MonoBehaviour:
   expandOnMouseOver: 0.01
   spriteRenderer: {fileID: 692489666}
   isEnemyCharacter: 0
+  idle: 0
   isWalking: 0
 --- !u!114 &692489670
 MonoBehaviour:
@@ -15204,7 +15202,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -186.74, y: 132.94}
+  m_AnchoredPosition: {x: -186.74, y: 131.5}
   m_SizeDelta: {x: 153.50586, y: 15.662487}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &718947913
@@ -22783,6 +22781,7 @@ MonoBehaviour:
   expandOnMouseOver: 0.01
   spriteRenderer: {fileID: 1064174376}
   isEnemyCharacter: 1
+  idle: 0
   isWalking: 0
 --- !u!212 &1064174376
 SpriteRenderer:
@@ -24796,6 +24795,8 @@ MonoBehaviour:
   ItemBonuses: {fileID: 1448158904}
   CharacterImage: {fileID: 1505051474}
   CharName: {fileID: 1638257899}
+  clickCooldown: 0.5
+  coolDown: 0
 --- !u!1 &1168329390
 GameObject:
   m_ObjectHideFlags: 0
@@ -26191,6 +26192,7 @@ MonoBehaviour:
   expandOnMouseOver: 0.01
   spriteRenderer: {fileID: 1282978570}
   isEnemyCharacter: 1
+  idle: 0
   isWalking: 0
 --- !u!212 &1282978570
 SpriteRenderer:
@@ -29580,10 +29582,10 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 9
+  m_fontSize: 72
   m_fontSizeBase: 9
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
@@ -30394,6 +30396,7 @@ MonoBehaviour:
   expandOnMouseOver: 0.01
   spriteRenderer: {fileID: 1495655619}
   isEnemyCharacter: 0
+  idle: 0
   isWalking: 0
 --- !u!1 &1501843635
 GameObject:
@@ -30842,6 +30845,7 @@ MonoBehaviour:
   expandOnMouseOver: 0.01
   spriteRenderer: {fileID: 1516719323}
   isEnemyCharacter: 1
+  idle: 0
   isWalking: 0
 --- !u!212 &1516719323
 SpriteRenderer:
@@ -31116,6 +31120,7 @@ MonoBehaviour:
   expandOnMouseOver: 0.01
   spriteRenderer: {fileID: 1531823206}
   isEnemyCharacter: 1
+  idle: 0
   isWalking: 0
 --- !u!212 &1531823206
 SpriteRenderer:
@@ -33255,6 +33260,7 @@ MonoBehaviour:
   expandOnMouseOver: 0.01
   spriteRenderer: {fileID: 1645929956}
   isEnemyCharacter: 0
+  idle: 0
   isWalking: 0
 --- !u!1 &1651226493
 GameObject:
@@ -35607,6 +35613,7 @@ MonoBehaviour:
   expandOnMouseOver: 0.01
   spriteRenderer: {fileID: 1755010566}
   isEnemyCharacter: 1
+  idle: 0
   isWalking: 0
 --- !u!212 &1755010566
 SpriteRenderer:
@@ -39259,8 +39266,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -133, y: -39.1}
-  m_SizeDelta: {x: 153.50586, y: 15.708389}
+  m_AnchoredPosition: {x: -129.7, y: -34.95}
+  m_SizeDelta: {x: 39.42485, y: 12.9850235}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1957631145
 MonoBehaviour:
@@ -39282,7 +39289,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: ' '
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
