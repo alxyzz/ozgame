@@ -46,7 +46,12 @@ public class CharacterWorldspaceScript : MonoBehaviour
         associatedCharacter.baseSpeed = template.baseSpeed;
         associatedCharacter.charAvatar = template.charAvatar;
         associatedCharacter.charName = template.charName;
+
         associatedCharacter.attackAnimation = template.attackAnimation;
+        associatedCharacter.idleSprite = template.idleSprite;
+        associatedCharacter.hurtSprites = template.hurtSprites;
+
+
         associatedCharacter.charTrait = template.charTrait;
         associatedCharacter.charType = template.charType;
         associatedCharacter.selfScriptRef = this;
@@ -86,14 +91,14 @@ public class CharacterWorldspaceScript : MonoBehaviour
 
     public void SetupIdleAnimAndStart()
     {
-        //if (!this.isActiveAndEnabled)
-        //{
-        //    Debug.LogWarning(associatedCharacter.charName + " was INACTIVE/DISABLED ON SetupIdleAnimAndStart()");
-        //    return;
-        //}
-        //randomIdleness = Random.Range(0.01f, 0.15f);
-        //Debug.Log("random for " + associatedCharacter.charName + " is "+ randomIdleness);
-        //StartCoroutine(InitIdle());
+        if (!this.isActiveAndEnabled)
+        {
+            Debug.LogWarning(associatedCharacter.charName + " was INACTIVE/DISABLED ON SetupIdleAnimAndStart()");
+            return;
+        }
+        randomIdleness = Random.Range(0.01f, 0.15f);
+        Debug.Log("random for " + associatedCharacter.charName + " is " + randomIdleness);
+        StartCoroutine(InitIdle());
     }
 
     IEnumerator InitIdle()
@@ -117,15 +122,13 @@ public class CharacterWorldspaceScript : MonoBehaviour
         {
             StopCoroutine(IdleAnimate());
         }
-        Debug.Log(associatedCharacter.charName + " - preanimate");
         spriteRenderer.sprite = associatedCharacter.idleSprite[idleIndex];
-        Debug.Log(associatedCharacter.charName + " IS IDLING ");
         idleIndex++;
         if (idleIndex == associatedCharacter.idleSprite.Length - 1)
         {
             idleIndex = 0;
         }
-        yield return new WaitForSecondsRealtime(0.08f);
+        yield return new WaitForSecondsRealtime(0.12f);
         StartCoroutine(IdleAnimate());
     }
 
@@ -252,12 +255,6 @@ public class CharacterWorldspaceScript : MonoBehaviour
             Debug.Log("Associated character null.");
             return;
         }
-        if (associatedCharacter.WalkSprites == null)
-        {
-
-            Debug.Log("Associated character's walksprites null.");
-            return;
-        }
 
 
 
@@ -278,10 +275,11 @@ public class CharacterWorldspaceScript : MonoBehaviour
 
     public System.Collections.IEnumerator HurtAnim()
     {
+        Debug.Log(associatedCharacter.hurtSprites);
         ToggleIdle(false);
-        for (int i = 0; i < 12; i++)
+        Debug.Log(associatedCharacter.hurtSprites.Length);
+        for (int i = 0; i < associatedCharacter.hurtSprites.Length-2; i++)
         {
-            MainData.MainLoop.EventLoggingComponent.Log("playing hurt animation for " + associatedCharacter.charName);
             spriteRenderer.sprite = associatedCharacter.hurtSprites[i];
             yield return new WaitForSeconds(0.04f);
         }
@@ -294,7 +292,7 @@ public class CharacterWorldspaceScript : MonoBehaviour
         ToggleIdle(false);
         spriteRenderer.sprite = associatedCharacter.WalkSprites[counter];
 
-        if (counter < 7)
+        if (counter < associatedCharacter.WalkSprites.Length-2)
         {
             counter++;
         }

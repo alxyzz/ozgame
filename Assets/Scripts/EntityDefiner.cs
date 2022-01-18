@@ -39,51 +39,32 @@ public class EntityDefiner : MonoBehaviour
     [Space(10)]
     //public GameObject EnemyPrefab;
     public GameObject SpawnAnimationPrefab;
-
-    [HideInInspector]
+    [Header("Spritesheets")]
     public Sprite[] scarecrowAttackSheet;
-    [HideInInspector]
-    public Sprite[] lionAttackSheet;
-    [HideInInspector]
-    public Sprite[] dorothyAttackSheet;
-    [HideInInspector]
-    public Sprite[] tinmanAttackSheet;
-
-    [HideInInspector]
     public Sprite[] scarecrowWalk_Sheet;
-    [HideInInspector]
-    public Sprite[] lionWalkSheet;
-    [HideInInspector]
-    public Sprite[] dorothyWalkSheet;
-    [HideInInspector]
-    public Sprite[] tinmanWalkSheet;
-
-    [HideInInspector]
     public Sprite[] scarecrowHurtSheet;
-    [HideInInspector]
-    public Sprite[] lionHurtSheet;
-    [HideInInspector]
-    public Sprite[] dorothyHurtSheet;
-    [HideInInspector]
-    public Sprite[] tinmanHurtSheet;
-
-    [HideInInspector]
     public Sprite[] scarecrowIdleSheet;
-    [HideInInspector]
+
+    public Sprite[] lionAttackSheet;
+    public Sprite[] lionWalkSheet;
+    public Sprite[] lionHurtSheet;
     public Sprite[] lionIdleSheet;
-    [HideInInspector]
+
+    public Sprite[] dorothyAttackSheet;
+    public Sprite[] dorothyWalkSheet;
+    public Sprite[] dorothyHurtSheet;
     public Sprite[] dorothyIdleSheet;
-    [HideInInspector]
+
+    public Sprite[] tinmanAttackSheet;
+    public Sprite[] tinmanWalkSheet;
+    public Sprite[] tinmanHurtSheet;
     public Sprite[] tinmanIdleSheet;
 
     public Sprite lionsSprite;
     public GameObject ItemUseEffect;
 
-    [HideInInspector]
     public Sprite[] monkeyAttackSheet;
-    [HideInInspector]
     public Sprite[] monkeyHurtSheet;
-    [HideInInspector]
     public Sprite[] monkeyIdleSheet;
 
     public void UseConsumable(Item consumable, Character target)
@@ -203,29 +184,29 @@ public class EntityDefiner : MonoBehaviour
 
     public void LoadSpriteSheets()
     {
-        monkeyAttackSheet = Resources.LoadAll<Sprite>("Monkey_attack_sheet");
-        monkeyHurtSheet = Resources.LoadAll<Sprite>("Monkey_hurt_sheet");
-        monkeyIdleSheet = Resources.LoadAll<Sprite>("monkey_idle");
+        //monkeyAttackSheet = Resources.LoadAll<Sprite>("Monkey_attack_sheet");
+        //monkeyHurtSheet = Resources.LoadAll<Sprite>("Monkey_hurt_sheet");
+        //monkeyIdleSheet = Resources.LoadAll<Sprite>("monkey_idle");
 
-        scarecrowAttackSheet = Resources.LoadAll<Sprite>("scarecrow_attack");
-        scarecrowWalk_Sheet = Resources.LoadAll<Sprite>("scarecrow_walk");
-        scarecrowHurtSheet = Resources.LoadAll<Sprite>("scarecrow_hurt");
-        scarecrowIdleSheet = Resources.LoadAll<Sprite>("scarecrow_idle");
+        //scarecrowAttackSheet = Resources.LoadAll<Sprite>("scarecrow_attack");
+        //scarecrowWalk_Sheet = Resources.LoadAll<Sprite>("scarecrow_walk");
+        //scarecrowHurtSheet = Resources.LoadAll<Sprite>("scarecrow_hurt");
+        //scarecrowIdleSheet = Resources.LoadAll<Sprite>("scarecrow_idle");
 
-        tinmanAttackSheet = Resources.LoadAll<Sprite>("tinman_attack");
-        tinmanWalkSheet = Resources.LoadAll<Sprite>("tinman_walk");
-        tinmanHurtSheet = Resources.LoadAll<Sprite>("tinman_hurt");
-        tinmanIdleSheet = Resources.LoadAll<Sprite>("tinman_idle");
+        //tinmanAttackSheet = Resources.LoadAll<Sprite>("tinman_attack");
+        //tinmanWalkSheet = Resources.LoadAll<Sprite>("tinman_walk");
+        //tinmanHurtSheet = Resources.LoadAll<Sprite>("tinman_hurt");
+        //tinmanIdleSheet = Resources.LoadAll<Sprite>("tinman_idle");
 
-        lionAttackSheet = Resources.LoadAll<Sprite>("lion_attack");
-        lionWalkSheet = Resources.LoadAll<Sprite>("lion_walk");
-        lionHurtSheet = Resources.LoadAll<Sprite>("lion_hurt");
-        lionIdleSheet = Resources.LoadAll<Sprite>("lion_idle");
+        //lionAttackSheet = Resources.LoadAll<Sprite>("lion_attack");
+        //lionWalkSheet = Resources.LoadAll<Sprite>("lion_walk");
+        //lionHurtSheet = Resources.LoadAll<Sprite>("lion_hurt");
+        //lionIdleSheet = Resources.LoadAll<Sprite>("lion_idle");
 
-        dorothyAttackSheet = Resources.LoadAll<Sprite>("dorothy_attack");
-        dorothyWalkSheet = Resources.LoadAll<Sprite>("dorothy_walk");
-        dorothyHurtSheet = Resources.LoadAll<Sprite>("dorothy_hurt");
-        dorothyIdleSheet = Resources.LoadAll<Sprite>("dorothy_idle");
+        //dorothyAttackSheet = Resources.LoadAll<Sprite>("dorothy_attack");
+        //dorothyWalkSheet = Resources.LoadAll<Sprite>("dorothy_walk");
+        //dorothyHurtSheet = Resources.LoadAll<Sprite>("dorothy_hurt");
+        //dorothyIdleSheet = Resources.LoadAll<Sprite>("dorothy_idle");
     }
     public Item FetchRandomItem()
     {//fetches a random t1 trait
@@ -366,7 +347,7 @@ public class EntityDefiner : MonoBehaviour
                        tinmanStanding,//standing sprite if there is no attacksheet since we usually just use the first frame
                        tinmanHurtSheet,
                        tinmanWalkSheet,
-                       tinmanIdleSheet); 
+                       tinmanIdleSheet);
 
         MakeMobTemplate("lion",
                        "Lion",
@@ -387,7 +368,7 @@ public class EntityDefiner : MonoBehaviour
                        lionStanding, //standing sprite if there is no attacksheet since we usually just use the first frame
                        lionHurtSheet,
                        lionWalkSheet,
-                       lionIdleSheet); 
+                       lionIdleSheet);
 
         MakeMobTemplate("dorothy",
                        "Dorothy",
@@ -408,7 +389,7 @@ public class EntityDefiner : MonoBehaviour
                        dorothyStanding, //standing sprite if there is no attacksheet since we usually just use the first frame
                        dorothyHurtSheet,
                        dorothyWalkSheet,
-                       dorothyIdleSheet); 
+                       dorothyIdleSheet);
 
 
     }
@@ -960,17 +941,21 @@ public class EntityDefiner : MonoBehaviour
     public class Item
     {
         public string identifier; //stuff like "doner_kebab", "icecream_chocolate", "sword_steel"
+
         public string description;
         public string itemBlurb;
         public string itemName;
         public Sprite itemSprite;
+
         public string rarity;
         public int value;
         public int amtInStock; // standard amount in stock, duh. This is for the shop.
         public int itemQuantity; // quantity of items held. for potion mostly. or bombs. etc. consumables. Or perhaps en enchanted sword with limited amount of shots.
+
         public bool beneficial; //for threat tracking and stuff.
         //for equipment
         public bool isEquipable;
+
         public Character currentWielder;
 
         public int speedmodifier; //just a +5 or -5 or the like. for all of these modifiers
@@ -1065,6 +1050,7 @@ public class EntityDefiner : MonoBehaviour
 
         public string charType; //something like "goblin_spear", "tin_man" or "scarecrow" for the dictionary. 
         public string charName;
+        public string attackverb;
         public string entityDescription;
         public CharacterWorldspaceScript selfScriptRef;
         public Vector3 InitialPosition; //yeah screw having a single variable in CombatHelper.cs we're doing this. set in CharacterScript or template use
@@ -1072,6 +1058,7 @@ public class EntityDefiner : MonoBehaviour
 
 
         public AudioClip turnSound;
+
         public Sprite[] attackAnimation; //this contains the attack too. the first sprite is the standing sprite if one is not supplied.
         public Sprite standingSprite;
         public Sprite[] WalkSprites;
@@ -1096,11 +1083,13 @@ public class EntityDefiner : MonoBehaviour
         public int defense; //handled in attacking code
         public int luck; //not yet
         public int mana; //not yet
+
         public bool canAct = true; //wether it's stunned or not
+
         public bool isDead = false;
         public bool hasActedThisTurn = false;
 
-        public string attackverb;
+
 
 
 
@@ -1355,7 +1344,7 @@ public class EntityDefiner : MonoBehaviour
             {
                 defense = 0;
             }
-
+            MainData.MainLoop.EventLoggingComponent.Log("damage without modifiers - " + (damageRoll - damagemod) + ", defense without modifiers " + (defense - defensemod));
             MainData.MainLoop.EventLoggingComponent.Log(attacker.charName + " " + attacker.attackverb + " the " + charName + " for " + (damageRoll + defense) + " damage. Armor protects for " + defense + " damage!");
 
 
@@ -1587,6 +1576,12 @@ public class EntityDefiner : MonoBehaviour
             }
             else
             {
+                List<Item> eqCopy = new List<Item>(equippedItems);
+                foreach (Item item in eqCopy)
+                {
+                    MainData.equipmentInventory.Add(item);
+                }
+                equippedItems.Clear();
                 MainData.MainLoop.UserInterfaceHelperComponent.RefreshHealthBarPlayer();
             }
             MainData.recentDeadEnemies.Add(this);
