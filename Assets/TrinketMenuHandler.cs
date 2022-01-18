@@ -7,7 +7,6 @@ using static EntityDefiner;
 
 public class TrinketMenuHandler : MonoBehaviour
 {
-    private EntityDefiner.Character currentCharacter;
     private TextMeshProUGUI currentCharacterStatistics;
 
     public List<InventoryBagObject> BagSlots = new List<InventoryBagObject>(); //this is where we put all the items that we can equip
@@ -33,9 +32,13 @@ public class TrinketMenuHandler : MonoBehaviour
     {
         if (CharItem != null)
         {//we clicked an item that is equipped
-            Debug.Log(BagItem.associatedItem.itemName + " transferred from " + currentCharacter.charName + "'s inventory to main inventory.");
+            if (CharItem.associatedItem == null)
+            {
+                return;
+            }
+            
             //we take the item from the character's inventory, and move it to the main inventory
-            currentCharacter.equippedItems.Remove(CharItem.associatedItem);
+            MainData.MainLoop.UserInterfaceHelperComponent.TrinketScreenCharacter.equippedItems.Remove(CharItem.associatedItem);
             MainData.equipmentInventory.Add(CharItem.associatedItem);
             currentlySelectedItem = CharItem.associatedItem;
             CharItem.associatedItem = null;
@@ -44,9 +47,13 @@ public class TrinketMenuHandler : MonoBehaviour
 
         if (BagItem != null)
         {//we clicked an item in the main inventory
-            Debug.Log(BagItem.associatedItem.itemName + " transferred from main inventory to " + currentCharacter.charName + "'s inventory.");
+            if (BagItem.associatedItem == null)
+            {
+                return;
+            }
+
             //we take the item from the main inventory, and move it to the character's inventory
-            currentCharacter.equippedItems.Add(BagItem.associatedItem);
+            MainData.MainLoop.UserInterfaceHelperComponent.TrinketScreenCharacter.equippedItems.Add(BagItem.associatedItem);
             MainData.equipmentInventory.Remove(BagItem.associatedItem);
             currentlySelectedItem = BagItem.associatedItem;
             BagItem.associatedItem = null;
@@ -62,11 +69,11 @@ public class TrinketMenuHandler : MonoBehaviour
 
     public void RefreshInventory(Character currChar = null, Item clickedItem = null)
     {
-       
+        Debug.Log("Refreshed inventory visuals.");
         
         if (currChar != null)
         {//just so we can use it just to refresh without having to provide a character
-            currentCharacter = currChar;
+            MainData.MainLoop.UserInterfaceHelperComponent.TrinketScreenCharacter = currChar;
         }
         if (clickedItem != null)
         {//just so we can use it just to refresh without having to provide an item
@@ -107,15 +114,15 @@ public class TrinketMenuHandler : MonoBehaviour
 
         }
 
-        if (currentCharacter != null)
+        if (MainData.MainLoop.UserInterfaceHelperComponent.TrinketScreenCharacter != null)
         {
-            for (int b = 0; b < currentCharacter.equippedItems.Count; b++)
+            for (int b = 0; b < MainData.MainLoop.UserInterfaceHelperComponent.TrinketScreenCharacter.equippedItems.Count; b++)
             {//then the ones in inventory, unequipped
-                if (currentCharacter.equippedItems[b] != null)
+                if (MainData.MainLoop.UserInterfaceHelperComponent.TrinketScreenCharacter.equippedItems[b] != null)
                 {
                     Debug.Log("populated equipped slot " + b);
-                    EquippedSlots[b].associatedItem = currentCharacter.equippedItems[b];
-                    EquippedSlots[b].selfImage.sprite = currentCharacter.equippedItems[b].itemSprite;
+                    EquippedSlots[b].associatedItem = MainData.MainLoop.UserInterfaceHelperComponent.TrinketScreenCharacter.equippedItems[b];
+                    EquippedSlots[b].selfImage.sprite = MainData.MainLoop.UserInterfaceHelperComponent.TrinketScreenCharacter.equippedItems[b].itemSprite;
                 }
 
             }
@@ -129,16 +136,22 @@ public class TrinketMenuHandler : MonoBehaviour
 
     private void RefreshCharacterDescription()
     {
-
-        CharacterImage.sprite = currentCharacter.standingSprite;
-        CharName.text = currentCharacter.charName;
+        if (MainData.MainLoop.UserInterfaceHelperComponent.TrinketScreenCharacter == null)
+        {
+            return;
+        }
+        CharacterImage.sprite = MainData.MainLoop.UserInterfaceHelperComponent.TrinketScreenCharacter.standingSprite;
+        CharName.text = MainData.MainLoop.UserInterfaceHelperComponent.TrinketScreenCharacter.charName;
 
     }
 
     private void RefreshItemDescription()
     {
-        
 
+        if (currentlySelectedItem == null)
+        {
+            return;
+        }
 
 
         ItemDesc.text = currentlySelectedItem.description;
@@ -224,28 +237,6 @@ public class TrinketMenuHandler : MonoBehaviour
                 ItemRarity.color = new Color(1f, 1f, 1f);
                 break;
         }
-
-
-        //currentlySelectedItem.
-        //description;
-        //itemBlurb;
-        //itemName;
-        //rarity;
-        //value;
-        //speedmodifier;
-        //healthmodifier;
-        //manamodifier;
-        //dmgmodifier;
-        //defensemodifier;
-        //luckmodifier;
-        //healingAmp;
-        //DamageResistancePercentage;
-        //DamageBonusPercentage;
-        //discountPercentage;
-        //Lifesteal;
-
-
-
 
 
     }

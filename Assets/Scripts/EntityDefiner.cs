@@ -677,8 +677,14 @@ public class EntityDefiner : MonoBehaviour
         MainData.MainLoop.UserInterfaceHelperComponent.PC3 = slot3ref;
         MainData.MainLoop.UserInterfaceHelperComponent.PC4 = slot4ref;
 
+        MainData.MainLoop.UserInterfaceHelperComponent.pc1clickableoverview.associatedCharacter = slot1ref.associatedCharacter;
+        MainData.MainLoop.UserInterfaceHelperComponent.pc2clickableoverview.associatedCharacter = slot2ref.associatedCharacter;
+        MainData.MainLoop.UserInterfaceHelperComponent.pc3clickableoverview.associatedCharacter = slot3ref.associatedCharacter;
+        MainData.MainLoop.UserInterfaceHelperComponent.pc4clickableoverview.associatedCharacter = slot4ref.associatedCharacter;
 
-    }
+
+
+}
 
     public void TestGivePlayerItems()
     {

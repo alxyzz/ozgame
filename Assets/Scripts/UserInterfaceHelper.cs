@@ -229,6 +229,13 @@ public class UserInterfaceHelper : MonoBehaviour
     }
 
 
+
+    public MiniviewClickDetector pc1clickableoverview;
+    public MiniviewClickDetector pc2clickableoverview;
+    public MiniviewClickDetector pc3clickableoverview;
+    public MiniviewClickDetector pc4clickableoverview;
+
+
     public void ToggleTraitInventory()
     {
 
