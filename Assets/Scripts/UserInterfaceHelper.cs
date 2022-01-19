@@ -244,7 +244,7 @@ public class UserInterfaceHelper : MonoBehaviour
             PlayHUD.SetActive(false);
             //display trinkets
             TrinketMenu.RefreshInventory(currChar: TrinketScreenCharacter);
-
+            TrinketMenu.StartAnimatingChar();
 
 
         }
