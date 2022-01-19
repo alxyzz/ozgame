@@ -34,6 +34,7 @@ public class GameManager : MonoBehaviour
         EventLoggingComponent.TMPComponent.text = "";
         PositionHolderComponent.RegisterEnemySpots();
         PositionHolderComponent.RegisterPlayerSpots();
+        PositionHolderComponent.RegisterAllSpots();
 
         EntityDefComponent.DefineTraits();
         EntityDefComponent.DefinePC(); //set up Pcharacter templates
@@ -59,9 +60,10 @@ public class GameManager : MonoBehaviour
         //UserInterfaceHelperComponent.SetCursorTexture();
 
 
+        InitiateCharacterAnimation();
+
         UserInterfaceHelperComponent.ToggleFightButtonVisiblity(false);
         ToggleMainMenu(true);//true for visible, false for not visible
-        DirtyFixStilLSprites();
 
 
 
@@ -77,20 +79,35 @@ public class GameManager : MonoBehaviour
 
     }
 
-    private void DirtyFixStilLSprites()
+
+
+
+
+
+    public void InitiateCharacterAnimation()
     {
-        Character Lion = MainData.livingPlayerParty.Find(e => e.charType == "lion");
-        Lion.selfScriptRef.spriteRenderer.sprite = EntityDefComponent.lionStanding;
-
-        Character Dorothy = MainData.livingPlayerParty.Find(e => e.charType == "dorothy");
-        Dorothy.selfScriptRef.spriteRenderer.sprite = EntityDefComponent.dorothyStanding;
-
-        Character scarecrow = MainData.livingPlayerParty.Find(e => e.charType == "scarecrow");
-        scarecrow.selfScriptRef.spriteRenderer.sprite = EntityDefComponent.scarecrowStanding;
-
-        Character tinguy = MainData.livingPlayerParty.Find(e => e.charType == "tin_man");
-        tinguy.selfScriptRef.spriteRenderer.sprite = EntityDefComponent.tinmanStanding;
+        foreach (Character item in MainData.livingPlayerParty)
+        {
+            Debug.Log("InitiateCharacterAnimation() for player party");
+            item.selfScriptRef.SetupIdleAnimAndStart(); //randomized idle phase variation ftw
+        }
     }
+
+
+    //private void DirtyFixStilLSprites()
+    //{
+    //    Character Lion = MainData.livingPlayerParty.Find(e => e.charType == "lion");
+    //    Lion.selfScriptRef.spriteRenderer.sprite = EntityDefComponent.lionStanding;
+
+    //    Character Dorothy = MainData.livingPlayerParty.Find(e => e.charType == "dorothy");
+    //    Dorothy.selfScriptRef.spriteRenderer.sprite = EntityDefComponent.dorothyStanding;
+
+    //    Character scarecrow = MainData.livingPlayerParty.Find(e => e.charType == "scarecrow");
+    //    scarecrow.selfScriptRef.spriteRenderer.sprite = EntityDefComponent.scarecrowStanding;
+
+    //    Character tinguy = MainData.livingPlayerParty.Find(e => e.charType == "tin_man");
+    //    tinguy.selfScriptRef.spriteRenderer.sprite = EntityDefComponent.tinmanStanding;
+    //}
 
 
     private void ToggleMainMenu(bool togg)//true for visible, false for not visible

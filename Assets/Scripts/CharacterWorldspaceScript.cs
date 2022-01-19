@@ -1,4 +1,6 @@
 ﻿
+using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,10 +21,14 @@ public class CharacterWorldspaceScript : MonoBehaviour
         {
             associatedCharacter.selfScriptRef = this;
         }
+
+
+
     }
 
     public void Die() //visually show character has died
     {
+        ToggleIdle(false);
         associatedCharacter = null;
         spriteRenderer.sprite = null;
         if (isEnemyCharacter)
@@ -40,7 +46,12 @@ public class CharacterWorldspaceScript : MonoBehaviour
         associatedCharacter.baseSpeed = template.baseSpeed;
         associatedCharacter.charAvatar = template.charAvatar;
         associatedCharacter.charName = template.charName;
+
         associatedCharacter.attackAnimation = template.attackAnimation;
+        associatedCharacter.idleSprite = template.idleSprite;
+        associatedCharacter.hurtSprites = template.hurtSprites;
+
+
         associatedCharacter.charTrait = template.charTrait;
         associatedCharacter.charType = template.charType;
         associatedCharacter.selfScriptRef = this;
@@ -78,8 +89,55 @@ public class CharacterWorldspaceScript : MonoBehaviour
 
 
 
+    public void SetupIdleAnimAndStart()
+    {
+        if (!this.isActiveAndEnabled)
+        {
+            Debug.LogWarning(associatedCharacter.charName + " was INACTIVE/DISABLED ON SetupIdleAnimAndStart()");
+            return;
+        }
+        randomIdleness = Random.Range(0.01f, 0.15f);
+        Debug.Log("random for " + associatedCharacter.charName + " is " + randomIdleness);
+        StartCoroutine(InitIdle());
+    }
+
+    IEnumerator InitIdle()
+    {
+        
+        yield return new WaitForSecondsRealtime(randomIdleness);
+        idle = true;
+        StartCoroutine(IdleAnimate());// THIS IS THE ONLY PLACE THIS COROUTINE SHOULD /EVER/ BE STARTED (excluding inside itself) lest we split the time continuum
+    }
 
 
+
+    private float randomIdleness;
+    [HideInInspector]
+    public bool idle = false;
+    private int idleIndex = 0;
+    IEnumerator IdleAnimate()
+    {
+        yield return new WaitUntil(() => idle == true);
+        if (associatedCharacter.idleSprite == null)
+        {
+            StopCoroutine(IdleAnimate());
+        }
+        spriteRenderer.sprite = associatedCharacter.idleSprite[idleIndex];
+        idleIndex++;
+        if (idleIndex == associatedCharacter.idleSprite.Length - 1)
+        {
+            idleIndex = 0;
+        }
+        yield return new WaitForSecondsRealtime(0.12f);
+        StartCoroutine(IdleAnimate());
+    }
+
+
+
+    public void ToggleIdle(bool tog)
+    {
+        idle = tog;
+    }
 
     public void GotClicked()
     {
@@ -92,7 +150,7 @@ public class CharacterWorldspaceScript : MonoBehaviour
         }
         else
         {
-            Debug.Log(this.associatedCharacter.charName + " got clicked and was selected during combat.");
+            //Debug.Log(this.associatedCharacter.charName + " got clicked and was selected during combat.");
             MainData.MainLoop.CombatHelperComponent.activeTarget = this;
             if (!this.isEnemyCharacter)
             {
@@ -197,12 +255,6 @@ public class CharacterWorldspaceScript : MonoBehaviour
             Debug.Log("Associated character null.");
             return;
         }
-        if (associatedCharacter.WalkSprites == null)
-        {
-
-            Debug.Log("Associated character's walksprites null.");
-            return;
-        }
 
 
 
@@ -213,42 +265,37 @@ public class CharacterWorldspaceScript : MonoBehaviour
 
     public void GotHurt()
     {
-        
-
         if (associatedCharacter.hurtSprites != null)
         {
             MainData.MainLoop.EventLoggingComponent.Log("Got hurt, playing animation. At " + associatedCharacter.charName + ".");
             StartCoroutine(HurtAnim());
         }
-        
     }
 
 
     public System.Collections.IEnumerator HurtAnim()
     {
+        Debug.Log(associatedCharacter.hurtSprites);
+        ToggleIdle(false);
+        Debug.Log(associatedCharacter.hurtSprites.Length);
         for (int i = 0; i < associatedCharacter.hurtSprites.Length-1; i++)
         {
             spriteRenderer.sprite = associatedCharacter.hurtSprites[i];
-            yield return new WaitForSeconds(0.01f);
+            yield return new WaitForSeconds(0.04f);
         }
+        ToggleIdle(true);
     }
 
     int counter = 0;
-
-    public System.Collections.IEnumerator WalkAnim()
+    public IEnumerator WalkAnim()
     {
-        spriteRenderer.sprite = associatedCharacter.WalkSprites[counter];
-
-        if (counter < associatedCharacter.WalkSprites.Length)
+        ToggleIdle(false);
+        
+        for (int i = 0; i < associatedCharacter.WalkSprites.Length - 1; i++)
         {
-            counter++;
+            spriteRenderer.sprite = associatedCharacter.WalkSprites[i];
+            yield return new WaitForSeconds(0.04f);
         }
-        else
-        {
-            counter = 0;
-        }
-
-        yield return new WaitForSeconds(0.04f);
         StartCoroutine("WalkAnim");
 
     }
@@ -256,10 +303,9 @@ public class CharacterWorldspaceScript : MonoBehaviour
 
     public void StopWalk()
     {
-        spriteRenderer.sprite = associatedCharacter.standingSprite;
-        Debug.Log("Stopped walking.");
         isWalking = false;
         StopCoroutine("WalkAnim");
+        ToggleIdle(true);
     }
 
 

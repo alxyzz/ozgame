@@ -131,7 +131,7 @@ public class CombatHelper : MonoBehaviour
                 MainData.MainLoop.PassTurn();
                 yield break;
             }
-            if (combatants[i].canAct && !combatants[i].isDead)
+            if (combatants[i].canAct || !combatants[i].isDead)
             {
 
                 //StaticDataHolder.MainLoop.SoundManagerComponent.sfxSource.PlayOneShot(item.turnSound); //plays the character specific noise/vocalization
@@ -455,7 +455,7 @@ public class CombatHelper : MonoBehaviour
     }
     public IEnumerator AttackTargetedEnemy()
     {
-
+        activeCharacterWorldspaceObject.ToggleIdle(false);
         //CurrentlyActiveChar.transform.position = ActiveCharSpot.transform.position; //MOVE CHAR TO SPOT
 
         Character Fool = activeTarget.associatedCharacter;
@@ -554,7 +554,6 @@ public class CombatHelper : MonoBehaviour
             Debug.LogWarning("Could not move " + chara.gameObject.name + ", CurrentlyActiveChar is not null");
             return;
         }
-
         chara.transform.position = ActiveCharSpot.transform.position; //replace this with the sliding thing
 
         //StartCoroutine(SlideTo(chara, ActiveCharSpot.transform.position, activationMovingSpeed, false));
@@ -643,6 +642,7 @@ public class CombatHelper : MonoBehaviour
                 activeCharacterWorldspaceObject.spriteRenderer.sprite = MainData.MainLoop.EntityDefComponent.scarecrowStanding;
                 break;
         }
+        activeCharacterWorldspaceObject.ToggleIdle(true);
 
     }
     public void DoEnemyCharacterTurn(Character npc)
@@ -660,6 +660,7 @@ public class CombatHelper : MonoBehaviour
     }
     public IEnumerator AttackRandomEnemy(CharacterWorldspaceScript chara)
     {
+        chara.ToggleIdle(false);
         List<Character> results = MainData.livingPlayerParty.FindAll(x => x.isDead == false);
         Character Fool = results[Random.Range(0, results.Count)];
 

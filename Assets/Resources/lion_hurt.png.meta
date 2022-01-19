@@ -1,46 +1,55 @@
 fileFormatVersion: 2
-guid: 1dfa7039118fbaa4e809a83e14b90f82
+guid: 074a74c8f351490458bf3e85e97a3246
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5907575002548200114
-    second: scarecrow_hurt_0
+      213: 4241398153354099410
+    second: lion_hurt_0
   - first:
-      213: 2620442580071401283
-    second: scarecrow_hurt_1
+      213: -4020830211267274168
+    second: lion_hurt_1
   - first:
-      213: 2741472061371294142
-    second: scarecrow_hurt_2
+      213: 5178960266798093925
+    second: lion_hurt_2
   - first:
-      213: -7775537982922177886
-    second: scarecrow_hurt_3
+      213: -6721682005119927175
+    second: lion_hurt_3
   - first:
-      213: -9038278613623236547
-    second: scarecrow_hurt_4
+      213: -1171316636886101544
+    second: lion_hurt_4
   - first:
-      213: 4508603615663628374
-    second: scarecrow_hurt_5
+      213: -6949109668598293109
+    second: lion_hurt_5
   - first:
-      213: -1846287787054524191
-    second: scarecrow_hurt_6
+      213: -9193825678266404762
+    second: lion_hurt_6
   - first:
-      213: -3339603778384978263
-    second: scarecrow_hurt_7
+      213: -4691270455482048425
+    second: lion_hurt_7
   - first:
-      213: -2750795332258157901
-    second: scarecrow_hurt_8
+      213: 4112887784953843131
+    second: lion_hurt_8
   - first:
-      213: -4686435128733582847
-    second: scarecrow_hurt_9
+      213: 7336942792925640677
+    second: lion_hurt_9
   - first:
-      213: -6289882840574408678
-    second: scarecrow_hurt_10
+      213: -8154817086456621273
+    second: lion_hurt_10
   - first:
-      213: -7950157847074155951
-    second: scarecrow_hurt_11
+      213: 7671800769568239199
+    second: lion_hurt_11
   - first:
-      213: 9063063496747660229
-    second: scarecrow_hurt_12
+      213: -1220140526414993849
+    second: lion_hurt_12
+  - first:
+      213: -4285504724086542275
+    second: lion_hurt_13
+  - first:
+      213: -2060612789312483869
+    second: lion_hurt_14
+  - first:
+      213: -4003624077511731964
+    second: lion_hurt_15
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -102,7 +111,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 4096
+    maxTextureSize: 8192
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 2
@@ -114,7 +123,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Standalone
-    maxTextureSize: 4096
+    maxTextureSize: 8192
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 2
@@ -128,7 +137,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: scarecrow_hurt_0
+      name: lion_hurt_0
       rect:
         serializedVersion: 2
         x: 0
@@ -142,14 +151,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2b2ecd64a2cebf150800000000000000
-      internalID: 5907575002548200114
+      spriteID: 2da3ba906297cda30800000000000000
+      internalID: 4241398153354099410
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: scarecrow_hurt_1
+      name: lion_hurt_1
       rect:
         serializedVersion: 2
         x: 1420
@@ -163,14 +172,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 347c67394aead5420800000000000000
-      internalID: 2620442580071401283
+      spriteID: 84a5143e9342338c0800000000000000
+      internalID: -4020830211267274168
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: scarecrow_hurt_2
+      name: lion_hurt_2
       rect:
         serializedVersion: 2
         x: 2840
@@ -184,14 +193,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: eb1a1bb905aab0620800000000000000
-      internalID: 2741472061371294142
+      spriteID: 566dc506cec5fd740800000000000000
+      internalID: 5178960266798093925
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: scarecrow_hurt_3
+      name: lion_hurt_3
       rect:
         serializedVersion: 2
         x: 4260
@@ -205,14 +214,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2a2cd5ea66db71490800000000000000
-      internalID: -7775537982922177886
+      spriteID: 97cf0bf44d9c7b2a0800000000000000
+      internalID: -6721682005119927175
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: scarecrow_hurt_4
+      name: lion_hurt_4
       rect:
         serializedVersion: 2
         x: 0
@@ -226,14 +235,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d381afddc75919280800000000000000
-      internalID: -9038278613623236547
+      spriteID: 8d116e289b5aebfe0800000000000000
+      internalID: -1171316636886101544
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: scarecrow_hurt_5
+      name: lion_hurt_5
       rect:
         serializedVersion: 2
         x: 1420
@@ -247,14 +256,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6502ca0d917c19e30800000000000000
-      internalID: 4508603615663628374
+      spriteID: b8d57f9039dcf8f90800000000000000
+      internalID: -6949109668598293109
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: scarecrow_hurt_6
+      name: lion_hurt_6
       rect:
         serializedVersion: 2
         x: 2840
@@ -268,14 +277,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1e8197b2a0ba066e0800000000000000
-      internalID: -1846287787054524191
+      spriteID: 660f010b148f86080800000000000000
+      internalID: -9193825678266404762
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: scarecrow_hurt_7
+      name: lion_hurt_7
       rect:
         serializedVersion: 2
         x: 4260
@@ -289,14 +298,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9ae9fcabe0857a1d0800000000000000
-      internalID: -3339603778384978263
+      spriteID: 75025bb406245eeb0800000000000000
+      internalID: -4691270455482048425
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: scarecrow_hurt_8
+      name: lion_hurt_8
       rect:
         serializedVersion: 2
         x: 0
@@ -310,14 +319,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3ba23fa383633d9d0800000000000000
-      internalID: -2750795332258157901
+      spriteID: bbd873f36a9e31930800000000000000
+      internalID: 4112887784953843131
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: scarecrow_hurt_9
+      name: lion_hurt_9
       rect:
         serializedVersion: 2
         x: 1420
@@ -331,14 +340,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 10a3ce8841076feb0800000000000000
-      internalID: -4686435128733582847
+      spriteID: 5e7f1bde89e02d560800000000000000
+      internalID: 7336942792925640677
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: scarecrow_hurt_10
+      name: lion_hurt_10
       rect:
         serializedVersion: 2
         x: 2840
@@ -352,14 +361,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a18ccb8b1e8d5b8a0800000000000000
-      internalID: -6289882840574408678
+      spriteID: 7279771e01544de80800000000000000
+      internalID: -8154817086456621273
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: scarecrow_hurt_11
+      name: lion_hurt_11
       rect:
         serializedVersion: 2
         x: 4260
@@ -373,14 +382,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1525cd05f8d5ba190800000000000000
-      internalID: -7950157847074155951
+      spriteID: f5eeea92726b77a60800000000000000
+      internalID: 7671800769568239199
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: scarecrow_hurt_12
+      name: lion_hurt_12
       rect:
         serializedVersion: 2
         x: 0
@@ -394,8 +403,71 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5c3347c6b3876cd70800000000000000
-      internalID: 9063063496747660229
+      spriteID: 746e9f2e7a0311fe0800000000000000
+      internalID: -1220140526414993849
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lion_hurt_13
+      rect:
+        serializedVersion: 2
+        x: 1420
+        y: 0
+        width: 1420
+        height: 1368
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d303095b824d684c0800000000000000
+      internalID: -4285504724086542275
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lion_hurt_14
+      rect:
+        serializedVersion: 2
+        x: 2840
+        y: 0
+        width: 1420
+        height: 1368
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3ed0761f59b3763e0800000000000000
+      internalID: -2060612789312483869
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lion_hurt_15
+      rect:
+        serializedVersion: 2
+        x: 4260
+        y: 0
+        width: 1420
+        height: 1368
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 40556b51d154078c0800000000000000
+      internalID: -4003624077511731964
       vertices: []
       indices: 
       edges: []
@@ -403,7 +475,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 9f10487fd5a10e2409266f41d662390f
+    spriteID: 77baffd22a3825c42bc2f19c0b20b8b7
     internalID: 0
     vertices: []
     indices: 
