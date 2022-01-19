@@ -30,7 +30,7 @@ public class GameManager : MonoBehaviour
         MainData.MainLoop = this;
         MainData.SoundManagerRef = SoundManagerComponent;
         //StartLoading(); 
-        EntityDefComponent.LoadSpriteSheets();
+        //EntityDefComponent.LoadSpriteSheets();
         EventLoggingComponent.TMPComponent.text = "";
         PositionHolderComponent.RegisterEnemySpots();
         PositionHolderComponent.RegisterPlayerSpots();
@@ -188,7 +188,6 @@ public class GameManager : MonoBehaviour
         {
             //play new turn sound here
             MainData.turnNumber++;
-            Debug.Log("Turn " + MainData.turnNumber.ToString());
             EventLoggingComponent.LogDanger("Start of turn " + MainData.turnNumber.ToString() + ".");
             ProcStatusEffects(); //burns, poison, etc. Ticks down the duration left by one, too
 

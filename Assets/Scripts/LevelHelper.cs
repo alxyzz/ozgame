@@ -21,7 +21,7 @@ public class LevelHelper : MonoBehaviour
     public float distanceWalked = 0;//shows how much we've physically advanced in the current level
     public float maximumDistance = 1500; //maximum distance before the level fades to black and you go on the overmap
     [Space(15)]
-    private bool isAtVendor = false;
+    //private bool isAtVendor = false;
     public bool EncountersPaused = false;
     public GameObject ButtonMoveOn;
 

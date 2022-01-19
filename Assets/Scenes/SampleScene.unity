@@ -10506,7 +10506,7 @@ MonoBehaviour:
   UncommonColor: {r: 0.85844606, g: 0.9528302, b: 0.87069815, a: 1}
   RareColor: {r: 0.754717, g: 0.6775995, b: 0.3737985, a: 1}
   MasterworkColor: {r: 0.1981132, g: 0.047659304, b: 0.17723076, a: 1}
-  GenericColor: {r: 0.23584908, g: 0.23584908, b: 0.23584908, a: 1}
+  GenericColor: {r: 0.23584908, g: 0.23584908, b: 0.23584908, a: 0}
 --- !u!114 &462129124
 MonoBehaviour:
   m_ObjectHideFlags: 0
