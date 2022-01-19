@@ -114,13 +114,15 @@ public class TrinketMenuHandler : MonoBehaviour
         for (int i = 0; i < BagSlots.Count; i++)
         {
             BagSlots[i].selfImage.sprite = null; //cleans them all first
-            BagSlots[i].background.color = Color.black;
+            BagSlots[i].selfImage.color = MainData.MainLoop.TweakingComponent.GenericColor; //so its invisible
+            BagSlots[i].background.color = MainData.MainLoop.TweakingComponent.GenericColor;
         }
 
         for (int i = 0; i < EquippedSlots.Count; i++)
         {
             EquippedSlots[i].selfImage.sprite = null; //cleans them all first
-            EquippedSlots[i].background.color = Color.black;
+            EquippedSlots[i].selfImage.color =  MainData.MainLoop.TweakingComponent.GenericColor;
+            EquippedSlots[i].background.color = MainData.MainLoop.TweakingComponent.GenericColor;
         }
 
 
@@ -131,6 +133,7 @@ public class TrinketMenuHandler : MonoBehaviour
                 BagSlots[i].associatedItem = MainData.equipmentInventory[i];
                 Debug.Log("changed backpack slot image");
                 BagSlots[i].selfImage.sprite = BagSlots[i].associatedItem.itemSprite;
+                BagSlots[i].selfImage.color = Color.white;
 
                 switch (BagSlots[i].associatedItem.rarity)
                 {
@@ -166,6 +169,7 @@ public class TrinketMenuHandler : MonoBehaviour
                     Debug.Log("populated equipped slot " + b); itemsInInv++;
                     EquippedSlots[b].associatedItem = MainData.MainLoop.UserInterfaceHelperComponent.TrinketScreenCharacter.equippedItems[b];
                     EquippedSlots[b].selfImage.sprite = MainData.MainLoop.UserInterfaceHelperComponent.TrinketScreenCharacter.equippedItems[b].itemSprite;
+                    EquippedSlots[b].selfImage.color = Color.white;
                     switch (EquippedSlots[b].associatedItem.rarity)
                     {
                         case "common":
@@ -180,7 +184,6 @@ public class TrinketMenuHandler : MonoBehaviour
                         case "masterwork":
                             EquippedSlots[b].background.color = MainData.MainLoop.TweakingComponent.MasterworkColor;
                             break;
-
                         default:
                             EquippedSlots[b].background.color = MainData.MainLoop.TweakingComponent.GenericColor;
                             break;

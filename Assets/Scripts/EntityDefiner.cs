@@ -950,7 +950,7 @@ public class EntityDefiner : MonoBehaviour
         public string itemName;
         public Sprite itemSprite;
 
-        public string rarity;
+        public string rarity;//common, uncommon, rare, masterwork. that's it
         public int value;
         public int amtInStock; // standard amount in stock, duh. This is for the shop.
         public int itemQuantity; // quantity of items held. for potion mostly. or bombs. etc. consumables. Or perhaps en enchanted sword with limited amount of shots.
