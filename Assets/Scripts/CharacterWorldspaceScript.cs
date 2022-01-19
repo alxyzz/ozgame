@@ -50,7 +50,7 @@ public class CharacterWorldspaceScript : MonoBehaviour
         associatedCharacter.attackAnimation = template.attackAnimation;
         associatedCharacter.idleSprite = template.idleSprite;
         associatedCharacter.hurtSprites = template.hurtSprites;
-
+        associatedCharacter.WalkSprites = template.WalkSprites;
 
         associatedCharacter.charTrait = template.charTrait;
         associatedCharacter.charType = template.charType;
@@ -96,7 +96,7 @@ public class CharacterWorldspaceScript : MonoBehaviour
             Debug.LogWarning(associatedCharacter.charName + " was INACTIVE/DISABLED ON SetupIdleAnimAndStart()");
             return;
         }
-        randomIdleness = Random.Range(0.01f, 0.15f);
+        randomIdleness = Random.Range(0.00f, 1.2f);
         Debug.Log("random for " + associatedCharacter.charName + " is " + randomIdleness);
         StartCoroutine(InitIdle());
     }
@@ -267,7 +267,6 @@ public class CharacterWorldspaceScript : MonoBehaviour
     {
         if (associatedCharacter.hurtSprites != null)
         {
-
             StartCoroutine(HurtAnim());
         }
     }
@@ -286,7 +285,6 @@ public class CharacterWorldspaceScript : MonoBehaviour
         ToggleIdle(true);
     }
 
-    int counter = 0;
     public IEnumerator WalkAnim()
     {
         ToggleIdle(false);
@@ -294,7 +292,7 @@ public class CharacterWorldspaceScript : MonoBehaviour
         for (int i = 0; i < associatedCharacter.WalkSprites.Length - 1; i++)
         {
             spriteRenderer.sprite = associatedCharacter.WalkSprites[i];
-            yield return new WaitForSeconds(0.04f);
+            yield return new WaitForSeconds(0.8f);
         }
         StartCoroutine("WalkAnim");
 

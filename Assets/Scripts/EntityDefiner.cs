@@ -182,32 +182,33 @@ public class EntityDefiner : MonoBehaviour
 
     }
 
-    public void LoadSpriteSheets()
-    {
-        //monkeyAttackSheet = Resources.LoadAll<Sprite>("Monkey_attack_sheet");
-        //monkeyHurtSheet = Resources.LoadAll<Sprite>("Monkey_hurt_sheet");
-        //monkeyIdleSheet = Resources.LoadAll<Sprite>("monkey_idle");
+    //public void LoadSpriteSheets()
+    //{
+    //    //monkeyAttackSheet = Resources.LoadAll<Sprite>("Monkey_attack_sheet");
+    //    //monkeyHurtSheet = Resources.LoadAll<Sprite>("Monkey_hurt_sheet");
+    //    //monkeyIdleSheet = Resources.LoadAll<Sprite>("monkey_idle");
 
-        //scarecrowAttackSheet = Resources.LoadAll<Sprite>("scarecrow_attack");
-        //scarecrowWalk_Sheet = Resources.LoadAll<Sprite>("scarecrow_walk");
-        //scarecrowHurtSheet = Resources.LoadAll<Sprite>("scarecrow_hurt");
-        //scarecrowIdleSheet = Resources.LoadAll<Sprite>("scarecrow_idle");
+    //    //scarecrowAttackSheet = Resources.LoadAll<Sprite>("scarecrow_attack");
+    //    //scarecrowWalk_Sheet = Resources.LoadAll<Sprite>("scarecrow_walk");
+    //    //scarecrowHurtSheet = Resources.LoadAll<Sprite>("scarecrow_hurt");
+    //    //scarecrowIdleSheet = Resources.LoadAll<Sprite>("scarecrow_idle");
 
-        //tinmanAttackSheet = Resources.LoadAll<Sprite>("tinman_attack");
-        //tinmanWalkSheet = Resources.LoadAll<Sprite>("tinman_walk");
-        //tinmanHurtSheet = Resources.LoadAll<Sprite>("tinman_hurt");
-        //tinmanIdleSheet = Resources.LoadAll<Sprite>("tinman_idle");
+    //    //tinmanAttackSheet = Resources.LoadAll<Sprite>("tinman_attack");
+    //    //tinmanWalkSheet = Resources.LoadAll<Sprite>("tinman_walk");
+    //    //tinmanHurtSheet = Resources.LoadAll<Sprite>("tinman_hurt");
+    //    //tinmanIdleSheet = Resources.LoadAll<Sprite>("tinman_idle");
 
-        //lionAttackSheet = Resources.LoadAll<Sprite>("lion_attack");
-        //lionWalkSheet = Resources.LoadAll<Sprite>("lion_walk");
-        //lionHurtSheet = Resources.LoadAll<Sprite>("lion_hurt");
-        //lionIdleSheet = Resources.LoadAll<Sprite>("lion_idle");
+    //    //lionAttackSheet = Resources.LoadAll<Sprite>("lion_attack");
+    //    //lionWalkSheet = Resources.LoadAll<Sprite>("lion_walk");
+    //    //lionHurtSheet = Resources.LoadAll<Sprite>("lion_hurt");
+    //    //lionIdleSheet = Resources.LoadAll<Sprite>("lion_idle");
 
-        //dorothyAttackSheet = Resources.LoadAll<Sprite>("dorothy_attack");
-        //dorothyWalkSheet = Resources.LoadAll<Sprite>("dorothy_walk");
-        //dorothyHurtSheet = Resources.LoadAll<Sprite>("dorothy_hurt");
-        //dorothyIdleSheet = Resources.LoadAll<Sprite>("dorothy_idle");
-    }
+    //    //dorothyAttackSheet = Resources.LoadAll<Sprite>("dorothy_attack");
+    //    //dorothyWalkSheet = Resources.LoadAll<Sprite>("dorothy_walk");
+    //    //dorothyHurtSheet = Resources.LoadAll<Sprite>("dorothy_hurt");
+    //    //dorothyIdleSheet = Resources.LoadAll<Sprite>("dorothy_idle");
+    //}
+
     public Item FetchRandomItem()
     {//fetches a random t1 trait
         List<string> keyList = new List<string>(allConsumables.Keys);
@@ -950,7 +951,7 @@ public class EntityDefiner : MonoBehaviour
         public string itemName;
         public Sprite itemSprite;
 
-        public string rarity;
+        public string rarity;//common, uncommon, rare, masterwork. that's it
         public int value;
         public int amtInStock; // standard amount in stock, duh. This is for the shop.
         public int itemQuantity; // quantity of items held. for potion mostly. or bombs. etc. consumables. Or perhaps en enchanted sword with limited amount of shots.

@@ -13,8 +13,6 @@ public class TrinketMenuHandler : MonoBehaviour
     public int itemsInBag = 0;
     public int itemsInInv = 0;
     public List<InventoryEqObject> EquippedSlots = new List<InventoryEqObject>(); //this is where we put all the items that we can equip
-    private int itemCount = 0;
-    private int lastItemCount = 0;
     //selected item
     public Item currentlySelectedItem;
     public TextMeshProUGUI ItemDesc;
@@ -114,13 +112,15 @@ public class TrinketMenuHandler : MonoBehaviour
         for (int i = 0; i < BagSlots.Count; i++)
         {
             BagSlots[i].selfImage.sprite = null; //cleans them all first
-            BagSlots[i].background.color = Color.black;
+            BagSlots[i].selfImage.color = MainData.MainLoop.TweakingComponent.GenericColor; //so its invisible
+            BagSlots[i].background.color = MainData.MainLoop.TweakingComponent.GenericColor;
         }
 
         for (int i = 0; i < EquippedSlots.Count; i++)
         {
             EquippedSlots[i].selfImage.sprite = null; //cleans them all first
-            EquippedSlots[i].background.color = Color.black;
+            EquippedSlots[i].selfImage.color =  MainData.MainLoop.TweakingComponent.GenericColor;
+            EquippedSlots[i].background.color = MainData.MainLoop.TweakingComponent.GenericColor;
         }
 
 
@@ -131,6 +131,7 @@ public class TrinketMenuHandler : MonoBehaviour
                 BagSlots[i].associatedItem = MainData.equipmentInventory[i];
                 Debug.Log("changed backpack slot image");
                 BagSlots[i].selfImage.sprite = BagSlots[i].associatedItem.itemSprite;
+                BagSlots[i].selfImage.color = Color.white;
 
                 switch (BagSlots[i].associatedItem.rarity)
                 {
@@ -166,6 +167,7 @@ public class TrinketMenuHandler : MonoBehaviour
                     Debug.Log("populated equipped slot " + b); itemsInInv++;
                     EquippedSlots[b].associatedItem = MainData.MainLoop.UserInterfaceHelperComponent.TrinketScreenCharacter.equippedItems[b];
                     EquippedSlots[b].selfImage.sprite = MainData.MainLoop.UserInterfaceHelperComponent.TrinketScreenCharacter.equippedItems[b].itemSprite;
+                    EquippedSlots[b].selfImage.color = Color.white;
                     switch (EquippedSlots[b].associatedItem.rarity)
                     {
                         case "common":
@@ -180,7 +182,6 @@ public class TrinketMenuHandler : MonoBehaviour
                         case "masterwork":
                             EquippedSlots[b].background.color = MainData.MainLoop.TweakingComponent.MasterworkColor;
                             break;
-
                         default:
                             EquippedSlots[b].background.color = MainData.MainLoop.TweakingComponent.GenericColor;
                             break;
@@ -320,37 +321,37 @@ public class TrinketMenuHandler : MonoBehaviour
 
 
         if (currentlySelectedItem.speedmodifier != 0)
-            Bonuses += currentlySelectedItem.speedmodifier + " Speed \n";
+            Bonuses += "+" + currentlySelectedItem.speedmodifier + " Speed \n";
 
         if (currentlySelectedItem.healthmodifier != 0)
-            Bonuses += currentlySelectedItem.healthmodifier + "Health Bonus\n";
+            Bonuses += "+" + currentlySelectedItem.healthmodifier + "Health\n";
 
         if (currentlySelectedItem.manamodifier != 0)
-            Bonuses += currentlySelectedItem.manamodifier + " mana \n";
+            Bonuses += "+" + currentlySelectedItem.manamodifier + " Mana\n";
 
         if (currentlySelectedItem.dmgmodifier != 0)
-            Bonuses += currentlySelectedItem.dmgmodifier + " dmg \n";
+            Bonuses += "+" +currentlySelectedItem.dmgmodifier + " Damage\n";
 
         if (currentlySelectedItem.defensemodifier != 0)
-            Bonuses += currentlySelectedItem.defensemodifier + " Defense \n";
+            Bonuses += "+" + currentlySelectedItem.defensemodifier + " Defense\n";
 
         if (currentlySelectedItem.luckmodifier != 0)
-            Bonuses += currentlySelectedItem.luckmodifier + " Luck \n";
+            Bonuses += "+" + currentlySelectedItem.luckmodifier + " Luck\n";
 
         if (currentlySelectedItem.healingAmp != 0)
-            Bonuses += currentlySelectedItem.healingAmp + " Healing Amplification \n";
+            Bonuses += "+" + currentlySelectedItem.healingAmp + " Healing Amplification\n";
 
         if (currentlySelectedItem.DamageResistancePercentage != 0)
-            Bonuses += currentlySelectedItem.DamageResistancePercentage + " Damage Resistance \n";
+            Bonuses += "+" + currentlySelectedItem.DamageResistancePercentage + " Damage Resistance\n";
 
         if (currentlySelectedItem.DamageBonusPercentage != 0)
-            Bonuses += currentlySelectedItem.DamageBonusPercentage + " Damage Amplification \n";
+            Bonuses += "+" + currentlySelectedItem.DamageBonusPercentage + " Damage Amplification\n";
 
         if (currentlySelectedItem.discountPercentage != 0)
-            Bonuses += currentlySelectedItem.discountPercentage + " Discount \n";
+            Bonuses += "+" + currentlySelectedItem.discountPercentage + " Discount\n";
 
         if (currentlySelectedItem.Lifesteal != 0)
-            Bonuses += currentlySelectedItem.Lifesteal + " Lifesteal \n";
+            Bonuses += "+" + currentlySelectedItem.Lifesteal + " Lifesteal\n";
 
         ItemBonuses.text = Bonuses;
 
