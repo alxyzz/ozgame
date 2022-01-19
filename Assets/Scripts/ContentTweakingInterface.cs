@@ -55,8 +55,13 @@ public class ContentTweakingInterface : MonoBehaviour
     public int flyingMonkeySpeed = 0;
     public int flyingMonkeyLuck = 0;
     public int flyingMonkeyDefense = 0;
-
-
+    [Space(5)]
+    [Header("ItemColors")]
+    public Color CommonColor;
+    public Color UncommonColor;
+    public Color RareColor;
+    public Color MasterworkColor;
+    public Color GenericColor;
 
 
 

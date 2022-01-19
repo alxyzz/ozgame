@@ -8,7 +8,7 @@ public class InventoryEqObject : MonoBehaviour, IPointerDownHandler
 {
     public EntityDefiner.Item associatedItem;
     public Image selfImage;
-
+    public Image background; 
     public void OnPointerDown(PointerEventData eventData)
     {
         if (associatedItem != null && !MainData.MainLoop.InventoryHelperComponent.coolDown)

@@ -8,6 +8,7 @@ public class InventoryBagObject : MonoBehaviour, IPointerDownHandler
 {
     public EntityDefiner.Item associatedItem;
     public Image selfImage; //starts as null, this button is not very confident...
+    public Image background; 
 
 
     public void OnPointerDown(PointerEventData eventData)
