@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class MiniviewClickDetector : MonoBehaviour, IPointerClickHandler
-    
+public class MiniviewClickDetector : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
+
 {
 
     [HideInInspector]
@@ -23,4 +23,19 @@ public class MiniviewClickDetector : MonoBehaviour, IPointerClickHandler
         
     }
 
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        MainData.MainLoop.UserInterfaceHelperComponent.TraitToolTip.SetActive(true);
+        if (associatedCharacter.charTrait != null)
+        {
+            MainData.MainLoop.UserInterfaceHelperComponent.RefreshToolTip(associatedCharacter);
+        }
+       
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        MainData.MainLoop.UserInterfaceHelperComponent.TraitToolTip.SetActive(false);
+
+    }
 }

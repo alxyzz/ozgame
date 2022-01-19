@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using static EntityDefiner;
 using static LevelHelper;
+using static TraitHelper;
 
 public class UserInterfaceHelper : MonoBehaviour
 {
@@ -165,12 +166,40 @@ public class UserInterfaceHelper : MonoBehaviour
     [Space(5)]
     public Texture2D cursornormal;
     public Texture2D cursorpressed;
+    [Space(5)]
+    public GameObject TraitToolTip;
+    public TextMeshProUGUI ToolTipTraitName;
+    public TextMeshProUGUI ToolTipTraitDescription;
+    public Image ToolTipTraitImage;
 
 
 
 
 
 
+    public void RefreshToolTip(Character c = null)
+    {
+        ToolTipTraitName.text = c.charName +" the "+ c.charTrait.adjective;
+        if (c.charTrait == null)
+        {
+            ToolTipTraitDescription.text = "";
+            ToolTipTraitImage.sprite = null;
+        }
+        else
+        {
+            ToolTipTraitDescription.text = c.charTrait.traitDescription;
+            if (c.charTrait.traitSprite != null)
+            {
+                ToolTipTraitImage.gameObject.SetActive(true);
+                ToolTipTraitImage.sprite = c.charTrait.traitSprite;
+            }
+            else
+            {
+                ToolTipTraitImage.gameObject.SetActive(false);
+            }
+            
+        }
+    }
 
 
 
@@ -224,6 +253,7 @@ public class UserInterfaceHelper : MonoBehaviour
             //click sound.
             TrinketMenu.gameObject.SetActive(false);
             TrinketMenu.currentlySelectedItem = null;
+            TrinketMenu.StopAllCoroutines();
             PlayHUD.SetActive(true);
         }
     }

@@ -265,11 +265,11 @@ public class CharacterWorldspaceScript : MonoBehaviour
 
     public void GotHurt()
     {
-       // if (associatedCharacter.hurtSprites != null)
-        //{
+        if (associatedCharacter.hurtSprites != null)
+        {
             MainData.MainLoop.EventLoggingComponent.Log("Got hurt, playing animation. At " + associatedCharacter.charName + ".");
             StartCoroutine(HurtAnim());
-       // }
+        }
     }
 
 
@@ -278,7 +278,7 @@ public class CharacterWorldspaceScript : MonoBehaviour
         Debug.Log(associatedCharacter.hurtSprites);
         ToggleIdle(false);
         Debug.Log(associatedCharacter.hurtSprites.Length);
-        for (int i = 0; i < associatedCharacter.hurtSprites.Length-2; i++)
+        for (int i = 0; i < associatedCharacter.hurtSprites.Length-1; i++)
         {
             spriteRenderer.sprite = associatedCharacter.hurtSprites[i];
             yield return new WaitForSeconds(0.04f);
@@ -290,17 +290,12 @@ public class CharacterWorldspaceScript : MonoBehaviour
     public IEnumerator WalkAnim()
     {
         ToggleIdle(false);
-        spriteRenderer.sprite = associatedCharacter.WalkSprites[counter];
-
-        if (counter < associatedCharacter.WalkSprites.Length-2)
+        
+        for (int i = 0; i < associatedCharacter.WalkSprites.Length - 1; i++)
         {
-            counter++;
+            spriteRenderer.sprite = associatedCharacter.WalkSprites[i];
+            yield return new WaitForSeconds(0.04f);
         }
-        else
-        {
-            counter = 0;
-        }
-        yield return new WaitForSeconds(0.04f);
         StartCoroutine("WalkAnim");
 
     }

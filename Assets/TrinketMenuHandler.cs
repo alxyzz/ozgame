@@ -152,8 +152,26 @@ public class TrinketMenuHandler : MonoBehaviour
         {
             return;
         }
-        CharacterImage.sprite = MainData.MainLoop.UserInterfaceHelperComponent.TrinketScreenCharacter.standingSprite;
+       // CharacterImage.sprite = MainData.MainLoop.UserInterfaceHelperComponent.TrinketScreenCharacter.standingSprite;
         CharName.text = MainData.MainLoop.UserInterfaceHelperComponent.TrinketScreenCharacter.charName;
+        StartCoroutine(AnimateTrinketChar());
+
+
+
+    }
+
+    private int spriteIndex = 0;
+    IEnumerator AnimateTrinketChar()
+    {
+
+        CharacterImage.sprite = MainData.MainLoop.UserInterfaceHelperComponent.TrinketScreenCharacter.idleSprite[spriteIndex];
+        if (spriteIndex == MainData.MainLoop.UserInterfaceHelperComponent.TrinketScreenCharacter.idleSprite.Length-1)
+        {
+            spriteIndex = 0;
+        }
+        spriteIndex++;
+        yield return new WaitForSecondsRealtime(0.1f);
+        StartCoroutine(AnimateTrinketChar());
 
     }
 

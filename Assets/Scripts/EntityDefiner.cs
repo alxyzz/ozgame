@@ -792,18 +792,16 @@ public class EntityDefiner : MonoBehaviour
                                    "Caring", //name
                                    "Caring", //adjective given to characters with this
                                    "The power which lies in the heart is not to be underestimated.", // blurb. wax poetic here as much as you want
-                                   "Passive: Healing potions are less effective on this character. Active: [<color=#45BA3D >Heal</color>] Heals an ally for 50% HP.", //functional description
+                                   "Passive: Healing potions are less effective on this character.\nActive: <color=#45BA3D>Heal</color> Heals an ally for 50% HP.", //functional description
                                    null, //sprite
                                    false); //false = t1. true = t2.
                                            //gets automatically sent to the desired trait list upon generation, in the constructor
-
-
 
         Trait t2 = new Trait("wrath", //string ID
                                    "Wrath", //name
                                    "Wrathful", //adjective given to characters with this
                                    "wrath stuff", // blurb. wax poetic here as much as you want
-                                   "Passive: Healing potions are less effective on this character. Active: [<color=#45BA3D >Heal</color>] Heals an ally for 50% HP.", //functional description
+                                   "Passive:  Increased damage, lower defense.\nActive: <color=#F87777>Double Strike</color> Attacks twice.", //functional description
                                    null, //sprite
                                    false); //false = t1. true = t2.
         //gets automatically sent to the desired trait list upon generation, in the constructor
@@ -812,7 +810,7 @@ public class EntityDefiner : MonoBehaviour
                                    "Greed", //name
                                    "Greedy", //adjective given to characters with this
                                    "greed stuff", // blurb. wax poetic here as much as you want
-                                   "Passive: Healing potions are less effective on this character. Active: [<color=#45BA3D >Heal</color>] Heals an ally for 50% HP.", //functional description
+                                   "Passive: 10% loot bonus when completing a battle.\nActive: <color=#E8BE0D>Barter</color> Exchange some HP for gold during a battle", //functional description
                                    null, //sprite
                                    false); //false = t1. true = t2.
         //gets automatically sent to the desired trait list upon generation, in the constructor
@@ -821,7 +819,7 @@ public class EntityDefiner : MonoBehaviour
                                    "Anger", //name
                                    "Angry", //adjective given to characters with this
                                    "anger stuff.", // blurb. wax poetic here as much as you want
-                                   "Passive: Healing potions are less effective on this character. Active: [<color=#45BA3D >Heal</color>] Heals an ally for 50% HP.", //functional description
+                                   "Passive: Taking damage increases the power of this unit’s next attack.\nActive: <color=#FF2C22>Lash out</color> Heals an ally for 50% HP.", //functional description
                                    null, //sprite
                                    false); //false = t1. true = t2.
         //gets automatically sent to the desired trait list upon generation, in the constructor
