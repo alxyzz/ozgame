@@ -481,7 +481,7 @@ public class EntityDefiner : MonoBehaviour
         {
             int x = UnityEngine.Random.Range(0, freeEnemyPartyMemberObjects.Count); //random spot
 
-            MainData.MainLoop.EventLoggingComponent.LogDanger("Spawned enemy using spot at freeEnemyPartyMemberObjects[" + x.ToString() + "].");
+            //MainData.MainLoop.EventLoggingComponent.LogDanger("Spawned enemy using spot at freeEnemyPartyMemberObjects[" + x.ToString() + "].");
             GameObject f = freeEnemyPartyMemberObjects[x]; //we get a random, inactive enemy spot
             freeEnemyPartyMemberObjects.RemoveAt(x); //we remove the spot from the inactive/free enemy spot list
             usedEnemyPartyMemberObjects.Add(f); //track usage...
@@ -626,13 +626,13 @@ public class EntityDefiner : MonoBehaviour
 
         //get random trait
         //nonrepeating
-        foreach (Character item in MainData.livingPlayerParty)
-        {
+        //foreach (Character item in MainData.livingPlayerParty)
+        //{
 
 
 
 
-        }
+        //}
 
 
         MainData.MainLoop.UserInterfaceHelperComponent.PC1 = slot1ref;
@@ -646,7 +646,12 @@ public class EntityDefiner : MonoBehaviour
         MainData.MainLoop.UserInterfaceHelperComponent.pc4clickableoverview.associatedCharacter = slot4ref.associatedCharacter;
 
 
-
+        foreach (Character item in MainData.livingPlayerParty)
+        {
+            item.RecalculateStatsFromTraits();
+            //item.RecalculateStatsFromItems(); this is done when we attack or use the stat in most cases, using either GetCompoundSpeed() or such, or a foreach loop looking into the items
+            item.RecalculateThreatFromStats();
+        }
     }
 
     public void TestGivePlayerItems()
@@ -1183,6 +1188,7 @@ public class EntityDefiner : MonoBehaviour
                             damageMax -= MainData.MainLoop.TweakingComponent.caringPassiveDamageMalus;
                             damageMin -= MainData.MainLoop.TweakingComponent.caringPassiveDamageMalus;
                             maxHealth += MainData.MainLoop.TweakingComponent.caringPassiveHealthBonus;
+                            currentHealth += MainData.MainLoop.TweakingComponent.caringPassiveHealthBonus;
                             charTrait.hasAppliedStats = true;
                         }
                         break;
@@ -1342,7 +1348,7 @@ public class EntityDefiner : MonoBehaviour
             {
                 defense = 0;
             }
-            MainData.MainLoop.EventLoggingComponent.Log("damage without modifiers - " + (damageRoll - damagemod) + ", defense without modifiers " + (defense - defensemod));
+            //MainData.MainLoop.EventLoggingComponent.Log("damage without modifiers - " + (damageRoll - damagemod) + ", defense without modifiers " + (defense - defensemod));
             MainData.MainLoop.EventLoggingComponent.Log(attacker.charName + " " + attacker.attackverb + " the " + charName + " for " + (damageRoll + defense) + " damage. Armor protects for " + defense + " damage!");
 
 
@@ -1382,9 +1388,6 @@ public class EntityDefiner : MonoBehaviour
 
 
             MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(damageRoll, this, false);
-
-            selfScriptRef.GotHurt();
-
             int damageMult = 0;
             int damageResist = 0;
             if (attacker.equippedItems.FindIndex(f => f.DamageBonusPercentage > 0) != -1) //it returns -1 if none are found

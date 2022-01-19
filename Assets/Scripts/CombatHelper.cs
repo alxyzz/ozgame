@@ -279,12 +279,12 @@ public class CombatHelper : MonoBehaviour
 
         if (!activeCharacterWorldspaceObject.associatedCharacter.charTrait.forceCooldown && (activeCharacterWorldspaceObject.associatedCharacter.mana >= activeCharacterWorldspaceObject.associatedCharacter.charTrait.manaCost))
         {
-            switch (activeCharacterWorldspaceObject.associatedCharacter.charTrait.traitName)
+            switch (activeCharacterWorldspaceObject.associatedCharacter.charTrait.identifier)
             {
                 case "caring"://so yeah this is where active traits go
                     //heal target. allied target.
-                    if (activeTarget = null) { return; }
-                    if (activeTarget.associatedCharacter = null) { return; }
+                    if (activeTarget == null) { return; }
+                    if (activeTarget.associatedCharacter == null) { return; }
 
                     if (activeTarget.associatedCharacter.isPlayerPartyMember)
                     {
@@ -301,6 +301,7 @@ public class CombatHelper : MonoBehaviour
                             activeTarget.associatedCharacter.GainHealth(gameloop.TweakingComponent.caringActiveHealing);
                             gameloop.EventLoggingComponent.Log(activeCharacterWorldspaceObject.associatedCharacter.charName + "'s caring nature mends " + activeTarget.associatedCharacter.charName + "'s wounds!");
                             activeCharacterWorldspaceObject.associatedCharacter.mana -= activeCharacterWorldspaceObject.associatedCharacter.charTrait.manaCost;
+                            activeTarget.associatedCharacter.GainHealth(MainData.MainLoop.TweakingComponent.caringActiveHealing);
                             EndCurrentTurn();
                         }
 
@@ -332,8 +333,8 @@ public class CombatHelper : MonoBehaviour
 
                 case "angry":
                     //Lash out for massive damage.
-                    if (activeTarget = null) { return; }
-                    if (activeTarget.associatedCharacter = null) { return; }
+                    if (activeTarget == null) { return; }
+                    if (activeTarget.associatedCharacter == null) { return; }
                     activeCharacterWorldspaceObject.associatedCharacter.damageMax -= gameloop.TweakingComponent.angryActiveDamageMalus;
                     activeCharacterWorldspaceObject.associatedCharacter.damageMin -= gameloop.TweakingComponent.angryActiveDamageMalus;
                     gameloop.EventLoggingComponent.Log(activeCharacterWorldspaceObject.associatedCharacter.charName + " lashes out! " + activeTarget.associatedCharacter.charName + " takes " + gameloop.TweakingComponent.angryActivePowerDamage + " damage!");
@@ -341,7 +342,18 @@ public class CombatHelper : MonoBehaviour
                     EndCurrentTurn();
 
                     break;
+                case "wrath":
+                    //double attack
+                    if (activeTarget == null) { return; }
+                    if (activeTarget.associatedCharacter == null) { return; }
+                    activeCharacterWorldspaceObject.associatedCharacter.damageMax -= gameloop.TweakingComponent.angryActiveDamageMalus; //permanent damage loss
+                    activeCharacterWorldspaceObject.associatedCharacter.damageMin -= gameloop.TweakingComponent.angryActiveDamageMalus;
+                    gameloop.EventLoggingComponent.Log(activeCharacterWorldspaceObject.associatedCharacter.charName + " wrathful nature provokes a double attack!");
+                    activeTarget.associatedCharacter.TakeDamageFromCharacter(activeCharacterWorldspaceObject.associatedCharacter);
+                    activeTarget.associatedCharacter.TakeDamageFromCharacter(activeCharacterWorldspaceObject.associatedCharacter);
+                    EndCurrentTurn();
 
+                    break;
 
 
                 default:
@@ -483,9 +495,12 @@ public class CombatHelper : MonoBehaviour
 
         yield return new WaitForSeconds(0.1f);
 
-        ReturnFromActiveSpot();
-        activeCharacterWorldspaceObject.associatedCharacter.hasActedThisTurn = true;
-        EndCurrentTurn();
+            ReturnFromActiveSpot();
+            activeCharacterWorldspaceObject.associatedCharacter.hasActedThisTurn = true;
+            EndCurrentTurn();
+        
+
+
 
     }
     private void ToggleCombatButtomVisibility(bool togg)

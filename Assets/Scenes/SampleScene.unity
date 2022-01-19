@@ -10502,6 +10502,11 @@ MonoBehaviour:
   flyingMonkeySpeed: 4
   flyingMonkeyLuck: 1
   flyingMonkeyDefense: 1
+  CommonColor: {r: 0.8113208, g: 0.8113208, b: 0.8113208, a: 0}
+  UncommonColor: {r: 0.85844606, g: 0.9528302, b: 0.87069815, a: 0}
+  RareColor: {r: 0.754717, g: 0.6775995, b: 0.3737985, a: 0}
+  MasterworkColor: {r: 0.1981132, g: 0.047659304, b: 0.17723076, a: 0}
+  GenericColor: {r: 0.5283019, g: 0.5283019, b: 0.5283019, a: 0}
 --- !u!114 &462129124
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25633,6 +25638,8 @@ MonoBehaviour:
   - {fileID: 1588728545}
   - {fileID: 795880930}
   - {fileID: 1375178653}
+  itemsInBag: 0
+  itemsInInv: 0
   EquippedSlots:
   - {fileID: 2081084613}
   - {fileID: 2003533402}

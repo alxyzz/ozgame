@@ -10,6 +10,8 @@ public class TrinketMenuHandler : MonoBehaviour
     private TextMeshProUGUI currentCharacterStatistics;
 
     public List<InventoryBagObject> BagSlots = new List<InventoryBagObject>(); //this is where we put all the items that we can equip
+    public int itemsInBag = 0;
+    public int itemsInInv = 0;
     public List<InventoryEqObject> EquippedSlots = new List<InventoryEqObject>(); //this is where we put all the items that we can equip
     private int itemCount = 0;
     private int lastItemCount = 0;
@@ -49,6 +51,10 @@ public class TrinketMenuHandler : MonoBehaviour
                 return;
             }
 
+            if (itemsInBag == 33)
+            {//max items
+                return;
+            }
             //we take the item from the character's inventory, and move it to the main inventory
             MainData.MainLoop.UserInterfaceHelperComponent.TrinketScreenCharacter.equippedItems.Remove(CharItem.associatedItem);
             Debug.LogWarning("Removed from player inventory - " + CharItem.associatedItem.itemName);
@@ -65,7 +71,10 @@ public class TrinketMenuHandler : MonoBehaviour
                 Debug.LogWarning("Clicked inventory slot has no associated item.");
                 return;
             }
-
+            if (itemsInInv == 12)
+            {//max items
+                return;
+            }
             //we take the item from the main inventory, and move it to the character's inventory
             MainData.MainLoop.UserInterfaceHelperComponent.TrinketScreenCharacter.equippedItems.Add(BagItem.associatedItem);
             MainData.equipmentInventory.Remove(BagItem.associatedItem);
@@ -100,24 +109,50 @@ public class TrinketMenuHandler : MonoBehaviour
     }
     private void PopulateItemSlots()
     {//this might be a bit laggy 
-        for (int i = 0; i < BagSlots.Count - 1; i++)
+        itemsInBag = 0;
+        itemsInInv = 0;
+        for (int i = 0; i < BagSlots.Count; i++)
         {
             BagSlots[i].selfImage.sprite = null; //cleans them all first
+            BagSlots[i].background.color = Color.black;
         }
 
-        for (int i = 0; i < EquippedSlots.Count - 1; i++)
+        for (int i = 0; i < EquippedSlots.Count; i++)
         {
             EquippedSlots[i].selfImage.sprite = null; //cleans them all first
+            EquippedSlots[i].background.color = Color.black;
         }
 
 
-        for (int i = 0; i < MainData.equipmentInventory.Count - 1; i++)
+        for (int i = 0; i < MainData.equipmentInventory.Count; i++)
         {//first we assign the equipment inventory stuff
             if (MainData.equipmentInventory[i] != null)
             {
                 BagSlots[i].associatedItem = MainData.equipmentInventory[i];
                 Debug.Log("changed backpack slot image");
                 BagSlots[i].selfImage.sprite = BagSlots[i].associatedItem.itemSprite;
+
+                switch (BagSlots[i].associatedItem.rarity)
+                {
+                    case "common":
+                        BagSlots[i].background.color = MainData.MainLoop.TweakingComponent.CommonColor;
+                        break;
+                    case "uncommon":
+                        BagSlots[i].background.color = MainData.MainLoop.TweakingComponent.UncommonColor;
+                        break;
+                    case "rare":
+                        BagSlots[i].background.color = MainData.MainLoop.TweakingComponent.RareColor;
+                        break;
+                    case "masterwork":
+                        BagSlots[i].background.color = MainData.MainLoop.TweakingComponent.MasterworkColor;
+                        break;
+
+                    default:
+                        BagSlots[i].background.color = MainData.MainLoop.TweakingComponent.GenericColor;
+                        break;
+                }
+
+                itemsInBag++;
             }
 
         }
@@ -128,9 +163,29 @@ public class TrinketMenuHandler : MonoBehaviour
             {//then the ones in inventory, unequipped
                 if (MainData.MainLoop.UserInterfaceHelperComponent.TrinketScreenCharacter.equippedItems[b] != null)
                 {
-                    Debug.Log("populated equipped slot " + b);
+                    Debug.Log("populated equipped slot " + b); itemsInInv++;
                     EquippedSlots[b].associatedItem = MainData.MainLoop.UserInterfaceHelperComponent.TrinketScreenCharacter.equippedItems[b];
                     EquippedSlots[b].selfImage.sprite = MainData.MainLoop.UserInterfaceHelperComponent.TrinketScreenCharacter.equippedItems[b].itemSprite;
+                    switch (EquippedSlots[b].associatedItem.rarity)
+                    {
+                        case "common":
+                            EquippedSlots[b].background.color = MainData.MainLoop.TweakingComponent.CommonColor;
+                            break;
+                        case "uncommon":
+                            EquippedSlots[b].background.color = MainData.MainLoop.TweakingComponent.UncommonColor;
+                            break;
+                        case "rare":
+                            EquippedSlots[b].background.color = MainData.MainLoop.TweakingComponent.RareColor;
+                            break;
+                        case "masterwork":
+                            EquippedSlots[b].background.color = MainData.MainLoop.TweakingComponent.MasterworkColor;
+                            break;
+
+                        default:
+                            EquippedSlots[b].background.color = MainData.MainLoop.TweakingComponent.GenericColor;
+                            break;
+                    }
+                    
                 }
 
             }

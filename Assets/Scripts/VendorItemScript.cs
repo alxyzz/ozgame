@@ -38,7 +38,8 @@ public class VendorItemScript : MonoBehaviour
         //}
         
         //var colors = itemBackground.colors;
-        //switch (associatedItem.rarity)
+        //switch (associatedItem.
+        //)
         //{
         //    case "common":
         //        colors.normalColor = new Vector4(100, 100, 100, 255);

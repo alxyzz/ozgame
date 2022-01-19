@@ -103,7 +103,7 @@ public class CharacterWorldspaceScript : MonoBehaviour
 
     IEnumerator InitIdle()
     {
-        
+
         yield return new WaitForSecondsRealtime(randomIdleness);
         idle = true;
         StartCoroutine(IdleAnimate());// THIS IS THE ONLY PLACE THIS COROUTINE SHOULD /EVER/ BE STARTED (excluding inside itself) lest we split the time continuum
@@ -267,7 +267,7 @@ public class CharacterWorldspaceScript : MonoBehaviour
     {
         if (associatedCharacter.hurtSprites != null)
         {
-            MainData.MainLoop.EventLoggingComponent.Log("Got hurt, playing animation. At " + associatedCharacter.charName + ".");
+
             StartCoroutine(HurtAnim());
         }
     }
@@ -278,7 +278,7 @@ public class CharacterWorldspaceScript : MonoBehaviour
         Debug.Log(associatedCharacter.hurtSprites);
         ToggleIdle(false);
         Debug.Log(associatedCharacter.hurtSprites.Length);
-        for (int i = 0; i < associatedCharacter.hurtSprites.Length-1; i++)
+        for (int i = 0; i < associatedCharacter.hurtSprites.Length - 1; i++)
         {
             spriteRenderer.sprite = associatedCharacter.hurtSprites[i];
             yield return new WaitForSeconds(0.04f);
@@ -290,7 +290,7 @@ public class CharacterWorldspaceScript : MonoBehaviour
     public IEnumerator WalkAnim()
     {
         ToggleIdle(false);
-        
+
         for (int i = 0; i < associatedCharacter.WalkSprites.Length - 1; i++)
         {
             spriteRenderer.sprite = associatedCharacter.WalkSprites[i];
