@@ -799,7 +799,7 @@ public class EntityDefiner : MonoBehaviour
     {//generates traits, stores them all in a dictionary in the dataholder
 
         MakeEquipableItemTemplate("short_sword", //string ID
-                                          "A sword, preeminent hand weapon through a long period of history. It consists of a metal blade varying in length, breadth, and configuration but longer than a dagger and fitted with a handle or hilt usually equipped with a guard. This one is short.",//the desc
+                                          "A sword, preeminent hand weapon through a long period of history. It consists of a metal blade varying in length, breadth, and configuration but longer than a dagger and fitted with a handle or hilt usually equipped with a guard. This one is normal.",//the desc
                                           "Common implement of war. Can usually be found between your ribs.", //blurb
                                           "Shortsword", //name
                                           shortSwordSprite, //sprite
@@ -820,6 +820,643 @@ public class EntityDefiner : MonoBehaviour
                                           0, //discount as a percentage, multiplicative
                                           0); //lifesteal multiplicative. as a percentage.
 
+        MakeEquipableItemTemplate("damaged_short_sword", //string ID
+                                  "A sword, preeminent hand weapon through a long period of history. It consists of a metal blade varying in length, breadth, and configuration but longer than a dagger and fitted with a handle or hilt usually equipped with a guard. This one is damaged.",//the desc
+                                  "Common implement of war. Can usually be found between your ribs.", //blurb
+                                  "Damaged Shortsword", //name
+                                  shortSwordSprite, //sprite
+                                  "common", //rarity string
+                                  1, //value in eyes
+                                  1, //amount in birb's stock
+                                  1, //default quantity
+                                  true, //(true)beneficial or (false)harmful
+                                  0, //speed bonus
+                                  0, //health bonus
+                                  0, //mana bonus
+                                  1, //dmg bonus
+                                  0, //defense bonus 
+                                  0, //luck bonus 
+                                  0, //healing, multiplicative. as a percentage.
+                                  0, //dam resist, multiplicative. as a percentage.
+                                  0, //dam bonus multiplicative. as a percentage.
+                                  0, //discount as a percentage, multiplicative
+                                  0); //lifesteal multiplicative. as a percentage.
+
+        MakeEquipableItemTemplate("sharp_short_sword", //string ID
+                                  "A sword, preeminent hand weapon through a long period of history. It consists of a metal blade varying in length, breadth, and configuration but longer than a dagger and fitted with a handle or hilt usually equipped with a guard. This one is sharp.",//the desc
+                                  "Common implement of war. Can usually be found between your ribs.", //blurb
+                                  "Sharp Shortsword", //name
+                                  shortSwordSprite, //sprite
+                                  "common", //rarity string
+                                  8, //value in eyes
+                                  1, //amount in birb's stock
+                                  1, //default quantity
+                                  true, //(true)beneficial or (false)harmful
+                                  0, //speed bonus
+                                  0, //health bonus
+                                  0, //mana bonus
+                                  4, //dmg bonus
+                                  0, //defense bonus 
+                                  0, //luck bonus 
+                                  0, //healing, multiplicative. as a percentage.
+                                  0, //dam resist, multiplicative. as a percentage.
+                                  0, //dam bonus multiplicative. as a percentage.
+                                  0, //discount as a percentage, multiplicative
+                                  0); //lifesteal multiplicative. as a percentage.
+
+        MakeEquipableItemTemplate("light_short_sword", //string ID
+                                  "A sword, preeminent hand weapon through a long period of history. It consists of a metal blade varying in length, breadth, and configuration but longer than a dagger and fitted with a handle or hilt usually equipped with a guard. This one is light.",//the desc
+                                  "Common implement of war. Can usually be found between your ribs.", //blurb
+                                  "Light Shortsword", //name
+                                  shortSwordSprite, //sprite
+                                  "common", //rarity string
+                                  6, //value in eyes
+                                  1, //amount in birb's stock
+                                  1, //default quantity
+                                  true, //(true)beneficial or (false)harmful
+                                  3, //speed bonus
+                                  0, //health bonus
+                                  0, //mana bonus
+                                  2, //dmg bonus
+                                  0, //defense bonus 
+                                  0, //luck bonus 
+                                  0, //healing, multiplicative. as a percentage.
+                                  0, //dam resist, multiplicative. as a percentage.
+                                  0, //dam bonus multiplicative. as a percentage.
+                                  0, //discount as a percentage, multiplicative
+                                  0); //lifesteal multiplicative. as a percentage.
+
+        MakeEquipableItemTemplate("cheap_short_sword", //string ID
+                                  "A sword, preeminent hand weapon through a long period of history. It consists of a metal blade varying in length, breadth, and configuration but longer than a dagger and fitted with a handle or hilt usually equipped with a guard. This one is cheap.",//the desc
+                                  "Common implement of war. Can usually be found between your ribs.", //blurb
+                                  "Cheap Shortsword", //name
+                                  shortSwordSprite, //sprite
+                                  "common", //rarity string
+                                  5, //value in eyes
+                                  1, //amount in birb's stock
+                                  1, //default quantity
+                                  true, //(true)beneficial or (false)harmful
+                                  0, //speed bonus
+                                  0, //health bonus
+                                  0, //mana bonus
+                                  2, //dmg bonus
+                                  0, //defense bonus 
+                                  0, //luck bonus 
+                                  0, //healing, multiplicative. as a percentage.
+                                  0, //dam resist, multiplicative. as a percentage.
+                                  0, //dam bonus multiplicative. as a percentage.
+                                  0, //discount as a percentage, multiplicative
+                                  0); //lifesteal multiplicative. as a percentage.
+
+        MakeEquipableItemTemplate("long_sword", //string ID
+                                  "A sword, preeminent double-hand weapon through a long period of history. Consisting of the strongest metal known in the kingdom and crafted by the most talented blacksmiths, this weapon is sure to make any combat encounter short. This one is normal.",//the desc
+                                  "Common implement of war. Can usually be found between your ribs.", //blurb
+                                  "Longsword", //name
+                                  shortSwordSprite, //sprite
+                                  "uncommon", //rarity string
+                                  8, //value in eyes
+                                  1, //amount in birb's stock
+                                  1, //default quantity
+                                  true, //(true)beneficial or (false)harmful
+                                  0, //speed bonus
+                                  0, //health bonus
+                                  0, //mana bonus
+                                  2, //dmg bonus
+                                  0, //defense bonus 
+                                  0, //luck bonus 
+                                  0, //healing, multiplicative. as a percentage.
+                                  0, //dam resist, multiplicative. as a percentage.
+                                  15, //dam bonus multiplicative. as a percentage.
+                                  0, //discount as a percentage, multiplicative
+                                  0); //lifesteal multiplicative. as a percentage.
+
+        MakeEquipableItemTemplate("dull_long_sword", //string ID
+                          "A sword, preeminent double-hand weapon through a long period of history. Consisting of the strongest metal known in the kingdom and crafted by the most talented blacksmiths, this weapon is sure to make any combat encounter short. This one is dull.",//the desc
+                          "Common implement of war. Can usually be found between your ribs.", //blurb
+                          "Dull Longsword", //name
+                          shortSwordSprite, //sprite
+                          "uncommon", //rarity string
+                          6, //value in eyes
+                          1, //amount in birb's stock
+                          1, //default quantity
+                          true, //(true)beneficial or (false)harmful
+                          0, //speed bonus
+                          0, //health bonus
+                          0, //mana bonus
+                          1, //dmg bonus
+                          0, //defense bonus 
+                          0, //luck bonus 
+                          0, //healing, multiplicative. as a percentage.
+                          0, //dam resist, multiplicative. as a percentage.
+                          15, //dam bonus multiplicative. as a percentage.
+                          0, //discount as a percentage, multiplicative
+                          0); //lifesteal multiplicative. as a percentage.
+
+        MakeEquipableItemTemplate("vengeful_long_sword", //string ID
+                          "A sword, preeminent double-hand weapon through a long period of history. Consisting of the strongest metal known in the kingdom and crafted by the most talented blacksmiths, this weapon is sure to make any combat encounter short. This one is haunted.",//the desc
+                          "Common implement of war. Can usually be found between your ribs.", //blurb
+                          "Vengeful Longsword", //name
+                          shortSwordSprite, //sprite
+                          "uncommon", //rarity string
+                          13, //value in eyes
+                          1, //amount in birb's stock
+                          1, //default quantity
+                          true, //(true)beneficial or (false)harmful
+                          0, //speed bonus
+                          0, //health bonus
+                          0, //mana bonus
+                          5, //dmg bonus
+                          0, //defense bonus 
+                          0, //luck bonus 
+                          0, //healing, multiplicative. as a percentage.
+                          0, //dam resist, multiplicative. as a percentage.
+                          15, //dam bonus multiplicative. as a percentage.
+                          0, //discount as a percentage, multiplicative
+                          10); //lifesteal multiplicative. as a percentage.
+
+        MakeEquipableItemTemplate("damaged_long_sword", //string ID
+                          "A sword, preeminent double-hand weapon through a long period of history. Consisting of the strongest metal known in the kingdom and crafted by the most talented blacksmiths, this weapon is sure to make any combat encounter short. This one is damaged.",//the desc
+                          "Common implement of war. Can usually be found between your ribs.", //blurb
+                          "Damaged Longsword", //name
+                          shortSwordSprite, //sprite
+                          "uncommon", //rarity string
+                          3, //value in eyes
+                          1, //amount in birb's stock
+                          1, //default quantity
+                          true, //(true)beneficial or (false)harmful
+                          0, //speed bonus
+                          0, //health bonus
+                          0, //mana bonus
+                          1, //dmg bonus
+                          0, //defense bonus 
+                          0, //luck bonus 
+                          0, //healing, multiplicative. as a percentage.
+                          0, //dam resist, multiplicative. as a percentage.
+                          7, //dam bonus multiplicative. as a percentage.
+                          0, //discount as a percentage, multiplicative
+                          0); //lifesteal multiplicative. as a percentage.
+
+        MakeEquipableItemTemplate("enchanted_long_sword", //string ID
+                          "A sword, preeminent double-hand weapon through a long period of history. Consisting of the strongest metal known in the kingdom and crafted by the most talented blacksmiths, this weapon is sure to make any combat encounter short. This one is enchanted.",//the desc
+                          "Common implement of war. Can usually be found between your ribs.", //blurb
+                          "Enchanted Longsword", //name
+                          shortSwordSprite, //sprite
+                          "uncommon", //rarity string
+                          9, //value in eyes
+                          1, //amount in birb's stock
+                          1, //default quantity
+                          true, //(true)beneficial or (false)harmful
+                          0, //speed bonus
+                          0, //health bonus
+                          25, //mana bonus
+                          2, //dmg bonus
+                          0, //defense bonus 
+                          0, //luck bonus 
+                          0, //healing, multiplicative. as a percentage.
+                          0, //dam resist, multiplicative. as a percentage.
+                          15, //dam bonus multiplicative. as a percentage.
+                          0, //discount as a percentage, multiplicative
+                          0); //lifesteal multiplicative. as a percentage.
+
+        MakeEquipableItemTemplate("vampiric_ring", //string ID
+                          "A vampire's ring, recovered by archeologists exploring ancient ruins. Crafted with fine gold and blood ruby, it contains the haunting spirit of a vampire within, granting the wearer unique, supernatural abilities. This one is normal.",//the desc
+                          "A rare, special relic. You feel drawn in by it's emminating power.", //blurb
+                          "Vampiric Ring", //name
+                          shortSwordSprite, //sprite
+                          "rare", //rarity string
+                          7, //value in eyes
+                          1, //amount in birb's stock
+                          1, //default quantity
+                          true, //(true)beneficial or (false)harmful
+                          0, //speed bonus
+                          0, //health bonus
+                          0, //mana bonus
+                          0, //dmg bonus
+                          0, //defense bonus 
+                          0, //luck bonus 
+                          0, //healing, multiplicative. as a percentage.
+                          0, //dam resist, multiplicative. as a percentage.
+                          10, //dam bonus multiplicative. as a percentage.
+                          0, //discount as a percentage, multiplicative
+                          10); //lifesteal multiplicative. as a percentage.
+
+        MakeEquipableItemTemplate("warding_vampiric_ring", //string ID
+                  "A vampire's ring, recovered by archeologists exploring ancient ruins. Crafted with fine gold and blood ruby, it contains the haunting spirit of a vampire within, granting the wearer unique, supernatural abilities. This one is tough.",//the desc
+                  "A rare, special relic. You feel drawn in by it's emminating power.", //blurb
+                  "Warding Vampiric Ring", //name
+                  shortSwordSprite, //sprite
+                  "rare", //rarity string
+                  9, //value in eyes
+                  1, //amount in birb's stock
+                  1, //default quantity
+                  true, //(true)beneficial or (false)harmful
+                  0, //speed bonus
+                  0, //health bonus
+                  0, //mana bonus
+                  0, //dmg bonus
+                  2, //defense bonus 
+                  0, //luck bonus 
+                  0, //healing, multiplicative. as a percentage.
+                  0, //dam resist, multiplicative. as a percentage.
+                  10, //dam bonus multiplicative. as a percentage.
+                  0, //discount as a percentage, multiplicative
+                  10); //lifesteal multiplicative. as a percentage.
+
+        MakeEquipableItemTemplate("lucky_vampiric_ring", //string ID
+                  "A vampire's ring, recovered by archeologists exploring ancient ruins. Crafted with fine gold and blood ruby, it contains the haunting spirit of a vampire within, granting the wearer unique, supernatural abilities. This one feels lucky.",//the desc
+                  "A rare, special relic. You feel drawn in by it's emminating power.", //blurb
+                  "Lucky Vampiric Ring", //name
+                  shortSwordSprite, //sprite
+                  "rare", //rarity string
+                  8, //value in eyes
+                  1, //amount in birb's stock
+                  1, //default quantity
+                  true, //(true)beneficial or (false)harmful
+                  0, //speed bonus
+                  0, //health bonus
+                  0, //mana bonus
+                  0, //dmg bonus
+                  0, //defense bonus 
+                  10, //luck bonus 
+                  0, //healing, multiplicative. as a percentage.
+                  0, //dam resist, multiplicative. as a percentage.
+                  10, //dam bonus multiplicative. as a percentage.
+                  0, //discount as a percentage, multiplicative
+                  10); //lifesteal multiplicative. as a percentage.
+
+        MakeEquipableItemTemplate("enchanted_vampiric_ring", //string ID
+                  "A vampire's ring, recovered by archeologists exploring ancient ruins. Crafted with fine gold and blood ruby, it contains the haunting spirit of a vampire within, granting the wearer unique, supernatural abilities. This one is enchanted.",//the desc
+                  "A rare, special relic. You feel drawn in by it's emminating power.", //blurb
+                  "Enchanted Vampiric Ring", //name
+                  shortSwordSprite, //sprite
+                  "rare", //rarity string
+                  8, //value in eyes
+                  1, //amount in birb's stock
+                  1, //default quantity
+                  true, //(true)beneficial or (false)harmful
+                  0, //speed bonus
+                  0, //health bonus
+                  25, //mana bonus
+                  0, //dmg bonus
+                  0, //defense bonus 
+                  0, //luck bonus 
+                  0, //healing, multiplicative. as a percentage.
+                  0, //dam resist, multiplicative. as a percentage.
+                  10, //dam bonus multiplicative. as a percentage.
+                  0, //discount as a percentage, multiplicative
+                  10); //lifesteal multiplicative. as a percentage.
+
+        MakeEquipableItemTemplate("cheap_vampiric_ring", //string ID
+                  "A vampire's ring, recovered by archeologists exploring ancient ruins. Crafted with fine gold and blood ruby, it contains the haunting spirit of a vampire within, granting the wearer unique, supernatural abilities. This one is cheap.",//the desc
+                  "A rare, special relic. You feel drawn in by it's emminating power.", //blurb
+                  "Cheap Vampiric Ring", //name
+                  shortSwordSprite, //sprite
+                  "rare", //rarity string
+                  6, //value in eyes
+                  1, //amount in birb's stock
+                  1, //default quantity
+                  true, //(true)beneficial or (false)harmful
+                  0, //speed bonus
+                  0, //health bonus
+                  0, //mana bonus
+                  0, //dmg bonus
+                  0, //defense bonus 
+                  0, //luck bonus 
+                  0, //healing, multiplicative. as a percentage.
+                  0, //dam resist, multiplicative. as a percentage.
+                  10, //dam bonus multiplicative. as a percentage.
+                  0, //discount as a percentage, multiplicative
+                  10); //lifesteal multiplicative. as a percentage.
+
+        MakeEquipableItemTemplate("shard_constitution", //string ID
+                  "A rare gem radiating unexplainable magic. Excavated from the royal mining site, rare gems like these have been told to contain the souls of dragons who died underground in their lairs. Others say they are unique combinations of minerals. This one is normal.",//the desc
+                  "A powerful and rare gem. You feel drawn in by it's emminating power.", //blurb
+                  "Shard of Constitution", //name
+                  shortSwordSprite, //sprite
+                  "common", //rarity string
+                  4, //value in eyes
+                  1, //amount in birb's stock
+                  1, //default quantity
+                  true, //(true)beneficial or (false)harmful
+                  0, //speed bonus
+                  5, //health bonus
+                  25, //mana bonus
+                  0, //dmg bonus
+                  0, //defense bonus 
+                  0, //luck bonus 
+                  0, //healing, multiplicative. as a percentage.
+                  10, //dam resist, multiplicative. as a percentage.
+                  0, //dam bonus multiplicative. as a percentage.
+                  0, //discount as a percentage, multiplicative
+                  0); //lifesteal multiplicative. as a percentage.
+
+        MakeEquipableItemTemplate("enchanted_shard_constitution", //string ID
+          "A rare gem radiating unexplainable magic. Excavated from the royal mining site, rare gems like these have been told to contain the souls of dragons who died underground in their lairs. Others say they are unique combinations of minerals. This one is enchanted.",//the desc
+          "A powerful and rare gem. You feel drawn in by it's emminating power.", //blurb
+          "Enchanted Shard of Constitution", //name
+          shortSwordSprite, //sprite
+          "common", //rarity string
+          1, //value in eyes
+          1, //amount in birb's stock
+          1, //default quantity
+          true, //(true)beneficial or (false)harmful
+          0, //speed bonus
+          5, //health bonus
+          50, //mana bonus
+          0, //dmg bonus
+          0, //defense bonus 
+          0, //luck bonus 
+          0, //healing, multiplicative. as a percentage.
+          10, //dam resist, multiplicative. as a percentage.
+          0, //dam bonus multiplicative. as a percentage.
+          0, //discount as a percentage, multiplicative
+          0); //lifesteal multiplicative. as a percentage.
+
+        MakeEquipableItemTemplate("warding_shard_constitution", //string ID
+          "A rare gem radiating unexplainable magic. Excavated from the royal mining site, rare gems like these have been told to contain the souls of dragons who died underground in their lairs. Others say they are unique combinations of minerals. This one is tough.",//the desc
+          "A powerful and rare gem. You feel drawn in by it's emminating power.", //blurb
+          "Warding Shard of Constitution", //name
+          shortSwordSprite, //sprite
+          "common", //rarity string
+          6, //value in eyes
+          1, //amount in birb's stock
+          1, //default quantity
+          true, //(true)beneficial or (false)harmful
+          0, //speed bonus
+          5, //health bonus
+          25, //mana bonus
+          0, //dmg bonus
+          2, //defense bonus 
+          0, //luck bonus 
+          0, //healing, multiplicative. as a percentage.
+          10, //dam resist, multiplicative. as a percentage.
+          0, //dam bonus multiplicative. as a percentage.
+          0, //discount as a percentage, multiplicative
+          0); //lifesteal multiplicative. as a percentage.  
+
+        MakeEquipableItemTemplate("damaged_shard_constitution", //string ID
+          "A rare gem radiating unexplainable magic. Excavated from the royal mining site, rare gems like these have been told to contain the souls of dragons who died underground in their lairs. Others say they are unique combinations of minerals. This one is damaged.",//the desc
+          "A powerful and rare gem. You feel drawn in by it's emminating power.", //blurb
+          "Damaged Shard of Constitution", //name
+          shortSwordSprite, //sprite
+          "common", //rarity string
+          1, //value in eyes
+          1, //amount in birb's stock
+          1, //default quantity
+          true, //(true)beneficial or (false)harmful
+          0, //speed bonus
+          2, //health bonus
+          10, //mana bonus
+          0, //dmg bonus
+          0, //defense bonus 
+          0, //luck bonus 
+          0, //healing, multiplicative. as a percentage.
+          0, //dam resist, multiplicative. as a percentage.
+          0, //dam bonus multiplicative. as a percentage.
+          0, //discount as a percentage, multiplicative
+          0); //lifesteal multiplicative. as a percentage.
+
+        MakeEquipableItemTemplate("light_shard_constitution", //string ID
+          "A rare gem radiating unexplainable magic. Excavated from the royal mining site, rare gems like these have been told to contain the souls of dragons who died underground in their lairs. Others say they are unique combinations of minerals. This one is light.",//the desc
+          "A powerful and rare gem. You feel drawn in by it's emminating power.", //blurb
+          "Light Shard of Constitution", //name
+          shortSwordSprite, //sprite
+          "common", //rarity string
+          4, //value in eyes
+          1, //amount in birb's stock
+          1, //default quantity
+          true, //(true)beneficial or (false)harmful
+          3, //speed bonus
+          5, //health bonus
+          25, //mana bonus
+          0, //dmg bonus
+          0, //defense bonus 
+          0, //luck bonus 
+          0, //healing, multiplicative. as a percentage.
+          10, //dam resist, multiplicative. as a percentage.
+          0, //dam bonus multiplicative. as a percentage.
+          0, //discount as a percentage, multiplicative
+          0); //lifesteal multiplicative. as a percentage.
+
+        MakeEquipableItemTemplate("shard_power", //string ID
+          "A rare gem radiating unexplainable magic. Excavated from the royal mining site, rare gems like these have been told to contain the souls of dragons who died underground in their lairs. Others say they are unique combinations of minerals. This one is normal.",//the desc
+          "A powerful and rare gem. You feel drawn in by it's emminating power.", //blurb
+          "Shard of Power", //name
+          shortSwordSprite, //sprite
+          "common", //rarity string
+          4, //value in eyes
+          1, //amount in birb's stock
+          1, //default quantity
+          true, //(true)beneficial or (false)harmful
+          0, //speed bonus
+          0, //health bonus
+          0, //mana bonus
+          0, //dmg bonus
+          0, //defense bonus 
+          0, //luck bonus 
+          0, //healing, multiplicative. as a percentage.
+          10, //dam resist, multiplicative. as a percentage.
+          10, //dam bonus multiplicative. as a percentage.
+          0, //discount as a percentage, multiplicative
+          0); //lifesteal multiplicative. as a percentage.
+
+        MakeEquipableItemTemplate("warding_shard_power", //string ID
+          "A rare gem radiating unexplainable magic. Excavated from the royal mining site, rare gems like these have been told to contain the souls of dragons who died underground in their lairs. Others say they are unique combinations of minerals. This one is tough.",//the desc
+          "A powerful and rare gem. You feel drawn in by it's emminating power.", //blurb
+          "Warding Shard of Power", //name
+          shortSwordSprite, //sprite
+          "common", //rarity string
+          6, //value in eyes
+          1, //amount in birb's stock
+          1, //default quantity
+          true, //(true)beneficial or (false)harmful
+          0, //speed bonus
+          0, //health bonus
+          0, //mana bonus
+          0, //dmg bonus
+          2, //defense bonus 
+          0, //luck bonus 
+          0, //healing, multiplicative. as a percentage.
+          10, //dam resist, multiplicative. as a percentage.
+          10, //dam bonus multiplicative. as a percentage.
+          0, //discount as a percentage, multiplicative
+          0); //lifesteal multiplicative. as a percentage.
+
+                MakeEquipableItemTemplate("vengeful_shard_power", //string ID
+          "A rare gem radiating unexplainable magic. Excavated from the royal mining site, rare gems like these have been told to contain the souls of dragons who died underground in their lairs. Others say they are unique combinations of minerals. This one is haunted.",//the desc
+          "A powerful and rare gem. You feel drawn in by it's emminating power.", //blurb
+          "Vengeful Shard of Power", //name
+          shortSwordSprite, //sprite
+          "common", //rarity string
+          9, //value in eyes
+          1, //amount in birb's stock
+          1, //default quantity
+          true, //(true)beneficial or (false)harmful
+          0, //speed bonus
+          0, //health bonus
+          0, //mana bonus
+          3, //dmg bonus
+          0, //defense bonus 
+          0, //luck bonus 
+          0, //healing, multiplicative. as a percentage.
+          10, //dam resist, multiplicative. as a percentage.
+          10, //dam bonus multiplicative. as a percentage.
+          0, //discount as a percentage, multiplicative
+          10); //lifesteal multiplicative. as a percentage.
+
+                MakeEquipableItemTemplate("cheap_shard_power", //string ID
+          "A rare gem radiating unexplainable magic. Excavated from the royal mining site, rare gems like these have been told to contain the souls of dragons who died underground in their lairs. Others say they are unique combinations of minerals. This one is cheap.",//the desc
+          "A powerful and rare gem. You feel drawn in by it's emminating power.", //blurb
+          "Cheap Shard of Power", //name
+          shortSwordSprite, //sprite
+          "common", //rarity string
+          3, //value in eyes
+          1, //amount in birb's stock
+          1, //default quantity
+          true, //(true)beneficial or (false)harmful
+          0, //speed bonus
+          0, //health bonus
+          0, //mana bonus
+          0, //dmg bonus
+          0, //defense bonus 
+          0, //luck bonus 
+          0, //healing, multiplicative. as a percentage.
+          10, //dam resist, multiplicative. as a percentage.
+          10, //dam bonus multiplicative. as a percentage.
+          0, //discount as a percentage, multiplicative
+          0); //lifesteal multiplicative. as a percentage.
+
+                MakeEquipableItemTemplate("lucky_shard_power", //string ID
+          "A rare gem radiating unexplainable magic. Excavated from the royal mining site, rare gems like these have been told to contain the souls of dragons who died underground in their lairs. Others say they are unique combinations of minerals. This one feels lucky.",//the desc
+          "A powerful and rare gem. You feel drawn in by it's emminating power.", //blurb
+          "Lucky Shard of Power", //name
+          shortSwordSprite, //sprite
+          "common", //rarity string
+          5, //value in eyes
+          1, //amount in birb's stock
+          1, //default quantity
+          true, //(true)beneficial or (false)harmful
+          0, //speed bonus
+          0, //health bonus
+          0, //mana bonus
+          0, //dmg bonus
+          0, //defense bonus 
+          10, //luck bonus 
+          0, //healing, multiplicative. as a percentage.
+          10, //dam resist, multiplicative. as a percentage.
+          10, //dam bonus multiplicative. as a percentage.
+          0, //discount as a percentage, multiplicative
+          0); //lifesteal multiplicative. as a percentage.
+
+                MakeEquipableItemTemplate("shard_emerald", //string ID
+          "A rare gem radiating unexplainable magic. Excavated from the royal mining site, rare gems like these have been told to contain the souls of dragons who died underground in their lairs. Others say they are unique combinations of minerals. This one is normal.",//the desc
+          "A powerful and rare gem. You feel drawn in by it's emminating power.", //blurb
+          "Shard of Emerald", //name
+          shortSwordSprite, //sprite
+          "common", //rarity string
+          4, //value in eyes
+          1, //amount in birb's stock
+          1, //default quantity
+          true, //(true)beneficial or (false)harmful
+          0, //speed bonus
+          0, //health bonus
+          0, //mana bonus
+          0, //dmg bonus
+          0, //defense bonus 
+          33, //luck bonus 
+          0, //healing, multiplicative. as a percentage.
+          0, //dam resist, multiplicative. as a percentage.
+          0, //dam bonus multiplicative. as a percentage.
+          0, //discount as a percentage, multiplicative
+          0); //lifesteal multiplicative. as a percentage.
+
+        MakeEquipableItemTemplate("lucky_shard_emerald", //string ID
+          "A rare gem radiating unexplainable magic. Excavated from the royal mining site, rare gems like these have been told to contain the souls of dragons who died underground in their lairs. Others say they are unique combinations of minerals. This one feels lucky.",//the desc
+          "A powerful and rare gem. You feel drawn in by it's emminating power.", //blurb
+          "Lucky Shard of Emerald", //name
+          shortSwordSprite, //sprite
+          "common", //rarity string
+          5, //value in eyes
+          1, //amount in birb's stock
+          1, //default quantity
+          true, //(true)beneficial or (false)harmful
+          0, //speed bonus
+          0, //health bonus
+          0, //mana bonus
+          0, //dmg bonus
+          0, //defense bonus 
+          44, //luck bonus 
+          0, //healing, multiplicative. as a percentage.
+          0, //dam resist, multiplicative. as a percentage.
+          0, //dam bonus multiplicative. as a percentage.
+          0, //discount as a percentage, multiplicative
+          0); //lifesteal multiplicative. as a percentage.
+
+        MakeEquipableItemTemplate("warding_shard_emerald", //string ID
+          "A rare gem radiating unexplainable magic. Excavated from the royal mining site, rare gems like these have been told to contain the souls of dragons who died underground in their lairs. Others say they are unique combinations of minerals. This one is tough.",//the desc
+          "A powerful and rare gem. You feel drawn in by it's emminating power.", //blurb
+          "Warding Shard of Emerald", //name
+          shortSwordSprite, //sprite
+          "common", //rarity string
+          6, //value in eyes
+          1, //amount in birb's stock
+          1, //default quantity
+          true, //(true)beneficial or (false)harmful
+          0, //speed bonus
+          0, //health bonus
+          0, //mana bonus
+          0, //dmg bonus
+          2, //defense bonus 
+          33, //luck bonus 
+          0, //healing, multiplicative. as a percentage.
+          0, //dam resist, multiplicative. as a percentage.
+          0, //dam bonus multiplicative. as a percentage.
+          0, //discount as a percentage, multiplicative
+          0); //lifesteal multiplicative. as a percentage.
+
+        MakeEquipableItemTemplate("damaged_shard_emerald", //string ID
+          "A rare gem radiating unexplainable magic. Excavated from the royal mining site, rare gems like these have been told to contain the souls of dragons who died underground in their lairs. Others say they are unique combinations of minerals. This one is damaged.",//the desc
+          "A powerful and rare gem. You feel drawn in by it's emminating power.", //blurb
+          "Damaged Shard of Emerald", //name
+          shortSwordSprite, //sprite
+          "common", //rarity string
+          1, //value in eyes
+          1, //amount in birb's stock
+          1, //default quantity
+          true, //(true)beneficial or (false)harmful
+          0, //speed bonus
+          0, //health bonus
+          0, //mana bonus
+          0, //dmg bonus
+          0, //defense bonus 
+          11, //luck bonus 
+          0, //healing, multiplicative. as a percentage.
+          0, //dam resist, multiplicative. as a percentage.
+          0, //dam bonus multiplicative. as a percentage.
+          0, //discount as a percentage, multiplicative
+          0); //lifesteal multiplicative. as a percentage.
+
+        MakeEquipableItemTemplate("enchanted_shard_emerald", //string ID
+          "A rare gem radiating unexplainable magic. Excavated from the royal mining site, rare gems like these have been told to contain the souls of dragons who died underground in their lairs. Others say they are unique combinations of minerals. This one is enchanted.",//the desc
+          "A powerful and rare gem. You feel drawn in by it's emminating power.", //blurb
+          "Enchanted Shard of Emerald", //name
+          shortSwordSprite, //sprite
+          "common", //rarity string
+          5, //value in eyes
+          1, //amount in birb's stock
+          1, //default quantity
+          true, //(true)beneficial or (false)harmful
+          0, //speed bonus
+          0, //health bonus
+          25, //mana bonus
+          0, //dmg bonus
+          0, //defense bonus 
+          33, //luck bonus 
+          0, //healing, multiplicative. as a percentage.
+          0, //dam resist, multiplicative. as a percentage.
+          0, //dam bonus multiplicative. as a percentage.
+          0, //discount as a percentage, multiplicative
+          0); //lifesteal multiplicative. as a percentage.
 
     }
     public void DefineTraits()
