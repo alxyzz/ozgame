@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
 {
     public UIParallax BackgroundParallaxObject;
     public bool gameStarted = false;
-    [HideInInspector]
+   
     public float Currency = 999f;
     public bool inCombat = false;
     public LayerMask IgnoreMe;
@@ -53,7 +53,7 @@ public class GameManager : MonoBehaviour
 
         VendorScriptComponent.LoadSpriteSheets();
         VendorScriptComponent.SetupGraphics();
-        VendorScriptComponent.GenerateMerchantInventory();
+        
         VendorScriptComponent.RefreshText();
 
         UserInterfaceHelperComponent.RefreshCharacterTabs();
@@ -80,8 +80,22 @@ public class GameManager : MonoBehaviour
     }
 
 
+    public GameObject LostGameScreen;
+    public void LostTheGame()
+    {
+        CombatHelperComponent.EndCombat();
+        inCombat = false;
+        UserInterfaceHelperComponent.GameUI.SetActive(false);
+        foreach (Character item in MainData.allChars)
+        {
+            item.selfScriptRef.gameObject.SetActive(false);
+        }
+        LostGameScreen.SetActive(true);
 
 
+
+
+    }
 
 
     public void InitiateCharacterAnimation()
@@ -188,7 +202,8 @@ public class GameManager : MonoBehaviour
         {
             //play new turn sound here
             MainData.turnNumber++;
-            EventLoggingComponent.LogDanger("Start of turn " + MainData.turnNumber.ToString() + ".");
+            if (MainData.livingEnemyParty.Count > 0)
+                EventLoggingComponent.LogDanger("Start of turn " + MainData.turnNumber.ToString() + ".");
             ProcStatusEffects(); //burns, poison, etc. Ticks down the duration left by one, too
 
             if (results.Count > 0) //if there's no enemy there's no need to fight

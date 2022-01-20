@@ -52,6 +52,7 @@ public class LevelHelper : MonoBehaviour
         if (FoughtOnce && distanceWalked > 70)
         {
             MoveStop();
+            MainData.MainLoop.VendorScriptComponent.InitializeShopItems();
             EncountersPaused = true;
             distanceWalked = -20;//back to beginning.
             FoughtOnce = false;
@@ -216,7 +217,7 @@ public class LevelHelper : MonoBehaviour
 
 
         List<string> teamrocket = new List<string>();
-        for (int i = 0; i < 5; i++) //change the 5 to whatever amount to change monkey quantity.
+        for (int i = 0; i < 1; i++) //change the 5 to whatever amount to change monkey quantity.
         {
             teamrocket.Add("flyingmonkey");
         }

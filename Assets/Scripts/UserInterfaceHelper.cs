@@ -171,12 +171,6 @@ public class UserInterfaceHelper : MonoBehaviour
     public TextMeshProUGUI ToolTipTraitName;
     public TextMeshProUGUI ToolTipTraitDescription;
     public Image ToolTipTraitImage;
-
-
-
-
-
-
     public void RefreshToolTip(Character c = null)
     {
         ToolTipTraitName.text = c.charName +" the "+ c.charTrait.adjective;
@@ -200,15 +194,10 @@ public class UserInterfaceHelper : MonoBehaviour
             
         }
     }
-
-
-
     public void Awake()
     {
         Cursor.SetCursor(cursorpressed, new Vector2(0, 0), CursorMode.Auto);
     }
-
-
     public void Update()
     {
         if (Input.GetMouseButton(0))
@@ -221,15 +210,10 @@ public class UserInterfaceHelper : MonoBehaviour
 
         Screen.lockCursor = false;
     }
-
-
     public void ToggleFightButtonVisiblity(bool boolin)
     {
         PassTurnButton.SetActive(boolin);
     }
-
-
-
     [HideInInspector]
     public Character TrinketScreenCharacter;
     public GameObject PlayHUD; //the UI for playing. we turn that stuff off when we mess with trinkets
@@ -257,15 +241,10 @@ public class UserInterfaceHelper : MonoBehaviour
             PlayHUD.SetActive(true);
         }
     }
-
-
-
     public MiniviewClickDetector pc1clickableoverview;
     public MiniviewClickDetector pc2clickableoverview;
     public MiniviewClickDetector pc3clickableoverview;
     public MiniviewClickDetector pc4clickableoverview;
-
-
     public void ToggleTraitInventory()
     {
 
@@ -288,6 +267,8 @@ public class UserInterfaceHelper : MonoBehaviour
             PlayHUD.SetActive(true);
         }
     }
+
+
 
 
 
@@ -329,6 +310,10 @@ public class UserInterfaceHelper : MonoBehaviour
                 ConsumableSlot1.SetActive(true);
                 ConsumableSlot1.GetComponent<consumableSlotScript>().itemContent = MainData.consumableInventory[0];
                 ConsumableSlot1.GetComponent<consumableSlotScript>().selfImage.sprite = MainData.consumableInventory[0].itemSprite;
+                ConsumableSlot1.GetComponentInChildren<Text>().text = MainData.consumableInventory[0].itemQuantity.ToString();
+
+                ConsumableSlot2.GetComponentInChildren<Text>().text = ""; 
+                ConsumableSlot3.GetComponentInChildren<Text>().text = "";
                 ConsumableSlot2.SetActive(false);
                 ConsumableSlot3.SetActive(false);
                 break;
@@ -336,10 +321,13 @@ public class UserInterfaceHelper : MonoBehaviour
                 ConsumableSlot1.SetActive(true);
                 ConsumableSlot1.GetComponent<consumableSlotScript>().itemContent = MainData.consumableInventory[0];
                 ConsumableSlot1.GetComponent<consumableSlotScript>().selfImage.sprite = MainData.consumableInventory[0].itemSprite;
-
+                ConsumableSlot1.GetComponentInChildren<Text>().text = MainData.consumableInventory[0].itemQuantity.ToString();
                 ConsumableSlot2.SetActive(true);
                 ConsumableSlot2.GetComponent<consumableSlotScript>().itemContent = MainData.consumableInventory[1];
                 ConsumableSlot2.GetComponent<consumableSlotScript>().selfImage.sprite = MainData.consumableInventory[1].itemSprite;
+                ConsumableSlot2.GetComponentInChildren<Text>().text = MainData.consumableInventory[1].itemQuantity.ToString();
+  
+                ConsumableSlot3.GetComponentInChildren<Text>().text = "";
                 ConsumableSlot3.SetActive(false);
                 break;
             case 3:
@@ -352,6 +340,10 @@ public class UserInterfaceHelper : MonoBehaviour
                 ConsumableSlot1.GetComponent<consumableSlotScript>().selfImage.sprite = MainData.consumableInventory[0].itemSprite;
                 ConsumableSlot2.GetComponent<consumableSlotScript>().selfImage.sprite = MainData.consumableInventory[1].itemSprite;
                 ConsumableSlot3.GetComponent<consumableSlotScript>().selfImage.sprite = MainData.consumableInventory[2].itemSprite;
+
+                ConsumableSlot1.GetComponentInChildren<Text>().text = MainData.consumableInventory[0].itemQuantity.ToString();
+                ConsumableSlot2.GetComponentInChildren<Text>().text = MainData.consumableInventory[1].itemQuantity.ToString();
+                ConsumableSlot3.GetComponentInChildren<Text>().text = MainData.consumableInventory[2].itemQuantity.ToString();
                 break;
 
             default:
@@ -361,6 +353,9 @@ public class UserInterfaceHelper : MonoBehaviour
                 ConsumableSlot1.GetComponent<consumableSlotScript>().itemContent = null;
                 ConsumableSlot2.GetComponent<consumableSlotScript>().itemContent = null;
                 ConsumableSlot3.GetComponent<consumableSlotScript>().itemContent = null;
+                ConsumableSlot1.GetComponentInChildren<Text>().text = "";
+                ConsumableSlot2.GetComponentInChildren<Text>().text = "";
+                ConsumableSlot3.GetComponentInChildren<Text>().text = "";
                 break;
         }
 
@@ -403,11 +398,13 @@ public class UserInterfaceHelper : MonoBehaviour
     /// this displays the info of currently selected character (allied or enemy) in the top right part of the bottom bar
     /// </summary>
     /// <param name="Target"></param>
+    /// 
+    public Sprite transparency;
     public void DisplayTargetedCharacterInfo(CharacterWorldspaceScript Target = null)
     {//this sets the viewable info for the current targeted character, in the right top part of the bottom UI. it is possible to select one target and hover over another to compare them.
         if (Target == null || Target.associatedCharacter == null)
         {
-            selectedCharAvatar.sprite = null;
+            selectedEnemyCharAvatar.sprite = transparency;
             selectedEnemyCharName.text = "";
             selectedEnemyCharDescription.text = "";
             selectedEnemyCharEnemyType.text = "";
@@ -584,7 +581,7 @@ public class UserInterfaceHelper : MonoBehaviour
     }
     private void RefreshViewPlayer()
     {//run this after any trait change, death, etc.
-        if (PC1 != null)
+        if (PC1 != null && PC1.associatedCharacter != null)
         {
             firstCharAvatar.sprite = PC1.associatedCharacter.charAvatar;
             firstCharName.text = PC1.associatedCharacter.charName;
@@ -600,7 +597,7 @@ public class UserInterfaceHelper : MonoBehaviour
             }
 
         }
-        if (PC2 != null)
+        if (PC2 != null && PC2.associatedCharacter != null)
         {
             secondCharAvatar.sprite = PC2.associatedCharacter.charAvatar;
             secondCharName.text = PC2.associatedCharacter.charName;
@@ -615,7 +612,7 @@ public class UserInterfaceHelper : MonoBehaviour
                 secondCharTrait.text = "";
             }
         }
-        if (PC3 != null)
+        if (PC3 != null && PC3.associatedCharacter != null)
         {
             thirdCharAvatar.sprite = PC3.associatedCharacter.charAvatar;
             thirdCharName.text = PC3.associatedCharacter.charName;
@@ -630,7 +627,7 @@ public class UserInterfaceHelper : MonoBehaviour
                 thirdCharTrait.text = "";
             }
         }
-        if (PC4 != null)
+        if (PC4 != null && PC4.associatedCharacter != null)
         {
             fourthCharAvatar.sprite = PC4.associatedCharacter.charAvatar;
             fourthCharName.text = PC4.associatedCharacter.charName;
@@ -769,7 +766,7 @@ public class UserInterfaceHelper : MonoBehaviour
     public void RefreshHealthBarPlayer()
     {
 
-        if (PC1 != null)
+        if (PC1 != null && PC1.associatedCharacter != null && !PC1.associatedCharacter.isDead)
         {
             PC1.associatedCharacter.HealthBar = firstHealthBar;
             firstHealthBar.maxValue = PC1.associatedCharacter.maxHealth;
@@ -783,8 +780,9 @@ public class UserInterfaceHelper : MonoBehaviour
             firstHealthBar.gameObject.SetActive(false);
         }
         //
-        if (PC2 != null)
+        if (PC2 != null && PC2.associatedCharacter != null && !PC2.associatedCharacter.isDead)
         {
+
             PC2.associatedCharacter.HealthBar = secondHealthBar;
             secondHealthBar.maxValue = PC2.associatedCharacter.maxHealth;
             secondHealthBar.value = PC2.associatedCharacter.currentHealth;
@@ -796,7 +794,7 @@ public class UserInterfaceHelper : MonoBehaviour
             secondHealthBar.gameObject.SetActive(false);
         }
         //
-        if (PC3 != null)
+        if (PC3 != null && PC3.associatedCharacter != null && !PC3.associatedCharacter.isDead)
         {
             PC3.associatedCharacter.HealthBar = thirdHealthBar;
             thirdHealthBar.maxValue = PC3.associatedCharacter.maxHealth;
@@ -809,7 +807,7 @@ public class UserInterfaceHelper : MonoBehaviour
             thirdHealthBar.gameObject.SetActive(false);
         }
         //
-        if (PC4 != null || !PC4.associatedCharacter.isDead || !PC4.associatedCharacter.canAct)
+        if (PC4 != null && PC4.associatedCharacter != null && !PC4.associatedCharacter.isDead)
         {
             PC4.associatedCharacter.HealthBar = fourthHealthBar;
             fourthHealthBar.maxValue = PC4.associatedCharacter.maxHealth;
@@ -829,7 +827,7 @@ public class UserInterfaceHelper : MonoBehaviour
     }
     private void RefreshPlayerDeathStatus()
     {//checks wether the player is dead so it can hide or show the death/inactive overlay
-        if (!PC1.associatedCharacter.canAct)
+        if (PC1.associatedCharacter == null)
         {
             PCDead1.SetActive(true);
             firstHealthBar.gameObject.SetActive(false);
@@ -839,17 +837,17 @@ public class UserInterfaceHelper : MonoBehaviour
             firstHealthBar.gameObject.SetActive(true);
             PCDead1.SetActive(false);
         }
-        if (!PC2.associatedCharacter.canAct)
+        if (PC2.associatedCharacter == null)
         {
             PCDead2.SetActive(true);
             secondHealthBar.gameObject.SetActive(false);
         }
         else
         {
-            secondHealthBar.gameObject.SetActive(true);
+            secondHealthBar.gameObject.SetActive(true); 
             PCDead2.SetActive(false);
         }
-        if (!PC3.associatedCharacter.canAct)
+        if (PC3.associatedCharacter == null)
         {
             PCDead3.SetActive(true);
             thirdHealthBar.gameObject.SetActive(false);
@@ -859,7 +857,7 @@ public class UserInterfaceHelper : MonoBehaviour
             thirdHealthBar.gameObject.SetActive(true);
             PCDead3.SetActive(false);
         }
-        if (!PC4.associatedCharacter.canAct)
+        if (PC4.associatedCharacter == null)
         {
             PCDead4.SetActive(true);
             fourthHealthBar.gameObject.SetActive(false);
@@ -886,6 +884,11 @@ public class UserInterfaceHelper : MonoBehaviour
             return;
         }
         MainData.MainLoop.EntityDefComponent.UseConsumable(source.GetComponent<consumableSlotScript>().itemContent, MainData.MainLoop.CombatHelperComponent.activeTarget.associatedCharacter);
+        if (source.GetComponent<consumableSlotScript>().itemContent != null)
+        {
+            source.GetComponentInChildren<Text>().text = source.GetComponent<consumableSlotScript>().itemContent.itemQuantity.ToString();
+        }
+        
     }
     public void ClickSendPause()
     {

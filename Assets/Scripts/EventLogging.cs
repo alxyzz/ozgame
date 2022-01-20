@@ -6,6 +6,40 @@ using UnityEngine;
 public class EventLogging : MonoBehaviour
 {
     public TextMeshProUGUI TMPComponent;
+    [Header("Cool Text Display")]
+    public GameObject GradualTextDisplayObject;
+    public TextMeshProUGUI GradualTextDisplayText;
+    public float textDisplayDelayPerLetter;
+
+
+    //private bool isDisplayingAlready = false;
+    //public void LogDisplayGradualText(string text)
+    //{
+    //    if (isDisplayingAlready)
+    //    {
+    //        return;
+    //    }
+    //    GradualTextDisplayText.text = "";
+    //    isDisplayingAlready = true;
+    //    StartCoroutine(GradualDisplay(text));
+    //}
+
+
+
+    //IEnumerator GradualDisplay(string text)
+    //{
+    //    GradualTextDisplayObject.SetActive(true);
+    //    for (int i = 0; i < text.Length-1; i++)
+    //    {
+    //        GradualTextDisplayText.text += text[i]; 
+    //        yield return new WaitForSecondsRealtime(textDisplayDelayPerLetter);
+    //    }
+    //    yield return new WaitForSecondsRealtime(1f);
+    //    GradualTextDisplayObject.SetActive(false);
+    //    isDisplayingAlready = false;
+
+    //}
+
 
     public void Log(string log)
     {

@@ -97,7 +97,7 @@ public class CharacterWorldspaceScript : MonoBehaviour
             return;
         }
         randomIdleness = Random.Range(0.00f, 1.2f);
-        Debug.Log("random for " + associatedCharacter.charName + " is " + randomIdleness);
+        Debug.Log("random idle movement time variationg for " + associatedCharacter.charName + " is " + randomIdleness);
         StartCoroutine(InitIdle());
     }
 
@@ -244,7 +244,7 @@ public class CharacterWorldspaceScript : MonoBehaviour
         transform.localScale = new Vector3(1f, 1f, 1f);
 
     }
-
+    Coroutine co;
 
     [HideInInspector]
     public bool isWalking = false;
@@ -259,7 +259,8 @@ public class CharacterWorldspaceScript : MonoBehaviour
 
 
         Debug.Log("Starting to walk.");
-        StartCoroutine(WalkAnim());
+        isWalking = true;
+        co = StartCoroutine(WalkAnim());
     }
 
 
@@ -276,11 +277,11 @@ public class CharacterWorldspaceScript : MonoBehaviour
     {
         Debug.Log(associatedCharacter.hurtSprites);
         ToggleIdle(false);
-        Debug.Log(associatedCharacter.hurtSprites.Length);
+
         for (int i = 0; i < associatedCharacter.hurtSprites.Length - 1; i++)
         {
             spriteRenderer.sprite = associatedCharacter.hurtSprites[i];
-            yield return new WaitForSeconds(0.04f);
+            yield return new WaitForSecondsRealtime(0.04f);
         }
         ToggleIdle(true);
     }
@@ -288,21 +289,22 @@ public class CharacterWorldspaceScript : MonoBehaviour
     public IEnumerator WalkAnim()
     {
         ToggleIdle(false);
-
-        for (int i = 0; i < associatedCharacter.WalkSprites.Length - 1; i++)
+        while (isWalking)
         {
-            spriteRenderer.sprite = associatedCharacter.WalkSprites[i];
-            yield return new WaitForSeconds(0.8f);
+            for (int i = 0; i < associatedCharacter.WalkSprites.Length - 1; i++)
+            {
+                spriteRenderer.sprite = associatedCharacter.WalkSprites[i];
+                yield return new WaitForSecondsRealtime(0.08f);
+            }
         }
-        StartCoroutine("WalkAnim");
-
+        
     }
 
 
     public void StopWalk()
     {
         isWalking = false;
-        StopCoroutine("WalkAnim");
+        StopCoroutine(co);
         ToggleIdle(true);
     }
 
