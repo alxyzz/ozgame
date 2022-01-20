@@ -209,14 +209,128 @@ public class EntityDefiner : MonoBehaviour
     //    //dorothyIdleSheet = Resources.LoadAll<Sprite>("dorothy_idle");
     //}
 
-    public Item FetchRandomItem()
+
+
+
+
+
+
+
+
+    public Item FetchConsumable(string itemID)
     {//fetches a random t1 trait
-        List<string> keyList = new List<string>(allConsumables.Keys);
-        string randomKey = keyList[UnityEngine.Random.Range(0, keyList.Count + 1)];
-        Debug.Log("Fetched random item: " + randomKey);
-        return allConsumables[randomKey];
+        if (MainData.allConsumables[itemID] == null)
+        {
+            Debug.LogError("Nonexistant item identifier supplied at FetchConsumable.");
+            return null;
+        }
+
+        Debug.Log("Fetched equipment: " + itemID);
+        return new Item(MainData.allConsumables[itemID].identifier,
+                      MainData.allConsumables[itemID].description,
+                      MainData.allConsumables[itemID].itemBlurb,
+                      MainData.allConsumables[itemID].itemName,
+                      MainData.allConsumables[itemID].itemSprite,
+                      MainData.allConsumables[itemID].rarity,
+                      MainData.allConsumables[itemID].value,
+                      MainData.allConsumables[itemID].amtInStock,
+                      MainData.allConsumables[itemID].itemQuantity,
+                      MainData.allConsumables[itemID].beneficial,
+                      MainData.allConsumables[itemID].isEquipable,
+                      MainData.allConsumables[itemID].speedmodifier,
+                      MainData.allConsumables[itemID].healthmodifier,
+                      MainData.allConsumables[itemID].manamodifier,
+                      MainData.allConsumables[itemID].dmgmodifier,
+                      MainData.allConsumables[itemID].defensemodifier,
+                      MainData.allConsumables[itemID].luckmodifier,
+                      MainData.allConsumables[itemID].healingAmp,
+                      MainData.allConsumables[itemID].DamageResistancePercentage,
+                      MainData.allConsumables[itemID].DamageBonusPercentage,
+                      MainData.allConsumables[itemID].discountPercentage,
+                      MainData.allConsumables[itemID].Lifesteal);
+
 
     }
+
+
+    /// <summary>
+    /// gives a copy of equipment from a dictionary
+    /// if given no itemname it gives random one
+    /// </summary>
+    /// <returns></returns>
+    public Item FetchEquipment(string itemID = null)
+    {//fetches a random t1 trait
+        if (itemID == null)
+        {
+            List<string> keyList = new List<string>(allEquipment.Keys);
+            foreach (string item in keyList)
+            {
+                Debug.LogError("ITEM IN KEYLIST - " + item);
+            }
+            string randomKey = keyList[UnityEngine.Random.Range(0, keyList.Count)];
+
+            Debug.Log("Fetched random equipment. key - " + randomKey);
+            Item b = new Item(MainData.allEquipment[randomKey].identifier,
+                          MainData.allEquipment[randomKey].description,
+                          MainData.allEquipment[randomKey].itemBlurb,
+                          MainData.allEquipment[randomKey].itemName,
+                          MainData.allEquipment[randomKey].itemSprite,
+                          MainData.allEquipment[randomKey].rarity,
+                          MainData.allEquipment[randomKey].value,
+                          MainData.allEquipment[randomKey].amtInStock,
+                          MainData.allEquipment[randomKey].itemQuantity,
+                          MainData.allEquipment[randomKey].beneficial,
+                          MainData.allEquipment[randomKey].isEquipable,
+                          MainData.allEquipment[randomKey].speedmodifier,
+                          MainData.allEquipment[randomKey].healthmodifier,
+                          MainData.allEquipment[randomKey].manamodifier,
+                          MainData.allEquipment[randomKey].dmgmodifier,
+                          MainData.allEquipment[randomKey].defensemodifier,
+                          MainData.allEquipment[randomKey].luckmodifier,
+                          MainData.allEquipment[randomKey].healingAmp,
+                          MainData.allEquipment[randomKey].DamageResistancePercentage,
+                          MainData.allEquipment[randomKey].DamageBonusPercentage,
+                          MainData.allEquipment[randomKey].discountPercentage,
+                          MainData.allEquipment[randomKey].Lifesteal);
+            return b;
+
+        }
+        else
+        {
+            if (MainData.allEquipment[itemID] == null)
+            {
+                Debug.LogError("Nonexistant item identifier supplied at FetchEquipment.");
+                return null;
+            }
+            Debug.Log("Fetched equipment: " + itemID);
+            Item b = new Item(MainData.allEquipment[itemID].identifier,
+                          MainData.allEquipment[itemID].description,
+                          MainData.allEquipment[itemID].itemBlurb,
+                          MainData.allEquipment[itemID].itemName,
+                          MainData.allEquipment[itemID].itemSprite,
+                          MainData.allEquipment[itemID].rarity,
+                          MainData.allEquipment[itemID].value,
+                          MainData.allEquipment[itemID].amtInStock,
+                          MainData.allEquipment[itemID].itemQuantity,
+                          MainData.allEquipment[itemID].beneficial,
+                          MainData.allEquipment[itemID].isEquipable,
+                          MainData.allEquipment[itemID].speedmodifier,
+                          MainData.allEquipment[itemID].healthmodifier,
+                          MainData.allEquipment[itemID].manamodifier,
+                          MainData.allEquipment[itemID].dmgmodifier,
+                          MainData.allEquipment[itemID].defensemodifier,
+                          MainData.allEquipment[itemID].luckmodifier,
+                          MainData.allEquipment[itemID].healingAmp,
+                          MainData.allEquipment[itemID].DamageResistancePercentage,
+                          MainData.allEquipment[itemID].DamageBonusPercentage,
+                          MainData.allEquipment[itemID].discountPercentage,
+                          MainData.allEquipment[itemID].Lifesteal);
+            return b;
+        }
+
+    }
+
+
     public Trait FetchRandomTrait()
     {//fetches a random t1 trait
         List<string> keyList = new List<string>(traitList.Keys);
@@ -419,9 +533,6 @@ public class EntityDefiner : MonoBehaviour
     }
 
 
-
-
-
     //public void SpawnEnemyTest()
     //{//creates new enemies using a random, free, enemy spot. that's up to 7 enemies currently but just copy and arrange more if desired...
 
@@ -502,6 +613,8 @@ public class EntityDefiner : MonoBehaviour
         {
             item.SetupIdleAnimAndStart();
         }
+
+        //MainData.MainLoop.EventLoggingComponent.LogDisplayGradualText("You get a bad feeling.");
     }
     /// <summary>
     /// 
@@ -518,36 +631,37 @@ public class EntityDefiner : MonoBehaviour
     /// <param name="beneficial">wether this is harmful, or helpful</param>
 
 
+
     public void DefineConsumables()
     {
         MakeConsumableItemTemplate("health_potion", //dictionary key string
                             "Wondrous concoction that makes wounds close before one's very eyes.",
-                            "lorem ipsum dolor sic amet", //short flavourful blurb
-                            "Health Potion",
+                            "Overuse may cause halitosis.", //short flavourful blurb
+                            "Health Infusion",
                             HealthPotionSprite,
                             "uncommon", //rarity as a string
                             4,//value in currency
-                            5, //how much the trader gets in stock
+                            30, //how much the trader gets in stock
                             1, //default quantity
                             true); //helpful(true) or harmful(false)? Used for threat
         MakeConsumableItemTemplate("mana_potion",  //dictionary key string
-                            "Willpower, concentration and pure energy of self-expression in a bottle.",
-                            "lorem ipsum dolor sic amet", //short flavourful blurb
+                            "Willpower, concentration and pure energy in a bottle.",
+                            " ", //short flavourful blurb
                             "Mana Potion",
                             HealthPotionSprite,
                             "uncommon", //rarity as a string
                             4,//value in currency
-                            5, //how much the trader gets in stock
+                            15, //how much the trader gets in stock
                             1, //default quantity
                             true); //true - helpful.               false - harmful. 
         MakeConsumableItemTemplate("antidote_potion",  //dictionary key string
                             "A must-have in the forest.",
-                            "lorem ipsum dolor sic amet", //short flavourful blurb
-                            "Health Potion",
+                            " ", //short flavourful blurb
+                            "Antidote Potion",
                             HealthPotionSprite,
                             "uncommon", //rarity as a string
                             4,//value in currency
-                            5, //how much the trader gets in stock
+                            2, //how much the trader gets in stock
                             1, //default quantity
                             true); //true - helpful.               false - harmful. 
 
@@ -894,6 +1008,7 @@ public class EntityDefiner : MonoBehaviour
     public void GivePlayerTestConsumables()
     {
         GiveConsumable("health_potion", 3);
+
     }
 
     /// <summary>
@@ -1092,10 +1207,21 @@ public class EntityDefiner : MonoBehaviour
 
         public bool isDead = false;
         public bool hasActedThisTurn = false;
+        //public GameObject statusEffectObject;
+
+
+        //public void ShowStatusEffectIcon()
+        //{
+        //    if (statusEffectObject != null)
+        //    {
+        //        Destroy(statusEffectObject);
+        //    }
+        //    GameObject status = Instantiate(MainData.MainLoop.UserInterfaceHelperComponent.StatusEffectPrefab, new Vector3(selfScriptRef.transform.position.x, selfScriptRef.transform.position.y +5, selfScriptRef.transform.position.z), true, selfScriptRef);
+        //    status.GetComponent<StatusEffectIcon>().sprite = currentStatusEffects.
 
 
 
-
+        //}
 
 
         public int GetCompoundSpeed()
@@ -1143,6 +1269,7 @@ public class EntityDefiner : MonoBehaviour
         public void RecalculateThreatFromStats()
         {
             threatFromStats = (speed + currentHealth + damageMin + defense) / 4; //averages them, sounds reasonable
+
         }
 
 
@@ -1361,8 +1488,12 @@ public class EntityDefiner : MonoBehaviour
                 int countyy = 1;
                 foreach (Item item in attacker.equippedItems)
                 {
-                    lifestealmod *= item.Lifesteal;
-                    countyy++;
+                    if (item.Lifesteal > 0)
+                    {
+                        lifestealmod *= item.Lifesteal;
+                        countyy++;
+                    }
+
                 }
                 lifestealmod /= countyy; //averages the lifesteal
                 int percentageheal = (damageRoll / 100) * lifestealmod; //could also add health amp here but seems overkill
@@ -1436,10 +1567,14 @@ public class EntityDefiner : MonoBehaviour
 
 
 
+
+
+
+
         public void TakeDamage(int dmg)
         { //generic take damage function
             currentHealth -= dmg;
-            MainData.MainLoop.EventLoggingComponent.Log(this.charName + " the " + charTrait.traitName + " is hurt " + "for " + dmg + " damage!");
+            MainData.MainLoop.EventLoggingComponent.Log(this.charName + " is hurt " + "for " + dmg + " damage!");
             MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(dmg, this, false);
 
             if (!isPlayerPartyMember)
@@ -1470,24 +1605,27 @@ public class EntityDefiner : MonoBehaviour
             {
                 healthAmp += (int)item.healingAmp;
             }
-
-            hp = (hp / 100) * (100 + healthAmp);
-
+            Debug.LogWarning(hp + " is the health value gained pre formula.");
+            float b = (hp / 100) * (100 + healthAmp);
+            hp = (int)hp;
+            Debug.LogWarning(hp + " is the health value gained post formula.");
             currentHealth += hp;
             MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(hp, this, true);
-            if (!isPlayerPartyMember)
-            {//this updates the health bar so we don't run the whole big total refresh method
-                MainData.MainLoop.UserInterfaceHelperComponent.RefreshViewEnemy();
-                MainData.MainLoop.UserInterfaceHelperComponent.RefreshHealthBarEnemy();
-            }
-            else
-            {
-                MainData.MainLoop.UserInterfaceHelperComponent.RefreshHealthBarPlayer();
-            }
+
+            //if (!isPlayerPartyMember)
+            //{//this updates the health bar so we don't run the whole big total refresh method
+            //    MainData.MainLoop.UserInterfaceHelperComponent.RefreshViewEnemy();
+            //    MainData.MainLoop.UserInterfaceHelperComponent.RefreshHealthBarEnemy();
+            //}
+            //else
+            //{
+            //    MainData.MainLoop.UserInterfaceHelperComponent.RefreshHealthBarPlayer();
+            //}
             if (currentHealth >= this.maxHealth)
             {
                 currentHealth = maxHealth;
             }
+            MainData.MainLoop.UserInterfaceHelperComponent.RefreshCharacterTabs();
 
         }
         public void StatusEffectProc()
@@ -1585,6 +1723,11 @@ public class EntityDefiner : MonoBehaviour
                 }
                 equippedItems.Clear();
                 MainData.MainLoop.UserInterfaceHelperComponent.RefreshHealthBarPlayer();
+
+                if (MainData.livingPlayerParty.Count == 0)
+                {
+                    MainData.MainLoop.LostTheGame();
+                }
             }
             MainData.recentDeadEnemies.Add(this);
             selfScriptRef.Die();
@@ -1620,6 +1763,11 @@ public class EntityDefiner : MonoBehaviour
         public string type;
         public string description;
         public int turnsRemaining;
+        public Sprite statusEffectImage;
+
+
+
+
 
         public StatusEffect(string type, string description, int turnsRemaining)
         {

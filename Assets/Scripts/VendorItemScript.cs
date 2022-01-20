@@ -18,7 +18,6 @@ public class VendorItemScript : MonoBehaviour
     public Button itemBackground;//we might tint this based on rarity?
     public Item associatedItem;
     [HideInInspector]
-    public bool isInVendor = true;
     public void RefreshItemData()
     {
         if (associatedItem == null)
@@ -28,58 +27,104 @@ public class VendorItemScript : MonoBehaviour
         itemImage.sprite = associatedItem.itemSprite;
         itemName.text = associatedItem.itemName;
         itemDescription.text = associatedItem.description;
-        //if (associatedItem.value != 0)
-        //{
-        //    itemQuantity.text = associatedItem.value.ToString();
-        //}
-        //else
-        //{
-        //    itemQuantity.text = "";
-        //}
+        itemQuantity.text = associatedItem.amtInStock.ToString();
+        if (associatedItem.value != 0)
+        {
+            itemPrice.text = associatedItem.value.ToString();
+        }
+        else
+        {
+            itemPrice.text = "FREE!";
+        }
+
+        var colors = itemBackground.colors;
+        switch (associatedItem.rarity)
         
-        //var colors = itemBackground.colors;
-        //switch (associatedItem.
-        //)
-        //{
-        //    case "common":
-        //        colors.normalColor = new Vector4(100, 100, 100, 255);
-        //        break;
-        //    case "uncommon":
-        //        colors.normalColor = new Vector4(100, 100, 100, 255);
-        //        break;
-        //    case "rare":
-        //        colors.normalColor = new Vector4(100, 100, 100, 255);
-        //        break;
-        //    case "masterwork":
-        //        colors.normalColor = new Vector4(100, 100, 100, 255);
-        //        break;
-        //    case "legendary":
-        //        colors.normalColor = new Vector4(100, 100, 100, 255);
-        //        break;
-
-
-        //    default:
-        //        colors.normalColor = new Vector4(100, 100, 100, 255);
-        //        break;
-        //}
-        //itemBackground.colors = colors;
+        {
+            case "common":
+                colors.normalColor = MainData.MainLoop.TweakingComponent.CommonColor;
+                break;
+            case "uncommon":
+                colors.normalColor = MainData.MainLoop.TweakingComponent.UncommonColor;
+                break;
+            case "rare":
+                colors.normalColor = MainData.MainLoop.TweakingComponent.RareColor;
+                break;
+            case "masterwork":
+                colors.normalColor = MainData.MainLoop.TweakingComponent.MasterworkColor;
+                break;
+            default:
+                colors.normalColor = MainData.MainLoop.TweakingComponent.CommonColor;
+                break;
+        }
+        itemBackground.colors = colors;
     }
 
 
     /// <summary>
-    /// this method sets the item associated.
+    /// this method sets the item associated to a copy of an item from the respective dictionary. this exact copy will be given to the player's inventory if bought.
     /// </summary>
-    public void SetItem(string item, bool consumable)
+    public void SetItem(string item, bool equipment)
     {
 
-        if (consumable)
+        if (equipment)
         {
-            associatedItem = MainData.allConsumables[item];
+
+            Item b = new Item(MainData.allEquipment[item].identifier,
+                          MainData.allEquipment[item].description,
+                          MainData.allEquipment[item].itemBlurb,
+                          MainData.allEquipment[item].itemName,
+                          MainData.allEquipment[item].itemSprite,
+                          MainData.allEquipment[item].rarity,
+                          MainData.allEquipment[item].value,
+                          MainData.allEquipment[item].amtInStock,
+                          MainData.allEquipment[item].itemQuantity,
+                          MainData.allEquipment[item].beneficial,
+                          MainData.allEquipment[item].isEquipable,
+                          MainData.allEquipment[item].speedmodifier,
+                          MainData.allEquipment[item].healthmodifier,
+                          MainData.allEquipment[item].manamodifier,
+                          MainData.allEquipment[item].dmgmodifier,
+                          MainData.allEquipment[item].defensemodifier,
+                          MainData.allEquipment[item].luckmodifier,
+                          MainData.allEquipment[item].healingAmp,
+                          MainData.allEquipment[item].DamageResistancePercentage,
+                          MainData.allEquipment[item].DamageBonusPercentage,
+                          MainData.allEquipment[item].discountPercentage,
+                          MainData.allEquipment[item].Lifesteal);
+
+
+            associatedItem = b;
 
         }
         else
         {
-            associatedItem = MainData.allEquipment[item];
+            Item b = new Item(MainData.allConsumables[item].identifier,
+                          MainData.allConsumables[item].description,
+                          MainData.allConsumables[item].itemBlurb,
+                          MainData.allConsumables[item].itemName,
+                          MainData.allConsumables[item].itemSprite,
+                          MainData.allConsumables[item].rarity,
+                          MainData.allConsumables[item].value,
+                          MainData.allConsumables[item].amtInStock,
+                          MainData.allConsumables[item].itemQuantity,
+                          MainData.allConsumables[item].beneficial,
+                          MainData.allConsumables[item].isEquipable,
+                          MainData.allConsumables[item].speedmodifier,
+                          MainData.allConsumables[item].healthmodifier,
+                          MainData.allConsumables[item].manamodifier,
+                          MainData.allConsumables[item].dmgmodifier,
+                          MainData.allConsumables[item].defensemodifier,
+                          MainData.allConsumables[item].luckmodifier,
+                          MainData.allConsumables[item].healingAmp,
+                          MainData.allConsumables[item].DamageResistancePercentage,
+                          MainData.allConsumables[item].DamageBonusPercentage,
+                          MainData.allConsumables[item].discountPercentage,
+                          MainData.allConsumables[item].Lifesteal);
+
+
+            associatedItem = b;
+
         }
 
         RefreshItemData();
@@ -90,21 +135,10 @@ public class VendorItemScript : MonoBehaviour
 
     public void ClickedThis()
     {
-
-
-        if (isInVendor)
-        {
-            MainData.MainLoop.VendorScriptComponent.RefreshTransactionButtonText(false); //Buying, from player's perspective.
-        }
-        else
-        {
-            MainData.MainLoop.VendorScriptComponent.RefreshTransactionButtonText(true);//selling, from player's perspective
-        }
-        Debug.Log("clicktext vendorbutton");
+        Debug.Log("Clicked a vendor item.");
         MainData.MainLoop.VendorScriptComponent.currentlySelectedShopItem = this;
+
         MainData.MainLoop.VendorScriptComponent.RefreshText();
-
-
     }
 
 }
