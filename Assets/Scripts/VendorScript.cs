@@ -125,6 +125,8 @@ public class VendorScript : MonoBehaviour
             itemImage.sprite = MainData.MainLoop.UserInterfaceHelperComponent.transparency;
             return;
         }
+
+     
         VendorItemDesc.text = currentlySelectedShopItem.associatedItem.description;
         VendorItemName.text = currentlySelectedShopItem.associatedItem.itemName;
         VendorItemQuote.text = currentlySelectedShopItem.associatedItem.itemBlurb;
@@ -226,8 +228,8 @@ public class VendorScript : MonoBehaviour
         
         stock.Add(MainData.MainLoop.EntityDefComponent.FetchConsumable("health_potion"));//copy of health_potion
         stock.Add(MainData.MainLoop.EntityDefComponent.FetchEquipment()); //copy of random equipment
-        stock.Add(MainData.MainLoop.EntityDefComponent.FetchEquipment()); //copy of random equipment
-        stock.Add(MainData.MainLoop.EntityDefComponent.FetchEquipment()); //copy of random equipment
+
+
     }
 
     List<Item> stock = new List<Item>();
@@ -244,17 +246,16 @@ public class VendorScript : MonoBehaviour
 
         GenerateNewStock(); //something like a few potions and an item or two
 
-
-        RefreshShopItems();
+        InitFirstTime();
 
 
 
     }
 
 
-
-    private void RefreshShopItems()
+    private void InitFirstTime()
     {
+        //clear all previous items if any
         CurrentMoneyDisplay.text = MainData.MainLoop.Currency.ToString();
         if (vendorItems.Count > 0)
         {
@@ -265,24 +266,46 @@ public class VendorScript : MonoBehaviour
             }
         }
         vendorItems.Clear();
+        //
+        //now we create new items for every entry in stock
+
         foreach (Item item in stock)
         {
+            Debug.Log("GameObject b = Instantiate(VendorUIItemEntryPrefab, TradeObjectContainer.transform);");
             GameObject b = Instantiate(VendorUIItemEntryPrefab, TradeObjectContainer.transform);
             b.transform.SetParent(TradeObjectContainer.transform);
             b.transform.position = b.transform.parent.transform.position;
             VendorItemScript i = b.GetComponent<VendorItemScript>();
             i.SetItem(item.identifier, item.isEquipable);
+            i.RefreshItemData();
             vendorItems.Add(i);
             //item is created and set up at this point, only needs positioning
         }
+        RefreshShopItems();
+    }
+
+
+    private void RefreshShopItems()
+    {
+        CurrentMoneyDisplay.text = MainData.MainLoop.Currency.ToString();
         Vector3 change = vendorItems[0].transform.position;
         foreach (VendorItemScript child in vendorItems)
         {
+            List<Item> results = stock.FindAll(x => x == child.associatedItem);
             child.transform.position = change;
             change = new Vector3(child.transform.position.x, change.y - 155.2f, child.transform.position.z);
             child.RefreshItemData();
         }//now the item is properly positioned too in the scrollview. ready for player clicking
          //to remove all items just go foreach item in vendorItems and destroy the .gameObject
+
+        
+
+
+
+
+
+
+
     }
 
 
@@ -412,10 +435,19 @@ public class VendorScript : MonoBehaviour
                 {
                     return;
                 }
-                MainData.consumableInventory.Add(bought);
+                List<Item> results = MainData.consumableInventory.FindAll(x => x.identifier == bought.identifier);
+                if (results.Count == 1)
+                {
+                    results[0].itemQuantity++;
+                }
+                else
+                {
+                    MainData.consumableInventory.Add(bought);
+                }
                 MainData.MainLoop.UserInterfaceHelperComponent.RefreshConsumableSlots();
             }
             bought.amtInStock--;
+            currentlySelectedShopItem.itemQuantity.text = bought.amtInStock.ToString();
             Debug.LogError(bought.itemName + " in stock after purchase - " + bought.amtInStock);
             if (bought.amtInStock == 0)
             {

@@ -191,7 +191,6 @@ public class GameManager : MonoBehaviour
             MainData.MainLoop.CombatHelperComponent.EndCombat();
             EventLoggingComponent.Log("All enemies have been vanquished.");
             MainData.MainLoop.UserInterfaceHelperComponent.RefreshViewEnemy();
-           
             inCombat = false;
             return;
         }

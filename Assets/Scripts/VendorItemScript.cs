@@ -28,6 +28,7 @@ public class VendorItemScript : MonoBehaviour
         itemName.text = associatedItem.itemName;
         itemDescription.text = associatedItem.description;
         itemQuantity.text = associatedItem.amtInStock.ToString();
+        Debug.LogWarning("Refresh Item Data at VendorItemScript - itemQuantity.text = associatedItem.amtInStock.ToString(); - amt in stock is " + associatedItem.amtInStock.ToString());
         if (associatedItem.value != 0)
         {
             itemPrice.text = associatedItem.value.ToString();
@@ -132,7 +133,9 @@ public class VendorItemScript : MonoBehaviour
 
 
 
-
+    /// <summary>
+    /// this only selects the item as the one you will buy.
+    /// </summary>
     public void ClickedThis()
     {
         Debug.Log("Clicked a vendor item.");

@@ -63,18 +63,6 @@ public class ContentTweakingInterface : MonoBehaviour
     public Color MasterworkColor;
     public Color GenericColor;
 
-
-
-
-
-
-
-
-
-
-
-
-
     // Start is called before the first frame update
     void Start()
     {

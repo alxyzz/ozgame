@@ -97,7 +97,8 @@ public class CharacterWorldspaceScript : MonoBehaviour
             return;
         }
         randomIdleness = Random.Range(0.00f, 1.2f);
-        Debug.Log("random idle movement time variationg for " + associatedCharacter.charName + " is " + randomIdleness);
+        Debug.Log("random idle movement time variation for " + associatedCharacter.charName + " is " + randomIdleness);
+        //randomIdleness = 0;
         StartCoroutine(InitIdle());
     }
 

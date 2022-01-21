@@ -530,6 +530,11 @@ public class UserInterfaceHelper : MonoBehaviour
             NPC2HPbar.transform.parent.gameObject.SetActive(false);
             NPC3HPbar.transform.parent.gameObject.SetActive(false);
             NPC4HPbar.transform.parent.gameObject.SetActive(false);
+
+            selectedEnemyCharName.text = "";
+            selectedEnemyCharDescription.text = "";
+
+
             return;
         }
         ReferenceEnemiesForDisplay();

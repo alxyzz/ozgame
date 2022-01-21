@@ -6,7 +6,7 @@ using static EntityDefiner;
 
 public class CombatHelper : MonoBehaviour
 {
-    private bool endNext = false;
+   // private bool endNext = false;
     public float textFloatingDuration;
     public float textFloatSpeed;
     public float textOffset;
@@ -142,10 +142,10 @@ public class CombatHelper : MonoBehaviour
 
                 List<Character> results = new List<Character>();
                 results = MainData.livingEnemyParty.FindAll(x => x.isDead == false);
-                if (results.Count == 1)
-                {
-                    endNext = true;
-                }
+                //if (results.Count == 1)
+                //{
+                //    endNext = true;
+                //}
                 if (combatants[i].isPlayerPartyMember)
                 {
                     if (results.Count > 0)
