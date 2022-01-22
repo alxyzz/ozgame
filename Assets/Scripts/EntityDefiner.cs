@@ -39,52 +39,33 @@ public class EntityDefiner : MonoBehaviour
     [Space(10)]
     //public GameObject EnemyPrefab;
     public GameObject SpawnAnimationPrefab;
-
-
-
-
-    [HideInInspector]
+    [Header("Spritesheets")]
     public Sprite[] scarecrowAttackSheet;
-    [HideInInspector]
-    public Sprite[] lionAttackSheet;
-    [HideInInspector]
-    public Sprite[] dorothyAttackSheet;
-    [HideInInspector]
-    public Sprite[] tinmanAttackSheet;
-
-
-
-    [HideInInspector]
     public Sprite[] scarecrowWalk_Sheet;
-    [HideInInspector]
-    public Sprite[] lionWalkSheet;
-    [HideInInspector]
-    public Sprite[] dorothyWalkSheet;
-    [HideInInspector]
-    public Sprite[] tinmanWalkSheet;
-
-
-
-    [HideInInspector]
     public Sprite[] scarecrowHurtSheet;
-    [HideInInspector]
+    public Sprite[] scarecrowIdleSheet;
+
+    public Sprite[] lionAttackSheet;
+    public Sprite[] lionWalkSheet;
     public Sprite[] lionHurtSheet;
-    [HideInInspector]
+    public Sprite[] lionIdleSheet;
+
+    public Sprite[] dorothyAttackSheet;
+    public Sprite[] dorothyWalkSheet;
     public Sprite[] dorothyHurtSheet;
-    [HideInInspector]
+    public Sprite[] dorothyIdleSheet;
+
+    public Sprite[] tinmanAttackSheet;
+    public Sprite[] tinmanWalkSheet;
     public Sprite[] tinmanHurtSheet;
-
-
-
-
+    public Sprite[] tinmanIdleSheet;
 
     public Sprite lionsSprite;
     public GameObject ItemUseEffect;
 
-    [HideInInspector]
     public Sprite[] monkeyAttackSheet;
-    [HideInInspector]
     public Sprite[] monkeyHurtSheet;
+    public Sprite[] monkeyIdleSheet;
 
     public void UseConsumable(Item consumable, Character target)
     {
@@ -201,39 +182,155 @@ public class EntityDefiner : MonoBehaviour
 
     }
 
-    public void LoadSpriteSheets()
-    {
+    //public void LoadSpriteSheets()
+    //{
+    //    //monkeyAttackSheet = Resources.LoadAll<Sprite>("Monkey_attack_sheet");
+    //    //monkeyHurtSheet = Resources.LoadAll<Sprite>("Monkey_hurt_sheet");
+    //    //monkeyIdleSheet = Resources.LoadAll<Sprite>("monkey_idle");
+
+    //    //scarecrowAttackSheet = Resources.LoadAll<Sprite>("scarecrow_attack");
+    //    //scarecrowWalk_Sheet = Resources.LoadAll<Sprite>("scarecrow_walk");
+    //    //scarecrowHurtSheet = Resources.LoadAll<Sprite>("scarecrow_hurt");
+    //    //scarecrowIdleSheet = Resources.LoadAll<Sprite>("scarecrow_idle");
+
+    //    //tinmanAttackSheet = Resources.LoadAll<Sprite>("tinman_attack");
+    //    //tinmanWalkSheet = Resources.LoadAll<Sprite>("tinman_walk");
+    //    //tinmanHurtSheet = Resources.LoadAll<Sprite>("tinman_hurt");
+    //    //tinmanIdleSheet = Resources.LoadAll<Sprite>("tinman_idle");
+
+    //    //lionAttackSheet = Resources.LoadAll<Sprite>("lion_attack");
+    //    //lionWalkSheet = Resources.LoadAll<Sprite>("lion_walk");
+    //    //lionHurtSheet = Resources.LoadAll<Sprite>("lion_hurt");
+    //    //lionIdleSheet = Resources.LoadAll<Sprite>("lion_idle");
+
+    //    //dorothyAttackSheet = Resources.LoadAll<Sprite>("dorothy_attack");
+    //    //dorothyWalkSheet = Resources.LoadAll<Sprite>("dorothy_walk");
+    //    //dorothyHurtSheet = Resources.LoadAll<Sprite>("dorothy_hurt");
+    //    //dorothyIdleSheet = Resources.LoadAll<Sprite>("dorothy_idle");
+    //}
 
 
 
-        monkeyAttackSheet = Resources.LoadAll<Sprite>("Monkey_attack_sheet");
-        monkeyHurtSheet = Resources.LoadAll<Sprite>("Monkey_hurt_sheet");
-
-        scarecrowAttackSheet = Resources.LoadAll<Sprite>("scarecrow_attack");
-        scarecrowWalk_Sheet = Resources.LoadAll<Sprite>("scarecrow_walk");
-        scarecrowHurtSheet = Resources.LoadAll<Sprite>("scarecrow_hurt");
-
-        tinmanAttackSheet = Resources.LoadAll<Sprite>("tinman_attack");
-        tinmanWalkSheet = Resources.LoadAll<Sprite>("tinman_walk");
-        tinmanHurtSheet = Resources.LoadAll<Sprite>("tinman_hurt");
-
-        lionAttackSheet = Resources.LoadAll<Sprite>("lion_attack");
-        lionWalkSheet = Resources.LoadAll<Sprite>("lion_walk");
-
-        dorothyAttackSheet = Resources.LoadAll<Sprite>("dorothy_attack");
-        dorothyWalkSheet = Resources.LoadAll<Sprite>("dorothy_walk");
 
 
 
-    }
-    public Item FetchRandomItem()
+
+
+
+    public Item FetchConsumable(string itemID)
     {//fetches a random t1 trait
-        List<string> keyList = new List<string>(allConsumables.Keys);
-        string randomKey = keyList[UnityEngine.Random.Range(0, keyList.Count + 1)];
-        Debug.Log("Fetched random item: " + randomKey);
-        return allConsumables[randomKey];
+        if (MainData.allConsumables[itemID] == null)
+        {
+            Debug.LogError("Nonexistant item identifier supplied at FetchConsumable.");
+            return null;
+        }
+
+        Debug.Log("Fetched equipment: " + itemID);
+        return new Item(MainData.allConsumables[itemID].identifier,
+                      MainData.allConsumables[itemID].description,
+                      MainData.allConsumables[itemID].itemBlurb,
+                      MainData.allConsumables[itemID].itemName,
+                      MainData.allConsumables[itemID].itemSprite,
+                      MainData.allConsumables[itemID].rarity,
+                      MainData.allConsumables[itemID].value,
+                      MainData.allConsumables[itemID].amtInStock,
+                      MainData.allConsumables[itemID].itemQuantity,
+                      MainData.allConsumables[itemID].beneficial,
+                      MainData.allConsumables[itemID].isEquipable,
+                      MainData.allConsumables[itemID].speedmodifier,
+                      MainData.allConsumables[itemID].healthmodifier,
+                      MainData.allConsumables[itemID].manamodifier,
+                      MainData.allConsumables[itemID].dmgmodifier,
+                      MainData.allConsumables[itemID].defensemodifier,
+                      MainData.allConsumables[itemID].luckmodifier,
+                      MainData.allConsumables[itemID].healingAmp,
+                      MainData.allConsumables[itemID].DamageResistancePercentage,
+                      MainData.allConsumables[itemID].DamageBonusPercentage,
+                      MainData.allConsumables[itemID].discountPercentage,
+                      MainData.allConsumables[itemID].Lifesteal);
+
 
     }
+
+
+    /// <summary>
+    /// gives a copy of equipment from a dictionary
+    /// if given no itemname it gives random one
+    /// </summary>
+    /// <returns></returns>
+    public Item FetchEquipment(string itemID = null)
+    {//fetches a random t1 trait
+        if (itemID == null)
+        {
+            List<string> keyList = new List<string>(allEquipment.Keys);
+            foreach (string item in keyList)
+            {
+                Debug.LogError("ITEM IN KEYLIST - " + item);
+            }
+            string randomKey = keyList[UnityEngine.Random.Range(0, keyList.Count)];
+
+            Debug.Log("Fetched random equipment. key - " + randomKey);
+            Item b = new Item(MainData.allEquipment[randomKey].identifier,
+                          MainData.allEquipment[randomKey].description,
+                          MainData.allEquipment[randomKey].itemBlurb,
+                          MainData.allEquipment[randomKey].itemName,
+                          MainData.allEquipment[randomKey].itemSprite,
+                          MainData.allEquipment[randomKey].rarity,
+                          MainData.allEquipment[randomKey].value,
+                          MainData.allEquipment[randomKey].amtInStock,
+                          MainData.allEquipment[randomKey].itemQuantity,
+                          MainData.allEquipment[randomKey].beneficial,
+                          MainData.allEquipment[randomKey].isEquipable,
+                          MainData.allEquipment[randomKey].speedmodifier,
+                          MainData.allEquipment[randomKey].healthmodifier,
+                          MainData.allEquipment[randomKey].manamodifier,
+                          MainData.allEquipment[randomKey].dmgmodifier,
+                          MainData.allEquipment[randomKey].defensemodifier,
+                          MainData.allEquipment[randomKey].luckmodifier,
+                          MainData.allEquipment[randomKey].healingAmp,
+                          MainData.allEquipment[randomKey].DamageResistancePercentage,
+                          MainData.allEquipment[randomKey].DamageBonusPercentage,
+                          MainData.allEquipment[randomKey].discountPercentage,
+                          MainData.allEquipment[randomKey].Lifesteal);
+            return b;
+
+        }
+        else
+        {
+            if (MainData.allEquipment[itemID] == null)
+            {
+                Debug.LogError("Nonexistant item identifier supplied at FetchEquipment.");
+                return null;
+            }
+            Debug.Log("Fetched equipment: " + itemID);
+            Item b = new Item(MainData.allEquipment[itemID].identifier,
+                          MainData.allEquipment[itemID].description,
+                          MainData.allEquipment[itemID].itemBlurb,
+                          MainData.allEquipment[itemID].itemName,
+                          MainData.allEquipment[itemID].itemSprite,
+                          MainData.allEquipment[itemID].rarity,
+                          MainData.allEquipment[itemID].value,
+                          MainData.allEquipment[itemID].amtInStock,
+                          MainData.allEquipment[itemID].itemQuantity,
+                          MainData.allEquipment[itemID].beneficial,
+                          MainData.allEquipment[itemID].isEquipable,
+                          MainData.allEquipment[itemID].speedmodifier,
+                          MainData.allEquipment[itemID].healthmodifier,
+                          MainData.allEquipment[itemID].manamodifier,
+                          MainData.allEquipment[itemID].dmgmodifier,
+                          MainData.allEquipment[itemID].defensemodifier,
+                          MainData.allEquipment[itemID].luckmodifier,
+                          MainData.allEquipment[itemID].healingAmp,
+                          MainData.allEquipment[itemID].DamageResistancePercentage,
+                          MainData.allEquipment[itemID].DamageBonusPercentage,
+                          MainData.allEquipment[itemID].discountPercentage,
+                          MainData.allEquipment[itemID].Lifesteal);
+            return b;
+        }
+
+    }
+
+
     public Trait FetchRandomTrait()
     {//fetches a random t1 trait
         List<string> keyList = new List<string>(traitList.Keys);
@@ -280,63 +377,45 @@ public class EntityDefiner : MonoBehaviour
     /// <param name="attackAnimationSprites"></param>
     /// <param name="newCharAvatar"></param>
     /// <returns></returns>
-    public void MakeMobTemplate(string characterID, string charName, string charDesc, string attackVerb, bool isPlayer, int baseHP, int baseMinDMG, int baseMaxDMG, int baseSPD, int Defense, int Luck, int Mana, AudioClip newCharTurnSound, Sprite[] attackAnimationSprites, int bountyy, Sprite newCharAvatar, Sprite noAnimSprite, Sprite[] HurtSprites, Sprite[] WalkSprite)
+    public void MakeMobTemplate(string characterID, string charName, string charDesc, string attackVerb, bool isPlayer, int baseHP, int baseMinDMG, int baseMaxDMG, int baseSPD, int Defense, int Luck, int Mana, AudioClip newCharTurnSound, Sprite[] attackAnimationSprites, int bountyy, Sprite newCharAvatar, Sprite noAnimSprite, Sprite[] HurtSprites, Sprite[] WalkSprite, Sprite[] IdleSprites)
     {
-        Character newCharacterDefinition = Character.CreateInstance<Character>();
-
-        newCharacterDefinition.charType = characterID; //something like "goblin_spear", "tin_man" or "scarecrow" for the dictionary. 
-        newCharacterDefinition.charName = charName;
-        newCharacterDefinition.entityDescription = charDesc;
-        newCharacterDefinition.attackverb = attackVerb;
-
-        newCharacterDefinition.isPlayerPartyMember = isPlayer;
-
-        if (HurtSprites != null)
-        {
-            newCharacterDefinition.hurtSprites = HurtSprites;
-        }
-
-
-        newCharacterDefinition.WalkSprites = WalkSprite;
-
-
-
-
-        newCharacterDefinition.turnSound = newCharTurnSound;
-        newCharacterDefinition.attackAnimation = attackAnimationSprites;
+        Character Chara = Character.CreateInstance<Character>();
+        Chara.charType = characterID; //something like "goblin_spear", "tin_man" or "scarecrow" for the dictionary. 
+        Chara.charName = charName;
+        Chara.entityDescription = charDesc;
+        Chara.attackverb = attackVerb;
+        Chara.isPlayerPartyMember = isPlayer;
+        Chara.hurtSprites = HurtSprites;
+        Chara.idleSprite = IdleSprites;
+        Chara.WalkSprites = WalkSprite;
+        Chara.turnSound = newCharTurnSound;
+        Chara.attackAnimation = attackAnimationSprites;
         if (noAnimSprite != null)
         {
-            newCharacterDefinition.standingSprite = noAnimSprite;
+            Chara.standingSprite = noAnimSprite;
             //MainData.MainLoop.EventLoggingComponent.Log("noAnimsprite not null");
 
         }
         else
         {
-            newCharacterDefinition.standingSprite = attackAnimationSprites[0];
+            Chara.standingSprite = attackAnimationSprites[0];
             //MainData.MainLoop.EventLoggingComponent.Log("noAnimsprite null");
         }
-        newCharacterDefinition.charAvatar = newCharAvatar;
-
-
-
-        newCharacterDefinition.maxHealth = baseHP;
-        newCharacterDefinition.baseDamageMin = baseMinDMG;
-        newCharacterDefinition.baseDamageMin = baseMaxDMG;
-        newCharacterDefinition.baseSpeed = baseSPD;
-
-        newCharacterDefinition.currentHealth = baseHP;
-        newCharacterDefinition.mana = Mana;
-
-        newCharacterDefinition.luck = Luck;
-        newCharacterDefinition.damageMin = baseMinDMG;
-        newCharacterDefinition.damageMax = baseMaxDMG;
-        newCharacterDefinition.speed = baseSPD; //to be recalculated later whenever a modifier gets applied.
-        newCharacterDefinition.defense = Defense;
-        newCharacterDefinition.valueBounty = bountyy;
-
-        newCharacterDefinition.hasActedThisTurn = false;
-
-        MainData.characterTypes.Add(characterID, newCharacterDefinition);
+        Chara.charAvatar = newCharAvatar;
+        Chara.maxHealth = baseHP;
+        Chara.baseDamageMin = baseMinDMG;
+        Chara.baseDamageMin = baseMaxDMG;
+        Chara.baseSpeed = baseSPD;
+        Chara.currentHealth = baseHP;
+        Chara.mana = Mana;
+        Chara.luck = Luck;
+        Chara.damageMin = baseMinDMG;
+        Chara.damageMax = baseMaxDMG;
+        Chara.speed = baseSPD; //to be recalculated later whenever a modifier gets applied.
+        Chara.defense = Defense;
+        Chara.valueBounty = bountyy;
+        Chara.hasActedThisTurn = false;
+        MainData.characterTypes.Add(characterID, Chara);
     }
 
 
@@ -360,8 +439,9 @@ public class EntityDefiner : MonoBehaviour
                        0, //bounty, not relevant for PC
                        scarecrowAvatar, //avatar
                        scarecrowStanding, //standing sprite if there is no attacksheet since we usually just use the first frame
-                       null,
-                       scarecrowWalk_Sheet); //hurt sprites
+                       scarecrowHurtSheet, //hurt
+                       scarecrowWalk_Sheet, //walk
+                       scarecrowIdleSheet); //idle sprites
 
         MakeMobTemplate("tin_man",
                        "Tin Man",
@@ -380,8 +460,9 @@ public class EntityDefiner : MonoBehaviour
                        0, //bounty, not relevant for PC
                        tinmanAvatar, //avatar
                        tinmanStanding,//standing sprite if there is no attacksheet since we usually just use the first frame
-                       null,
-                       tinmanWalkSheet); //hurt sprites 
+                       tinmanHurtSheet,
+                       tinmanWalkSheet,
+                       tinmanIdleSheet);
 
         MakeMobTemplate("lion",
                        "Lion",
@@ -400,8 +481,9 @@ public class EntityDefiner : MonoBehaviour
                        0, //bounty, not relevant for PC
                        lionAvatar, //avatar
                        lionStanding, //standing sprite if there is no attacksheet since we usually just use the first frame
-                       null,
-                       scarecrowWalk_Sheet); //null
+                       lionHurtSheet,
+                       lionWalkSheet,
+                       lionIdleSheet);
 
         MakeMobTemplate("dorothy",
                        "Dorothy",
@@ -421,10 +503,14 @@ public class EntityDefiner : MonoBehaviour
                        dorothyAvatar, //avatar
                        dorothyStanding, //standing sprite if there is no attacksheet since we usually just use the first frame
                        dorothyHurtSheet,
-                       tinmanWalkSheet); //hurt sprites
+                       dorothyWalkSheet,
+                       dorothyIdleSheet);
 
 
     }
+
+
+
 
 
     public void DefineNPC()
@@ -443,77 +529,60 @@ public class EntityDefiner : MonoBehaviour
                        0, //mana
                        null, //sound for when it is this character's turn to act
                        monkeyAttackSheet, //character's attack animation sprite 
-                       2, monkeyAvatar, monkeyAttackSheet[0], monkeyHurtSheet, scarecrowWalk_Sheet);
+                       2, monkeyAvatar, monkeyAttackSheet[0], monkeyHurtSheet, scarecrowWalk_Sheet, monkeyIdleSheet);
     }
 
 
+    //public void SpawnEnemyTest()
+    //{//creates new enemies using a random, free, enemy spot. that's up to 7 enemies currently but just copy and arrange more if desired...
 
-    //public int flyingMonkeyMaxHealth = 0;
-    //public int flyingMonkeyMaxDamage = 0;
-    //public int flyingMonkeyMinDamage = 0;
-    //public int flyingMonkeySpeed = 0;
-    //public int flyingMonkeyLuck = 0;
-    //public int flyingMonkeyDefense = 0;
+    //    // GameObject leftborder = StaticDataHolder.MainLoop.PositionHolderComponent.EnemySpawnBoundaryLeft;
+    //    // GameObject rightborder = StaticDataHolder.MainLoop.PositionHolderComponent.EnemySpawnBoundaryRight;
 
+    //    // GameObject b = Instantiate(EnemyPrefab, new Vector3(UnityEngine.Random.Range(leftborder.transform.position.x, rightborder.transform.position.x),
+    //    //  rightborder.transform.position.y, 0), Quaternion.identity, StaticDataHolder.MainLoop.backgroundObject.transform);
 
-    public void SpawnEnemyTest()
-    {//creates new enemies using a random, free, enemy spot. that's up to 7 enemies currently but just copy and arrange more if desired...
+    //    //get random unused object
+    //    if (freeEnemyPartyMemberObjects.Count == 0)
+    //    {
+    //        MainData.MainLoop.EventLoggingComponent.LogGray("Tried spawning, no more spots...");
+    //        return;
+    //    }
+    //    //string bo = "";
+    //    //foreach (GameObject item in freeEnemyPartyMemberObjects)
+    //    //{
+    //    //    bo += item.name + "\n";
 
-        // GameObject leftborder = StaticDataHolder.MainLoop.PositionHolderComponent.EnemySpawnBoundaryLeft;
-        // GameObject rightborder = StaticDataHolder.MainLoop.PositionHolderComponent.EnemySpawnBoundaryRight;
+    //    //}
 
-        // GameObject b = Instantiate(EnemyPrefab, new Vector3(UnityEngine.Random.Range(leftborder.transform.position.x, rightborder.transform.position.x),
-        //  rightborder.transform.position.y, 0), Quaternion.identity, StaticDataHolder.MainLoop.backgroundObject.transform);
-
-        //get random unused object
-        if (freeEnemyPartyMemberObjects.Count == 0)
-        {
-            MainData.MainLoop.EventLoggingComponent.LogGray("Tried spawning, no more spots...");
-            return;
-        }
-        //string bo = "";
-        //foreach (GameObject item in freeEnemyPartyMemberObjects)
-        //{
-        //    bo += item.name + "\n";
-
-        //}
-
-        int x = UnityEngine.Random.Range(0, freeEnemyPartyMemberObjects.Count);
-        MainData.MainLoop.EventLoggingComponent.LogDanger("Spawned enemy using spot at freeEnemyPartyMemberObjects[" + x.ToString() + "].");
-        GameObject b = freeEnemyPartyMemberObjects[x]; //we get a random, inactive enemy spot
-        freeEnemyPartyMemberObjects.RemoveAt(x);
-        usedEnemyPartyMemberObjects.Add(b); //tracks usage
-        //freeEnemyPartyMemberObjects.Remove(b);//officialy live
-        b.SetActive(true);//we turn it on
-        CharacterWorldspaceScript d = b.GetComponent<CharacterWorldspaceScript>();//get the Cscript reference
+    //    int x = UnityEngine.Random.Range(0, freeEnemyPartyMemberObjects.Count);
+    //    MainData.MainLoop.EventLoggingComponent.LogDanger("Spawned enemy using spot at freeEnemyPartyMemberObjects[" + x.ToString() + "].");
+    //    GameObject b = freeEnemyPartyMemberObjects[x]; //we get a random, inactive enemy spot
+    //    freeEnemyPartyMemberObjects.RemoveAt(x);
+    //    usedEnemyPartyMemberObjects.Add(b); //tracks usage
+    //    //freeEnemyPartyMemberObjects.Remove(b);//officialy live
+    //    b.SetActive(true);//we turn it on
+    //    CharacterWorldspaceScript d = b.GetComponent<CharacterWorldspaceScript>();//get the Cscript reference
 
 
 
 
 
-        d.SetupCharacterByTemplate(MainData.characterTypes["flyingmonkey"]); //assign an enemy template
-                                                                             //StaticDataHolder.livingEnemyParty.Add(d.associatedCharacter);//they are added to the living list in the above method
-        MainData.MainLoop.EventLoggingComponent.LogGray("A new friend has arrived.");
-        MainData.MainLoop.inCombat = true;
-        MainData.MainLoop.UserInterfaceHelperComponent.RefreshViewEnemy();
+    //    d.SetupCharacterByTemplate(MainData.characterTypes["flyingmonkey"]); //assign an enemy template
+    //                                                                         //StaticDataHolder.livingEnemyParty.Add(d.associatedCharacter);//they are added to the living list in the above method
+    //    MainData.MainLoop.EventLoggingComponent.LogGray("A new friend has arrived.");
+    //    MainData.MainLoop.inCombat = true;
+    //    MainData.MainLoop.UserInterfaceHelperComponent.RefreshViewEnemy();
 
-        //these are for making smoke appear behind new spawns if desired later on.
-        //GameObject cx = Instantiate(SpawnAnimationPrefab, d.gameObject.transform.position, Quaternion.identity);
-        //StartCoroutine(DelAfterTime(cx));
-    }
-
-    //IEnumerator DelAfterTime(GameObject b)
-    //{
-
-    //    yield return new WaitForSecondsRealtime(2f);
-    //    Destroy(b);
+    //    //these are for making smoke appear behind new spawns if desired later on.
+    //    //GameObject cx = Instantiate(SpawnAnimationPrefab, d.gameObject.transform.position, Quaternion.identity);
+    //    //StartCoroutine(DelAfterTime(cx));
     //}
-
-
 
 
     public void SpawnEncounter(Encounter b)
     {
+        List<CharacterWorldspaceScript> enemiesSpawned = new List<CharacterWorldspaceScript>();
         b.spawned = true;//no repeat customers
         if (freeEnemyPartyMemberObjects.Count == 0)
         {
@@ -524,7 +593,7 @@ public class EntityDefiner : MonoBehaviour
         {
             int x = UnityEngine.Random.Range(0, freeEnemyPartyMemberObjects.Count); //random spot
 
-            MainData.MainLoop.EventLoggingComponent.LogDanger("Spawned enemy using spot at freeEnemyPartyMemberObjects[" + x.ToString() + "].");
+            //MainData.MainLoop.EventLoggingComponent.LogDanger("Spawned enemy using spot at freeEnemyPartyMemberObjects[" + x.ToString() + "].");
             GameObject f = freeEnemyPartyMemberObjects[x]; //we get a random, inactive enemy spot
             freeEnemyPartyMemberObjects.RemoveAt(x); //we remove the spot from the inactive/free enemy spot list
             usedEnemyPartyMemberObjects.Add(f); //track usage...
@@ -533,11 +602,19 @@ public class EntityDefiner : MonoBehaviour
             d.SetupCharacterByTemplate(MainData.characterTypes[item]); //assign and set up an enemy template to the spot
             //they are added to the living list in the above method
             MainData.MainLoop.EventLoggingComponent.LogGray("A " + d.associatedCharacter.charName + " suddenly steps out of the shadows.");
-
+            enemiesSpawned.Add(d);
         }
         //refresh the miniview thingies whenever we spawn or kill stuff
         MainData.MainLoop.inCombat = true;
         MainData.MainLoop.UserInterfaceHelperComponent.RefreshViewEnemy();
+
+
+        foreach (CharacterWorldspaceScript item in enemiesSpawned)
+        {
+            item.SetupIdleAnimAndStart();
+        }
+
+        //MainData.MainLoop.EventLoggingComponent.LogDisplayGradualText("You get a bad feeling.");
     }
     /// <summary>
     /// 
@@ -554,36 +631,37 @@ public class EntityDefiner : MonoBehaviour
     /// <param name="beneficial">wether this is harmful, or helpful</param>
 
 
+
     public void DefineConsumables()
     {
         MakeConsumableItemTemplate("health_potion", //dictionary key string
                             "Wondrous concoction that makes wounds close before one's very eyes.",
-                            "lorem ipsum dolor sic amet", //short flavourful blurb
-                            "Health Potion",
+                            "Overuse may cause halitosis.", //short flavourful blurb
+                            "Health Infusion",
                             HealthPotionSprite,
                             "uncommon", //rarity as a string
                             4,//value in currency
-                            5, //how much the trader gets in stock
+                            30, //how much the trader gets in stock
                             1, //default quantity
                             true); //helpful(true) or harmful(false)? Used for threat
         MakeConsumableItemTemplate("mana_potion",  //dictionary key string
-                            "Willpower, concentration and pure energy of self-expression in a bottle.",
-                            "lorem ipsum dolor sic amet", //short flavourful blurb
+                            "Willpower, concentration and pure energy in a bottle.",
+                            " ", //short flavourful blurb
                             "Mana Potion",
                             HealthPotionSprite,
                             "uncommon", //rarity as a string
                             4,//value in currency
-                            5, //how much the trader gets in stock
+                            15, //how much the trader gets in stock
                             1, //default quantity
                             true); //true - helpful.               false - harmful. 
         MakeConsumableItemTemplate("antidote_potion",  //dictionary key string
                             "A must-have in the forest.",
-                            "lorem ipsum dolor sic amet", //short flavourful blurb
-                            "Health Potion",
+                            " ", //short flavourful blurb
+                            "Antidote Potion",
                             HealthPotionSprite,
                             "uncommon", //rarity as a string
                             4,//value in currency
-                            5, //how much the trader gets in stock
+                            2, //how much the trader gets in stock
                             1, //default quantity
                             true); //true - helpful.               false - harmful. 
 
@@ -663,13 +741,13 @@ public class EntityDefiner : MonoBehaviour
 
         //get random trait
         //nonrepeating
-        foreach (Character item in MainData.livingPlayerParty)
-        {
+        //foreach (Character item in MainData.livingPlayerParty)
+        //{
 
 
 
 
-        }
+        //}
 
 
         MainData.MainLoop.UserInterfaceHelperComponent.PC1 = slot1ref;
@@ -683,8 +761,13 @@ public class EntityDefiner : MonoBehaviour
         MainData.MainLoop.UserInterfaceHelperComponent.pc4clickableoverview.associatedCharacter = slot4ref.associatedCharacter;
 
 
-
-}
+        foreach (Character item in MainData.livingPlayerParty)
+        {
+            item.RecalculateStatsFromTraits();
+            //item.RecalculateStatsFromItems(); this is done when we attack or use the stat in most cases, using either GetCompoundSpeed() or such, or a foreach loop looking into the items
+            item.RecalculateThreatFromStats();
+        }
+    }
 
     public void TestGivePlayerItems()
     {
@@ -2106,18 +2189,16 @@ public class EntityDefiner : MonoBehaviour
                                    "Caring", //name
                                    "Caring", //adjective given to characters with this
                                    "The power which lies in the heart is not to be underestimated.", // blurb. wax poetic here as much as you want
-                                   "Passive: Healing potions are less effective on this character. Active: [<color=#45BA3D >Heal</color>] Heals an ally for 50% HP.", //functional description
+                                   "Passive: Healing potions are less effective on this character.\nActive: <color=#45BA3D>Heal</color> Heals an ally for 50% HP.", //functional description
                                    null, //sprite
                                    false); //false = t1. true = t2.
                                            //gets automatically sent to the desired trait list upon generation, in the constructor
-
-
 
         Trait t2 = new Trait("wrath", //string ID
                                    "Wrath", //name
                                    "Wrathful", //adjective given to characters with this
                                    "wrath stuff", // blurb. wax poetic here as much as you want
-                                   "Passive: Healing potions are less effective on this character. Active: [<color=#45BA3D >Heal</color>] Heals an ally for 50% HP.", //functional description
+                                   "Passive:  Increased damage, lower defense.\nActive: <color=#F87777>Double Strike</color> Attacks twice.", //functional description
                                    null, //sprite
                                    false); //false = t1. true = t2.
         //gets automatically sent to the desired trait list upon generation, in the constructor
@@ -2126,7 +2207,7 @@ public class EntityDefiner : MonoBehaviour
                                    "Greed", //name
                                    "Greedy", //adjective given to characters with this
                                    "greed stuff", // blurb. wax poetic here as much as you want
-                                   "Passive: Healing potions are less effective on this character. Active: [<color=#45BA3D >Heal</color>] Heals an ally for 50% HP.", //functional description
+                                   "Passive: 10% loot bonus when completing a battle.\nActive: <color=#E8BE0D>Barter</color> Exchange some HP for gold during a battle", //functional description
                                    null, //sprite
                                    false); //false = t1. true = t2.
         //gets automatically sent to the desired trait list upon generation, in the constructor
@@ -2135,7 +2216,7 @@ public class EntityDefiner : MonoBehaviour
                                    "Anger", //name
                                    "Angry", //adjective given to characters with this
                                    "anger stuff.", // blurb. wax poetic here as much as you want
-                                   "Passive: Healing potions are less effective on this character. Active: [<color=#45BA3D >Heal</color>] Heals an ally for 50% HP.", //functional description
+                                   "Passive: Taking damage increases the power of this unit’s next attack.\nActive: <color=#FF2C22>Lash out</color> Heals an ally for 50% HP.", //functional description
                                    null, //sprite
                                    false); //false = t1. true = t2.
         //gets automatically sent to the desired trait list upon generation, in the constructor
@@ -2204,6 +2285,7 @@ public class EntityDefiner : MonoBehaviour
     public void GivePlayerTestConsumables()
     {
         GiveConsumable("health_potion", 3);
+
     }
 
     /// <summary>
@@ -2255,17 +2337,21 @@ public class EntityDefiner : MonoBehaviour
     public class Item
     {
         public string identifier; //stuff like "doner_kebab", "icecream_chocolate", "sword_steel"
+
         public string description;
         public string itemBlurb;
         public string itemName;
         public Sprite itemSprite;
-        public string rarity;
+
+        public string rarity;//common, uncommon, rare, masterwork. that's it
         public int value;
         public int amtInStock; // standard amount in stock, duh. This is for the shop.
         public int itemQuantity; // quantity of items held. for potion mostly. or bombs. etc. consumables. Or perhaps en enchanted sword with limited amount of shots.
+
         public bool beneficial; //for threat tracking and stuff.
         //for equipment
         public bool isEquipable;
+
         public Character currentWielder;
 
         public int speedmodifier; //just a +5 or -5 or the like. for all of these modifiers
@@ -2355,12 +2441,12 @@ public class EntityDefiner : MonoBehaviour
         public List<Item> equippedItems = new List<Item>(); //this does not contain any consumables. those are in the collective inventory pool. this only contains items with isEquipable = true, which have an effect on stats
         public Trait charTrait;
 
-
         public float threatFromStats;
         public float Threat = 0;
 
         public string charType; //something like "goblin_spear", "tin_man" or "scarecrow" for the dictionary. 
         public string charName;
+        public string attackverb;
         public string entityDescription;
         public CharacterWorldspaceScript selfScriptRef;
         public Vector3 InitialPosition; //yeah screw having a single variable in CombatHelper.cs we're doing this. set in CharacterScript or template use
@@ -2368,10 +2454,12 @@ public class EntityDefiner : MonoBehaviour
 
 
         public AudioClip turnSound;
+
         public Sprite[] attackAnimation; //this contains the attack too. the first sprite is the standing sprite if one is not supplied.
         public Sprite standingSprite;
         public Sprite[] WalkSprites;
         public Sprite[] hurtSprites;
+        public Sprite[] idleSprite;
         public Sprite charAvatar;//head pic
 
         public List<StatusEffect> currentStatusEffects = new List<StatusEffect>();
@@ -2391,13 +2479,26 @@ public class EntityDefiner : MonoBehaviour
         public int defense; //handled in attacking code
         public int luck; //not yet
         public int mana; //not yet
+
         public bool canAct = true; //wether it's stunned or not
+
         public bool isDead = false;
         public bool hasActedThisTurn = false;
+        //public GameObject statusEffectObject;
 
-        public string attackverb;
+
+        //public void ShowStatusEffectIcon()
+        //{
+        //    if (statusEffectObject != null)
+        //    {
+        //        Destroy(statusEffectObject);
+        //    }
+        //    GameObject status = Instantiate(MainData.MainLoop.UserInterfaceHelperComponent.StatusEffectPrefab, new Vector3(selfScriptRef.transform.position.x, selfScriptRef.transform.position.y +5, selfScriptRef.transform.position.z), true, selfScriptRef);
+        //    status.GetComponent<StatusEffectIcon>().sprite = currentStatusEffects.
 
 
+
+        //}
 
 
         public int GetCompoundSpeed()
@@ -2445,6 +2546,7 @@ public class EntityDefiner : MonoBehaviour
         public void RecalculateThreatFromStats()
         {
             threatFromStats = (speed + currentHealth + damageMin + defense) / 4; //averages them, sounds reasonable
+
         }
 
 
@@ -2491,6 +2593,7 @@ public class EntityDefiner : MonoBehaviour
                             damageMax -= MainData.MainLoop.TweakingComponent.caringPassiveDamageMalus;
                             damageMin -= MainData.MainLoop.TweakingComponent.caringPassiveDamageMalus;
                             maxHealth += MainData.MainLoop.TweakingComponent.caringPassiveHealthBonus;
+                            currentHealth += MainData.MainLoop.TweakingComponent.caringPassiveHealthBonus;
                             charTrait.hasAppliedStats = true;
                         }
                         break;
@@ -2624,17 +2727,17 @@ public class EntityDefiner : MonoBehaviour
             if (attacker.charTrait != null)
             {//here we deal with the attacker's traits.
 
-                    switch (attacker.charTrait.identifier)
-                    {
-                        case "angry":
-                            damagemod += attacker.charTrait.GenericTraitValue; //adds the whole value to damage output
+                switch (attacker.charTrait.identifier)
+                {
+                    case "angry":
+                        damagemod += attacker.charTrait.GenericTraitValue; //adds the whole value to damage output
                         attacker.charTrait.GenericTraitValue = 0;//resets it upon use
-                            break;
-                        default:
-                            Debug.Log(attacker.charName + "'s trait passive not relevant to hitting.");
-                            break;
-                    }
-                
+                        break;
+                    default:
+                        Debug.Log(attacker.charName + "'s trait passive not relevant to hitting.");
+                        break;
+                }
+
 
             }
 
@@ -2650,7 +2753,7 @@ public class EntityDefiner : MonoBehaviour
             {
                 defense = 0;
             }
-
+            //MainData.MainLoop.EventLoggingComponent.Log("damage without modifiers - " + (damageRoll - damagemod) + ", defense without modifiers " + (defense - defensemod));
             MainData.MainLoop.EventLoggingComponent.Log(attacker.charName + " " + attacker.attackverb + " the " + charName + " for " + (damageRoll + defense) + " damage. Armor protects for " + defense + " damage!");
 
 
@@ -2662,8 +2765,12 @@ public class EntityDefiner : MonoBehaviour
                 int countyy = 1;
                 foreach (Item item in attacker.equippedItems)
                 {
-                    lifestealmod *= item.Lifesteal;
-                    countyy++;
+                    if (item.Lifesteal > 0)
+                    {
+                        lifestealmod *= item.Lifesteal;
+                        countyy++;
+                    }
+
                 }
                 lifestealmod /= countyy; //averages the lifesteal
                 int percentageheal = (damageRoll / 100) * lifestealmod; //could also add health amp here but seems overkill
@@ -2690,9 +2797,6 @@ public class EntityDefiner : MonoBehaviour
 
 
             MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(damageRoll, this, false);
-
-            selfScriptRef.GotHurt();
-
             int damageMult = 0;
             int damageResist = 0;
             if (attacker.equippedItems.FindIndex(f => f.DamageBonusPercentage > 0) != -1) //it returns -1 if none are found
@@ -2722,6 +2826,7 @@ public class EntityDefiner : MonoBehaviour
             //(2 / 10) * 100
             currentHealth -= damageRoll; //INCORPORATED ARMOR CALCULATION HERE 
             attacker.Threat += (damageRoll); // WE APPLY THREAT
+            selfScriptRef.GotHurt();
             if (!isPlayerPartyMember)
             {//this updates the health bar so we don't run the whole big total refresh method
                 MainData.MainLoop.UserInterfaceHelperComponent.RefreshViewEnemy();
@@ -2739,10 +2844,14 @@ public class EntityDefiner : MonoBehaviour
 
 
 
+
+
+
+
         public void TakeDamage(int dmg)
         { //generic take damage function
             currentHealth -= dmg;
-            MainData.MainLoop.EventLoggingComponent.Log(this.charName + " the " + charTrait.traitName + " is hurt " + "for " + dmg + " damage!");
+            MainData.MainLoop.EventLoggingComponent.Log(this.charName + " is hurt " + "for " + dmg + " damage!");
             MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(dmg, this, false);
 
             if (!isPlayerPartyMember)
@@ -2773,24 +2882,27 @@ public class EntityDefiner : MonoBehaviour
             {
                 healthAmp += (int)item.healingAmp;
             }
-
-            hp = (hp / 100) * (100 + healthAmp);
-
+            Debug.LogWarning(hp + " is the health value gained pre formula.");
+            float b = (hp / 100) * (100 + healthAmp);
+            hp = (int)hp;
+            Debug.LogWarning(hp + " is the health value gained post formula.");
             currentHealth += hp;
             MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(hp, this, true);
-            if (!isPlayerPartyMember)
-            {//this updates the health bar so we don't run the whole big total refresh method
-                MainData.MainLoop.UserInterfaceHelperComponent.RefreshViewEnemy();
-                MainData.MainLoop.UserInterfaceHelperComponent.RefreshHealthBarEnemy();
-            }
-            else
-            {
-                MainData.MainLoop.UserInterfaceHelperComponent.RefreshHealthBarPlayer();
-            }
+
+            //if (!isPlayerPartyMember)
+            //{//this updates the health bar so we don't run the whole big total refresh method
+            //    MainData.MainLoop.UserInterfaceHelperComponent.RefreshViewEnemy();
+            //    MainData.MainLoop.UserInterfaceHelperComponent.RefreshHealthBarEnemy();
+            //}
+            //else
+            //{
+            //    MainData.MainLoop.UserInterfaceHelperComponent.RefreshHealthBarPlayer();
+            //}
             if (currentHealth >= this.maxHealth)
             {
                 currentHealth = maxHealth;
             }
+            MainData.MainLoop.UserInterfaceHelperComponent.RefreshCharacterTabs();
 
         }
         public void StatusEffectProc()
@@ -2808,6 +2920,10 @@ public class EntityDefiner : MonoBehaviour
                     case "poison":
                         this.TakeDamage(3);
                         MainData.MainLoop.EventLoggingComponent.LogGray(this.charName + " takes 3 poison damage.");
+                        break;
+                    case "stun": //we use this to know when the stun times out.
+                        this.canAct = false;
+                        MainData.MainLoop.EventLoggingComponent.LogGray(this.charName + " is helpless for " + (statusEff.turnsRemaining - 1).ToString() + " more turns.");
                         break;
                     case "burn":
                         this.TakeDamage(5);
@@ -2828,6 +2944,20 @@ public class EntityDefiner : MonoBehaviour
                 statusEff.turnsRemaining--;
                 if (statusEff.turnsRemaining < 1)
                 {
+                    switch (statusEff.type)
+                    {
+                        case "stun":
+                            this.canAct = true;
+                            MainData.MainLoop.EventLoggingComponent.LogGray(this.charName + " can act again.");
+                            break;
+                        default:
+                            break;
+                    }
+
+
+
+
+
                     currentStatusEffects.Remove(statusEff);
                 }
             }
@@ -2863,7 +2993,18 @@ public class EntityDefiner : MonoBehaviour
             }
             else
             {
+                List<Item> eqCopy = new List<Item>(equippedItems);
+                foreach (Item item in eqCopy)
+                {
+                    MainData.equipmentInventory.Add(item);
+                }
+                equippedItems.Clear();
                 MainData.MainLoop.UserInterfaceHelperComponent.RefreshHealthBarPlayer();
+
+                if (MainData.livingPlayerParty.Count == 0)
+                {
+                    MainData.MainLoop.LostTheGame();
+                }
             }
             MainData.recentDeadEnemies.Add(this);
             selfScriptRef.Die();
@@ -2899,6 +3040,11 @@ public class EntityDefiner : MonoBehaviour
         public string type;
         public string description;
         public int turnsRemaining;
+        public Sprite statusEffectImage;
+
+
+
+
 
         public StatusEffect(string type, string description, int turnsRemaining)
         {

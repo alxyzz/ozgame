@@ -4,33 +4,21 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class InventoryBagObject : MonoBehaviour, IPointerClickHandler
+public class InventoryBagObject : MonoBehaviour, IPointerDownHandler
 {
     public EntityDefiner.Item associatedItem;
-    public Image selfImage; //this button is not very confident...
+    public Image selfImage; //starts as null, this button is not very confident...
+    public Image background; 
 
 
-
-    // Start is called before the first frame update
-    void Start()
+    public void OnPointerDown(PointerEventData eventData)
     {
+        if (associatedItem != null && !MainData.MainLoop.InventoryHelperComponent.coolDown)
+        {
+            Debug.Log("Clicked: " + eventData.pointerCurrentRaycast.gameObject.name);
+            MainData.MainLoop.InventoryHelperComponent.ClickedSlot(BagItem: this);
+        }
         
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-
-
-
-
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        Debug.Log("Clicked: " + eventData.pointerCurrentRaycast.gameObject.name);
-        MainData.MainLoop.InventoryHelperComponent.ClickedSlot(BagItem: this);
     }
 
 }

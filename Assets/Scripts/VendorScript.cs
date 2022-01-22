@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using static EntityDefiner;
@@ -26,15 +27,16 @@ public class VendorScript : MonoBehaviour
     [Space(5)]
     [Tooltip("These are for the user interface inside the trading menu.")]
     public GameObject GameUIReference; //we disable this so we don't do bad stuff.
+    public TextMeshProUGUI CurrentMoneyDisplay;
     //public GameObject SellBuyButton;
     public Text SellBuyButtonText;
     public GameObject VendorUIReference;
     //public GameObject VendorUIItemContainer;//this is where we spawn prefabs that allow us to select then buy the item in that slot
-    [Tooltip("How many items are sold by the trader.")]
-    public int itemAmount; //
+    //public int itemAmount; //S
     [Space(10)]
-    [Tooltip("Prefab used for both player and trader items. allows for selling or buying when clicking the Buy/Sell button.")]
+    [Tooltip("Prefab used for trader items. allows for buying when clicking the Buy button.")]
     public GameObject VendorUIItemEntryPrefab;
+
     [HideInInspector]
     public VendorItemScript currentlySelectedShopItem;
     [Space(5)]
@@ -59,13 +61,11 @@ public class VendorScript : MonoBehaviour
         isAnimating = false;
 
     }
-
     public void LoadSpriteSheets()
     {
         idleAnimation = Resources.LoadAll<Sprite>("merchant_idle");
         mouseOverAnimation = Resources.LoadAll<Sprite>("merchant_mouseover");
     }
-
     public void MouseEnterCart()
     {
         if (cartMoving)
@@ -76,8 +76,6 @@ public class VendorScript : MonoBehaviour
         StopAllCoroutines();
         StartCoroutine(mouseOverAnimate());
     }
-
-
     public void MouseExitCart()
     {
         if (cartMoving)
@@ -88,8 +86,6 @@ public class VendorScript : MonoBehaviour
         StartCoroutine(IdleAnimation());
 
     }
-
-
     IEnumerator IdleAnimation()
     {
 
@@ -101,10 +97,9 @@ public class VendorScript : MonoBehaviour
         StartCoroutine(IdleAnimation());
 
     }
-
     IEnumerator mouseOverAnimate()
     {
-        for (int i = 0; i < 240/0.06; i++) //4 minutes is a good max animation time
+        for (int i = 0; i < 240 / 0.06; i++) //4 minutes is a good max animation time
         {
             for (int b = 0; b < mouseOverAnimation.Length - 1; b++)
             {
@@ -112,7 +107,7 @@ public class VendorScript : MonoBehaviour
                 yield return new WaitForSecondsRealtime(0.06f);
             }
         }
-        
+
         //we stop animating when mouse leaves the sprite of the trader
 
     }
@@ -127,9 +122,11 @@ public class VendorScript : MonoBehaviour
             VendorItemName.text = "";
             VendorItemQuote.text = "";
             VendorItemPrice.text = "";
-            itemImage.sprite = null;
+            itemImage.sprite = MainData.MainLoop.UserInterfaceHelperComponent.transparency;
             return;
         }
+
+     
         VendorItemDesc.text = currentlySelectedShopItem.associatedItem.description;
         VendorItemName.text = currentlySelectedShopItem.associatedItem.itemName;
         VendorItemQuote.text = currentlySelectedShopItem.associatedItem.itemBlurb;
@@ -199,13 +196,12 @@ public class VendorScript : MonoBehaviour
         VendorUIReference.SetActive(true);
     }
 
-
     public void CloseVendorMenu()
     {//click back button in shop
         if (MainData.livingEnemyParty.Count > 0)
         {
             //this shouldn't happen
-            MainData.MainLoop.EventLoggingComponent.Log("As you deviate your attention from the merchant's wares, you realize that you had been followed...");
+            MainData.MainLoop.EventLoggingComponent.Log("As you look away from the merchant's wares, you realize that you had been followed...");
             return;
         }
         VendorUIReference.SetActive(false);
@@ -215,20 +211,104 @@ public class VendorScript : MonoBehaviour
 
 
 
-    public void GenerateMerchantInventory()
-    {// TODO - MAKE THIS WORK
 
 
 
-        VendorItemScript[] allChildren = TraderInventoryScrollRect.GetComponentsInChildren<VendorItemScript>(); //we grab the list of children from the destination
-        foreach (VendorItemScript child in allChildren)
-        {
-            child.SetItem("health_potion", true);
-            child.RefreshItemData();
-        }
-        allChildren[allChildren.Length - 1].SetItem("short_sword", false);
-        allChildren[allChildren.Length - 1].RefreshItemData();
+
+
+
+
+
+
+
+
+    private void GenerateNewStock()
+    {
+        stock.Clear();
+        
+        stock.Add(MainData.MainLoop.EntityDefComponent.FetchConsumable("health_potion"));//copy of health_potion
+        stock.Add(MainData.MainLoop.EntityDefComponent.FetchEquipment()); //copy of random equipment
+
+
     }
+
+    List<Item> stock = new List<Item>();
+    public List<VendorItemScript> vendorItems = new List<VendorItemScript>();
+
+
+    public GameObject TradeObjectContainer; //holds all the vendoritem prefabs so we can scroll through em
+    public void InitializeShopItems()
+    {
+        //first we clean the old stock
+        CurrentMoneyDisplay.text = MainData.MainLoop.Currency.ToString();
+
+
+
+        GenerateNewStock(); //something like a few potions and an item or two
+
+        InitFirstTime();
+
+
+
+    }
+
+
+    private void InitFirstTime()
+    {
+        //clear all previous items if any
+        CurrentMoneyDisplay.text = MainData.MainLoop.Currency.ToString();
+        if (vendorItems.Count > 0)
+        {
+            foreach (VendorItemScript item in vendorItems)
+            {
+                item.gameObject.SetActive(false);
+                Destroy(item.gameObject);
+            }
+        }
+        vendorItems.Clear();
+        //
+        //now we create new items for every entry in stock
+
+        foreach (Item item in stock)
+        {
+            Debug.Log("GameObject b = Instantiate(VendorUIItemEntryPrefab, TradeObjectContainer.transform);");
+            GameObject b = Instantiate(VendorUIItemEntryPrefab, TradeObjectContainer.transform);
+            b.transform.SetParent(TradeObjectContainer.transform);
+            b.transform.position = b.transform.parent.transform.position;
+            VendorItemScript i = b.GetComponent<VendorItemScript>();
+            i.SetItem(item.identifier, item.isEquipable);
+            i.RefreshItemData();
+            vendorItems.Add(i);
+            //item is created and set up at this point, only needs positioning
+        }
+        RefreshShopItems();
+    }
+
+
+    private void RefreshShopItems()
+    {
+        CurrentMoneyDisplay.text = MainData.MainLoop.Currency.ToString();
+        Vector3 change = vendorItems[0].transform.position;
+        foreach (VendorItemScript child in vendorItems)
+        {
+            List<Item> results = stock.FindAll(x => x == child.associatedItem);
+            child.transform.position = change;
+            change = new Vector3(child.transform.position.x, change.y - 155.2f, child.transform.position.z);
+            child.RefreshItemData();
+        }//now the item is properly positioned too in the scrollview. ready for player clicking
+         //to remove all items just go foreach item in vendorItems and destroy the .gameObject
+
+        
+
+
+
+
+
+
+
+    }
+
+
 
 
 
@@ -273,7 +353,6 @@ public class VendorScript : MonoBehaviour
         }
 
     }
-
     public void ClickMoveMerchant()
     {
         if (cartMoving)
@@ -295,63 +374,19 @@ public class VendorScript : MonoBehaviour
 
     }
 
-    private Vector3 initialVendorItemPosition = new Vector3(-4.351883e-05f, -149.1f, 0f);
-    public void TransferToAndRefreshScrollRect(GameObject target, GameObject destination)
-    {
-        List<Transform> scrollRectobjects = new List<Transform>();
-        int b = destination.transform.childCount;
-        Transform[] allChildren = destination.GetComponentsInChildren<Transform>(); //we grab the list of children from the destination
-        foreach (Transform child in allChildren)
-        {
-            scrollRectobjects.Add(child); //we put them all in the list
-        }
-        target.transform.parent = destination.transform;
-
-        //target.transform.position = //79.9 is the increment
 
 
-        scrollRectobjects.Add(target.transform); //we add the target to the list
-
-        Vector3 change = initialVendorItemPosition;
-
-        foreach (Transform item in scrollRectobjects)
-        {//we loop through all objects in the list and move them accordingly so it shows up nicely
-            if (destination = PlayerInventoryScrollRect)
-            {
-                item.gameObject.GetComponent<VendorItemScript>().isInVendor = false;
-            }
-            else
-            {
-                item.gameObject.GetComponent<VendorItemScript>().isInVendor = true;
-            }
-
-            item.transform.position = change;
-            change = new Vector3(change.x, change.y + 79.9f, change.z);
-        }
-        Debug.Log("finished TransferToAndRefreshScrollRect");
-        target.GetComponent<VendorItemScript>().RefreshItemData();
-
-    }
-
-    public void RefreshTransactionButtonText(bool isSelling)
-    {
-        if (isSelling)
-        {
-            SellBuyButtonText.text = "Sell";
-        }
-        else
-        {
-            SellBuyButtonText.text = "Buy";
-        }
 
 
-    }
+
+
+
 
     /// <summary>
     /// returns false if not enough money, true if all ok. buys the item and puts it in your inventory.
     /// </summary>
     /// <returns></returns>
-    private bool ApproveTransaction()
+    private bool CheckSufficientMoney()
     {
         if (MainData.MainLoop.Currency < currentlySelectedShopItem.associatedItem.value)
         {
@@ -359,37 +394,70 @@ public class VendorScript : MonoBehaviour
             Debug.Log("not enough money");
             return false;
         }
-
-
         return true;
     }
 
-    public GameObject PlayerInventoryScrollRect;
     public GameObject TraderInventoryScrollRect;
 
-    public void ClickTransaction()
+
+
+
+
+    /// <summary>
+    /// runs when clicking the Buy button. player has to click an item before.
+    /// </summary>
+    public void ClickBuy()
     {
+        Debug.LogWarning("clicked the buy button");
         if (currentlySelectedShopItem == null)
         {
             return;
         }
-        if (currentlySelectedShopItem.transform.parent == TraderInventoryScrollRect)
-        {
-            if (ApproveTransaction())
-            {
 
-                Debug.LogWarning("Selling to player");
-                MainData.MainLoop.Currency -= currentlySelectedShopItem.associatedItem.value;
-                Item bought = currentlySelectedShopItem.associatedItem;
-                MainData.consumableInventory.Add(bought);
-                MainData.MainLoop.UserInterfaceHelperComponent.RefreshConsumableSlots();
-                TransferToAndRefreshScrollRect(currentlySelectedShopItem.gameObject, PlayerInventoryScrollRect);
-            }
-        }
-        else
+        if (CheckSufficientMoney())
         {
-            //failure. player item
+            Debug.LogWarning("Player has sufficient money for " + currentlySelectedShopItem.associatedItem.itemName);
+            Debug.LogWarning("Selling " + currentlySelectedShopItem.associatedItem.itemName+" to player");
+            MainData.MainLoop.Currency -= currentlySelectedShopItem.associatedItem.value;
+            Item bought = currentlySelectedShopItem.associatedItem;
+            if (bought.isEquipable)
+            {
+                if (MainData.equipmentInventory.Count >= 30)
+                {
+                    return;
+                }
+                MainData.equipmentInventory.Add(bought);
+                stock.Remove(bought);
+            }
+            else
+            {
+                if (MainData.consumableInventory.Count == 3)
+                {
+                    return;
+                }
+                List<Item> results = MainData.consumableInventory.FindAll(x => x.identifier == bought.identifier);
+                if (results.Count == 1)
+                {
+                    results[0].itemQuantity++;
+                }
+                else
+                {
+                    MainData.consumableInventory.Add(bought);
+                }
+                MainData.MainLoop.UserInterfaceHelperComponent.RefreshConsumableSlots();
+            }
+            bought.amtInStock--;
+            currentlySelectedShopItem.itemQuantity.text = bought.amtInStock.ToString();
+            Debug.LogError(bought.itemName + " in stock after purchase - " + bought.amtInStock);
+            if (bought.amtInStock == 0)
+            {
+                Debug.LogError("reached here");
+                currentlySelectedShopItem.gameObject.SetActive(false);
+            }
+            RefreshShopItems();
+            CurrentMoneyDisplay.text = MainData.MainLoop.Currency.ToString();
         }
+
 
 
         //play transaction bing sound

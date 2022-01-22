@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
 {
     public UIParallax BackgroundParallaxObject;
     public bool gameStarted = false;
-    [HideInInspector]
+   
     public float Currency = 999f;
     public bool inCombat = false;
     public LayerMask IgnoreMe;
@@ -30,10 +30,11 @@ public class GameManager : MonoBehaviour
         MainData.MainLoop = this;
         MainData.SoundManagerRef = SoundManagerComponent;
         //StartLoading(); 
-        EntityDefComponent.LoadSpriteSheets();
+        //EntityDefComponent.LoadSpriteSheets();
         EventLoggingComponent.TMPComponent.text = "";
         PositionHolderComponent.RegisterEnemySpots();
         PositionHolderComponent.RegisterPlayerSpots();
+        PositionHolderComponent.RegisterAllSpots();
 
         EntityDefComponent.DefineTraits();
         EntityDefComponent.DefinePC(); //set up Pcharacter templates
@@ -52,16 +53,17 @@ public class GameManager : MonoBehaviour
 
         VendorScriptComponent.LoadSpriteSheets();
         VendorScriptComponent.SetupGraphics();
-        VendorScriptComponent.GenerateMerchantInventory();
+        
         VendorScriptComponent.RefreshText();
 
         UserInterfaceHelperComponent.RefreshCharacterTabs();
         //UserInterfaceHelperComponent.SetCursorTexture();
 
 
+        InitiateCharacterAnimation();
+
         UserInterfaceHelperComponent.ToggleFightButtonVisiblity(false);
         ToggleMainMenu(true);//true for visible, false for not visible
-        DirtyFixStilLSprites();
 
 
 
@@ -77,20 +79,49 @@ public class GameManager : MonoBehaviour
 
     }
 
-    private void DirtyFixStilLSprites()
+
+    public GameObject LostGameScreen;
+    public void LostTheGame()
     {
-        Character Lion = MainData.livingPlayerParty.Find(e => e.charType == "lion");
-        Lion.selfScriptRef.spriteRenderer.sprite = EntityDefComponent.lionStanding;
+        CombatHelperComponent.EndCombat();
+        inCombat = false;
+        UserInterfaceHelperComponent.GameUI.SetActive(false);
+        foreach (Character item in MainData.allChars)
+        {
+            item.selfScriptRef.gameObject.SetActive(false);
+        }
+        LostGameScreen.SetActive(true);
 
-        Character Dorothy = MainData.livingPlayerParty.Find(e => e.charType == "dorothy");
-        Dorothy.selfScriptRef.spriteRenderer.sprite = EntityDefComponent.dorothyStanding;
 
-        Character scarecrow = MainData.livingPlayerParty.Find(e => e.charType == "scarecrow");
-        scarecrow.selfScriptRef.spriteRenderer.sprite = EntityDefComponent.scarecrowStanding;
 
-        Character tinguy = MainData.livingPlayerParty.Find(e => e.charType == "tin_man");
-        tinguy.selfScriptRef.spriteRenderer.sprite = EntityDefComponent.tinmanStanding;
+
     }
+
+
+    public void InitiateCharacterAnimation()
+    {
+        foreach (Character item in MainData.livingPlayerParty)
+        {
+            Debug.Log("InitiateCharacterAnimation() for player party");
+            item.selfScriptRef.SetupIdleAnimAndStart(); //randomized idle phase variation ftw
+        }
+    }
+
+
+    //private void DirtyFixStilLSprites()
+    //{
+    //    Character Lion = MainData.livingPlayerParty.Find(e => e.charType == "lion");
+    //    Lion.selfScriptRef.spriteRenderer.sprite = EntityDefComponent.lionStanding;
+
+    //    Character Dorothy = MainData.livingPlayerParty.Find(e => e.charType == "dorothy");
+    //    Dorothy.selfScriptRef.spriteRenderer.sprite = EntityDefComponent.dorothyStanding;
+
+    //    Character scarecrow = MainData.livingPlayerParty.Find(e => e.charType == "scarecrow");
+    //    scarecrow.selfScriptRef.spriteRenderer.sprite = EntityDefComponent.scarecrowStanding;
+
+    //    Character tinguy = MainData.livingPlayerParty.Find(e => e.charType == "tin_man");
+    //    tinguy.selfScriptRef.spriteRenderer.sprite = EntityDefComponent.tinmanStanding;
+    //}
 
 
     private void ToggleMainMenu(bool togg)//true for visible, false for not visible
@@ -160,7 +191,6 @@ public class GameManager : MonoBehaviour
             MainData.MainLoop.CombatHelperComponent.EndCombat();
             EventLoggingComponent.Log("All enemies have been vanquished.");
             MainData.MainLoop.UserInterfaceHelperComponent.RefreshViewEnemy();
-           
             inCombat = false;
             return;
         }
@@ -171,8 +201,8 @@ public class GameManager : MonoBehaviour
         {
             //play new turn sound here
             MainData.turnNumber++;
-            Debug.Log("Turn " + MainData.turnNumber.ToString());
-            EventLoggingComponent.LogDanger("Start of turn " + MainData.turnNumber.ToString() + ".");
+            if (MainData.livingEnemyParty.Count > 0)
+                EventLoggingComponent.LogDanger("Start of turn " + MainData.turnNumber.ToString() + ".");
             ProcStatusEffects(); //burns, poison, etc. Ticks down the duration left by one, too
 
             if (results.Count > 0) //if there's no enemy there's no need to fight

@@ -6,7 +6,7 @@ using static EntityDefiner;
 
 public class CombatHelper : MonoBehaviour
 {
-    private bool endNext = false;
+   // private bool endNext = false;
     public float textFloatingDuration;
     public float textFloatSpeed;
     public float textOffset;
@@ -30,6 +30,15 @@ public class CombatHelper : MonoBehaviour
     [HideInInspector]
     public bool isTargetFriendly;
     public GameObject DamageIndicatorCanvas;
+
+
+
+
+
+
+
+
+
     public void DisplayFloatingDamageNumbers(int damage, Character target, bool heal)
     {
 
@@ -85,14 +94,18 @@ public class CombatHelper : MonoBehaviour
 
         for (int i = 0; i < combatants.Count - 1; i++)
         {
-            if (combatants[i].charTrait != null)
+            if (MainData.livingEnemyParty.Count != 1 && !MainData.livingEnemyParty[0].isDead)
             {
-                MainData.MainLoop.EventLoggingComponent.LogDanger("It is now " + combatants[i].charName + " the " + combatants[i].charTrait.adjective + "'s turn!");
+                if (combatants[i].charTrait != null)
+                {
+                    MainData.MainLoop.EventLoggingComponent.LogDanger("It is now " + combatants[i].charName + " the " + combatants[i].charTrait.adjective + "'s turn!");
+                }
+                else
+                {
+                    MainData.MainLoop.EventLoggingComponent.LogDanger("It is now " + combatants[i].charName + "'s turn!");
+                }
             }
-            else
-            {
-                MainData.MainLoop.EventLoggingComponent.LogDanger("It is now " + combatants[i].charName + "'s turn!");
-            }
+            
 
 
 
@@ -101,15 +114,15 @@ public class CombatHelper : MonoBehaviour
                 yield return new WaitUntil(() => combatants[i - 1].hasActedThisTurn == true);
             }
 
+            
 
 
-
-            if (combatants[i].isDead || !combatants[i].canAct)
+            if (combatants[i].isDead || !combatants[i].canAct || MainData.livingEnemyParty.Count < 1)
             {//
 
                 allHaveActed = true;
-                Debug.Log("Finished a combat round.");
                 ToggleCombatButtomVisibility(false);
+                EndCurrentTurn();
                 foreach (Character item in combatants)
                 {//refreshes that boolean so we can act again next turn
                     item.hasActedThisTurn = false;
@@ -118,20 +131,7 @@ public class CombatHelper : MonoBehaviour
                 MainData.MainLoop.PassTurn();
                 yield break;
             }//
-            if (MainData.livingEnemyParty.Count < 1)
-            {//just an additional check for enemies so we don't waste player's time
-                allHaveActed = true;
-                Debug.Log("Finished a combat round.");
-                ToggleCombatButtomVisibility(false);
-                foreach (Character item in combatants)
-                {//refreshes that boolean so we can act again next turn
-                    item.hasActedThisTurn = false;
-                    item.selfScriptRef.transform.position = item.InitialPosition; // JUST in case we get a straggler, resets their position to where they should be. This works because we don't actually move in the environment, we just move the world around us like a boss.
-                }
-                MainData.MainLoop.PassTurn();
-                yield break;
-            }
-            if (combatants[i].canAct && !combatants[i].isDead)
+            if (combatants[i].canAct || !combatants[i].isDead)
             {
 
                 //StaticDataHolder.MainLoop.SoundManagerComponent.sfxSource.PlayOneShot(item.turnSound); //plays the character specific noise/vocalization
@@ -140,13 +140,12 @@ public class CombatHelper : MonoBehaviour
                 activeCharacterWorldspaceObject = combatants[i].selfScriptRef;
                 MoveToActiveSpot(activeCharacterWorldspaceObject);
 
-                //Debug.LogWarning("Moving to active spot - " + activeCharacterWorldspaceObject.associatedCharacter.charName);
                 List<Character> results = new List<Character>();
                 results = MainData.livingEnemyParty.FindAll(x => x.isDead == false);
-                if (results.Count == 1)
-                {
-                    endNext = true;
-                }
+                //if (results.Count == 1)
+                //{
+                //    endNext = true;
+                //}
                 if (combatants[i].isPlayerPartyMember)
                 {
                     if (results.Count > 0)
@@ -155,10 +154,12 @@ public class CombatHelper : MonoBehaviour
                     }
                     else
                     {
-                        combatants[i].hasActedThisTurn = true;
-                        allHaveActed = true;
-                    }
+                        
 
+                        allHaveActed = true;
+                        EndCurrentTurn();
+
+                    }
                 }
                 else
                 {
@@ -197,6 +198,11 @@ public class CombatHelper : MonoBehaviour
     }
     public void InitiateCombatTurn()
     {
+        if (MainData.livingPlayerParty.Count == 0)
+        {
+            MainData.MainLoop.LostTheGame();
+            return;
+        }
         //foreach (Character item in MainData.livingPlayerParty)
         //{ //cleans up dead ppl
         //    item.HandleListsUponDeath();
@@ -212,7 +218,13 @@ public class CombatHelper : MonoBehaviour
             //item.RecalculateStatsFromItems(); this is done when we attack or use the stat in most cases, using either GetCompoundSpeed() or such, or a foreach loop looking into the items
             item.RecalculateThreatFromStats();
         }
+        string b = "";
         combatants.Sort((x, y) => y.GetCompoundSpeed().CompareTo(x.GetCompoundSpeed()));
+        foreach (Character item in combatants)
+        {
+            b += item.charName + "\n";
+        }
+        Debug.LogWarning(b);
         StartCoroutine(DoPatientCombatRound(combatants));
     }
 
@@ -279,17 +291,17 @@ public class CombatHelper : MonoBehaviour
 
         if (!activeCharacterWorldspaceObject.associatedCharacter.charTrait.forceCooldown && (activeCharacterWorldspaceObject.associatedCharacter.mana >= activeCharacterWorldspaceObject.associatedCharacter.charTrait.manaCost))
         {
-            switch (activeCharacterWorldspaceObject.associatedCharacter.charTrait.traitName)
+            switch (activeCharacterWorldspaceObject.associatedCharacter.charTrait.identifier)
             {
                 case "caring"://so yeah this is where active traits go
                     //heal target. allied target.
-                    if (activeTarget = null) { return; }
-                    if (activeTarget.associatedCharacter = null) { return; }
+                    if (activeTarget == null) { return; }
+                    if (activeTarget.associatedCharacter == null) { return; }
 
                     if (activeTarget.associatedCharacter.isPlayerPartyMember)
                     {
 
-                        if (activeTarget.associatedCharacter.currentHealth == activeTarget.associatedCharacter.maxHealth)
+                        if (activeTarget.associatedCharacter.currentHealth >= activeTarget.associatedCharacter.maxHealth)
                         {
                             gameloop.EventLoggingComponent.Log(activeCharacterWorldspaceObject.associatedCharacter.charName + "'s hugs " + activeTarget.associatedCharacter.charName + "! " + activeTarget.associatedCharacter.charName + " feels much better!");
                             activeTarget.associatedCharacter.GainHealth(0);
@@ -298,9 +310,11 @@ public class CombatHelper : MonoBehaviour
                         }
                         else
                         {
+                            int healing = (activeTarget.associatedCharacter.maxHealth / 100) * (MainData.MainLoop.TweakingComponent.caringActiveHealing);
                             activeTarget.associatedCharacter.GainHealth(gameloop.TweakingComponent.caringActiveHealing);
-                            gameloop.EventLoggingComponent.Log(activeCharacterWorldspaceObject.associatedCharacter.charName + "'s caring nature mends " + activeTarget.associatedCharacter.charName + "'s wounds!");
+                            gameloop.EventLoggingComponent.Log(activeCharacterWorldspaceObject.associatedCharacter.charName + "'s caring nature mends " + activeTarget.associatedCharacter.charName + "'s wounds for " + healing + " health!");
                             activeCharacterWorldspaceObject.associatedCharacter.mana -= activeCharacterWorldspaceObject.associatedCharacter.charTrait.manaCost;
+                            activeTarget.associatedCharacter.GainHealth(healing);
                             EndCurrentTurn();
                         }
 
@@ -332,8 +346,8 @@ public class CombatHelper : MonoBehaviour
 
                 case "angry":
                     //Lash out for massive damage.
-                    if (activeTarget = null) { return; }
-                    if (activeTarget.associatedCharacter = null) { return; }
+                    if (activeTarget == null) { return; }
+                    if (activeTarget.associatedCharacter == null) { return; }
                     activeCharacterWorldspaceObject.associatedCharacter.damageMax -= gameloop.TweakingComponent.angryActiveDamageMalus;
                     activeCharacterWorldspaceObject.associatedCharacter.damageMin -= gameloop.TweakingComponent.angryActiveDamageMalus;
                     gameloop.EventLoggingComponent.Log(activeCharacterWorldspaceObject.associatedCharacter.charName + " lashes out! " + activeTarget.associatedCharacter.charName + " takes " + gameloop.TweakingComponent.angryActivePowerDamage + " damage!");
@@ -341,7 +355,22 @@ public class CombatHelper : MonoBehaviour
                     EndCurrentTurn();
 
                     break;
+                case "wrath":
+                    //double attack
+                    if (activeTarget == null) { return; }
+                    if (activeTarget.associatedCharacter == null) { return; }
+                    activeCharacterWorldspaceObject.associatedCharacter.damageMax -= gameloop.TweakingComponent.angryActiveDamageMalus; //permanent damage loss
+                    activeCharacterWorldspaceObject.associatedCharacter.damageMin -= gameloop.TweakingComponent.angryActiveDamageMalus;
+                    gameloop.EventLoggingComponent.Log(activeCharacterWorldspaceObject.associatedCharacter.charName + " wrathful nature provokes a double attack!");
+                    activeTarget.associatedCharacter.TakeDamageFromCharacter(activeCharacterWorldspaceObject.associatedCharacter);
+                    if (MainData.livingEnemyParty.Count > 0)
+                    {//in case the enemy just gets killed immediately
+                        activeTarget.associatedCharacter.TakeDamageFromCharacter(activeCharacterWorldspaceObject.associatedCharacter);
+                    }
+                    
+                    EndCurrentTurn();
 
+                    break;
 
 
                 default:
@@ -405,6 +434,14 @@ public class CombatHelper : MonoBehaviour
         activeCharacterWorldspaceObject = null;
         DecayThreat();
 
+
+        if (MainData.livingEnemyParty.Count >= 1)
+        {
+
+        }
+
+       
+
     }
     /// <summary>
     /// decays threat for each player party member.
@@ -455,7 +492,7 @@ public class CombatHelper : MonoBehaviour
     }
     public IEnumerator AttackTargetedEnemy()
     {
-
+        activeCharacterWorldspaceObject.ToggleIdle(false);
         //CurrentlyActiveChar.transform.position = ActiveCharSpot.transform.position; //MOVE CHAR TO SPOT
 
         Character Fool = activeTarget.associatedCharacter;
@@ -483,9 +520,12 @@ public class CombatHelper : MonoBehaviour
 
         yield return new WaitForSeconds(0.1f);
 
-        ReturnFromActiveSpot();
-        activeCharacterWorldspaceObject.associatedCharacter.hasActedThisTurn = true;
-        EndCurrentTurn();
+            ReturnFromActiveSpot();
+            activeCharacterWorldspaceObject.associatedCharacter.hasActedThisTurn = true;
+            EndCurrentTurn();
+        
+
+
 
     }
     private void ToggleCombatButtomVisibility(bool togg)
@@ -554,7 +594,6 @@ public class CombatHelper : MonoBehaviour
             Debug.LogWarning("Could not move " + chara.gameObject.name + ", CurrentlyActiveChar is not null");
             return;
         }
-
         chara.transform.position = ActiveCharSpot.transform.position; //replace this with the sliding thing
 
         //StartCoroutine(SlideTo(chara, ActiveCharSpot.transform.position, activationMovingSpeed, false));
@@ -565,16 +604,19 @@ public class CombatHelper : MonoBehaviour
     }
     public void TargetSelectionCheck()
     {
+        GameObject highli = MainData.MainLoop.UserInterfaceHelperComponent.CombatHighlightObject;
         if (activeTarget == null)
         {
+            highli.SetActive(false);
             return;
         }
         if (activeTarget.associatedCharacter == null)
         {
+            highli.SetActive(false);
             return;
         }
 
-        GameObject highli = MainData.MainLoop.UserInterfaceHelperComponent.CombatHighlightObject;
+        
         //highlights the current target, checks if there is no target in which case it hides the highlight
         if (!activeTarget.associatedCharacter.isDead || activeTarget.associatedCharacter.canAct)
         {
@@ -628,21 +670,22 @@ public class CombatHelper : MonoBehaviour
 
 
 
-        switch (activeCharacterWorldspaceObject.associatedCharacter.charType)
-        {
-            case "lion":
-                activeCharacterWorldspaceObject.spriteRenderer.sprite = MainData.MainLoop.EntityDefComponent.lionStanding;
-                break;
-            case "dorothy":
-                activeCharacterWorldspaceObject.spriteRenderer.sprite = MainData.MainLoop.EntityDefComponent.dorothyStanding;
-                break;
-            case "tin_man":
-                activeCharacterWorldspaceObject.spriteRenderer.sprite = MainData.MainLoop.EntityDefComponent.tinmanStanding;
-                break;
-            case "scarecrow":
-                activeCharacterWorldspaceObject.spriteRenderer.sprite = MainData.MainLoop.EntityDefComponent.scarecrowStanding;
-                break;
-        }
+        //switch (activeCharsacterWorldspaceObject.associatedCharacter.charType)
+        //{
+        //    case "lion":
+        //        activeCharacterWorldspaceObject.spriteRenderer.sprite = MainData.MainLoop.EntityDefComponent.lionStanding;
+        //        break;
+        //    case "dorothy":
+        //        activeCharacterWorldspaceObject.spriteRenderer.sprite = MainData.MainLoop.EntityDefComponent.dorothyStanding;
+        //        break;
+        //    case "tin_man":
+        //        activeCharacterWorldspaceObject.spriteRenderer.sprite = MainData.MainLoop.EntityDefComponent.tinmanStanding;
+        //        break;
+        //    case "scarecrow":
+        //        activeCharacterWorldspaceObject.spriteRenderer.sprite = MainData.MainLoop.EntityDefComponent.scarecrowStanding;
+        //        break;
+        //}
+        activeCharacterWorldspaceObject.ToggleIdle(true);
 
     }
     public void DoEnemyCharacterTurn(Character npc)
@@ -660,8 +703,10 @@ public class CombatHelper : MonoBehaviour
     }
     public IEnumerator AttackRandomEnemy(CharacterWorldspaceScript chara)
     {
+        chara.ToggleIdle(false);
         List<Character> results = MainData.livingPlayerParty.FindAll(x => x.isDead == false);
-        Character Fool = results[Random.Range(0, results.Count)];
+        results.Sort((x, y) => (y.Threat + y.threatFromStats).CompareTo(x.Threat + x.threatFromStats));
+        Character Fool = results[0];
 
         //Debug.Log("attacking player at playerParty[" + b.ToString() + "]!");
         if (chara.associatedCharacter != null)

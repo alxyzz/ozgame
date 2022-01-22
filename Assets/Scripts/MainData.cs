@@ -65,7 +65,7 @@ public static class MainData
 
     public static List<GameObject> usedEnemyPartyMemberObjects = new List<GameObject>();
     public static List<GameObject> freeEnemyPartyMemberObjects = new List<GameObject>();
-
+    public static List<CharacterWorldspaceScript> allEntityObjects = new List<CharacterWorldspaceScript>();
 
 
 

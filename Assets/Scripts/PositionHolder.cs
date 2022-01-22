@@ -46,6 +46,8 @@ public class PositionHolder : MonoBehaviour
     public GameObject EnemySpawnBoundaryRight;
 
 
+    public List<CharacterWorldspaceScript> allspots = new List<CharacterWorldspaceScript>();
+
     void Start()
     {
 
@@ -55,7 +57,10 @@ public class PositionHolder : MonoBehaviour
     MainData.references = this;
     }
 
-
+    public void RegisterAllSpots()
+    {
+        MainData.allEntityObjects = allspots;
+    }
 
 
     public void RegisterEnemySpots()

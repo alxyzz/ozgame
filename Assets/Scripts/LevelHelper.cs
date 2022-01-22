@@ -21,7 +21,7 @@ public class LevelHelper : MonoBehaviour
     public float distanceWalked = 0;//shows how much we've physically advanced in the current level
     public float maximumDistance = 1500; //maximum distance before the level fades to black and you go on the overmap
     [Space(15)]
-    private bool isAtVendor = false;
+    //private bool isAtVendor = false;
     public bool EncountersPaused = false;
     public GameObject ButtonMoveOn;
 
@@ -52,6 +52,7 @@ public class LevelHelper : MonoBehaviour
         if (FoughtOnce && distanceWalked > 70)
         {
             MoveStop();
+            MainData.MainLoop.VendorScriptComponent.InitializeShopItems();
             EncountersPaused = true;
             distanceWalked = -20;//back to beginning.
             FoughtOnce = false;
@@ -113,9 +114,9 @@ public class LevelHelper : MonoBehaviour
         }
 
         Debug.Log("Getting player objects for walking anim");
-        foreach (GameObject item in MainData.playerPartyMemberObjects)
+        foreach (Character item in MainData.livingPlayerParty)
         {
-            item.GetComponent<CharacterWorldspaceScript>().StartWalk();
+            item.selfScriptRef.StartWalk();
         }
 
         foreach (BackgroundLayerMovementParallax item in parallaxLayers)
@@ -216,7 +217,7 @@ public class LevelHelper : MonoBehaviour
 
 
         List<string> teamrocket = new List<string>();
-        for (int i = 0; i < 5; i++) //change the 5 to whatever amount to change monkey quantity.
+        for (int i = 0; i < 1; i++) //change the 5 to whatever amount to change monkey quantity.
         {
             teamrocket.Add("flyingmonkey");
         }
