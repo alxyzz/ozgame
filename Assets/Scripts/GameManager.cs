@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
     public UIParallax BackgroundParallaxObject;
     public bool gameStarted = false;
    
-    public float Currency = 999f;
+    public float Currency = 0f;
     public bool inCombat = false;
     public LayerMask IgnoreMe;
     public EntityDefiner EntityDefComponent;

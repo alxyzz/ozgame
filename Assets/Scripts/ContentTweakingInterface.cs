@@ -55,6 +55,38 @@ public class ContentTweakingInterface : MonoBehaviour
     public int flyingMonkeySpeed = 0;
     public int flyingMonkeyLuck = 0;
     public int flyingMonkeyDefense = 0;
+    //Normal Monkey
+    [Space(5)]
+
+    public int strongflyingMonkeyMaxHealth = 0;
+    public int strongflyingMonkeyMinDamage = 0;
+    public int strongflyingMonkeyMaxDamage = 0;
+
+    public int strongflyingMonkeySpeed = 0;
+    public int strongflyingMonkeyLuck = 0;
+    public int strongflyingMonkeyDefense = 0;
+    //Strong monkey
+    [Space(5)]
+
+    public int weakflyingMonkeyMaxHealth = 0;
+    public int weakflyingMonkeyMinDamage = 0;
+    public int weakflyingMonkeyMaxDamage = 0;
+
+    public int weakflyingMonkeySpeed = 0;
+    public int weakflyingMonkeyLuck = 0;
+    public int weakflyingMonkeyDefense = 0;
+    //Weak monkey
+    [Space(5)]
+
+    public int hellbentflyingMonkeyMaxHealth = 0;
+    public int hellbentflyingMonkeyMinDamage = 0;
+    public int hellbentflyingMonkeyMaxDamage = 0;
+
+    public int hellbentflyingMonkeySpeed = 0;
+    public int hellbentflyingMonkeyLuck = 0;
+    public int hellbentflyingMonkeyDefense = 0;
+    //Hellbent Monkey
+
     [Space(5)]
     [Header("ItemColors")]
     public Color CommonColor;

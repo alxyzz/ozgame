@@ -25,6 +25,12 @@ public class LevelHelper : MonoBehaviour
     public bool EncountersPaused = false;
     public GameObject ButtonMoveOn;
 
+    public string[] enemyNames;
+
+    int difCurrency;
+    int maxEnemies;
+    int loops;
+
     public void Update()
     {
         CheckForEncounter();
@@ -214,12 +220,11 @@ public class LevelHelper : MonoBehaviour
 
     public void GenerateLevels()
     {
-
-
         List<string> teamrocket = new List<string>();
         for (int i = 0; i < 1; i++) //change the 5 to whatever amount to change monkey quantity.
         {
-            teamrocket.Add("flyingmonkey");
+            int r = Random.Range(0, enemyNames.Length);
+            teamrocket.Add(enemyNames[0]);
         }
 
 
@@ -238,6 +243,42 @@ public class LevelHelper : MonoBehaviour
 
 
         MainData.levelTemplates.Add("darkforest", darkForest); //adds the template to the global list
+    }
+
+    public void GENERATE()
+    {
+        difCurrency = MainData.MainLoop.VendorScriptComponent.difficultyCurrency;
+
+        List<string> teamrocket = new List<string>();
+
+        maxEnemies = Mathf.Clamp((difCurrency / 15) - 3, 1, 8);
+        loops = 0;
+
+        for (int i = 0; i < maxEnemies; i++) //change the 5 to whatever amount to change monkey quantity.
+        {
+            int r = Random.Range(0, enemyNames.Length);
+            
+            if (difCurrency < r && (difCurrency / i) > r + 2 && loops < 10)
+            {
+                loops += 1;
+                i -= 1;
+                return;
+            }
+            loops = 0;
+            difCurrency -= r;
+            teamrocket.Add(enemyNames[r]);
+
+            if (difCurrency > (MainData.MainLoop.VendorScriptComponent.difficultyCurrency / 10))
+            {
+                MainData.MainLoop.VendorScriptComponent.difficultyCurrency += difCurrency;
+            }
+
+        }
+
+        MainData.currentLevel.Encounters.Clear();
+        MainData.currentLevel.Encounters = GenerateEncountersForLevel(1, //how many encounters
+                                   teamrocket,
+                                   50);//encounters start from this point
     }
 
 

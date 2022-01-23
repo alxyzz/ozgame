@@ -67,6 +67,9 @@ public class EntityDefiner : MonoBehaviour
     public Sprite[] monkeyHurtSheet;
     public Sprite[] monkeyIdleSheet;
 
+    public int BaseCurrency;
+    public int difficultyCurrency;
+
     public void UseConsumable(Item consumable, Character target)
     {
         CombatHelper combathelp = MainData.MainLoop.CombatHelperComponent;
@@ -369,6 +372,7 @@ public class EntityDefiner : MonoBehaviour
     /// <param name="baseHP">The base health maximum value, before to any modifiers.</param>
     /// <param name="baseMinDMG">The base damage value, before any modifiers.</param>
     /// <param name="baseSPD">The base speed value, before any modifiers.</param>
+    /// <param name= "DifficultyCost"></param>
 
     /// <param name="Defense"></param>
     /// <param name="Luck"></param>
@@ -377,7 +381,7 @@ public class EntityDefiner : MonoBehaviour
     /// <param name="attackAnimationSprites"></param>
     /// <param name="newCharAvatar"></param>
     /// <returns></returns>
-    public void MakeMobTemplate(string characterID, string charName, string charDesc, string attackVerb, bool isPlayer, int baseHP, int baseMinDMG, int baseMaxDMG, int baseSPD, int Defense, int Luck, int Mana, AudioClip newCharTurnSound, Sprite[] attackAnimationSprites, int bountyy, Sprite newCharAvatar, Sprite noAnimSprite, Sprite[] HurtSprites, Sprite[] WalkSprite, Sprite[] IdleSprites)
+    public void MakeMobTemplate(string characterID, string charName, string charDesc, string attackVerb, bool isPlayer, int baseHP, int baseMinDMG, int baseMaxDMG, int baseSPD, int Defense, int Luck, int Mana, AudioClip newCharTurnSound, Sprite[] attackAnimationSprites, int bountyy, Sprite newCharAvatar, Sprite noAnimSprite, Sprite[] HurtSprites, Sprite[] WalkSprite, Sprite[] IdleSprites, int difCost)
     {
         Character Chara = Character.CreateInstance<Character>();
         Chara.charType = characterID; //something like "goblin_spear", "tin_man" or "scarecrow" for the dictionary. 
@@ -386,6 +390,7 @@ public class EntityDefiner : MonoBehaviour
         Chara.attackverb = attackVerb;
         Chara.isPlayerPartyMember = isPlayer;
         Chara.hurtSprites = HurtSprites;
+        Chara.difficultyCost = difCost;
         Chara.idleSprite = IdleSprites;
         Chara.WalkSprites = WalkSprite;
         Chara.turnSound = newCharTurnSound;
@@ -441,7 +446,8 @@ public class EntityDefiner : MonoBehaviour
                        scarecrowStanding, //standing sprite if there is no attacksheet since we usually just use the first frame
                        scarecrowHurtSheet, //hurt
                        scarecrowWalk_Sheet, //walk
-                       scarecrowIdleSheet); //idle sprites
+                       scarecrowIdleSheet,
+                       0); //idle sprites
 
         MakeMobTemplate("tin_man",
                        "Tin Man",
@@ -462,7 +468,8 @@ public class EntityDefiner : MonoBehaviour
                        tinmanStanding,//standing sprite if there is no attacksheet since we usually just use the first frame
                        tinmanHurtSheet,
                        tinmanWalkSheet,
-                       tinmanIdleSheet);
+                       tinmanIdleSheet,
+                       0);
 
         MakeMobTemplate("lion",
                        "Lion",
@@ -483,7 +490,8 @@ public class EntityDefiner : MonoBehaviour
                        lionStanding, //standing sprite if there is no attacksheet since we usually just use the first frame
                        lionHurtSheet,
                        lionWalkSheet,
-                       lionIdleSheet);
+                       lionIdleSheet,
+                       0);
 
         MakeMobTemplate("dorothy",
                        "Dorothy",
@@ -504,7 +512,8 @@ public class EntityDefiner : MonoBehaviour
                        dorothyStanding, //standing sprite if there is no attacksheet since we usually just use the first frame
                        dorothyHurtSheet,
                        dorothyWalkSheet,
-                       dorothyIdleSheet);
+                       dorothyIdleSheet,
+                       0);
 
 
     }
@@ -515,6 +524,23 @@ public class EntityDefiner : MonoBehaviour
 
     public void DefineNPC()
     {
+        MakeMobTemplate("weakflyingmonkey", //characterID
+                       "Weak Flying Monkey", // charName
+                       "Evil flying monkey hellbent on causing mischief and wreaking havok.", // charDesc
+                       "claws", //verb used when attacking
+                       false, //is it a player character(true), or is it an enemy(false)?
+                       MainData.MainLoop.TweakingComponent.weakflyingMonkeyMaxHealth, //the base HP value
+                       MainData.MainLoop.TweakingComponent.weakflyingMonkeyMinDamage, // the minimum damage value
+                       MainData.MainLoop.TweakingComponent.weakflyingMonkeyMaxDamage, //the maximum damage value.
+                       MainData.MainLoop.TweakingComponent.weakflyingMonkeySpeed, //base speed, higher is better
+                       MainData.MainLoop.TweakingComponent.weakflyingMonkeyDefense, //defense
+                       MainData.MainLoop.TweakingComponent.weakflyingMonkeyLuck, //luck
+                       0, //mana
+                       null, //sound for when it is this character's turn to act
+                       monkeyAttackSheet, //character's attack animation sprite 
+                       2, monkeyAvatar, monkeyAttackSheet[0], monkeyHurtSheet, scarecrowWalk_Sheet, monkeyIdleSheet,
+                       0);
+
         MakeMobTemplate("flyingmonkey", //characterID
                        "Flying Monkey", // charName
                        "Evil flying monkey hellbent on causing mischief and wreaking havok.", // charDesc
@@ -529,7 +555,42 @@ public class EntityDefiner : MonoBehaviour
                        0, //mana
                        null, //sound for when it is this character's turn to act
                        monkeyAttackSheet, //character's attack animation sprite 
-                       2, monkeyAvatar, monkeyAttackSheet[0], monkeyHurtSheet, scarecrowWalk_Sheet, monkeyIdleSheet);
+                       2, monkeyAvatar, monkeyAttackSheet[0], monkeyHurtSheet, scarecrowWalk_Sheet, monkeyIdleSheet,
+                       1);
+
+        MakeMobTemplate("strongflyingmonkey", //characterID
+                       "Strong Flying Monkey", // charName
+                       "Evil flying monkey hellbent on causing mischief and wreaking havok.", // charDesc
+                       "claws", //verb used when attacking
+                       false, //is it a player character(true), or is it an enemy(false)?
+                       MainData.MainLoop.TweakingComponent.strongflyingMonkeyMaxHealth, //the base HP value
+                       MainData.MainLoop.TweakingComponent.strongflyingMonkeyMinDamage, // the minimum damage value
+                       MainData.MainLoop.TweakingComponent.strongflyingMonkeyMaxDamage, //the maximum damage value.
+                       MainData.MainLoop.TweakingComponent.strongflyingMonkeySpeed, //base speed, higher is better
+                       MainData.MainLoop.TweakingComponent.strongflyingMonkeyDefense, //defense
+                       MainData.MainLoop.TweakingComponent.strongflyingMonkeyLuck, //luck
+                       0, //mana
+                       null, //sound for when it is this character's turn to act
+                       monkeyAttackSheet, //character's attack animation sprite 
+                       2, monkeyAvatar, monkeyAttackSheet[0], monkeyHurtSheet, scarecrowWalk_Sheet, monkeyIdleSheet,
+                       2);
+
+        MakeMobTemplate("hellflyingmonkey", //characterID
+                       "Hellbent Flying Monkey", // charName
+                       "Evil flying monkey hellbent on causing mischief and wreaking havok.", // charDesc
+                       "claws", //verb used when attacking
+                       false, //is it a player character(true), or is it an enemy(false)?
+                       MainData.MainLoop.TweakingComponent.hellbentflyingMonkeyMaxHealth, //the base HP value
+                       MainData.MainLoop.TweakingComponent.hellbentflyingMonkeyMinDamage, // the minimum damage value
+                       MainData.MainLoop.TweakingComponent.hellbentflyingMonkeyMaxDamage, //the maximum damage value.
+                       MainData.MainLoop.TweakingComponent.hellbentflyingMonkeySpeed, //base speed, higher is better
+                       MainData.MainLoop.TweakingComponent.hellbentflyingMonkeyDefense, //defense
+                       MainData.MainLoop.TweakingComponent.hellbentflyingMonkeyLuck, //luck
+                       0, //mana
+                       null, //sound for when it is this character's turn to act
+                       monkeyAttackSheet, //character's attack animation sprite 
+                       2, monkeyAvatar, monkeyAttackSheet[0], monkeyHurtSheet, scarecrowWalk_Sheet, monkeyIdleSheet,
+                       3);
     }
 
 
@@ -584,11 +645,7 @@ public class EntityDefiner : MonoBehaviour
     {
         List<CharacterWorldspaceScript> enemiesSpawned = new List<CharacterWorldspaceScript>();
         b.spawned = true;//no repeat customers
-        if (freeEnemyPartyMemberObjects.Count == 0)
-        {
-            MainData.MainLoop.EventLoggingComponent.LogGray("Tried spawning, no more spots...");
-            return;
-        }
+
         foreach (string item in b.enemies)
         {
             int x = UnityEngine.Random.Range(0, freeEnemyPartyMemberObjects.Count); //random spot
@@ -616,6 +673,7 @@ public class EntityDefiner : MonoBehaviour
 
         //MainData.MainLoop.EventLoggingComponent.LogDisplayGradualText("You get a bad feeling.");
     }
+
     /// <summary>
     /// 
     /// </summary>
@@ -841,9 +899,9 @@ public class EntityDefiner : MonoBehaviour
                           MainData.allEquipment["short_sword"].discountPercentage,
                           MainData.allEquipment["short_sword"].Lifesteal);
 
-        MainData.equipmentInventory.Add(b);
-        MainData.equipmentInventory.Add(d);
-        MainData.equipmentInventory.Add(c);
+        //MainData.equipmentInventory.Add(b);
+        //MainData.equipmentInventory.Add(d);
+        //MainData.equipmentInventory.Add(c);
 
     }
 
@@ -906,7 +964,7 @@ public class EntityDefiner : MonoBehaviour
         MakeEquipableItemTemplate("damaged_short_sword", //string ID
                                   "A sword, preeminent hand weapon through a long period of history. It consists of a metal blade varying in length, breadth, and configuration but longer than a dagger and fitted with a handle or hilt usually equipped with a guard. This one is damaged.",//the desc
                                   "Common implement of war. Can usually be found between your ribs.", //blurb
-                                  "Damaged Shortsword", //name
+                                  "Shortsword", //name
                                   shortSwordSprite, //sprite
                                   "common", //rarity string
                                   1, //value in eyes
@@ -928,7 +986,7 @@ public class EntityDefiner : MonoBehaviour
         MakeEquipableItemTemplate("sharp_short_sword", //string ID
                                   "A sword, preeminent hand weapon through a long period of history. It consists of a metal blade varying in length, breadth, and configuration but longer than a dagger and fitted with a handle or hilt usually equipped with a guard. This one is sharp.",//the desc
                                   "Common implement of war. Can usually be found between your ribs.", //blurb
-                                  "Sharp Shortsword", //name
+                                  "Shortsword", //name
                                   shortSwordSprite, //sprite
                                   "common", //rarity string
                                   8, //value in eyes
@@ -950,7 +1008,7 @@ public class EntityDefiner : MonoBehaviour
         MakeEquipableItemTemplate("light_short_sword", //string ID
                                   "A sword, preeminent hand weapon through a long period of history. It consists of a metal blade varying in length, breadth, and configuration but longer than a dagger and fitted with a handle or hilt usually equipped with a guard. This one is light.",//the desc
                                   "Common implement of war. Can usually be found between your ribs.", //blurb
-                                  "Light Shortsword", //name
+                                  "Shortsword", //name
                                   shortSwordSprite, //sprite
                                   "common", //rarity string
                                   6, //value in eyes
@@ -972,7 +1030,7 @@ public class EntityDefiner : MonoBehaviour
         MakeEquipableItemTemplate("cheap_short_sword", //string ID
                                   "A sword, preeminent hand weapon through a long period of history. It consists of a metal blade varying in length, breadth, and configuration but longer than a dagger and fitted with a handle or hilt usually equipped with a guard. This one is cheap.",//the desc
                                   "Common implement of war. Can usually be found between your ribs.", //blurb
-                                  "Cheap Shortsword", //name
+                                  "Shortsword", //name
                                   shortSwordSprite, //sprite
                                   "common", //rarity string
                                   5, //value in eyes
@@ -1016,7 +1074,7 @@ public class EntityDefiner : MonoBehaviour
         MakeEquipableItemTemplate("dull_long_sword", //string ID
                           "A sword, preeminent double-hand weapon through a long period of history. Consisting of the strongest metal known in the kingdom and crafted by the most talented blacksmiths, this weapon is sure to make any combat encounter short. This one is dull.",//the desc
                           "Common implement of war. Can usually be found between your ribs.", //blurb
-                          "Dull Longsword", //name
+                          "Longsword", //name
                           shortSwordSprite, //sprite
                           "uncommon", //rarity string
                           6, //value in eyes
@@ -1038,7 +1096,7 @@ public class EntityDefiner : MonoBehaviour
         MakeEquipableItemTemplate("vengeful_long_sword", //string ID
                           "A sword, preeminent double-hand weapon through a long period of history. Consisting of the strongest metal known in the kingdom and crafted by the most talented blacksmiths, this weapon is sure to make any combat encounter short. This one is haunted.",//the desc
                           "Common implement of war. Can usually be found between your ribs.", //blurb
-                          "Vengeful Longsword", //name
+                          "Longsword", //name
                           shortSwordSprite, //sprite
                           "uncommon", //rarity string
                           13, //value in eyes
@@ -1060,7 +1118,7 @@ public class EntityDefiner : MonoBehaviour
         MakeEquipableItemTemplate("damaged_long_sword", //string ID
                           "A sword, preeminent double-hand weapon through a long period of history. Consisting of the strongest metal known in the kingdom and crafted by the most talented blacksmiths, this weapon is sure to make any combat encounter short. This one is damaged.",//the desc
                           "Common implement of war. Can usually be found between your ribs.", //blurb
-                          "Damaged Longsword", //name
+                          "Longsword", //name
                           shortSwordSprite, //sprite
                           "uncommon", //rarity string
                           3, //value in eyes
@@ -1082,7 +1140,7 @@ public class EntityDefiner : MonoBehaviour
         MakeEquipableItemTemplate("enchanted_long_sword", //string ID
                           "A sword, preeminent double-hand weapon through a long period of history. Consisting of the strongest metal known in the kingdom and crafted by the most talented blacksmiths, this weapon is sure to make any combat encounter short. This one is enchanted.",//the desc
                           "Common implement of war. Can usually be found between your ribs.", //blurb
-                          "Enchanted Longsword", //name
+                          "Longsword", //name
                           shortSwordSprite, //sprite
                           "uncommon", //rarity string
                           9, //value in eyes
@@ -1126,7 +1184,7 @@ public class EntityDefiner : MonoBehaviour
         MakeEquipableItemTemplate("warding_vampiric_ring", //string ID
                   "A vampire's ring, recovered by archeologists exploring ancient ruins. Crafted with fine gold and blood ruby, it contains the haunting spirit of a vampire within, granting the wearer unique, supernatural abilities. This one is tough.",//the desc
                   "A rare, special relic. You feel drawn in by it's emminating power.", //blurb
-                  "Warding Vampiric Ring", //name
+                  "Vampiric Ring", //name
                   shortSwordSprite, //sprite
                   "rare", //rarity string
                   9, //value in eyes
@@ -1148,7 +1206,7 @@ public class EntityDefiner : MonoBehaviour
         MakeEquipableItemTemplate("lucky_vampiric_ring", //string ID
                   "A vampire's ring, recovered by archeologists exploring ancient ruins. Crafted with fine gold and blood ruby, it contains the haunting spirit of a vampire within, granting the wearer unique, supernatural abilities. This one feels lucky.",//the desc
                   "A rare, special relic. You feel drawn in by it's emminating power.", //blurb
-                  "Lucky Vampiric Ring", //name
+                  "Vampiric Ring", //name
                   shortSwordSprite, //sprite
                   "rare", //rarity string
                   8, //value in eyes
@@ -1170,7 +1228,7 @@ public class EntityDefiner : MonoBehaviour
         MakeEquipableItemTemplate("enchanted_vampiric_ring", //string ID
                   "A vampire's ring, recovered by archeologists exploring ancient ruins. Crafted with fine gold and blood ruby, it contains the haunting spirit of a vampire within, granting the wearer unique, supernatural abilities. This one is enchanted.",//the desc
                   "A rare, special relic. You feel drawn in by it's emminating power.", //blurb
-                  "Enchanted Vampiric Ring", //name
+                  "Vampiric Ring", //name
                   shortSwordSprite, //sprite
                   "rare", //rarity string
                   8, //value in eyes
@@ -1192,7 +1250,7 @@ public class EntityDefiner : MonoBehaviour
         MakeEquipableItemTemplate("cheap_vampiric_ring", //string ID
                   "A vampire's ring, recovered by archeologists exploring ancient ruins. Crafted with fine gold and blood ruby, it contains the haunting spirit of a vampire within, granting the wearer unique, supernatural abilities. This one is cheap.",//the desc
                   "A rare, special relic. You feel drawn in by it's emminating power.", //blurb
-                  "Cheap Vampiric Ring", //name
+                  "Vampiric Ring", //name
                   shortSwordSprite, //sprite
                   "rare", //rarity string
                   6, //value in eyes
@@ -1236,7 +1294,7 @@ public class EntityDefiner : MonoBehaviour
         MakeEquipableItemTemplate("enchanted_shard_constitution", //string ID
           "A rare gem radiating unexplainable magic. Excavated from the royal mining site, rare gems like these have been told to contain the souls of dragons who died underground in their lairs. Others say they are unique combinations of minerals. This one is enchanted.",//the desc
           "A powerful and rare gem. You feel drawn in by it's emminating power.", //blurb
-          "Enchanted Shard of Constitution", //name
+          "Shard of Constitution", //name
           shortSwordSprite, //sprite
           "common", //rarity string
           1, //value in eyes
@@ -1258,7 +1316,7 @@ public class EntityDefiner : MonoBehaviour
         MakeEquipableItemTemplate("warding_shard_constitution", //string ID
           "A rare gem radiating unexplainable magic. Excavated from the royal mining site, rare gems like these have been told to contain the souls of dragons who died underground in their lairs. Others say they are unique combinations of minerals. This one is tough.",//the desc
           "A powerful and rare gem. You feel drawn in by it's emminating power.", //blurb
-          "Warding Shard of Constitution", //name
+          "Shard of Constitution", //name
           shortSwordSprite, //sprite
           "common", //rarity string
           6, //value in eyes
@@ -1280,7 +1338,7 @@ public class EntityDefiner : MonoBehaviour
         MakeEquipableItemTemplate("damaged_shard_constitution", //string ID
           "A rare gem radiating unexplainable magic. Excavated from the royal mining site, rare gems like these have been told to contain the souls of dragons who died underground in their lairs. Others say they are unique combinations of minerals. This one is damaged.",//the desc
           "A powerful and rare gem. You feel drawn in by it's emminating power.", //blurb
-          "Damaged Shard of Constitution", //name
+          "Shard of Constitution", //name
           shortSwordSprite, //sprite
           "common", //rarity string
           1, //value in eyes
@@ -1302,7 +1360,7 @@ public class EntityDefiner : MonoBehaviour
         MakeEquipableItemTemplate("light_shard_constitution", //string ID
           "A rare gem radiating unexplainable magic. Excavated from the royal mining site, rare gems like these have been told to contain the souls of dragons who died underground in their lairs. Others say they are unique combinations of minerals. This one is light.",//the desc
           "A powerful and rare gem. You feel drawn in by it's emminating power.", //blurb
-          "Light Shard of Constitution", //name
+          "Shard of Constitution", //name
           shortSwordSprite, //sprite
           "common", //rarity string
           4, //value in eyes
@@ -1346,7 +1404,7 @@ public class EntityDefiner : MonoBehaviour
         MakeEquipableItemTemplate("warding_shard_power", //string ID
           "A rare gem radiating unexplainable magic. Excavated from the royal mining site, rare gems like these have been told to contain the souls of dragons who died underground in their lairs. Others say they are unique combinations of minerals. This one is tough.",//the desc
           "A powerful and rare gem. You feel drawn in by it's emminating power.", //blurb
-          "Warding Shard of Power", //name
+          "Shard of Power", //name
           shortSwordSprite, //sprite
           "common", //rarity string
           6, //value in eyes
@@ -1368,7 +1426,7 @@ public class EntityDefiner : MonoBehaviour
                 MakeEquipableItemTemplate("vengeful_shard_power", //string ID
           "A rare gem radiating unexplainable magic. Excavated from the royal mining site, rare gems like these have been told to contain the souls of dragons who died underground in their lairs. Others say they are unique combinations of minerals. This one is haunted.",//the desc
           "A powerful and rare gem. You feel drawn in by it's emminating power.", //blurb
-          "Vengeful Shard of Power", //name
+          "Shard of Power", //name
           shortSwordSprite, //sprite
           "common", //rarity string
           9, //value in eyes
@@ -1390,7 +1448,7 @@ public class EntityDefiner : MonoBehaviour
                 MakeEquipableItemTemplate("cheap_shard_power", //string ID
           "A rare gem radiating unexplainable magic. Excavated from the royal mining site, rare gems like these have been told to contain the souls of dragons who died underground in their lairs. Others say they are unique combinations of minerals. This one is cheap.",//the desc
           "A powerful and rare gem. You feel drawn in by it's emminating power.", //blurb
-          "Cheap Shard of Power", //name
+          "Shard of Power", //name
           shortSwordSprite, //sprite
           "common", //rarity string
           3, //value in eyes
@@ -1412,7 +1470,7 @@ public class EntityDefiner : MonoBehaviour
                 MakeEquipableItemTemplate("lucky_shard_power", //string ID
           "A rare gem radiating unexplainable magic. Excavated from the royal mining site, rare gems like these have been told to contain the souls of dragons who died underground in their lairs. Others say they are unique combinations of minerals. This one feels lucky.",//the desc
           "A powerful and rare gem. You feel drawn in by it's emminating power.", //blurb
-          "Lucky Shard of Power", //name
+          "Shard of Power", //name
           shortSwordSprite, //sprite
           "common", //rarity string
           5, //value in eyes
@@ -1456,7 +1514,7 @@ public class EntityDefiner : MonoBehaviour
         MakeEquipableItemTemplate("lucky_shard_emerald", //string ID
           "A rare gem radiating unexplainable magic. Excavated from the royal mining site, rare gems like these have been told to contain the souls of dragons who died underground in their lairs. Others say they are unique combinations of minerals. This one feels lucky.",//the desc
           "A powerful and rare gem. You feel drawn in by it's emminating power.", //blurb
-          "Lucky Shard of Emerald", //name
+          "Shard of Emerald", //name
           shortSwordSprite, //sprite
           "common", //rarity string
           5, //value in eyes
@@ -1478,7 +1536,7 @@ public class EntityDefiner : MonoBehaviour
         MakeEquipableItemTemplate("warding_shard_emerald", //string ID
           "A rare gem radiating unexplainable magic. Excavated from the royal mining site, rare gems like these have been told to contain the souls of dragons who died underground in their lairs. Others say they are unique combinations of minerals. This one is tough.",//the desc
           "A powerful and rare gem. You feel drawn in by it's emminating power.", //blurb
-          "Warding Shard of Emerald", //name
+          "Shard of Emerald", //name
           shortSwordSprite, //sprite
           "common", //rarity string
           6, //value in eyes
@@ -1500,7 +1558,7 @@ public class EntityDefiner : MonoBehaviour
         MakeEquipableItemTemplate("damaged_shard_emerald", //string ID
           "A rare gem radiating unexplainable magic. Excavated from the royal mining site, rare gems like these have been told to contain the souls of dragons who died underground in their lairs. Others say they are unique combinations of minerals. This one is damaged.",//the desc
           "A powerful and rare gem. You feel drawn in by it's emminating power.", //blurb
-          "Damaged Shard of Emerald", //name
+          "Shard of Emerald", //name
           shortSwordSprite, //sprite
           "common", //rarity string
           1, //value in eyes
@@ -1522,7 +1580,7 @@ public class EntityDefiner : MonoBehaviour
         MakeEquipableItemTemplate("enchanted_shard_emerald", //string ID
           "A rare gem radiating unexplainable magic. Excavated from the royal mining site, rare gems like these have been told to contain the souls of dragons who died underground in their lairs. Others say they are unique combinations of minerals. This one is enchanted.",//the desc
           "A powerful and rare gem. You feel drawn in by it's emminating power.", //blurb
-          "Enchanted Shard of Emerald", //name
+          "Shard of Emerald", //name
           shortSwordSprite, //sprite
           "common", //rarity string
           5, //value in eyes
@@ -1566,7 +1624,7 @@ public class EntityDefiner : MonoBehaviour
                         MakeEquipableItemTemplate("warding_emerald_glasses", //string ID
           "These glasses have been crafted from by the most talented tinkerers in all of the Emerald palace, using highly refined emerald sheets as their lenses. Usually used only by artificers, these glasses help the wearer see hidden details in the world. This pair is tough.",//the desc
           "A beautifully crafted pair of glasses. You feel like you can see everything when wearing them.", //blurb
-          "Warding Emerald Glasses", //name
+          "Emerald Glasses", //name
           shortSwordSprite, //sprite
           "rare", //rarity string
           8, //value in eyes
@@ -1588,7 +1646,7 @@ public class EntityDefiner : MonoBehaviour
                         MakeEquipableItemTemplate("light_emerald_glasses", //string ID
           "These glasses have been crafted from by the most talented tinkerers in all of the Emerald palace, using highly refined emerald sheets as their lenses. Usually used only by artificers, these glasses help the wearer see hidden details in the world. This pair is light.",//the desc
           "A beautifully crafted pair of glasses. You feel like you can see everything when wearing them.", //blurb
-          "Light Emerald Glasses", //name
+          "Emerald Glasses", //name
           shortSwordSprite, //sprite
           "rare", //rarity string
           6, //value in eyes
@@ -1610,7 +1668,7 @@ public class EntityDefiner : MonoBehaviour
                         MakeEquipableItemTemplate("lucky_emerald_glasses", //string ID
           "These glasses have been crafted from by the most talented tinkerers in all of the Emerald palace, using highly refined emerald sheets as their lenses. Usually used only by artificers, these glasses help the wearer see hidden details in the world. This pair feels lucky.",//the desc
           "A beautifully crafted pair of glasses. You feel like you can see everything when wearing them.", //blurb
-          "Lucky Emerald Glasses", //name
+          "Emerald Glasses", //name
           shortSwordSprite, //sprite
           "rare", //rarity string
           7, //value in eyes
@@ -1632,7 +1690,7 @@ public class EntityDefiner : MonoBehaviour
                         MakeEquipableItemTemplate("cheap_emerald_glasses", //string ID
           "These glasses have been crafted from by the most talented tinkerers in all of the Emerald palace, using highly refined emerald sheets as their lenses. Usually used only by artificers, these glasses help the wearer see hidden details in the world. This pair is cheap.",//the desc
           "A beautifully crafted pair of glasses. You feel like you can see everything when wearing them.", //blurb
-          "Cheap Emerald Glasses", //name
+          "Emerald Glasses", //name
           shortSwordSprite, //sprite
           "rare", //rarity string
           5, //value in eyes
@@ -1676,7 +1734,7 @@ public class EntityDefiner : MonoBehaviour
                                 MakeEquipableItemTemplate("sharp_monkey_fang", //string ID
           "Pulled from the mouth of a beast. These teeth, found from flying monkeys, differ quite a lot from their non-avian counterparts. These teeth are greater in size and are serrated, hinting at the Flying Monkey's more predatory nature. This one is sharp.",//the desc
           "A dangerous piece of natural weaponry. Don't cut yourself on it.", //blurb
-          "Sharp Monkey Fang", //name
+          "Monkey Fang", //name
           shortSwordSprite, //sprite
           "common", //rarity string
           7, //value in eyes
@@ -1698,7 +1756,7 @@ public class EntityDefiner : MonoBehaviour
                                 MakeEquipableItemTemplate("vengeful_monkey_fang", //string ID
           "Pulled from the mouth of a beast. These teeth, found from flying monkeys, differ quite a lot from their non-avian counterparts. These teeth are greater in size and are serrated, hinting at the Flying Monkey's more predatory nature. This one is haunted.",//the desc
           "A dangerous piece of natural weaponry. Don't cut yourself on it.", //blurb
-          "Vengeful Monkey Fang", //name
+          "Monkey Fang", //name
           shortSwordSprite, //sprite
           "common", //rarity string
           10, //value in eyes
@@ -1720,7 +1778,7 @@ public class EntityDefiner : MonoBehaviour
                                 MakeEquipableItemTemplate("dull_monkey_fang", //string ID
           "Pulled from the mouth of a beast. These teeth, found from flying monkeys, differ quite a lot from their non-avian counterparts. These teeth are greater in size and are serrated, hinting at the Flying Monkey's more predatory nature. This one is dull.",//the desc
           "A dangerous piece of natural weaponry. Don't cut yourself on it.", //blurb
-          "Dull Monkey Fang", //name
+          "Monkey Fang", //name
           shortSwordSprite, //sprite
           "common", //rarity string
           3, //value in eyes
@@ -1742,7 +1800,7 @@ public class EntityDefiner : MonoBehaviour
                                 MakeEquipableItemTemplate("cheap_monkey_fang", //string ID
           "Pulled from the mouth of a beast. These teeth, found from flying monkeys, differ quite a lot from their non-avian counterparts. These teeth are greater in size and are serrated, hinting at the Flying Monkey's more predatory nature. This one is cheap.",//the desc
           "A dangerous piece of natural weaponry. Don't cut yourself on it.", //blurb
-          "Cheap Monkey Fang", //name
+          "Monkey Fang", //name
           shortSwordSprite, //sprite
           "common", //rarity string
           4, //value in eyes
@@ -1786,7 +1844,7 @@ public class EntityDefiner : MonoBehaviour
                                         MakeEquipableItemTemplate("enchanted_mana_amulet", //string ID
           "An amulet used for training mages in arcane schools due to it's ability to enhance its user's magical abilities and stamina. Although they aren't common to find, they are a fairly common commodity in the magical world, being used by most witches and wizards. This one is enchanted.",//the desc
           "A fragile gem encased in a hard metal. You feel more focused when wearing the amulet.", //blurb
-          "Enchanted Mana-Weaving Amulet", //name
+          "Mana-Weaving Amulet", //name
           shortSwordSprite, //sprite
           "common", //rarity string
           5, //value in eyes
@@ -1808,7 +1866,7 @@ public class EntityDefiner : MonoBehaviour
                                         MakeEquipableItemTemplate("warding_mana_amulet", //string ID
           "An amulet used for training mages in arcane schools due to it's ability to enhance its user's magical abilities and stamina. Although they aren't common to find, they are a fairly common commodity in the magical world, being used by most witches and wizards. This one is tough.",//the desc
           "A fragile gem encased in a hard metal. You feel more focused when wearing the amulet.", //blurb
-          "Warding Mana-Weaving Amulet", //name
+          "Mana-Weaving Amulet", //name
           shortSwordSprite, //sprite
           "common", //rarity string
           2, //value in eyes
@@ -1830,7 +1888,7 @@ public class EntityDefiner : MonoBehaviour
                                         MakeEquipableItemTemplate("light_mana_amulet", //string ID
           "An amulet used for training mages in arcane schools due to it's ability to enhance its user's magical abilities and stamina. Although they aren't common to find, they are a fairly common commodity in the magical world, being used by most witches and wizards. This one is light.",//the desc
           "A fragile gem encased in a hard metal. You feel more focused when wearing the amulet.", //blurb
-          "Light Mana-Weaving Amulet", //name
+          "Mana-Weaving Amulet", //name
           shortSwordSprite, //sprite
           "common", //rarity string
           4, //value in eyes
@@ -1874,7 +1932,7 @@ public class EntityDefiner : MonoBehaviour
                                                 MakeEquipableItemTemplate("light_iron_armor", //string ID
           "A heavy piece of armor worn by knights and paladins. It can protect against most attacks, and even though this one has been through hundreds of battles and taken thousands more blows, it still looks like it was forged yesterday. This one is light.",//the desc
           "A powerful piece of armor. You feel safer being around it.", //blurb
-          "Light Iron Armor", //name
+          "Iron Armor", //name
           shortSwordSprite, //sprite
           "common", //rarity string
           10, //value in eyes
@@ -1896,7 +1954,7 @@ public class EntityDefiner : MonoBehaviour
                                                 MakeEquipableItemTemplate("warding_iron_armor", //string ID
           "A heavy piece of armor worn by knights and paladins. It can protect against most attacks, and even though this one has been through hundreds of battles and taken thousands more blows, it still looks like it was forged yesterday. This one is tough.",//the desc
           "A powerful piece of armor. You feel safer being around it.", //blurb
-          "Warding Iron Armor", //name
+          "Iron Armor", //name
           shortSwordSprite, //sprite
           "common", //rarity string
           12, //value in eyes
@@ -1918,7 +1976,7 @@ public class EntityDefiner : MonoBehaviour
                                                 MakeEquipableItemTemplate("damaged_iron_armor", //string ID
           "A heavy piece of armor worn by knights and paladins. It can protect against most attacks, and even though this one has been through hundreds of battles and taken thousands more blows, it still looks like it was forged yesterday. This one is damaged.",//the desc
           "A powerful piece of armor. You feel safer being around it.", //blurb
-          "Damaged Iron Armor", //name
+          "Iron Armor", //name
           shortSwordSprite, //sprite
           "common", //rarity string
           5, //value in eyes
@@ -1940,7 +1998,7 @@ public class EntityDefiner : MonoBehaviour
                                                 MakeEquipableItemTemplate("cheap_iron_armor", //string ID
           "A heavy piece of armor worn by knights and paladins. It can protect against most attacks, and even though this one has been through hundreds of battles and taken thousands more blows, it still looks like it was forged yesterday. This one is cheap.",//the desc
           "A powerful piece of armor. You feel safer being around it.", //blurb
-          "Cheap Iron Armor", //name
+          "Iron Armor", //name
           shortSwordSprite, //sprite
           "common", //rarity string
           9, //value in eyes
@@ -1984,7 +2042,7 @@ public class EntityDefiner : MonoBehaviour
                                                         MakeEquipableItemTemplate("vengeful_wood_axe", //string ID
           "A simple axe used for wood cutting. The slight marks on the end and the blood stains on the handle however point to this axe being used in more 'creative' ways. This one is haunted.",//the desc
           "A worn down, but reliable axe. It chops through bone better than wood.", //blurb
-          "Vengeful Wood-Cutter's Axe", //name
+          "Wood-Cutter's Axe", //name
           shortSwordSprite, //sprite
           "common", //rarity string
           11, //value in eyes
@@ -2006,7 +2064,7 @@ public class EntityDefiner : MonoBehaviour
                                                         MakeEquipableItemTemplate("sharp_wood_axe", //string ID
           "A simple axe used for wood cutting. The slight marks on the end and the blood stains on the handle however point to this axe being used in more 'creative' ways. This one is sharp.",//the desc
           "A worn down, but reliable axe. It chops through bone better than wood.", //blurb
-          "Sharp Wood-Cutter's Axe", //name
+          "Wood-Cutter's Axe", //name
           shortSwordSprite, //sprite
           "common", //rarity string
           8, //value in eyes
@@ -2028,7 +2086,7 @@ public class EntityDefiner : MonoBehaviour
                                                         MakeEquipableItemTemplate("dull_wood_axe", //string ID
           "A simple axe used for wood cutting. The slight marks on the end and the blood stains on the handle however point to this axe being used in more 'creative' ways. This one is dull.",//the desc
           "A worn down, but reliable axe. It chops through bone better than wood.", //blurb
-          "Dull Wood-Cutter's Axe", //name
+          "Wood-Cutter's Axe", //name
           shortSwordSprite, //sprite
           "common", //rarity string
           5, //value in eyes
@@ -2050,7 +2108,7 @@ public class EntityDefiner : MonoBehaviour
                                                         MakeEquipableItemTemplate("cheap_wood_axe", //string ID
           "A simple axe used for wood cutting. The slight marks on the end and the blood stains on the handle however point to this axe being used in more 'creative' ways. This one is cheap.",//the desc
           "A worn down, but reliable axe. It chops through bone better than wood.", //blurb
-          "Cheap Wood-Cutter's Axe", //name
+          "Wood-Cutter's Axe", //name
           shortSwordSprite, //sprite
           "common", //rarity string
           5, //value in eyes
@@ -2116,7 +2174,7 @@ public class EntityDefiner : MonoBehaviour
                                                                 MakeEquipableItemTemplate("cheap_tornado_bottle", //string ID
           "A bottled tornado. Holding the glass it's in, you can feel the power swirling around inside, as if the rage of a god was contained all within that small storm. The shopkeeper warns you not to open it, at least not near him. This one is cheap.",//the desc
           "A small tornado swirling inside a bottle. Opening it could cause disaster.", //blurb
-          "Cheap Tornado in a Bottle", //name
+          "Tornado in a Bottle", //name
           shortSwordSprite, //sprite
           "uncommon", //rarity string
           1, //value in eyes
@@ -2138,7 +2196,7 @@ public class EntityDefiner : MonoBehaviour
                                                                 MakeEquipableItemTemplate("enchanted_tornado_bottle", //string ID
           "A bottled tornado. Holding the glass it's in, you can feel the power swirling around inside, as if the rage of a god was contained all within that small storm. The shopkeeper warns you not to open it, at least not near him. This one is enchanted.",//the desc
           "A small tornado swirling inside a bottle. Opening it could cause disaster.", //blurb
-          "Enchanted Tornado in a Bottle", //name
+          "Tornado in a Bottle", //name
           shortSwordSprite, //sprite
           "uncommon", //rarity string
           3, //value in eyes
@@ -2160,7 +2218,7 @@ public class EntityDefiner : MonoBehaviour
                                                                 MakeEquipableItemTemplate("lucky_tornado_bottle", //string ID
           "A bottled tornado. Holding the glass it's in, you can feel the power swirling around inside, as if the rage of a god was contained all within that small storm. The shopkeeper warns you not to open it, at least not near him. This one feels lucky.",//the desc
           "A small tornado swirling inside a bottle. Opening it could cause disaster.", //blurb
-          "Lucky Tornado in a Bottle", //name
+          "Tornado in a Bottle", //name
           shortSwordSprite, //sprite
           "uncommon", //rarity string
           3, //value in eyes
@@ -2176,6 +2234,490 @@ public class EntityDefiner : MonoBehaviour
           0, //healing, multiplicative. as a percentage.
           0, //dam resist, multiplicative. as a percentage.
           0, //dam bonus multiplicative. as a percentage.
+          0, //discount as a percentage, multiplicative
+          0); //lifesteal multiplicative. as a percentage.
+
+        MakeEquipableItemTemplate("life_amulet", //string ID
+          "An amulet used to help nurse people back to health. Using a combination of rare gems imbued with various spells, the amulet can help protect the wearer from both phyisical damage, as well as viruses or infections.",//the desc
+          "Usually found on the necks of frontline soldiers, helping them heal small wounds during combat.", //blurb
+          "Life-Giving Amulet", //name
+          shortSwordSprite, //sprite
+          "common", //rarity string
+          6, //value in eyes
+          1, //amount in birb's stock
+          1, //default quantity
+          true, //(true)beneficial or (false)harmful
+          0, //speed bonus
+          20, //health bonus
+          0, //mana bonus
+          0, //dmg bonus
+          0, //defense bonus 
+          0, //luck bonus 
+          50, //healing, multiplicative. as a percentage.
+          0, //dam resist, multiplicative. as a percentage.
+          0, //dam bonus multiplicative. as a percentage.
+          0, //discount as a percentage, multiplicative
+          0); //lifesteal multiplicative. as a percentage.
+
+        MakeEquipableItemTemplate("warding_life_amulet", //string ID
+          "An amulet used to help nurse people back to health. Using a combination of rare gems imbued with various spells, the amulet can help protect the wearer from both phyisical damage, as well as viruses or infections. This one is tough.",//the desc
+          "Usually found on the necks of frontline soldiers, helping them heal small wounds during combat.", //blurb
+          "Life-Giving Amulet", //name
+          shortSwordSprite, //sprite
+          "common", //rarity string
+          8, //value in eyes
+          1, //amount in birb's stock
+          1, //default quantity
+          true, //(true)beneficial or (false)harmful
+          0, //speed bonus
+          20, //health bonus
+          0, //mana bonus
+          0, //dmg bonus
+          2, //defense bonus 
+          0, //luck bonus 
+          50, //healing, multiplicative. as a percentage.
+          0, //dam resist, multiplicative. as a percentage.
+          0, //dam bonus multiplicative. as a percentage.
+          0, //discount as a percentage, multiplicative
+          0); //lifesteal multiplicative. as a percentage.
+
+        MakeEquipableItemTemplate("enchanted_life_amulet", //string ID
+          "An amulet used to help nurse people back to health. Using a combination of rare gems imbued with various spells, the amulet can help protect the wearer from both phyisical damage, as well as viruses or infections. This one is enchanted.",//the desc
+          "Usually found on the necks of frontline soldiers, helping them heal small wounds during combat.", //blurb
+          "Life-Giving Amulet", //name
+          shortSwordSprite, //sprite
+          "common", //rarity string
+          7, //value in eyes
+          1, //amount in birb's stock
+          1, //default quantity
+          true, //(true)beneficial or (false)harmful
+          0, //speed bonus
+          20, //health bonus
+          25, //mana bonus
+          0, //dmg bonus
+          0, //defense bonus 
+          0, //luck bonus 
+          50, //healing, multiplicative. as a percentage.
+          0, //dam resist, multiplicative. as a percentage.
+          0, //dam bonus multiplicative. as a percentage.
+          0, //discount as a percentage, multiplicative
+          0); //lifesteal multiplicative. as a percentage.
+
+        MakeEquipableItemTemplate("cheap_life_amulet", //string ID
+          "An amulet used to help nurse people back to health. Using a combination of rare gems imbued with various spells, the amulet can help protect the wearer from both phyisical damage, as well as viruses or infections. This one is cheap.",//the desc
+          "Usually found on the necks of frontline soldiers, helping them heal small wounds during combat.", //blurb
+          "Life-Giving Amulet", //name
+          shortSwordSprite, //sprite
+          "common", //rarity string
+          5, //value in eyes
+          1, //amount in birb's stock
+          1, //default quantity
+          true, //(true)beneficial or (false)harmful
+          0, //speed bonus
+          20, //health bonus
+          0, //mana bonus
+          0, //dmg bonus
+          0, //defense bonus 
+          0, //luck bonus 
+          50, //healing, multiplicative. as a percentage.
+          0, //dam resist, multiplicative. as a percentage.
+          0, //dam bonus multiplicative. as a percentage.
+          0, //discount as a percentage, multiplicative
+          0); //lifesteal multiplicative. as a percentage.
+
+        MakeEquipableItemTemplate("light_life_amulet", //string ID
+          "An amulet used to help nurse people back to health. Using a combination of rare gems imbued with various spells, the amulet can help protect the wearer from both phyisical damage, as well as viruses or infections. This one is light.",//the desc
+          "Usually found on the necks of frontline soldiers, helping them heal small wounds during combat.", //blurb
+          "Life-Giving Amulet", //name
+          shortSwordSprite, //sprite
+          "common", //rarity string
+          6, //value in eyes
+          1, //amount in birb's stock
+          1, //default quantity
+          true, //(true)beneficial or (false)harmful
+          3, //speed bonus
+          20, //health bonus
+          0, //mana bonus
+          0, //dmg bonus
+          0, //defense bonus 
+          0, //luck bonus 
+          50, //healing, multiplicative. as a percentage.
+          0, //dam resist, multiplicative. as a percentage.
+          0, //dam bonus multiplicative. as a percentage.
+          0, //discount as a percentage, multiplicative
+          0); //lifesteal multiplicative. as a percentage.
+
+        MakeEquipableItemTemplate("paladin_shield", //string ID
+          "A shield only equipped by paladins of the highest ranks. It symbolises protection, safety, and a guard's unwavering faith to their king. How this shopkeeper got a hold of it is baffling.",//the desc
+          "A symbolic bulwark given to the most trusted and respected paladins.", //blurb
+          "Paladin's Shield", //name
+          shortSwordSprite, //sprite
+          "rare", //rarity string
+          15, //value in eyes
+          1, //amount in birb's stock
+          1, //default quantity
+          true, //(true)beneficial or (false)harmful
+          0, //speed bonus
+          0, //health bonus
+          0, //mana bonus
+          0, //dmg bonus
+          3, //defense bonus 
+          0, //luck bonus 
+          0, //healing, multiplicative. as a percentage.
+          50, //dam resist, multiplicative. as a percentage.
+          0, //dam bonus multiplicative. as a percentage.
+          0, //discount as a percentage, multiplicative
+          0); //lifesteal multiplicative. as a percentage.
+
+        MakeEquipableItemTemplate("warding_paladin_shield", //string ID
+          "A shield only equipped by paladins of the highest ranks. It symbolises protection, safety, and a guard's unwavering faith to their king. How this shopkeeper got a hold of it is baffling. This one is tough.",//the desc
+          "A symbolic bulwark given to the most trusted and respected paladins.", //blurb
+          "Paladin's Shield", //name
+          shortSwordSprite, //sprite
+          "rare", //rarity string
+          17, //value in eyes
+          1, //amount in birb's stock
+          1, //default quantity
+          true, //(true)beneficial or (false)harmful
+          0, //speed bonus
+          0, //health bonus
+          0, //mana bonus
+          0, //dmg bonus
+          5, //defense bonus 
+          0, //luck bonus 
+          0, //healing, multiplicative. as a percentage.
+          50, //dam resist, multiplicative. as a percentage.
+          0, //dam bonus multiplicative. as a percentage.
+          0, //discount as a percentage, multiplicative
+          0); //lifesteal multiplicative. as a percentage.
+
+        MakeEquipableItemTemplate("lucky_paladin_shield", //string ID
+          "A shield only equipped by paladins of the highest ranks. It symbolises protection, safety, and a guard's unwavering faith to their king. How this shopkeeper got a hold of it is baffling. This one feels lucky.",//the desc
+          "A symbolic bulwark given to the most trusted and respected paladins.", //blurb
+          "Paladin's Shield", //name
+          shortSwordSprite, //sprite
+          "rare", //rarity string
+          16, //value in eyes
+          1, //amount in birb's stock
+          1, //default quantity
+          true, //(true)beneficial or (false)harmful
+          0, //speed bonus
+          0, //health bonus
+          0, //mana bonus
+          0, //dmg bonus
+          3, //defense bonus 
+          10, //luck bonus 
+          0, //healing, multiplicative. as a percentage.
+          50, //dam resist, multiplicative. as a percentage.
+          0, //dam bonus multiplicative. as a percentage.
+          0, //discount as a percentage, multiplicative
+          0); //lifesteal multiplicative. as a percentage.
+
+        MakeEquipableItemTemplate("vengeful_paladin_shield", //string ID
+          "A shield only equipped by paladins of the highest ranks. It symbolises protection, safety, and a guard's unwavering faith to their king. How this shopkeeper got a hold of it is baffling. This one is haunted.",//the desc
+          "A symbolic bulwark given to the most trusted and respected paladins.", //blurb
+          "Paladin's Shield", //name
+          shortSwordSprite, //sprite
+          "rare", //rarity string
+          20, //value in eyes
+          1, //amount in birb's stock
+          1, //default quantity
+          true, //(true)beneficial or (false)harmful
+          0, //speed bonus
+          0, //health bonus
+          0, //mana bonus
+          3, //dmg bonus
+          3, //defense bonus 
+          0, //luck bonus 
+          0, //healing, multiplicative. as a percentage.
+          50, //dam resist, multiplicative. as a percentage.
+          0, //dam bonus multiplicative. as a percentage.
+          0, //discount as a percentage, multiplicative
+          10); //lifesteal multiplicative. as a percentage.
+
+        MakeEquipableItemTemplate("damaged_paladin_shield", //string ID
+          "A shield only equipped by paladins of the highest ranks. It symbolises protection, safety, and a guard's unwavering faith to their king. How this shopkeeper got a hold of it is baffling. This one is damaged.",//the desc
+          "A symbolic bulwark given to the most trusted and respected paladins.", //blurb
+          "Paladin's Shield", //name
+          shortSwordSprite, //sprite
+          "rare", //rarity string
+          10, //value in eyes
+          1, //amount in birb's stock
+          1, //default quantity
+          true, //(true)beneficial or (false)harmful
+          0, //speed bonus
+          0, //health bonus
+          0, //mana bonus
+          0, //dmg bonus
+          1, //defense bonus 
+          0, //luck bonus 
+          0, //healing, multiplicative. as a percentage.
+          20, //dam resist, multiplicative. as a percentage.
+          0, //dam bonus multiplicative. as a percentage.
+          0, //discount as a percentage, multiplicative
+          0); //lifesteal multiplicative. as a percentage.
+
+        MakeEquipableItemTemplate("emblem_purity", //string ID
+          "This emblem has been forged through generations by the nomadic tribes of the east. It symbolises the rejection of modern civilization and the acceptance of changing and ruling the natural world through your will and strength alone.",//the desc
+          "A charm worn by the shamans of nomadic tribes to show their domination over the natural world.", //blurb
+          "Emblem of Purity", //name
+          shortSwordSprite, //sprite
+          "common", //rarity string
+          8, //value in eyes
+          1, //amount in birb's stock
+          1, //default quantity
+          true, //(true)beneficial or (false)harmful
+          0, //speed bonus
+          20, //health bonus
+          -100, //mana bonus
+          2, //dmg bonus
+          2, //defense bonus 
+          0, //luck bonus 
+          0, //healing, multiplicative. as a percentage.
+          10, //dam resist, multiplicative. as a percentage.
+          10, //dam bonus multiplicative. as a percentage.
+          0, //discount as a percentage, multiplicative
+          0); //lifesteal multiplicative. as a percentage.
+
+        MakeEquipableItemTemplate("cheap_emblem_purity", //string ID
+          "This emblem has been forged through generations by the nomadic tribes of the east. It symbolises the rejection of modern civilization and the acceptance of changing and ruling the natural world through your will and strength alone. This one is cheap.",//the desc
+          "A charm worn by the shamans of nomadic tribes to show their domination over the natural world.", //blurb
+          "Emblem of Purity", //name
+          shortSwordSprite, //sprite
+          "common", //rarity string
+          7, //value in eyes
+          1, //amount in birb's stock
+          1, //default quantity
+          true, //(true)beneficial or (false)harmful
+          0, //speed bonus
+          20, //health bonus
+          -100, //mana bonus
+          2, //dmg bonus
+          2, //defense bonus 
+          0, //luck bonus 
+          0, //healing, multiplicative. as a percentage.
+          10, //dam resist, multiplicative. as a percentage.
+          10, //dam bonus multiplicative. as a percentage.
+          0, //discount as a percentage, multiplicative
+          0); //lifesteal multiplicative. as a percentage.
+
+        MakeEquipableItemTemplate("sharp_emblem_purity", //string ID
+          "This emblem has been forged through generations by the nomadic tribes of the east. It symbolises the rejection of modern civilization and the acceptance of changing and ruling the natural world through your will and strength alone. This one is sharp.",//the desc
+          "A charm worn by the shamans of nomadic tribes to show their domination over the natural world.", //blurb
+          "Emblem of Purity", //name
+          shortSwordSprite, //sprite
+          "common", //rarity string
+          10, //value in eyes
+          1, //amount in birb's stock
+          1, //default quantity
+          true, //(true)beneficial or (false)harmful
+          0, //speed bonus
+          20, //health bonus
+          -100, //mana bonus
+          4, //dmg bonus
+          2, //defense bonus 
+          0, //luck bonus 
+          0, //healing, multiplicative. as a percentage.
+          10, //dam resist, multiplicative. as a percentage.
+          10, //dam bonus multiplicative. as a percentage.
+          0, //discount as a percentage, multiplicative
+          0); //lifesteal multiplicative. as a percentage.
+
+        MakeEquipableItemTemplate("vengeful_emblem_purity", //string ID
+          "This emblem has been forged through generations by the nomadic tribes of the east. It symbolises the rejection of modern civilization and the acceptance of changing and ruling the natural world through your will and strength alone. This one is haunted.",//the desc
+          "A charm worn by the shamans of nomadic tribes to show their domination over the natural world.", //blurb
+          "Emblem of Purity", //name
+          shortSwordSprite, //sprite
+          "common", //rarity string
+          13, //value in eyes
+          1, //amount in birb's stock
+          1, //default quantity
+          true, //(true)beneficial or (false)harmful
+          0, //speed bonus
+          20, //health bonus
+          -100, //mana bonus
+          5, //dmg bonus
+          2, //defense bonus 
+          0, //luck bonus 
+          0, //healing, multiplicative. as a percentage.
+          10, //dam resist, multiplicative. as a percentage.
+          10, //dam bonus multiplicative. as a percentage.
+          0, //discount as a percentage, multiplicative
+          10); //lifesteal multiplicative. as a percentage.
+
+        MakeEquipableItemTemplate("light_emblem_purity", //string ID
+          "This emblem has been forged through generations by the nomadic tribes of the east. It symbolises the rejection of modern civilization and the acceptance of changing and ruling the natural world through your will and strength alone. This one is light.",//the desc
+          "A charm worn by the shamans of nomadic tribes to show their domination over the natural world.", //blurb
+          "Emblem of Purity", //name
+          shortSwordSprite, //sprite
+          "common", //rarity string
+          8, //value in eyes
+          1, //amount in birb's stock
+          1, //default quantity
+          true, //(true)beneficial or (false)harmful
+          3, //speed bonus
+          20, //health bonus
+          -100, //mana bonus
+          2, //dmg bonus
+          2, //defense bonus 
+          0, //luck bonus 
+          0, //healing, multiplicative. as a percentage.
+          10, //dam resist, multiplicative. as a percentage.
+          10, //dam bonus multiplicative. as a percentage.
+          0, //discount as a percentage, multiplicative
+          0); //lifesteal multiplicative. as a percentage.
+
+        MakeEquipableItemTemplate("clover", //string ID
+          "A 4 leaf clover. Said to provide those who wear it with extreme luck.",//the desc
+          "Just a leaf. How lucky can it really be?", //blurb
+          "Lucky Leaf", //name
+          shortSwordSprite, //sprite
+          "masterwork", //rarity string
+          10, //value in eyes
+          1, //amount in birb's stock
+          1, //default quantity
+          true, //(true)beneficial or (false)harmful
+          0, //speed bonus
+          0, //health bonus
+          0, //mana bonus
+          0, //dmg bonus
+          0, //defense bonus 
+          50, //luck bonus 
+          0, //healing, multiplicative. as a percentage.
+          0, //dam resist, multiplicative. as a percentage.
+          0, //dam bonus multiplicative. as a percentage.
+          0, //discount as a percentage, multiplicative
+          0); //lifesteal multiplicative. as a percentage.
+
+        MakeEquipableItemTemplate("emerald_armor", //string ID
+          "Unlike normal armor worn by soliders from other nations, the emerald armor worn by emerald palace guards are quite brittle and are destroyed quite easily. Instead, they use emerald's unique magical abilities to enhance the user's combat prowess.",//the desc
+          "A piece of unique armor. Wearing it as protection would end quite badly.", //blurb
+          "Emerald Armor", //name
+          shortSwordSprite, //sprite
+          "uncommon", //rarity string
+          5, //value in eyes
+          1, //amount in birb's stock
+          1, //default quantity
+          true, //(true)beneficial or (false)harmful
+          1, //speed bonus
+          5, //health bonus
+          25, //mana bonus
+          0, //dmg bonus
+          1, //defense bonus 
+          0, //luck bonus 
+          0, //healing, multiplicative. as a percentage.
+          0, //dam resist, multiplicative. as a percentage.
+          0, //dam bonus multiplicative. as a percentage.
+          0, //discount as a percentage, multiplicative
+          0); //lifesteal multiplicative. as a percentage.
+
+        MakeEquipableItemTemplate("enchanted_emerald_armor", //string ID
+          "Unlike normal armor worn by soliders from other nations, the emerald armor worn by emerald palace guards are quite brittle and are destroyed quite easily. Instead, they use emerald's unique magical abilities to enhance the user's combat prowess. This one is enchanted.",//the desc
+          "A piece of unique armor. Wearing it as protection would end quite badly.", //blurb
+          "Emerald Armor", //name
+          shortSwordSprite, //sprite
+          "uncommon", //rarity string
+          6, //value in eyes
+          1, //amount in birb's stock
+          1, //default quantity
+          true, //(true)beneficial or (false)harmful
+          1, //speed bonus
+          5, //health bonus
+          50, //mana bonus
+          0, //dmg bonus
+          1, //defense bonus 
+          0, //luck bonus 
+          0, //healing, multiplicative. as a percentage.
+          0, //dam resist, multiplicative. as a percentage.
+          0, //dam bonus multiplicative. as a percentage.
+          0, //discount as a percentage, multiplicative
+          0); //lifesteal multiplicative. as a percentage.
+
+        MakeEquipableItemTemplate("cheap_emerald_armor", //string ID
+          "Unlike normal armor worn by soliders from other nations, the emerald armor worn by emerald palace guards are quite brittle and are destroyed quite easily. Instead, they use emerald's unique magical abilities to enhance the user's combat prowess. This one is cheap.",//the desc
+          "A piece of unique armor. Wearing it as protection would end quite badly.", //blurb
+          "Emerald Armor", //name
+          shortSwordSprite, //sprite
+          "uncommon", //rarity string
+          4, //value in eyes
+          1, //amount in birb's stock
+          1, //default quantity
+          true, //(true)beneficial or (false)harmful
+          1, //speed bonus
+          5, //health bonus
+          25, //mana bonus
+          0, //dmg bonus
+          1, //defense bonus 
+          0, //luck bonus 
+          0, //healing, multiplicative. as a percentage.
+          0, //dam resist, multiplicative. as a percentage.
+          0, //dam bonus multiplicative. as a percentage.
+          0, //discount as a percentage, multiplicative
+          0); //lifesteal multiplicative. as a percentage.
+
+        MakeEquipableItemTemplate("warding_emerald_armor", //string ID
+          "Unlike normal armor worn by soliders from other nations, the emerald armor worn by emerald palace guards are quite brittle and are destroyed quite easily. Instead, they use emerald's unique magical abilities to enhance the user's combat prowess. This one is tough.",//the desc
+          "A piece of unique armor. Wearing it as protection would end quite badly.", //blurb
+          "Emerald Armor", //name
+          shortSwordSprite, //sprite
+          "uncommon", //rarity string
+          7, //value in eyes
+          1, //amount in birb's stock
+          1, //default quantity
+          true, //(true)beneficial or (false)harmful
+          1, //speed bonus
+          5, //health bonus
+          25, //mana bonus
+          0, //dmg bonus
+          3, //defense bonus 
+          0, //luck bonus 
+          0, //healing, multiplicative. as a percentage.
+          0, //dam resist, multiplicative. as a percentage.
+          0, //dam bonus multiplicative. as a percentage.
+          0, //discount as a percentage, multiplicative
+          0); //lifesteal multiplicative. as a percentage.
+
+        MakeEquipableItemTemplate("vengeful_emerald_armor", //string ID
+          "Unlike normal armor worn by soliders from other nations, the emerald armor worn by emerald palace guards are quite brittle and are destroyed quite easily. Instead, they use emerald's unique magical abilities to enhance the user's combat prowess. This one is haunted.",//the desc
+          "A piece of unique armor. Wearing it as protection would end quite badly.", //blurb
+          "Emerald Armor", //name
+          shortSwordSprite, //sprite
+          "uncommon", //rarity string
+          10, //value in eyes
+          1, //amount in birb's stock
+          1, //default quantity
+          true, //(true)beneficial or (false)harmful
+          1, //speed bonus
+          5, //health bonus
+          25, //mana bonus
+          3, //dmg bonus
+          1, //defense bonus 
+          0, //luck bonus 
+          0, //healing, multiplicative. as a percentage.
+          0, //dam resist, multiplicative. as a percentage.
+          0, //dam bonus multiplicative. as a percentage.
+          0, //discount as a percentage, multiplicative
+          10); //lifesteal multiplicative. as a percentage.
+
+        MakeEquipableItemTemplate("duality", //string ID
+          "The beauty of this blade cannot be overstated. Just looking at it sends chills down one's spine. Legend says that this blade is able to cut an opponent in half just by drawing it from a sheath. No price could be high enough for this weapon.",//the desc
+          "The duality of man given form to a blade.", //blurb
+          "Duality", //name
+          shortSwordSprite, //sprite
+          "masterwork", //rarity string
+          20, //value in eyes
+          1, //amount in birb's stock
+          1, //default quantity
+          true, //(true)beneficial or (false)harmful
+          0, //speed bonus
+          0, //health bonus
+          0, //mana bonus
+          0, //dmg bonus
+          0, //defense bonus 
+          0, //luck bonus 
+          0, //healing, multiplicative. as a percentage.
+          0, //dam resist, multiplicative. as a percentage.
+          100, //dam bonus multiplicative. as a percentage.
           0, //discount as a percentage, multiplicative
           0); //lifesteal multiplicative. as a percentage.
 
@@ -2479,6 +3021,7 @@ public class EntityDefiner : MonoBehaviour
         public int defense; //handled in attacking code
         public int luck; //not yet
         public int mana; //not yet
+        public int difficultyCost;
 
         public bool canAct = true; //wether it's stunned or not
 

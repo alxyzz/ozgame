@@ -9635,6 +9635,8 @@ MonoBehaviour:
   - {fileID: 9119808398692718170, guid: 9541f4594ccea944ab521c4f3ce57c4d, type: 3}
   - {fileID: 8222927616543567879, guid: 9541f4594ccea944ab521c4f3ce57c4d, type: 3}
   - {fileID: -5405946072551375038, guid: 9541f4594ccea944ab521c4f3ce57c4d, type: 3}
+  BaseCurrency: 2
+  difficultyCurrency: 0
 --- !u!114 &462129120
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9697,6 +9699,11 @@ MonoBehaviour:
   maximumDistance: 1500
   EncountersPaused: 0
   ButtonMoveOn: {fileID: 1736543281}
+  enemyNames:
+  - weakflyingmonkey
+  - flyingmonkey
+  - strongflyingmonkey
+  - hellflyingmonkey
 --- !u!114 &462129122
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9732,12 +9739,30 @@ MonoBehaviour:
   PCStartingSpeed: 5
   PCStartingLuck: 1
   PCStartingDefense: 2
-  flyingMonkeyMaxHealth: 1
-  flyingMonkeyMinDamage: 12
-  flyingMonkeyMaxDamage: 15
-  flyingMonkeySpeed: 6
+  flyingMonkeyMaxHealth: 15
+  flyingMonkeyMinDamage: 4
+  flyingMonkeyMaxDamage: 8
+  flyingMonkeySpeed: 4
   flyingMonkeyLuck: 1
   flyingMonkeyDefense: 1
+  strongflyingMonkeyMaxHealth: 18
+  strongflyingMonkeyMinDamage: 6
+  strongflyingMonkeyMaxDamage: 10
+  strongflyingMonkeySpeed: 1
+  strongflyingMonkeyLuck: 1
+  strongflyingMonkeyDefense: 3
+  weakflyingMonkeyMaxHealth: 7
+  weakflyingMonkeyMinDamage: 1
+  weakflyingMonkeyMaxDamage: 3
+  weakflyingMonkeySpeed: 3
+  weakflyingMonkeyLuck: 1
+  weakflyingMonkeyDefense: 0
+  hellbentflyingMonkeyMaxHealth: 30
+  hellbentflyingMonkeyMinDamage: 9
+  hellbentflyingMonkeyMaxDamage: 12
+  hellbentflyingMonkeySpeed: 2
+  hellbentflyingMonkeyLuck: 0
+  hellbentflyingMonkeyDefense: 1
   CommonColor: {r: 0.735849, g: 0.735849, b: 0.735849, a: 1}
   UncommonColor: {r: 0.85844606, g: 0.9528302, b: 0.87069815, a: 1}
   RareColor: {r: 0.754717, g: 0.6775995, b: 0.3737985, a: 1}
@@ -14420,6 +14445,7 @@ MonoBehaviour:
   VendorItemPrice: {fileID: 116600886}
   itemImage: {fileID: 610373496}
   isAnimating: 0
+  difficultyCurrency: 0
   vendorItems: []
   TradeObjectContainer: {fileID: 740729584}
   TraderInventoryScrollRect: {fileID: 939447490}
