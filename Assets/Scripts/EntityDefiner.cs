@@ -914,9 +914,9 @@ public class EntityDefiner : MonoBehaviour
                           MainData.allEquipment["short_sword"].discountPercentage,
                           MainData.allEquipment["short_sword"].Lifesteal);
 
-        //MainData.equipmentInventory.Add(b);
-        //MainData.equipmentInventory.Add(d);
-        //MainData.equipmentInventory.Add(c);
+        MainData.equipmentInventory.Add(b);
+        MainData.equipmentInventory.Add(d);
+        MainData.equipmentInventory.Add(c);
 
     }
 

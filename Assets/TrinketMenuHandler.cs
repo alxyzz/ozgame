@@ -295,18 +295,25 @@ public class TrinketMenuHandler : MonoBehaviour
 
 
     }
-    private void RefreshItemDescription()
+    public void RefreshItemDescription(Item hovered = null)
     {
 
         if (currentlySelectedItem == null)
         {
-
-            ItemDesc.text = "";
-            ItemName.text = "";
-            ItemRarity.text = "";
-            ItemValue.text = "";
-            ItemBonuses.text = "";
-            return;
+            if (hovered != null)
+            {
+                currentlySelectedItem = hovered;
+            }
+            else
+            {
+                ItemDesc.text = "";
+                ItemName.text = "";
+                ItemRarity.text = "";
+                ItemValue.text = "";
+                ItemBonuses.text = "";
+                return;
+            }
+           
         }
 
 
