@@ -27,7 +27,15 @@ public class VendorItemScript : MonoBehaviour
         itemImage.sprite = associatedItem.itemSprite;
         itemName.text = associatedItem.itemName;
         itemDescription.text = associatedItem.description;
-        itemQuantity.text = associatedItem.amtInStock.ToString();
+
+        if (associatedItem.amtInStock == 1)
+        {
+            itemQuantity.text = "";
+        }
+        else
+        {
+            itemQuantity.text = associatedItem.amtInStock.ToString();
+        }
         Debug.LogWarning("Refresh Item Data at VendorItemScript - itemQuantity.text = associatedItem.amtInStock.ToString(); - amt in stock is " + associatedItem.amtInStock.ToString());
         if (associatedItem.value != 0)
         {
