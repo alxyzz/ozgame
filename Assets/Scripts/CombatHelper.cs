@@ -175,7 +175,7 @@ public class CombatHelper : MonoBehaviour
                 //disable controls here
 
 
-                yield return new WaitForSecondsRealtime(0.4f);
+                yield return new WaitForSecondsRealtime(0.1f);
             }
             else
             {
@@ -518,7 +518,7 @@ public class CombatHelper : MonoBehaviour
         //animation
         Fool.TakeDamageFromCharacter(activeCharacterWorldspaceObject.associatedCharacter);//this also handles damage indicator
 
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.05f);
 
             ReturnFromActiveSpot();
             activeCharacterWorldspaceObject.associatedCharacter.hasActedThisTurn = true;

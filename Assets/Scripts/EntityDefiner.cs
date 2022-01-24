@@ -2783,7 +2783,6 @@ public class EntityDefiner : MonoBehaviour
 
     }
 
-
     public void MakeEquipableItemTemplate(string identifier,
                                           string description,
                                           string blurby,
@@ -3019,7 +3018,7 @@ public class EntityDefiner : MonoBehaviour
         public Sprite[] idleSprite;
         public Sprite charAvatar;//head pic
 
-        public List<StatusEffect> currentStatusEffects = new List<StatusEffect>();
+        public List<StatusEffect> currentStatusEffects = new List<StatusEffect>(); //status effects are just 2 strings, 1 int and 1 image referenced from tweaker probably, so not even gonna define all that stuff above. just define it on creation because it's 4 arguments really and we want the turns remaining to vary anyways.
 
         public int currentHealth;
         public float valueBounty = 2f; //eyes given for kill
@@ -3172,6 +3171,9 @@ public class EntityDefiner : MonoBehaviour
             }
 
         }
+
+
+
 
         /// <summary>
         /// this NEEDS to be used ANYTIME we change the trait of a character. otherwise bonuses/maluses will stack.... that's bad.
