@@ -57,7 +57,7 @@ public class VendorScript : MonoBehaviour
 
     public int difficultyCurrency;
 
-        public void SetupGraphics()
+    public void SetupGraphics()
     {
         CartImage.sprite = idleAnimation[0];
         isAnimating = false;
@@ -128,7 +128,7 @@ public class VendorScript : MonoBehaviour
             return;
         }
 
-     
+
         VendorItemDesc.text = currentlySelectedShopItem.associatedItem.description;
         VendorItemName.text = currentlySelectedShopItem.associatedItem.itemName;
         VendorItemQuote.text = currentlySelectedShopItem.associatedItem.itemBlurb;
@@ -305,7 +305,7 @@ public class VendorScript : MonoBehaviour
         }//now the item is properly positioned too in the scrollview. ready for player clicking
          //to remove all items just go foreach item in vendorItems and destroy the .gameObject
 
-        
+
 
 
 
@@ -424,7 +424,7 @@ public class VendorScript : MonoBehaviour
         if (CheckSufficientMoney())
         {
             Debug.LogWarning("Player has sufficient money for " + currentlySelectedShopItem.associatedItem.itemName);
-            Debug.LogWarning("Selling " + currentlySelectedShopItem.associatedItem.itemName+" to player");
+            Debug.LogWarning("Selling " + currentlySelectedShopItem.associatedItem.itemName + " to player");
             MainData.MainLoop.Currency -= currentlySelectedShopItem.associatedItem.value;
             Item bought = currentlySelectedShopItem.associatedItem;
             if (bought.isEquipable)

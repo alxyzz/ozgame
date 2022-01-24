@@ -126,19 +126,19 @@ public class EntityDefiner : MonoBehaviour
                             int healthAfterCaringModifier = (MainData.MainLoop.TweakingComponent.HealthPotionHealthGiven / 100) * (100 - MainData.MainLoop.TweakingComponent.caringHealingPotionPercentageHealingTakenMalus);
                             target.GainHealth(healthAfterCaringModifier);
                             MainData.MainLoop.EventLoggingComponent.LogGray(target.charName + " feels sad knowing that the potion would be more effective for the others.");
-                            MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(healthAfterCaringModifier, target, true);
+                            MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(target: target, heal: true, damage: healthAfterCaringModifier);
                             break;
 
                         default:
                             target.GainHealth(MainData.MainLoop.TweakingComponent.HealthPotionHealthGiven);//set this variable in the inspector above
-                            MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(MainData.MainLoop.TweakingComponent.HealthPotionHealthGiven, target, true);
+                            MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(damage: MainData.MainLoop.TweakingComponent.HealthPotionHealthGiven,target: target, heal:true);
                             break;
                     }
                 }
                 else
                 {
                     target.GainHealth(MainData.MainLoop.TweakingComponent.HealthPotionHealthGiven);
-                    MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(MainData.MainLoop.TweakingComponent.HealthPotionHealthGiven, target, true);
+                    MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(damage: MainData.MainLoop.TweakingComponent.HealthPotionHealthGiven, target: target, heal: true);
                     break;
                 }
                 break;
@@ -2736,6 +2736,9 @@ public class EntityDefiner : MonoBehaviour
                                    false); //false = t1. true = t2.
                                            //gets automatically sent to the desired trait list upon generation, in the constructor
 
+        Debug.Log("Added new trait - [" + t1.identifier + "].");
+        MainData.traitList.Add(t1.identifier, t1);
+
         Trait t2 = new Trait("wrath", //string ID
                                    "Wrath", //name
                                    "Wrathful", //adjective given to characters with this
@@ -2743,7 +2746,9 @@ public class EntityDefiner : MonoBehaviour
                                    "Passive:  Increased damage, lower defense.\nActive: <color=#F87777>Double Strike</color> Attacks twice.", //functional description
                                    null, //sprite
                                    false); //false = t1. true = t2.
-        //gets automatically sent to the desired trait list upon generation, in the constructor
+                                           //gets automatically sent to the desired trait list upon generation, in the constructor
+        Debug.Log("Added new trait - [" + t2.identifier + "].");
+        MainData.traitList.Add(t2.identifier, t2);
 
         Trait t3 = new Trait("greed", //string ID
                                    "Greed", //name
@@ -2752,7 +2757,9 @@ public class EntityDefiner : MonoBehaviour
                                    "Passive: 10% loot bonus when completing a battle.\nActive: <color=#E8BE0D>Barter</color> Exchange some HP for gold during a battle", //functional description
                                    null, //sprite
                                    false); //false = t1. true = t2.
-        //gets automatically sent to the desired trait list upon generation, in the constructor
+                                           //gets automatically sent to the desired trait list upon generation, in the constructor
+        Debug.Log("Added new trait - [" + t3.identifier + "].");
+        MainData.traitList.Add(t3.identifier, t3);
 
         Trait t4 = new Trait("angry", //string ID
                                    "Anger", //name
@@ -2762,7 +2769,8 @@ public class EntityDefiner : MonoBehaviour
                                    null, //sprite
                                    false); //false = t1. true = t2.
         //gets automatically sent to the desired trait list upon generation, in the constructor
-
+        Debug.Log("Added new trait - [" + t4.identifier + "].");
+        MainData.traitList.Add(t4.identifier, t4);
 
 
 
@@ -3018,7 +3026,7 @@ public class EntityDefiner : MonoBehaviour
         public int damageMax;//handled
         public int speed; //NOTE - these are calculated by calling the GetCompoundSpeed(), GetCompoundDefense() and GetCompoundLuck() methods, just like you'd use the variable
         public int defense; //handled in attacking code
-        public int luck; //not yet
+        public int luck; //negative luck - more chance to critfail. positive luck - more chance to critical hit/win. always a bit of a chance to have a critical fail or win.
         public int mana; //not yet
         public int difficultyCost;
 
@@ -3340,8 +3348,9 @@ public class EntityDefiner : MonoBehaviour
                 }
             }
 
+            ///// BASIC DAMAGE AND DEFENSE MODIFIERS FROM ITEMS 
 
-            MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(damageRoll, this, false);
+            
             int damageMult = 0;
             int damageResist = 0;
             if (attacker.equippedItems.FindIndex(f => f.DamageBonusPercentage > 0) != -1) //it returns -1 if none are found
@@ -3368,8 +3377,26 @@ public class EntityDefiner : MonoBehaviour
             {
                 damageRoll = damageRoll / 100 * (100 - damageResist);
             }
+
+
+
+            //LUCK
+
+
+
+
+
+
+
+            // STATUS EFFECTS
+
+
+
+
+            //
             //(2 / 10) * 100
             currentHealth -= damageRoll; //INCORPORATED ARMOR CALCULATION HERE 
+            MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(damage: damageRoll, target: this, heal: false);
             attacker.Threat += (damageRoll); // WE APPLY THREAT
             selfScriptRef.GotHurt();
             if (!isPlayerPartyMember)
@@ -3397,7 +3424,7 @@ public class EntityDefiner : MonoBehaviour
         { //generic take damage function
             currentHealth -= dmg;
             MainData.MainLoop.EventLoggingComponent.Log(this.charName + " is hurt " + "for " + dmg + " damage!");
-            MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(dmg, this, false);
+            MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(damage: dmg, target: this, heal: false);
 
             if (!isPlayerPartyMember)
             {//this updates the health bar so we don't run the whole big total refresh method
@@ -3429,10 +3456,10 @@ public class EntityDefiner : MonoBehaviour
             }
             Debug.LogWarning(hp + " is the health value gained pre formula.");
             float b = (hp / 100) * (100 + healthAmp);
-            hp = (int)hp;
+            hp = Mathf.RoundToInt(b);
             Debug.LogWarning(hp + " is the health value gained post formula.");
             currentHealth += hp;
-            MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(hp, this, true);
+            MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(target: this, damage: hp, heal: true);
 
             //if (!isPlayerPartyMember)
             //{//this updates the health bar so we don't run the whole big total refresh method

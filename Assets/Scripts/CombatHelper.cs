@@ -6,7 +6,7 @@ using static EntityDefiner;
 
 public class CombatHelper : MonoBehaviour
 {
-   // private bool endNext = false;
+    // private bool endNext = false;
     public float textFloatingDuration;
     public float textFloatSpeed;
     public float textOffset;
@@ -38,29 +38,59 @@ public class CombatHelper : MonoBehaviour
 
 
 
-
-    public void DisplayFloatingDamageNumbers(int damage, Character target, bool heal)
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="target">target from where the indicator floats</param>
+    /// <param name="message"> custom message for various things</param>
+    /// <param name="damage"> damage if relevant</param>
+    /// <param name="heal"> wether it's damage or healing. affects color</param>
+    public void DisplayFloatingDamageNumbers(Character target, string message = null, int damage = 0, bool heal = false)
     {
+
+
+
+
 
         GameObject TextObject = ObjectPooling.Instance.SpawnFromPool("damage_indicator", Camera.main.WorldToScreenPoint(target.selfScriptRef.transform.position), Quaternion.identity);
 
         TextObject.transform.SetParent(DamageIndicatorCanvas.transform);
         TextMeshProUGUI ourtext = TextObject.GetComponent<TextMeshProUGUI>();
-        if (heal)
+        if (message != null)
         {
-            ourtext.color = new Color(0.701f, 1f, 0.745f);
+            ourtext.color = Color.white;
+            ourtext.text = message;
+            if (damage != 0)
+            {//if there's damage too, put it on the next line
+                ourtext.text += "\n" + damage;
+            }
+        }
+        if (damage == 0)
+        {
+            Debug.LogError("DisplayFloatingDamageNumbers() was not provided with a damage value, nor a message.");
+            return;
         }
         else
         {
-            ourtext.color = new Color(0.996f, 0.380f, 0.345f);
+            if (heal)
+            {
+                ourtext.color = new Color(0.701f, 1f, 0.745f);
+            }
+            else
+            {
+                ourtext.color = new Color(0.996f, 0.380f, 0.345f);
+            }
+            ourtext.text = damage.ToString();
+            if (damage > 50 && !heal)
+            {
+                ourtext.text += "!";
+                ourtext.color = Color.red;
+                //switch color to red and add a !
+            }
         }
-        ourtext.text = damage.ToString();
-        if (damage > 50)
-        {
-            ourtext.text += "!";
-            ourtext.color = Color.red;
-            //switch color to red and add a !
-        }
+
+
+
 
         StartCoroutine(FloatingTextVisuals(target, TextObject));
     }
@@ -105,7 +135,7 @@ public class CombatHelper : MonoBehaviour
                     MainData.MainLoop.EventLoggingComponent.LogDanger("It is now " + combatants[i].charName + "'s turn!");
                 }
             }
-            
+
 
 
 
@@ -114,7 +144,7 @@ public class CombatHelper : MonoBehaviour
                 yield return new WaitUntil(() => combatants[i - 1].hasActedThisTurn == true);
             }
 
-            
+
 
 
             if (combatants[i].isDead || !combatants[i].canAct || MainData.livingEnemyParty.Count < 1)
@@ -154,7 +184,7 @@ public class CombatHelper : MonoBehaviour
                     }
                     else
                     {
-                        
+
 
                         allHaveActed = true;
                         EndCurrentTurn();
@@ -367,7 +397,7 @@ public class CombatHelper : MonoBehaviour
                     {//in case the enemy just gets killed immediately
                         activeTarget.associatedCharacter.TakeDamageFromCharacter(activeCharacterWorldspaceObject.associatedCharacter);
                     }
-                    
+
                     EndCurrentTurn();
 
                     break;
@@ -440,7 +470,7 @@ public class CombatHelper : MonoBehaviour
 
         }
 
-       
+
 
     }
     /// <summary>
@@ -520,10 +550,10 @@ public class CombatHelper : MonoBehaviour
 
         yield return new WaitForSeconds(0.05f);
 
-            ReturnFromActiveSpot();
-            activeCharacterWorldspaceObject.associatedCharacter.hasActedThisTurn = true;
-            EndCurrentTurn();
-        
+        ReturnFromActiveSpot();
+        activeCharacterWorldspaceObject.associatedCharacter.hasActedThisTurn = true;
+        EndCurrentTurn();
+
 
 
 
@@ -616,7 +646,7 @@ public class CombatHelper : MonoBehaviour
             return;
         }
 
-        
+
         //highlights the current target, checks if there is no target in which case it hides the highlight
         if (!activeTarget.associatedCharacter.isDead || activeTarget.associatedCharacter.canAct)
         {

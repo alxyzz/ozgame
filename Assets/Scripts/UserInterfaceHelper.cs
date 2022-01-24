@@ -205,10 +205,8 @@ public class UserInterfaceHelper : MonoBehaviour
         else
             Cursor.SetCursor(cursornormal, new Vector2(0, 0), CursorMode.Auto);
 
-
-
-
-        Screen.lockCursor = false;
+        Cursor.lockState = UnityEngine.CursorLockMode.None;
+        //Screen.lockCursor = false;
     }
     public void ToggleFightButtonVisiblity(bool boolin)
     {

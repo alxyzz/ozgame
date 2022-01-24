@@ -69,8 +69,7 @@ public class TraitHelper : MonoBehaviour
                 }
 
             }
-            Debug.Log("Added new trait - [" + this.identifier + "].");
-            MainData.traitList.Add(id, this);
+            
         }
 
         public object Clone()
