@@ -25,9 +25,6 @@ public class InventoryEqObject : MonoBehaviour, IPointerDownHandler, IPointerEnt
         if (associatedItem != null)
         {
             MainData.MainLoop.InventoryHelperComponent.RefreshItemDescription(associatedItem);
-
         }
-
-
     }
 }
