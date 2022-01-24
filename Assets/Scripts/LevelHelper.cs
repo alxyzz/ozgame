@@ -27,7 +27,7 @@ public class LevelHelper : MonoBehaviour
 
     public string[] enemyNames;
 
-    int difCurrency;
+    public int difCurrency;
     int maxEnemies;
     int loops;
 
@@ -247,7 +247,7 @@ public class LevelHelper : MonoBehaviour
 
     public void GENERATE()
     {
-        difCurrency = MainData.MainLoop.VendorScriptComponent.difficultyCurrency;
+        difCurrency = MainData.MainLoop.EntityDefComponent.difficultyCurrency;
 
         List<string> teamrocket = new List<string>();
 
@@ -258,14 +258,14 @@ public class LevelHelper : MonoBehaviour
         {
             int r = Random.Range(0, enemyNames.Length);
             
-            if (difCurrency < r && (difCurrency / i) > r + 2 && loops < 10)
+            if (difCurrency < (r * 4) && (difCurrency / i) > r + 2 && loops < 10)
             {
                 loops += 1;
                 i -= 1;
                 return;
             }
             loops = 0;
-            difCurrency -= r;
+            difCurrency -= r * 4;
             teamrocket.Add(enemyNames[r]);
 
             if (difCurrency > (MainData.MainLoop.VendorScriptComponent.difficultyCurrency / 10))
