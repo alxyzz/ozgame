@@ -10,8 +10,8 @@ public class TrinketMenuHandler : MonoBehaviour
     private TextMeshProUGUI currentCharacterStatistics;
 
     public List<InventoryBagObject> BagSlots = new List<InventoryBagObject>(); //this is where we put all the items that we can equip
-    public int itemsInBag = 0;
-    public int itemsInInv = 0;
+    private int itemsInBag = 0;
+    private int itemsInInv = 0;
     public List<InventoryEqObject> EquippedSlots = new List<InventoryEqObject>(); //this is where we put all the items that we can equip
     //selected item
     public Item currentlySelectedItem;
@@ -20,6 +20,12 @@ public class TrinketMenuHandler : MonoBehaviour
     public TextMeshProUGUI ItemValue;
     public TextMeshProUGUI ItemRarity;
     public TextMeshProUGUI ItemBonuses;//long string detailing the bonuses of an item, if any
+    //character switching
+    public Sprite[] CharSelMenuBackground; //we will change the UI based on which character is selected. these hold the sprites for it.
+    public Image BackgroundImage; // the image we will change the sprite of with the ones above.
+    public Image firstHeroButton, secondHeroButton, thirdHeroButton, fourthHeroButton; //buttons for switching characters
+
+
 
     //character
     private int spriteIndex = 0;
@@ -29,6 +35,29 @@ public class TrinketMenuHandler : MonoBehaviour
     public TextMeshProUGUI CharName;
     public float clickCooldown;
     public bool coolDown = false;
+
+
+
+
+
+    public void ClickedHeroAvatar(int index) //0,1,2,3
+    {
+        BackgroundImage.sprite = CharSelMenuBackground[index];
+        RefreshInventory(MainData.livingPlayerParty[index]);
+        //play character turn sound here
+    }
+
+
+
+    public void RefreshHeroAvatars()
+    {
+        firstHeroButton.sprite = MainData.livingPlayerParty[0].charAvatar;
+        secondHeroButton.sprite = MainData.livingPlayerParty[1].charAvatar;
+        thirdHeroButton.sprite = MainData.livingPlayerParty[2].charAvatar;
+        fourthHeroButton.sprite = MainData.livingPlayerParty[3].charAvatar;
+    }
+
+
 
     IEnumerator CoolDownClick()
     {
@@ -89,7 +118,11 @@ public class TrinketMenuHandler : MonoBehaviour
 
         RefreshInventory();
 
-    }
+    }/// <summary>
+    /// refreshes all the information that can vary in the trinket screen, based on current character and current item. you can provide the second argument to show an item's description too.
+    /// </summary>
+    /// <param name="currChar"></param>
+    /// <param name="clickedItem"></param>
     public void RefreshInventory(Character currChar = null, Item clickedItem = null)
     {
         if (currChar != null)
@@ -103,6 +136,7 @@ public class TrinketMenuHandler : MonoBehaviour
         PopulateItemSlots(); 
         RefreshCharName(); 
         RefreshItemDescription();
+        RefreshCharacterStatistics();
         Debug.Log("Refreshed inventory visuals.");
     }
     private void PopulateItemSlots()
@@ -233,7 +267,7 @@ public class TrinketMenuHandler : MonoBehaviour
         int speedmodifier = current.speed;
         int healthmodifier = current.maxHealth;
         int manamodifier = current.mana;
-        int dmgmodifier = current.damageMax;
+        int dmgmodifier = (current.damageMax + current.damageMin)/2;
         int defensemodifier = current.defense;
         int luckmodifier = current.luck;
 

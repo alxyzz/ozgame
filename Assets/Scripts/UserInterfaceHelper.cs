@@ -225,7 +225,9 @@ public class UserInterfaceHelper : MonoBehaviour
             TrinketMenu.gameObject.SetActive(true);
             PlayHUD.SetActive(false);
             //display trinkets
+            TrinketMenu.RefreshHeroAvatars();
             TrinketMenu.RefreshInventory(currChar: TrinketScreenCharacter);
+            
             TrinketMenu.StartAnimatingChar();
 
 
@@ -243,28 +245,7 @@ public class UserInterfaceHelper : MonoBehaviour
     public MiniviewClickDetector pc2clickableoverview;
     public MiniviewClickDetector pc3clickableoverview;
     public MiniviewClickDetector pc4clickableoverview;
-    public void ToggleTraitInventory()
-    {
 
-        //click sound
-        if (!TrinketMenu.gameObject.activeSelf)
-        {        //we make it visible 
-            TrinketMenu.gameObject.SetActive(true);
-            PlayHUD.SetActive(false);
-            //display trinkets
-            //TrinketMenuHandler
-            //display the character clicked
-
-            //display
-
-        }
-        else
-        {
-            //click sound.
-            TrinketMenu.gameObject.SetActive(false);
-            PlayHUD.SetActive(true);
-        }
-    }
 
 
 
