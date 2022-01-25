@@ -74,17 +74,36 @@ public class TrinketMenuHandler : MonoBehaviour
         {//we clicked an item that is equipped
             if (CharItem.associatedItem == null)
             {
-                Debug.LogWarning("Clicked inventory slot has no associated item.");
+                Debug.Log("Clicked inventory slot has no associated item.");
                 return;
             }
 
-            if (itemsInBag == 33)
+            if (itemsInBag == BagSlots.Count)
             {//max items
                 return;
             }
+
+            if (CharItem.associatedItem.healthmodifier != 0)
+            {
+                if ((MainData.MainLoop.UserInterfaceHelperComponent.TrinketScreenCharacter.maxHealth - CharItem.associatedItem.healthmodifier) < 1)
+                {
+                    Debug.LogError("tried to take off an item that would result in dying. Cancelled.");
+                    return; // don't allow people to put on items/take them off if somehow it will kill them. 
+                }
+
+                if ((MainData.MainLoop.UserInterfaceHelperComponent.TrinketScreenCharacter.currentHealth - CharItem.associatedItem.healthmodifier) < 1)
+                {
+                    Debug.LogError("tried to take off an item that would result in dying. Cancelled.");
+                    return; // don't allow people to put on items/take them off if somehow it will kill them. 
+                }
+            }
             //we take the item from the character's inventory, and move it to the main inventory
             MainData.MainLoop.UserInterfaceHelperComponent.TrinketScreenCharacter.equippedItems.Remove(CharItem.associatedItem);
-            Debug.LogWarning("Removed from player inventory - " + CharItem.associatedItem.itemName);
+            if (CharItem.associatedItem.healthmodifier != 0) //if it messes with health, either malus or bonus
+            {
+                MainData.MainLoop.UserInterfaceHelperComponent.TrinketScreenCharacter.recentlyUnequippedItemsHP.Add(CharItem.associatedItem); //this tracks HP removal from item unequipping
+            }
+            Debug.Log("Removed from player inventory - " + CharItem.associatedItem.itemName);
             MainData.equipmentInventory.Add(CharItem.associatedItem);
             currentlySelectedItem = CharItem.associatedItem;
             CharItem.associatedItem = null;
@@ -102,6 +121,23 @@ public class TrinketMenuHandler : MonoBehaviour
             {//max items
                 return;
             }
+
+
+            if (BagItem.associatedItem.healthmodifier != 0)
+            {
+                if ((MainData.MainLoop.UserInterfaceHelperComponent.TrinketScreenCharacter.maxHealth + BagItem.associatedItem.healthmodifier) < 1)
+                {
+                    Debug.LogError("tried to put on an item that would result in dying. Cancelled.");
+                    return; // don't allow people to put on items/take them off if somehow it will kill them. 
+                }
+
+                if ((MainData.MainLoop.UserInterfaceHelperComponent.TrinketScreenCharacter.currentHealth + BagItem.associatedItem.healthmodifier) < 1)
+                {
+                    Debug.LogError("tried to put on an item that would result in dying. Cancelled.");
+                    return; // don't allow people to put on items/take them off if somehow it will kill them. 
+                }
+            }
+
             //we take the item from the main inventory, and move it to the character's inventory
             MainData.MainLoop.UserInterfaceHelperComponent.TrinketScreenCharacter.equippedItems.Add(BagItem.associatedItem);
             MainData.equipmentInventory.Remove(BagItem.associatedItem);
@@ -115,14 +151,14 @@ public class TrinketMenuHandler : MonoBehaviour
             //}
             //Debug.LogWarning("damage is now " + playerdamage);
         }
-
+        MainData.MainLoop.UserInterfaceHelperComponent.TrinketScreenCharacter.RecalculateStatsFromItemsOutsideCombat(); //this also clears recentlyUnequippedItems
         RefreshInventory();
 
     }/// <summary>
-    /// refreshes all the information that can vary in the trinket screen, based on current character and current item. you can provide the second argument to show an item's description too.
-    /// </summary>
-    /// <param name="currChar"></param>
-    /// <param name="clickedItem"></param>
+     /// refreshes all the information that can vary in the trinket screen, based on current character and current item. you can provide the second argument to show an item's description too.
+     /// </summary>
+     /// <param name="currChar"></param>
+     /// <param name="clickedItem"></param>
     public void RefreshInventory(Character currChar = null, Item clickedItem = null)
     {
         if (currChar != null)
@@ -133,8 +169,8 @@ public class TrinketMenuHandler : MonoBehaviour
         {//just so we can use it just to refresh without having to provide an item
             currentlySelectedItem = clickedItem;
         }
-        PopulateItemSlots(); 
-        RefreshCharName(); 
+        PopulateItemSlots();
+        RefreshCharName();
         RefreshItemDescription();
         RefreshCharacterStatistics();
         Debug.Log("Refreshed inventory visuals.");
@@ -153,7 +189,7 @@ public class TrinketMenuHandler : MonoBehaviour
         for (int i = 0; i < EquippedSlots.Count; i++)
         {
             EquippedSlots[i].selfImage.sprite = null; //cleans them all first
-            EquippedSlots[i].selfImage.color =  MainData.MainLoop.TweakingComponent.GenericColor;
+            EquippedSlots[i].selfImage.color = MainData.MainLoop.TweakingComponent.GenericColor;
             EquippedSlots[i].background.color = MainData.MainLoop.TweakingComponent.GenericColor;
         }
 
@@ -220,7 +256,7 @@ public class TrinketMenuHandler : MonoBehaviour
                             EquippedSlots[b].background.color = MainData.MainLoop.TweakingComponent.GenericColor;
                             break;
                     }
-                    
+
                 }
 
             }
@@ -267,7 +303,7 @@ public class TrinketMenuHandler : MonoBehaviour
         int speedmodifier = current.speed;
         int healthmodifier = current.maxHealth;
         int manamodifier = current.mana;
-        int dmgmodifier = (current.damageMax + current.damageMin)/2;
+        int dmgmodifier = (current.damageMax + current.damageMin) / 2;
         int defensemodifier = current.defense;
         int luckmodifier = current.luck;
 
@@ -295,7 +331,6 @@ public class TrinketMenuHandler : MonoBehaviour
         }
 
 
-        statistics += current.charName + "\n";
         statistics += "\nSTATISTICS" + "\n";
         statistics += "Speed - " + speedmodifier + "\n";
         statistics += "Max Health - " + healthmodifier + "\n";
@@ -314,15 +349,15 @@ public class TrinketMenuHandler : MonoBehaviour
 
 
         statisticsText.text = statistics;
-        
-        
-        
 
-        
-        
-        
-        
-        
+
+
+
+
+
+
+
+
 
 
 
@@ -332,23 +367,23 @@ public class TrinketMenuHandler : MonoBehaviour
     public void RefreshItemDescription(Item hovered = null)
     {
 
-        if (currentlySelectedItem == null)
+        //if (currentlySelectedItem == null)
+        //{
+        if (hovered != null)
         {
-            if (hovered != null)
-            {
-                currentlySelectedItem = hovered;
-            }
-            else
-            {
-                ItemDesc.text = "";
-                ItemName.text = "";
-                ItemRarity.text = "";
-                ItemValue.text = "";
-                ItemBonuses.text = "";
-                return;
-            }
-           
+            currentlySelectedItem = hovered;
         }
+        else
+        {
+            ItemDesc.text = "";
+            ItemName.text = "";
+            ItemRarity.text = "";
+            ItemValue.text = "";
+            ItemBonuses.text = "";
+            return;
+        }
+
+        //}
 
 
         ItemDesc.text = currentlySelectedItem.description;
@@ -362,37 +397,37 @@ public class TrinketMenuHandler : MonoBehaviour
 
 
         if (currentlySelectedItem.speedmodifier != 0)
-            Bonuses += "+" + currentlySelectedItem.speedmodifier + " Speed \n";
+            Bonuses += currentlySelectedItem.speedmodifier + " Speed \n";
 
         if (currentlySelectedItem.healthmodifier != 0)
-            Bonuses += "+" + currentlySelectedItem.healthmodifier + "Health\n";
+            Bonuses += currentlySelectedItem.healthmodifier + "Health\n";
 
         if (currentlySelectedItem.manamodifier != 0)
-            Bonuses += "+" + currentlySelectedItem.manamodifier + " Mana\n";
+            Bonuses += currentlySelectedItem.manamodifier + " Mana\n";
 
         if (currentlySelectedItem.dmgmodifier != 0)
-            Bonuses += "+" +currentlySelectedItem.dmgmodifier + " Damage\n";
+            Bonuses += currentlySelectedItem.dmgmodifier + " Damage\n";
 
         if (currentlySelectedItem.defensemodifier != 0)
-            Bonuses += "+" + currentlySelectedItem.defensemodifier + " Defense\n";
+            Bonuses += currentlySelectedItem.defensemodifier + " Defense\n";
 
         if (currentlySelectedItem.luckmodifier != 0)
-            Bonuses += "+" + currentlySelectedItem.luckmodifier + " Luck\n";
+            Bonuses += currentlySelectedItem.luckmodifier + " Luck\n";
 
         if (currentlySelectedItem.healingAmp != 0)
-            Bonuses += "+" + currentlySelectedItem.healingAmp + " Healing Amplification\n";
+            Bonuses += currentlySelectedItem.healingAmp + " Healing Amplification\n";
 
         if (currentlySelectedItem.DamageResistancePercentage != 0)
-            Bonuses += "+" + currentlySelectedItem.DamageResistancePercentage + " Damage Resistance\n";
+            Bonuses += currentlySelectedItem.DamageResistancePercentage + " Damage Resistance\n";
 
         if (currentlySelectedItem.DamageBonusPercentage != 0)
-            Bonuses += "+" + currentlySelectedItem.DamageBonusPercentage + " Damage Amplification\n";
+            Bonuses += currentlySelectedItem.DamageBonusPercentage + " Damage Amplification\n";
 
         if (currentlySelectedItem.discountPercentage != 0)
-            Bonuses += "+" + currentlySelectedItem.discountPercentage + " Discount\n";
+            Bonuses += currentlySelectedItem.discountPercentage + " Discount\n";
 
         if (currentlySelectedItem.Lifesteal != 0)
-            Bonuses += "+" + currentlySelectedItem.Lifesteal + " Lifesteal\n";
+            Bonuses += currentlySelectedItem.Lifesteal + " Lifesteal\n";
 
         ItemBonuses.text = Bonuses;
 

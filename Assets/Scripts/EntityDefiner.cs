@@ -266,12 +266,7 @@ public class EntityDefiner : MonoBehaviour
         if (itemID == null)
         {
             List<string> keyList = new List<string>(allEquipment.Keys);
-            foreach (string item in keyList)
-            {
-                Debug.LogError("ITEM IN KEYLIST - " + item);
-            }
             string randomKey = keyList[UnityEngine.Random.Range(0, keyList.Count)];
-
             Debug.Log("Fetched random equipment. key - " + randomKey);
             Item b = new Item(MainData.allEquipment[randomKey].identifier,
                           MainData.allEquipment[randomKey].description,
@@ -899,9 +894,14 @@ public class EntityDefiner : MonoBehaviour
                           MainData.allEquipment["short_sword"].discountPercentage,
                           MainData.allEquipment["short_sword"].Lifesteal);
 
-        MainData.equipmentInventory.Add(b);
-        MainData.equipmentInventory.Add(d);
-        MainData.equipmentInventory.Add(c);
+        //MainData.equipmentInventory.Add(FetchEquipment());
+        //MainData.equipmentInventory.Add(FetchEquipment());
+        //MainData.equipmentInventory.Add(FetchEquipment());
+        //MainData.equipmentInventory.Add(FetchEquipment());
+        //MainData.equipmentInventory.Add(FetchEquipment());
+        //MainData.equipmentInventory.Add(b);
+        //MainData.equipmentInventory.Add(d);
+        //MainData.equipmentInventory.Add(c);
 
     }
 
@@ -2988,6 +2988,7 @@ true, //(true)beneficial or (false)harmful
     {
 
         public List<Item> equippedItems = new List<Item>(); //this does not contain any consumables. those are in the collective inventory pool. this only contains items with isEquipable = true, which have an effect on stats
+        public List<Item> recentlyUnequippedItemsHP = new List<Item>(); //for removing HP after unequipping
         public Trait charTrait;
 
         public float threatFromStats;
@@ -3165,7 +3166,44 @@ true, //(true)beneficial or (false)harmful
 
         }
 
+        public void RecalculateStatsFromItemsOutsideCombat()
+        {
+            if (recentlyUnequippedItemsHP.Count > 0)
+            {
+                for (int i = 0; i < recentlyUnequippedItemsHP.Count; i++)
+                {//removes the health bonus/malus.
+                    maxHealth -= recentlyUnequippedItemsHP[i].healthmodifier;
+                    currentHealth -= recentlyUnequippedItemsHP[i].healthmodifier;
+                }
+                if (currentHealth <= 0 )
+                {
+                    MainData.MainLoop.EventLoggingComponent.LogGray("Loss of life-sustaining items have lead "+ charName + " to the brink of death.");
+                    currentHealth = 1;
+                }
 
+
+
+                recentlyUnequippedItemsHP.Clear();
+            }
+
+            foreach (Item item in equippedItems)
+            {
+                if (item.healthmodifier != 0) //bonuses or maluses work
+                {
+
+                    maxHealth += item.healthmodifier;
+
+
+                    if ((maxHealth+ item.healthmodifier) > 0)
+                    {
+
+                    }
+                    
+                }
+            }
+
+
+        }
 
 
         /// <summary>
@@ -3261,8 +3299,7 @@ true, //(true)beneficial or (false)harmful
 
 
 
-
-
+            string specialText = ""; // for special stuff like hitting, elemental effects maybe 
 
 
 
@@ -3344,6 +3381,7 @@ true, //(true)beneficial or (false)harmful
                 }
                 lifestealmod /= countyy; //averages the lifesteal
                 int percentageheal = (damageRoll / 100) * lifestealmod; //could also add health amp here but seems overkill
+                specialText += "The hit stole " + percentageheal + " health! ";
                 attacker.GainHealth(percentageheal);
             }
 
@@ -3411,7 +3449,7 @@ true, //(true)beneficial or (false)harmful
             int luckNumber = Random.Range(1, 101);
             //relational switch cases are not available in this C# version so imma just use if 
 
-            //unlucky
+            //BAD LUCK HERE =================================
             if (luckNumber == 1)
             { //CRITICAL FAILURE
                 attacker.currentStatusEffects.Add(new StatusEffect("stun", "This character is stunned.", 1));
@@ -3420,8 +3458,7 @@ true, //(true)beneficial or (false)harmful
             }
             else if (luckNumber < 5)
             {//MISS
-                damageRoll = 0;
-                MainData.MainLoop.EventLoggingComponent.Log(attacker.charName + " attempts to attack, but misses!");
+                MainData.MainLoop.EventLoggingComponent.Log(attacker.charName + " attempts to attack, but ill luck strikes and + " + attacker.charName + " misses!");
                 return;
             }
 
@@ -3431,8 +3468,11 @@ true, //(true)beneficial or (false)harmful
                 MainData.MainLoop.EventLoggingComponent.Log("Glancing hit!");
 
             }
+
+
+
             int temp = defense;//temporary value so we can show that the hit passed through armor
-            //lucky
+            //GOOD LUCK HERE ========================================
             if (luckNumber == 100)
             { //CRITICAL SUCCESS
                 MainData.MainLoop.EventLoggingComponent.Log(attacker.charName + " slips through " + this.charName + "'s defense and lands an eviscerating hit!");
@@ -3448,7 +3488,7 @@ true, //(true)beneficial or (false)harmful
             }
 
             else if (luckRange <= luckNumber && luckNumber <= 100)
-            { //SOLID BLOW
+            { //SOLID BLOW. most of the 
                 damageRoll /= 3;
                 MainData.MainLoop.EventLoggingComponent.Log("Solid blow!");
 
@@ -3461,9 +3501,10 @@ true, //(true)beneficial or (false)harmful
 
             //
             //(2 / 10) * 100
+
             currentHealth -= damageRoll; //INCORPORATED ARMOR CALCULATION HERE 
             MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(damage: damageRoll, target: this, heal: false);
-            MainData.MainLoop.EventLoggingComponent.Log(attacker.charName + " " + attacker.attackverb + " the " + charName + " for " + (damageRoll + defense) + " damage. Armor protects for " + defense + " damage!");
+            MainData.MainLoop.EventLoggingComponent.Log(attacker.charName + " " + attacker.attackverb + " the " + charName + " for " + (damageRoll + defense) + " damage. Armor protects for " + defense + " damage!" + specialText);
             defense = temp;
             attacker.Threat += (damageRoll); // WE APPLY THREAT
             selfScriptRef.GotHurt();
