@@ -61,7 +61,9 @@ public class CharacterWorldspaceScript : MonoBehaviour
         associatedCharacter.defense = template.defense;
         associatedCharacter.entityDescription = template.entityDescription;
         associatedCharacter.isPlayerPartyMember = !isEnemyCharacter;
+        MainData.MainLoop.EventLoggingComponent.Log(associatedCharacter.charName + " has luck " + template.luck);
         associatedCharacter.luck = template.luck;
+        associatedCharacter.manaTotal = 100;
         associatedCharacter.manaRegeneration = template.manaRegeneration;
         associatedCharacter.turnSound = template.turnSound;
         associatedCharacter.speed = template.speed;
