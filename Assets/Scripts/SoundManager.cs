@@ -26,15 +26,11 @@ public class SoundManager : MonoBehaviour
     {
         soundtrackSource = soundtrackObj.GetComponent<AudioSource>();
         sfxSource = GameObject.Find("Main Camera").GetComponent<AudioSource>();
-        
+
         
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+
 
     public void PlayFailureSound()
     {

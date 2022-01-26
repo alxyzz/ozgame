@@ -30,6 +30,7 @@ public class UserInterfaceHelper : MonoBehaviour
     public TextMeshProUGUI firstCharName;//the name of the current player char
     public TextMeshProUGUI firstCharTrait;//the name of the current player char
     public Slider firstHealthBar;//the name of the current player char
+    public Slider firstManaBar;//the name of the current player char
     public GameObject firstselectionRectangle; // A REFERENCE TO THE RECTANGLE THAT HOLDS A REFERENCE TO THE CHARACTER'S SCRIPT, WHICH WILL THEN GET CLICKED IF YOU CLICK THE 
     [Space(10)]
     [HideInInspector]
@@ -38,6 +39,7 @@ public class UserInterfaceHelper : MonoBehaviour
     public TextMeshProUGUI secondCharName;//the name of the current player char
     public TextMeshProUGUI secondCharTrait;//the name of the current player char
     public Slider secondHealthBar;//the name of the current player cha
+    public Slider secondManaBar;//the name of the current player char
     public GameObject secondselectionRectangle; // A REFERENCE TO THE RECTANGLE THAT HOLDS A REFERENCE TO THE CHARACTER'S SCRIPT, WHICH WILL THEN GET CLICKED IF YOU CLICK TH
     [Space(10)]
     [HideInInspector]
@@ -46,6 +48,7 @@ public class UserInterfaceHelper : MonoBehaviour
     public TextMeshProUGUI thirdCharName;//the name of the current player char
     public TextMeshProUGUI thirdCharTrait;//the name of the current player char
     public Slider thirdHealthBar;//the name of the current player char
+    public Slider thirdManaBar;//the name of the current player char
     public GameObject thirdselectionRectangle; // A REFERENCE TO THE RECTANGLE THAT HOLDS A REFERENCE TO THE CHARACTER'S SCRIPT, WHICH WILL THEN GET CLICKED IF YOU CLICK THE 
     [Space(10)]
     [HideInInspector]
@@ -54,6 +57,7 @@ public class UserInterfaceHelper : MonoBehaviour
     public TextMeshProUGUI fourthCharName;//the name of the current player char
     public TextMeshProUGUI fourthCharTrait;//the name of the current player char
     public Slider fourthHealthBar;//the name of the current player char
+    public Slider fourthManaBar;//the name of the current player char
     public GameObject fourthselectionRectangle; // A REFERENCE TO THE RECTANGLE THAT HOLDS A REFERENCE TO THE CHARACTER'S SCRIPT, WHICH WILL THEN GET CLICKED IF YOU CLICK THE
     [Space(5)]
     [Header("the stuff related to ENEMY party members in the lower part of the UI - the little images + name + health bar")]
@@ -103,9 +107,12 @@ public class UserInterfaceHelper : MonoBehaviour
     public TextMeshProUGUI PC2nmbr;
     public TextMeshProUGUI PC3nmbr;
     public TextMeshProUGUI PC4nmbr;
+    [Header("Mana bar numbers - player")]
 
-
-
+    public TextMeshProUGUI PC1nmbrMana;
+    public TextMeshProUGUI PC2nmbrMana;
+    public TextMeshProUGUI PC3nmbrMana;
+    public TextMeshProUGUI PC4nmbrMana;
 
 
 
@@ -205,10 +212,8 @@ public class UserInterfaceHelper : MonoBehaviour
         else
             Cursor.SetCursor(cursornormal, new Vector2(0, 0), CursorMode.Auto);
 
-
-
-
-        Screen.lockCursor = false;
+        Cursor.lockState = UnityEngine.CursorLockMode.None;
+        //Screen.lockCursor = false;
     }
     public void ToggleFightButtonVisiblity(bool boolin)
     {
@@ -227,7 +232,9 @@ public class UserInterfaceHelper : MonoBehaviour
             TrinketMenu.gameObject.SetActive(true);
             PlayHUD.SetActive(false);
             //display trinkets
+            TrinketMenu.RefreshHeroAvatars();
             TrinketMenu.RefreshInventory(currChar: TrinketScreenCharacter);
+            
             TrinketMenu.StartAnimatingChar();
 
 
@@ -239,34 +246,14 @@ public class UserInterfaceHelper : MonoBehaviour
             TrinketMenu.currentlySelectedItem = null;
             TrinketMenu.StopAllCoroutines();
             PlayHUD.SetActive(true);
+            RefreshCharacterTabs();
         }
     }
     public MiniviewClickDetector pc1clickableoverview;
     public MiniviewClickDetector pc2clickableoverview;
     public MiniviewClickDetector pc3clickableoverview;
     public MiniviewClickDetector pc4clickableoverview;
-    public void ToggleTraitInventory()
-    {
 
-        //click sound
-        if (!TrinketMenu.gameObject.activeSelf)
-        {        //we make it visible 
-            TrinketMenu.gameObject.SetActive(true);
-            PlayHUD.SetActive(false);
-            //display trinkets
-            //TrinketMenuHandler
-            //display the character clicked
-
-            //display
-
-        }
-        else
-        {
-            //click sound.
-            TrinketMenu.gameObject.SetActive(false);
-            PlayHUD.SetActive(true);
-        }
-    }
 
 
 
@@ -649,7 +636,7 @@ public class UserInterfaceHelper : MonoBehaviour
         }
 
 
-        RefreshHealthBarPlayer();
+        RefreshHealthManaBarsPlayer();
         RefreshPlayerDeathStatus();
 
 
@@ -768,61 +755,94 @@ public class UserInterfaceHelper : MonoBehaviour
 
         }
     }
-    public void RefreshHealthBarPlayer()
+    public void RefreshHealthManaBarsPlayer()
     {
 
         if (PC1 != null && PC1.associatedCharacter != null && !PC1.associatedCharacter.isDead)
         {
+            
             PC1.associatedCharacter.HealthBar = firstHealthBar;
+            firstHealthBar.gameObject.SetActive(true);
+            firstManaBar.gameObject.SetActive(true);
             firstHealthBar.maxValue = PC1.associatedCharacter.maxHealth;
             firstHealthBar.value = PC1.associatedCharacter.currentHealth;
             string currHP = (PC1.associatedCharacter.currentHealth < 0) ? "0" : PC1.associatedCharacter.currentHealth.ToString();
             PC1nmbr.text = currHP + "/" + PC1.associatedCharacter.maxHealth;
+
+            PC1.associatedCharacter.ManaBar = firstManaBar;
+            firstManaBar.maxValue = 100;
+            firstManaBar.value = PC1.associatedCharacter.manaTotal;
+            PC1nmbrMana.text = PC1.associatedCharacter.manaTotal + "/" + "100";
         }
         else
         {
             Debug.Log("disabled p1 healthbar");
             firstHealthBar.gameObject.SetActive(false);
+            firstManaBar.gameObject.SetActive(false);
         }
         //
         if (PC2 != null && PC2.associatedCharacter != null && !PC2.associatedCharacter.isDead)
         {
 
             PC2.associatedCharacter.HealthBar = secondHealthBar;
+            secondHealthBar.gameObject.SetActive(true);
+            secondManaBar.gameObject.SetActive(true);
             secondHealthBar.maxValue = PC2.associatedCharacter.maxHealth;
             secondHealthBar.value = PC2.associatedCharacter.currentHealth;
             string currHP = (PC2.associatedCharacter.currentHealth < 0) ? "0" : PC2.associatedCharacter.currentHealth.ToString();
             PC2nmbr.text = currHP + "/" + PC2.associatedCharacter.maxHealth;
+
+            PC2.associatedCharacter.ManaBar = secondManaBar;
+            secondManaBar.maxValue = 100;
+            secondManaBar.value = PC2.associatedCharacter.manaTotal;
+            PC2nmbrMana.text = PC2.associatedCharacter.manaTotal + "/" + "100";
         }
         else
         {
             secondHealthBar.gameObject.SetActive(false);
+            secondManaBar.gameObject.SetActive(false);
         }
         //
         if (PC3 != null && PC3.associatedCharacter != null && !PC3.associatedCharacter.isDead)
         {
             PC3.associatedCharacter.HealthBar = thirdHealthBar;
+            thirdHealthBar.gameObject.SetActive(true);
+            thirdManaBar.gameObject.SetActive(true);
             thirdHealthBar.maxValue = PC3.associatedCharacter.maxHealth;
             thirdHealthBar.value = PC3.associatedCharacter.currentHealth;
             string currHP = (PC3.associatedCharacter.currentHealth < 0) ? "0" : PC3.associatedCharacter.currentHealth.ToString();
             PC3nmbr.text = currHP + "/" + PC3.associatedCharacter.maxHealth;
+
+            PC3.associatedCharacter.ManaBar = thirdManaBar;
+            thirdManaBar.maxValue = 100;
+            thirdManaBar.value = PC3.associatedCharacter.manaTotal;
+            PC3nmbrMana.text = PC3.associatedCharacter.manaTotal + "/" + "100";
         }
         else
         {
             thirdHealthBar.gameObject.SetActive(false);
+            thirdManaBar.gameObject.SetActive(false);
         }
         //
         if (PC4 != null && PC4.associatedCharacter != null && !PC4.associatedCharacter.isDead)
         {
             PC4.associatedCharacter.HealthBar = fourthHealthBar;
+            fourthHealthBar.gameObject.SetActive(true);
+            fourthManaBar.gameObject.SetActive(true);
             fourthHealthBar.maxValue = PC4.associatedCharacter.maxHealth;
             fourthHealthBar.value = PC4.associatedCharacter.currentHealth;
             string currHP = (PC4.associatedCharacter.currentHealth < 0) ? "0" : PC4.associatedCharacter.currentHealth.ToString();
             PC4nmbr.text = currHP + "/" + PC4.associatedCharacter.maxHealth;
+
+            PC4.associatedCharacter.ManaBar = fourthManaBar;
+            fourthManaBar.maxValue = 100;
+            fourthManaBar.value = PC4.associatedCharacter.manaTotal;
+            PC4nmbrMana.text = PC4.associatedCharacter.manaTotal + "/" + "100";
         }
         else
         {
             fourthHealthBar.gameObject.SetActive(false);
+            fourthManaBar.gameObject.SetActive(false);
         }
         //
 

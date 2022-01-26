@@ -37,6 +37,12 @@ public class ContentTweakingInterface : MonoBehaviour
     [Space(5)]
     public int wrathDamageIncrease = 0;
     public int wrathSpeedIncrease = 0;
+    [Space(5)]
+    public int GreedManaCost;
+    public int AngerManaCost;
+    public int CaringManaCost;
+    public int WrathManaCost;
+
     //double strike has no value to edit
     [Space(5)]
     [Header("Character Defaults")]

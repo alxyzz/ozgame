@@ -67,6 +67,14 @@ public class EntityDefiner : MonoBehaviour
     public Sprite[] monkeyHurtSheet;
     public Sprite[] monkeyIdleSheet;
 
+    public Sprite[] emeraldAttackSheet;
+    public Sprite[] emeraldHurtSheet;
+    public Sprite[] emeraldIdleSheet;
+
+    public Sprite[] witchAttackSheet;
+    public Sprite[] witchHurtSheet;
+    public Sprite[] witchIdleSheet;
+
     public int BaseCurrency;
     public int difficultyCurrency;
 
@@ -126,19 +134,19 @@ public class EntityDefiner : MonoBehaviour
                             int healthAfterCaringModifier = (MainData.MainLoop.TweakingComponent.HealthPotionHealthGiven / 100) * (100 - MainData.MainLoop.TweakingComponent.caringHealingPotionPercentageHealingTakenMalus);
                             target.GainHealth(healthAfterCaringModifier);
                             MainData.MainLoop.EventLoggingComponent.LogGray(target.charName + " feels sad knowing that the potion would be more effective for the others.");
-                            MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(healthAfterCaringModifier, target, true);
+                            MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(target: target, heal: true, damage: healthAfterCaringModifier);
                             break;
 
                         default:
                             target.GainHealth(MainData.MainLoop.TweakingComponent.HealthPotionHealthGiven);//set this variable in the inspector above
-                            MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(MainData.MainLoop.TweakingComponent.HealthPotionHealthGiven, target, true);
+                            MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(damage: MainData.MainLoop.TweakingComponent.HealthPotionHealthGiven, target: target, heal: true);
                             break;
                     }
                 }
                 else
                 {
                     target.GainHealth(MainData.MainLoop.TweakingComponent.HealthPotionHealthGiven);
-                    MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(MainData.MainLoop.TweakingComponent.HealthPotionHealthGiven, target, true);
+                    MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(damage: MainData.MainLoop.TweakingComponent.HealthPotionHealthGiven, target: target, heal: true);
                     break;
                 }
                 break;
@@ -266,12 +274,7 @@ public class EntityDefiner : MonoBehaviour
         if (itemID == null)
         {
             List<string> keyList = new List<string>(allEquipment.Keys);
-            foreach (string item in keyList)
-            {
-                Debug.LogError("ITEM IN KEYLIST - " + item);
-            }
             string randomKey = keyList[UnityEngine.Random.Range(0, keyList.Count)];
-
             Debug.Log("Fetched random equipment. key - " + randomKey);
             Item b = new Item(MainData.allEquipment[randomKey].identifier,
                           MainData.allEquipment[randomKey].description,
@@ -412,7 +415,7 @@ public class EntityDefiner : MonoBehaviour
         Chara.baseDamageMin = baseMaxDMG;
         Chara.baseSpeed = baseSPD;
         Chara.currentHealth = baseHP;
-        Chara.mana = Mana;
+        Chara.manaRegeneration = Mana;
         Chara.luck = Luck;
         Chara.damageMin = baseMinDMG;
         Chara.damageMax = baseMaxDMG;
@@ -914,9 +917,14 @@ public class EntityDefiner : MonoBehaviour
                           MainData.allEquipment["short_sword"].discountPercentage,
                           MainData.allEquipment["short_sword"].Lifesteal);
 
-        MainData.equipmentInventory.Add(b);
-        MainData.equipmentInventory.Add(d);
-        MainData.equipmentInventory.Add(c);
+        //MainData.equipmentInventory.Add(FetchEquipment());
+        //MainData.equipmentInventory.Add(FetchEquipment());
+        //MainData.equipmentInventory.Add(FetchEquipment());
+        //MainData.equipmentInventory.Add(FetchEquipment());
+        //MainData.equipmentInventory.Add(FetchEquipment());
+        //MainData.equipmentInventory.Add(b);
+        //MainData.equipmentInventory.Add(d);
+        //MainData.equipmentInventory.Add(c);
 
     }
 
@@ -1438,93 +1446,93 @@ public class EntityDefiner : MonoBehaviour
           0, //discount as a percentage, multiplicative
           0); //lifesteal multiplicative. as a percentage.
 
-                MakeEquipableItemTemplate("vengeful_shard_power", //string ID
-          "A rare gem radiating unexplainable magic. Excavated from the royal mining site, rare gems like these have been told to contain the souls of dragons who died underground in their lairs. Others say they are unique combinations of minerals. This one is haunted.",//the desc
-          "A powerful and rare gem. You feel drawn in by it's emminating power.", //blurb
-          "Shard of Power", //name
-          shortSwordSprite, //sprite
-          "common", //rarity string
-          9, //value in eyes
-          1, //amount in birb's stock
-          1, //default quantity
-          true, //(true)beneficial or (false)harmful
-          0, //speed bonus
-          0, //health bonus
-          0, //mana bonus
-          3, //dmg bonus
-          0, //defense bonus 
-          0, //luck bonus 
-          0, //healing, multiplicative. as a percentage.
-          10, //dam resist, multiplicative. as a percentage.
-          10, //dam bonus multiplicative. as a percentage.
-          0, //discount as a percentage, multiplicative
-          10); //lifesteal multiplicative. as a percentage.
+        MakeEquipableItemTemplate("vengeful_shard_power", //string ID
+  "A rare gem radiating unexplainable magic. Excavated from the royal mining site, rare gems like these have been told to contain the souls of dragons who died underground in their lairs. Others say they are unique combinations of minerals. This one is haunted.",//the desc
+  "A powerful and rare gem. You feel drawn in by it's emminating power.", //blurb
+  "Shard of Power", //name
+  shortSwordSprite, //sprite
+  "common", //rarity string
+  9, //value in eyes
+  1, //amount in birb's stock
+  1, //default quantity
+  true, //(true)beneficial or (false)harmful
+  0, //speed bonus
+  0, //health bonus
+  0, //mana bonus
+  3, //dmg bonus
+  0, //defense bonus 
+  0, //luck bonus 
+  0, //healing, multiplicative. as a percentage.
+  10, //dam resist, multiplicative. as a percentage.
+  10, //dam bonus multiplicative. as a percentage.
+  0, //discount as a percentage, multiplicative
+  10); //lifesteal multiplicative. as a percentage.
 
-                MakeEquipableItemTemplate("cheap_shard_power", //string ID
-          "A rare gem radiating unexplainable magic. Excavated from the royal mining site, rare gems like these have been told to contain the souls of dragons who died underground in their lairs. Others say they are unique combinations of minerals. This one is cheap.",//the desc
-          "A powerful and rare gem. You feel drawn in by it's emminating power.", //blurb
-          "Shard of Power", //name
-          shortSwordSprite, //sprite
-          "common", //rarity string
-          3, //value in eyes
-          1, //amount in birb's stock
-          1, //default quantity
-          true, //(true)beneficial or (false)harmful
-          0, //speed bonus
-          0, //health bonus
-          0, //mana bonus
-          0, //dmg bonus
-          0, //defense bonus 
-          0, //luck bonus 
-          0, //healing, multiplicative. as a percentage.
-          10, //dam resist, multiplicative. as a percentage.
-          10, //dam bonus multiplicative. as a percentage.
-          0, //discount as a percentage, multiplicative
-          0); //lifesteal multiplicative. as a percentage.
+        MakeEquipableItemTemplate("cheap_shard_power", //string ID
+  "A rare gem radiating unexplainable magic. Excavated from the royal mining site, rare gems like these have been told to contain the souls of dragons who died underground in their lairs. Others say they are unique combinations of minerals. This one is cheap.",//the desc
+  "A powerful and rare gem. You feel drawn in by it's emminating power.", //blurb
+  "Shard of Power", //name
+  shortSwordSprite, //sprite
+  "common", //rarity string
+  3, //value in eyes
+  1, //amount in birb's stock
+  1, //default quantity
+  true, //(true)beneficial or (false)harmful
+  0, //speed bonus
+  0, //health bonus
+  0, //mana bonus
+  0, //dmg bonus
+  0, //defense bonus 
+  0, //luck bonus 
+  0, //healing, multiplicative. as a percentage.
+  10, //dam resist, multiplicative. as a percentage.
+  10, //dam bonus multiplicative. as a percentage.
+  0, //discount as a percentage, multiplicative
+  0); //lifesteal multiplicative. as a percentage.
 
-                MakeEquipableItemTemplate("lucky_shard_power", //string ID
-          "A rare gem radiating unexplainable magic. Excavated from the royal mining site, rare gems like these have been told to contain the souls of dragons who died underground in their lairs. Others say they are unique combinations of minerals. This one feels lucky.",//the desc
-          "A powerful and rare gem. You feel drawn in by it's emminating power.", //blurb
-          "Shard of Power", //name
-          shortSwordSprite, //sprite
-          "common", //rarity string
-          5, //value in eyes
-          1, //amount in birb's stock
-          1, //default quantity
-          true, //(true)beneficial or (false)harmful
-          0, //speed bonus
-          0, //health bonus
-          0, //mana bonus
-          0, //dmg bonus
-          0, //defense bonus 
-          10, //luck bonus 
-          0, //healing, multiplicative. as a percentage.
-          10, //dam resist, multiplicative. as a percentage.
-          10, //dam bonus multiplicative. as a percentage.
-          0, //discount as a percentage, multiplicative
-          0); //lifesteal multiplicative. as a percentage.
+        MakeEquipableItemTemplate("lucky_shard_power", //string ID
+  "A rare gem radiating unexplainable magic. Excavated from the royal mining site, rare gems like these have been told to contain the souls of dragons who died underground in their lairs. Others say they are unique combinations of minerals. This one feels lucky.",//the desc
+  "A powerful and rare gem. You feel drawn in by it's emminating power.", //blurb
+  "Shard of Power", //name
+  shortSwordSprite, //sprite
+  "common", //rarity string
+  5, //value in eyes
+  1, //amount in birb's stock
+  1, //default quantity
+  true, //(true)beneficial or (false)harmful
+  0, //speed bonus
+  0, //health bonus
+  0, //mana bonus
+  0, //dmg bonus
+  0, //defense bonus 
+  10, //luck bonus 
+  0, //healing, multiplicative. as a percentage.
+  10, //dam resist, multiplicative. as a percentage.
+  10, //dam bonus multiplicative. as a percentage.
+  0, //discount as a percentage, multiplicative
+  0); //lifesteal multiplicative. as a percentage.
 
-                MakeEquipableItemTemplate("shard_emerald", //string ID
-          "A rare gem radiating unexplainable magic. Excavated from the royal mining site, rare gems like these have been told to contain the souls of dragons who died underground in their lairs. Others say they are unique combinations of minerals. This one is normal.",//the desc
-          "A powerful and rare gem. You feel drawn in by it's emminating power.", //blurb
-          "Shard of Emerald", //name
-          shortSwordSprite, //sprite
-          "common", //rarity string
-          4, //value in eyes
-          1, //amount in birb's stock
-          1, //default quantity
-          true, //(true)beneficial or (false)harmful
-          0, //speed bonus
-          0, //health bonus
-          0, //mana bonus
-          0, //dmg bonus
-          0, //defense bonus 
-          15, //luck bonus 
-          0, //healing, multiplicative. as a percentage.
-          0, //dam resist, multiplicative. as a percentage.
-          0, //dam bonus multiplicative. as a percentage.
-          0, //discount as a percentage, multiplicative
-          0); //lifesteal multiplicative. as a percentage.
+        MakeEquipableItemTemplate("shard_emerald", //string ID
+  "A rare gem radiating unexplainable magic. Excavated from the royal mining site, rare gems like these have been told to contain the souls of dragons who died underground in their lairs. Others say they are unique combinations of minerals. This one is normal.",//the desc
+  "A powerful and rare gem. You feel drawn in by it's emminating power.", //blurb
+  "Shard of Emerald", //name
+  shortSwordSprite, //sprite
+  "common", //rarity string
+  4, //value in eyes
+  1, //amount in birb's stock
+  1, //default quantity
+  true, //(true)beneficial or (false)harmful
+  0, //speed bonus
+  0, //health bonus
+  0, //mana bonus
+  0, //dmg bonus
+  0, //defense bonus 
+  15, //luck bonus 
+  0, //healing, multiplicative. as a percentage.
+  0, //dam resist, multiplicative. as a percentage.
+  0, //dam bonus multiplicative. as a percentage.
+  0, //discount as a percentage, multiplicative
+  0); //lifesteal multiplicative. as a percentage.
 
         MakeEquipableItemTemplate("lucky_shard_emerald", //string ID
           "A rare gem radiating unexplainable magic. Excavated from the royal mining site, rare gems like these have been told to contain the souls of dragons who died underground in their lairs. Others say they are unique combinations of minerals. This one feels lucky.",//the desc
@@ -1614,643 +1622,643 @@ public class EntityDefiner : MonoBehaviour
           0, //discount as a percentage, multiplicative
           0); //lifesteal multiplicative. as a percentage.
 
-                MakeEquipableItemTemplate("emerald_glasses", //string ID
-          "These glasses have been crafted from by the most talented tinkerers in all of the Emerald palace, using highly refined emerald sheets as their lenses. Usually used only by artificers, these glasses help the wearer see hidden details in the world.",//the desc
-          "A beautifully crafted pair of glasses. You feel like you can see everything when wearing them.", //blurb
-          "Emerald Glasses", //name
-          shortSwordSprite, //sprite
-          "rare", //rarity string
-          6, //value in eyes
-          1, //amount in birb's stock
-          1, //default quantity
-          true, //(true)beneficial or (false)harmful
-          0, //speed bonus
-          0, //health bonus
-          0, //mana bonus
-          0, //dmg bonus
-          0, //defense bonus 
-          33, //luck bonus 
-          0, //healing, multiplicative. as a percentage.
-          0, //dam resist, multiplicative. as a percentage.
-          0, //dam bonus multiplicative. as a percentage.
-          0, //discount as a percentage, multiplicative
-          0); //lifesteal multiplicative. as a percentage.
+        MakeEquipableItemTemplate("emerald_glasses", //string ID
+  "These glasses have been crafted from by the most talented tinkerers in all of the Emerald palace, using highly refined emerald sheets as their lenses. Usually used only by artificers, these glasses help the wearer see hidden details in the world.",//the desc
+  "A beautifully crafted pair of glasses. You feel like you can see everything when wearing them.", //blurb
+  "Emerald Glasses", //name
+  shortSwordSprite, //sprite
+  "rare", //rarity string
+  6, //value in eyes
+  1, //amount in birb's stock
+  1, //default quantity
+  true, //(true)beneficial or (false)harmful
+  0, //speed bonus
+  0, //health bonus
+  0, //mana bonus
+  0, //dmg bonus
+  0, //defense bonus 
+  33, //luck bonus 
+  0, //healing, multiplicative. as a percentage.
+  0, //dam resist, multiplicative. as a percentage.
+  0, //dam bonus multiplicative. as a percentage.
+  0, //discount as a percentage, multiplicative
+  0); //lifesteal multiplicative. as a percentage.
 
-                        MakeEquipableItemTemplate("warding_emerald_glasses", //string ID
-          "These glasses have been crafted from by the most talented tinkerers in all of the Emerald palace, using highly refined emerald sheets as their lenses. Usually used only by artificers, these glasses help the wearer see hidden details in the world. This pair is tough.",//the desc
-          "A beautifully crafted pair of glasses. You feel like you can see everything when wearing them.", //blurb
-          "Emerald Glasses", //name
-          shortSwordSprite, //sprite
-          "rare", //rarity string
-          8, //value in eyes
-          1, //amount in birb's stock
-          1, //default quantity
-          true, //(true)beneficial or (false)harmful
-          0, //speed bonus
-          0, //health bonus
-          0, //mana bonus
-          0, //dmg bonus
-          2, //defense bonus 
-          33, //luck bonus 
-          0, //healing, multiplicative. as a percentage.
-          0, //dam resist, multiplicative. as a percentage.
-          0, //dam bonus multiplicative. as a percentage.
-          0, //discount as a percentage, multiplicative
-          0); //lifesteal multiplicative. as a percentage.
+        MakeEquipableItemTemplate("warding_emerald_glasses", //string ID
+"These glasses have been crafted from by the most talented tinkerers in all of the Emerald palace, using highly refined emerald sheets as their lenses. Usually used only by artificers, these glasses help the wearer see hidden details in the world. This pair is tough.",//the desc
+"A beautifully crafted pair of glasses. You feel like you can see everything when wearing them.", //blurb
+"Emerald Glasses", //name
+shortSwordSprite, //sprite
+"rare", //rarity string
+8, //value in eyes
+1, //amount in birb's stock
+1, //default quantity
+true, //(true)beneficial or (false)harmful
+0, //speed bonus
+0, //health bonus
+0, //mana bonus
+0, //dmg bonus
+2, //defense bonus 
+33, //luck bonus 
+0, //healing, multiplicative. as a percentage.
+0, //dam resist, multiplicative. as a percentage.
+0, //dam bonus multiplicative. as a percentage.
+0, //discount as a percentage, multiplicative
+0); //lifesteal multiplicative. as a percentage.
 
-                        MakeEquipableItemTemplate("light_emerald_glasses", //string ID
-          "These glasses have been crafted from by the most talented tinkerers in all of the Emerald palace, using highly refined emerald sheets as their lenses. Usually used only by artificers, these glasses help the wearer see hidden details in the world. This pair is light.",//the desc
-          "A beautifully crafted pair of glasses. You feel like you can see everything when wearing them.", //blurb
-          "Emerald Glasses", //name
-          shortSwordSprite, //sprite
-          "rare", //rarity string
-          6, //value in eyes
-          1, //amount in birb's stock
-          1, //default quantity
-          true, //(true)beneficial or (false)harmful
-          3, //speed bonus
-          0, //health bonus
-          0, //mana bonus
-          0, //dmg bonus
-          0, //defense bonus 
-          33, //luck bonus 
-          0, //healing, multiplicative. as a percentage.
-          0, //dam resist, multiplicative. as a percentage.
-          0, //dam bonus multiplicative. as a percentage.
-          0, //discount as a percentage, multiplicative
-          0); //lifesteal multiplicative. as a percentage.
+        MakeEquipableItemTemplate("light_emerald_glasses", //string ID
+"These glasses have been crafted from by the most talented tinkerers in all of the Emerald palace, using highly refined emerald sheets as their lenses. Usually used only by artificers, these glasses help the wearer see hidden details in the world. This pair is light.",//the desc
+"A beautifully crafted pair of glasses. You feel like you can see everything when wearing them.", //blurb
+"Emerald Glasses", //name
+shortSwordSprite, //sprite
+"rare", //rarity string
+6, //value in eyes
+1, //amount in birb's stock
+1, //default quantity
+true, //(true)beneficial or (false)harmful
+3, //speed bonus
+0, //health bonus
+0, //mana bonus
+0, //dmg bonus
+0, //defense bonus 
+33, //luck bonus 
+0, //healing, multiplicative. as a percentage.
+0, //dam resist, multiplicative. as a percentage.
+0, //dam bonus multiplicative. as a percentage.
+0, //discount as a percentage, multiplicative
+0); //lifesteal multiplicative. as a percentage.
 
-                        MakeEquipableItemTemplate("lucky_emerald_glasses", //string ID
-          "These glasses have been crafted from by the most talented tinkerers in all of the Emerald palace, using highly refined emerald sheets as their lenses. Usually used only by artificers, these glasses help the wearer see hidden details in the world. This pair feels lucky.",//the desc
-          "A beautifully crafted pair of glasses. You feel like you can see everything when wearing them.", //blurb
-          "Emerald Glasses", //name
-          shortSwordSprite, //sprite
-          "rare", //rarity string
-          7, //value in eyes
-          1, //amount in birb's stock
-          1, //default quantity
-          true, //(true)beneficial or (false)harmful
-          0, //speed bonus
-          0, //health bonus
-          0, //mana bonus
-          0, //dmg bonus
-          0, //defense bonus 
-          44, //luck bonus 
-          0, //healing, multiplicative. as a percentage.
-          0, //dam resist, multiplicative. as a percentage.
-          0, //dam bonus multiplicative. as a percentage.
-          0, //discount as a percentage, multiplicative
-          0); //lifesteal multiplicative. as a percentage.
+        MakeEquipableItemTemplate("lucky_emerald_glasses", //string ID
+"These glasses have been crafted from by the most talented tinkerers in all of the Emerald palace, using highly refined emerald sheets as their lenses. Usually used only by artificers, these glasses help the wearer see hidden details in the world. This pair feels lucky.",//the desc
+"A beautifully crafted pair of glasses. You feel like you can see everything when wearing them.", //blurb
+"Emerald Glasses", //name
+shortSwordSprite, //sprite
+"rare", //rarity string
+7, //value in eyes
+1, //amount in birb's stock
+1, //default quantity
+true, //(true)beneficial or (false)harmful
+0, //speed bonus
+0, //health bonus
+0, //mana bonus
+0, //dmg bonus
+0, //defense bonus 
+44, //luck bonus 
+0, //healing, multiplicative. as a percentage.
+0, //dam resist, multiplicative. as a percentage.
+0, //dam bonus multiplicative. as a percentage.
+0, //discount as a percentage, multiplicative
+0); //lifesteal multiplicative. as a percentage.
 
-                        MakeEquipableItemTemplate("cheap_emerald_glasses", //string ID
-          "These glasses have been crafted from by the most talented tinkerers in all of the Emerald palace, using highly refined emerald sheets as their lenses. Usually used only by artificers, these glasses help the wearer see hidden details in the world. This pair is cheap.",//the desc
-          "A beautifully crafted pair of glasses. You feel like you can see everything when wearing them.", //blurb
-          "Emerald Glasses", //name
-          shortSwordSprite, //sprite
-          "rare", //rarity string
-          5, //value in eyes
-          1, //amount in birb's stock
-          1, //default quantity
-          true, //(true)beneficial or (false)harmful
-          0, //speed bonus
-          0, //health bonus
-          0, //mana bonus
-          0, //dmg bonus
-          0, //defense bonus 
-          33, //luck bonus 
-          0, //healing, multiplicative. as a percentage.
-          0, //dam resist, multiplicative. as a percentage.
-          0, //dam bonus multiplicative. as a percentage.
-          0, //discount as a percentage, multiplicative
-          0); //lifesteal multiplicative. as a percentage.
+        MakeEquipableItemTemplate("cheap_emerald_glasses", //string ID
+"These glasses have been crafted from by the most talented tinkerers in all of the Emerald palace, using highly refined emerald sheets as their lenses. Usually used only by artificers, these glasses help the wearer see hidden details in the world. This pair is cheap.",//the desc
+"A beautifully crafted pair of glasses. You feel like you can see everything when wearing them.", //blurb
+"Emerald Glasses", //name
+shortSwordSprite, //sprite
+"rare", //rarity string
+5, //value in eyes
+1, //amount in birb's stock
+1, //default quantity
+true, //(true)beneficial or (false)harmful
+0, //speed bonus
+0, //health bonus
+0, //mana bonus
+0, //dmg bonus
+0, //defense bonus 
+33, //luck bonus 
+0, //healing, multiplicative. as a percentage.
+0, //dam resist, multiplicative. as a percentage.
+0, //dam bonus multiplicative. as a percentage.
+0, //discount as a percentage, multiplicative
+0); //lifesteal multiplicative. as a percentage.
 
-                        MakeEquipableItemTemplate("monkey_fang", //string ID
-          "Pulled from the mouth of a beast. These teeth, found from flying monkeys, differ quite a lot from their non-avian counterparts. These teeth are greater in size and are serrated, hinting at the Flying Monkey's more predatory nature.",//the desc
-          "A dangerous piece of natural weaponry. Don't cut yourself on it.", //blurb
-          "Monkey Fang", //name
-          shortSwordSprite, //sprite
-          "common", //rarity string
-          5, //value in eyes
-          1, //amount in birb's stock
-          1, //default quantity
-          true, //(true)beneficial or (false)harmful
-          0, //speed bonus
-          0, //health bonus
-          0, //mana bonus
-          1, //dmg bonus
-          0, //defense bonus 
-          0, //luck bonus 
-          0, //healing, multiplicative. as a percentage.
-          0, //dam resist, multiplicative. as a percentage.
-          10, //dam bonus multiplicative. as a percentage.
-          0, //discount as a percentage, multiplicative
-          10); //lifesteal multiplicative. as a percentage.
+        MakeEquipableItemTemplate("monkey_fang", //string ID
+"Pulled from the mouth of a beast. These teeth, found from flying monkeys, differ quite a lot from their non-avian counterparts. These teeth are greater in size and are serrated, hinting at the Flying Monkey's more predatory nature.",//the desc
+"A dangerous piece of natural weaponry. Don't cut yourself on it.", //blurb
+"Monkey Fang", //name
+shortSwordSprite, //sprite
+"common", //rarity string
+5, //value in eyes
+1, //amount in birb's stock
+1, //default quantity
+true, //(true)beneficial or (false)harmful
+0, //speed bonus
+0, //health bonus
+0, //mana bonus
+1, //dmg bonus
+0, //defense bonus 
+0, //luck bonus 
+0, //healing, multiplicative. as a percentage.
+0, //dam resist, multiplicative. as a percentage.
+10, //dam bonus multiplicative. as a percentage.
+0, //discount as a percentage, multiplicative
+10); //lifesteal multiplicative. as a percentage.
 
-                                MakeEquipableItemTemplate("sharp_monkey_fang", //string ID
-          "Pulled from the mouth of a beast. These teeth, found from flying monkeys, differ quite a lot from their non-avian counterparts. These teeth are greater in size and are serrated, hinting at the Flying Monkey's more predatory nature. This one is sharp.",//the desc
-          "A dangerous piece of natural weaponry. Don't cut yourself on it.", //blurb
-          "Monkey Fang", //name
-          shortSwordSprite, //sprite
-          "common", //rarity string
-          7, //value in eyes
-          1, //amount in birb's stock
-          1, //default quantity
-          true, //(true)beneficial or (false)harmful
-          0, //speed bonus
-          0, //health bonus
-          0, //mana bonus
-          3, //dmg bonus
-          0, //defense bonus 
-          0, //luck bonus 
-          0, //healing, multiplicative. as a percentage.
-          0, //dam resist, multiplicative. as a percentage.
-          10, //dam bonus multiplicative. as a percentage.
-          0, //discount as a percentage, multiplicative
-          10); //lifesteal multiplicative. as a percentage.
+        MakeEquipableItemTemplate("sharp_monkey_fang", //string ID
+"Pulled from the mouth of a beast. These teeth, found from flying monkeys, differ quite a lot from their non-avian counterparts. These teeth are greater in size and are serrated, hinting at the Flying Monkey's more predatory nature. This one is sharp.",//the desc
+"A dangerous piece of natural weaponry. Don't cut yourself on it.", //blurb
+"Monkey Fang", //name
+shortSwordSprite, //sprite
+"common", //rarity string
+7, //value in eyes
+1, //amount in birb's stock
+1, //default quantity
+true, //(true)beneficial or (false)harmful
+0, //speed bonus
+0, //health bonus
+0, //mana bonus
+3, //dmg bonus
+0, //defense bonus 
+0, //luck bonus 
+0, //healing, multiplicative. as a percentage.
+0, //dam resist, multiplicative. as a percentage.
+10, //dam bonus multiplicative. as a percentage.
+0, //discount as a percentage, multiplicative
+10); //lifesteal multiplicative. as a percentage.
 
-                                MakeEquipableItemTemplate("vengeful_monkey_fang", //string ID
-          "Pulled from the mouth of a beast. These teeth, found from flying monkeys, differ quite a lot from their non-avian counterparts. These teeth are greater in size and are serrated, hinting at the Flying Monkey's more predatory nature. This one is haunted.",//the desc
-          "A dangerous piece of natural weaponry. Don't cut yourself on it.", //blurb
-          "Monkey Fang", //name
-          shortSwordSprite, //sprite
-          "common", //rarity string
-          10, //value in eyes
-          1, //amount in birb's stock
-          1, //default quantity
-          true, //(true)beneficial or (false)harmful
-          0, //speed bonus
-          0, //health bonus
-          0, //mana bonus
-          4, //dmg bonus
-          0, //defense bonus 
-          0, //luck bonus 
-          0, //healing, multiplicative. as a percentage.
-          0, //dam resist, multiplicative. as a percentage.
-          10, //dam bonus multiplicative. as a percentage.
-          0, //discount as a percentage, multiplicative
-          20); //lifesteal multiplicative. as a percentage.
+        MakeEquipableItemTemplate("vengeful_monkey_fang", //string ID
+"Pulled from the mouth of a beast. These teeth, found from flying monkeys, differ quite a lot from their non-avian counterparts. These teeth are greater in size and are serrated, hinting at the Flying Monkey's more predatory nature. This one is haunted.",//the desc
+"A dangerous piece of natural weaponry. Don't cut yourself on it.", //blurb
+"Monkey Fang", //name
+shortSwordSprite, //sprite
+"common", //rarity string
+10, //value in eyes
+1, //amount in birb's stock
+1, //default quantity
+true, //(true)beneficial or (false)harmful
+0, //speed bonus
+0, //health bonus
+0, //mana bonus
+4, //dmg bonus
+0, //defense bonus 
+0, //luck bonus 
+0, //healing, multiplicative. as a percentage.
+0, //dam resist, multiplicative. as a percentage.
+10, //dam bonus multiplicative. as a percentage.
+0, //discount as a percentage, multiplicative
+20); //lifesteal multiplicative. as a percentage.
 
-                                MakeEquipableItemTemplate("dull_monkey_fang", //string ID
-          "Pulled from the mouth of a beast. These teeth, found from flying monkeys, differ quite a lot from their non-avian counterparts. These teeth are greater in size and are serrated, hinting at the Flying Monkey's more predatory nature. This one is dull.",//the desc
-          "A dangerous piece of natural weaponry. Don't cut yourself on it.", //blurb
-          "Monkey Fang", //name
-          shortSwordSprite, //sprite
-          "common", //rarity string
-          3, //value in eyes
-          1, //amount in birb's stock
-          1, //default quantity
-          true, //(true)beneficial or (false)harmful
-          0, //speed bonus
-          0, //health bonus
-          0, //mana bonus
-          0, //dmg bonus
-          0, //defense bonus 
-          0, //luck bonus 
-          0, //healing, multiplicative. as a percentage.
-          0, //dam resist, multiplicative. as a percentage.
-          10, //dam bonus multiplicative. as a percentage.
-          0, //discount as a percentage, multiplicative
-          10); //lifesteal multiplicative. as a percentage.
+        MakeEquipableItemTemplate("dull_monkey_fang", //string ID
+"Pulled from the mouth of a beast. These teeth, found from flying monkeys, differ quite a lot from their non-avian counterparts. These teeth are greater in size and are serrated, hinting at the Flying Monkey's more predatory nature. This one is dull.",//the desc
+"A dangerous piece of natural weaponry. Don't cut yourself on it.", //blurb
+"Monkey Fang", //name
+shortSwordSprite, //sprite
+"common", //rarity string
+3, //value in eyes
+1, //amount in birb's stock
+1, //default quantity
+true, //(true)beneficial or (false)harmful
+0, //speed bonus
+0, //health bonus
+0, //mana bonus
+0, //dmg bonus
+0, //defense bonus 
+0, //luck bonus 
+0, //healing, multiplicative. as a percentage.
+0, //dam resist, multiplicative. as a percentage.
+10, //dam bonus multiplicative. as a percentage.
+0, //discount as a percentage, multiplicative
+10); //lifesteal multiplicative. as a percentage.
 
-                                MakeEquipableItemTemplate("cheap_monkey_fang", //string ID
-          "Pulled from the mouth of a beast. These teeth, found from flying monkeys, differ quite a lot from their non-avian counterparts. These teeth are greater in size and are serrated, hinting at the Flying Monkey's more predatory nature. This one is cheap.",//the desc
-          "A dangerous piece of natural weaponry. Don't cut yourself on it.", //blurb
-          "Monkey Fang", //name
-          shortSwordSprite, //sprite
-          "common", //rarity string
-          4, //value in eyes
-          1, //amount in birb's stock
-          1, //default quantity
-          true, //(true)beneficial or (false)harmful
-          0, //speed bonus
-          0, //health bonus
-          0, //mana bonus
-          1, //dmg bonus
-          0, //defense bonus 
-          0, //luck bonus 
-          0, //healing, multiplicative. as a percentage.
-          0, //dam resist, multiplicative. as a percentage.
-          10, //dam bonus multiplicative. as a percentage.
-          0, //discount as a percentage, multiplicative
-          10); //lifesteal multiplicative. as a percentage.
+        MakeEquipableItemTemplate("cheap_monkey_fang", //string ID
+"Pulled from the mouth of a beast. These teeth, found from flying monkeys, differ quite a lot from their non-avian counterparts. These teeth are greater in size and are serrated, hinting at the Flying Monkey's more predatory nature. This one is cheap.",//the desc
+"A dangerous piece of natural weaponry. Don't cut yourself on it.", //blurb
+"Monkey Fang", //name
+shortSwordSprite, //sprite
+"common", //rarity string
+4, //value in eyes
+1, //amount in birb's stock
+1, //default quantity
+true, //(true)beneficial or (false)harmful
+0, //speed bonus
+0, //health bonus
+0, //mana bonus
+1, //dmg bonus
+0, //defense bonus 
+0, //luck bonus 
+0, //healing, multiplicative. as a percentage.
+0, //dam resist, multiplicative. as a percentage.
+10, //dam bonus multiplicative. as a percentage.
+0, //discount as a percentage, multiplicative
+10); //lifesteal multiplicative. as a percentage.
 
-                                MakeEquipableItemTemplate("mana_amulet", //string ID
-          "An amulet used for training mages in arcane schools due to it's ability to enhance its user's magical abilities and stamina. Although they aren't common to find, they are a fairly common commodity in the magical world, being used by most witches and wizards.",//the desc
-          "A fragile gem encased in a hard metal. You feel more focused when wearing the amulet.", //blurb
-          "Mana-Weaving Amulet", //name
-          shortSwordSprite, //sprite
-          "common", //rarity string
-          4, //value in eyes
-          1, //amount in birb's stock
-          1, //default quantity
-          true, //(true)beneficial or (false)harmful
-          0, //speed bonus
-          0, //health bonus
-          50, //mana bonus
-          0, //dmg bonus
-          0, //defense bonus 
-          0, //luck bonus 
-          20, //healing, multiplicative. as a percentage.
-          0, //dam resist, multiplicative. as a percentage.
-          0, //dam bonus multiplicative. as a percentage.
-          0, //discount as a percentage, multiplicative
-          0); //lifesteal multiplicative. as a percentage.
+        MakeEquipableItemTemplate("mana_amulet", //string ID
+"An amulet used for training mages in arcane schools due to it's ability to enhance its user's magical abilities and stamina. Although they aren't common to find, they are a fairly common commodity in the magical world, being used by most witches and wizards.",//the desc
+"A fragile gem encased in a hard metal. You feel more focused when wearing the amulet.", //blurb
+"Mana-Weaving Amulet", //name
+shortSwordSprite, //sprite
+"common", //rarity string
+4, //value in eyes
+1, //amount in birb's stock
+1, //default quantity
+true, //(true)beneficial or (false)harmful
+0, //speed bonus
+0, //health bonus
+50, //mana bonus
+0, //dmg bonus
+0, //defense bonus 
+0, //luck bonus 
+20, //healing, multiplicative. as a percentage.
+0, //dam resist, multiplicative. as a percentage.
+0, //dam bonus multiplicative. as a percentage.
+0, //discount as a percentage, multiplicative
+0); //lifesteal multiplicative. as a percentage.
 
-                                        MakeEquipableItemTemplate("enchanted_mana_amulet", //string ID
-          "An amulet used for training mages in arcane schools due to it's ability to enhance its user's magical abilities and stamina. Although they aren't common to find, they are a fairly common commodity in the magical world, being used by most witches and wizards. This one is enchanted.",//the desc
-          "A fragile gem encased in a hard metal. You feel more focused when wearing the amulet.", //blurb
-          "Mana-Weaving Amulet", //name
-          shortSwordSprite, //sprite
-          "common", //rarity string
-          5, //value in eyes
-          1, //amount in birb's stock
-          1, //default quantity
-          true, //(true)beneficial or (false)harmful
-          0, //speed bonus
-          0, //health bonus
-          75, //mana bonus
-          0, //dmg bonus
-          0, //defense bonus 
-          0, //luck bonus 
-          20, //healing, multiplicative. as a percentage.
-          0, //dam resist, multiplicative. as a percentage.
-          0, //dam bonus multiplicative. as a percentage.
-          0, //discount as a percentage, multiplicative
-          0); //lifesteal multiplicative. as a percentage.
+        MakeEquipableItemTemplate("enchanted_mana_amulet", //string ID
+"An amulet used for training mages in arcane schools due to it's ability to enhance its user's magical abilities and stamina. Although they aren't common to find, they are a fairly common commodity in the magical world, being used by most witches and wizards. This one is enchanted.",//the desc
+"A fragile gem encased in a hard metal. You feel more focused when wearing the amulet.", //blurb
+"Mana-Weaving Amulet", //name
+shortSwordSprite, //sprite
+"common", //rarity string
+5, //value in eyes
+1, //amount in birb's stock
+1, //default quantity
+true, //(true)beneficial or (false)harmful
+0, //speed bonus
+0, //health bonus
+75, //mana bonus
+0, //dmg bonus
+0, //defense bonus 
+0, //luck bonus 
+20, //healing, multiplicative. as a percentage.
+0, //dam resist, multiplicative. as a percentage.
+0, //dam bonus multiplicative. as a percentage.
+0, //discount as a percentage, multiplicative
+0); //lifesteal multiplicative. as a percentage.
 
-                                        MakeEquipableItemTemplate("warding_mana_amulet", //string ID
-          "An amulet used for training mages in arcane schools due to it's ability to enhance its user's magical abilities and stamina. Although they aren't common to find, they are a fairly common commodity in the magical world, being used by most witches and wizards. This one is tough.",//the desc
-          "A fragile gem encased in a hard metal. You feel more focused when wearing the amulet.", //blurb
-          "Mana-Weaving Amulet", //name
-          shortSwordSprite, //sprite
-          "common", //rarity string
-          2, //value in eyes
-          1, //amount in birb's stock
-          1, //default quantity
-          true, //(true)beneficial or (false)harmful
-          0, //speed bonus
-          0, //health bonus
-          50, //mana bonus
-          0, //dmg bonus
-          2, //defense bonus 
-          0, //luck bonus 
-          20, //healing, multiplicative. as a percentage.
-          0, //dam resist, multiplicative. as a percentage.
-          0, //dam bonus multiplicative. as a percentage.
-          0, //discount as a percentage, multiplicative
-          0); //lifesteal multiplicative. as a percentage.
+        MakeEquipableItemTemplate("warding_mana_amulet", //string ID
+"An amulet used for training mages in arcane schools due to it's ability to enhance its user's magical abilities and stamina. Although they aren't common to find, they are a fairly common commodity in the magical world, being used by most witches and wizards. This one is tough.",//the desc
+"A fragile gem encased in a hard metal. You feel more focused when wearing the amulet.", //blurb
+"Mana-Weaving Amulet", //name
+shortSwordSprite, //sprite
+"common", //rarity string
+2, //value in eyes
+1, //amount in birb's stock
+1, //default quantity
+true, //(true)beneficial or (false)harmful
+0, //speed bonus
+0, //health bonus
+50, //mana bonus
+0, //dmg bonus
+2, //defense bonus 
+0, //luck bonus 
+20, //healing, multiplicative. as a percentage.
+0, //dam resist, multiplicative. as a percentage.
+0, //dam bonus multiplicative. as a percentage.
+0, //discount as a percentage, multiplicative
+0); //lifesteal multiplicative. as a percentage.
 
-                                        MakeEquipableItemTemplate("light_mana_amulet", //string ID
-          "An amulet used for training mages in arcane schools due to it's ability to enhance its user's magical abilities and stamina. Although they aren't common to find, they are a fairly common commodity in the magical world, being used by most witches and wizards. This one is light.",//the desc
-          "A fragile gem encased in a hard metal. You feel more focused when wearing the amulet.", //blurb
-          "Mana-Weaving Amulet", //name
-          shortSwordSprite, //sprite
-          "common", //rarity string
-          4, //value in eyes
-          1, //amount in birb's stock
-          1, //default quantity
-          true, //(true)beneficial or (false)harmful
-          3, //speed bonus
-          0, //health bonus
-          50, //mana bonus
-          0, //dmg bonus
-          0, //defense bonus 
-          0, //luck bonus 
-          20, //healing, multiplicative. as a percentage.
-          0, //dam resist, multiplicative. as a percentage.
-          0, //dam bonus multiplicative. as a percentage.
-          0, //discount as a percentage, multiplicative
-          0); //lifesteal multiplicative. as a percentage.
+        MakeEquipableItemTemplate("light_mana_amulet", //string ID
+"An amulet used for training mages in arcane schools due to it's ability to enhance its user's magical abilities and stamina. Although they aren't common to find, they are a fairly common commodity in the magical world, being used by most witches and wizards. This one is light.",//the desc
+"A fragile gem encased in a hard metal. You feel more focused when wearing the amulet.", //blurb
+"Mana-Weaving Amulet", //name
+shortSwordSprite, //sprite
+"common", //rarity string
+4, //value in eyes
+1, //amount in birb's stock
+1, //default quantity
+true, //(true)beneficial or (false)harmful
+3, //speed bonus
+0, //health bonus
+50, //mana bonus
+0, //dmg bonus
+0, //defense bonus 
+0, //luck bonus 
+20, //healing, multiplicative. as a percentage.
+0, //dam resist, multiplicative. as a percentage.
+0, //dam bonus multiplicative. as a percentage.
+0, //discount as a percentage, multiplicative
+0); //lifesteal multiplicative. as a percentage.
 
-                                        MakeEquipableItemTemplate("iron_armor", //string ID
-          "A heavy piece of armor worn by knights and paladins. It can protect against most attacks, and even though this one has been through hundreds of battles and taken thousands more blows, it still looks like it was forged yesterday.",//the desc
-          "A powerful piece of armor. You feel safer being around it.", //blurb
-          "Iron Armor", //name
-          shortSwordSprite, //sprite
-          "common", //rarity string
-          10, //value in eyes
-          1, //amount in birb's stock
-          1, //default quantity
-          true, //(true)beneficial or (false)harmful
-          -3, //speed bonus
-          0, //health bonus
-          0, //mana bonus
-          0, //dmg bonus
-          3, //defense bonus 
-          0, //luck bonus 
-          0, //healing, multiplicative. as a percentage.
-          25, //dam resist, multiplicative. as a percentage.
-          0, //dam bonus multiplicative. as a percentage.
-          0, //discount as a percentage, multiplicative
-          0); //lifesteal multiplicative. as a percentage.
+        MakeEquipableItemTemplate("iron_armor", //string ID
+"A heavy piece of armor worn by knights and paladins. It can protect against most attacks, and even though this one has been through hundreds of battles and taken thousands more blows, it still looks like it was forged yesterday.",//the desc
+"A powerful piece of armor. You feel safer being around it.", //blurb
+"Iron Armor", //name
+shortSwordSprite, //sprite
+"common", //rarity string
+10, //value in eyes
+1, //amount in birb's stock
+1, //default quantity
+true, //(true)beneficial or (false)harmful
+-3, //speed bonus
+0, //health bonus
+0, //mana bonus
+0, //dmg bonus
+3, //defense bonus 
+0, //luck bonus 
+0, //healing, multiplicative. as a percentage.
+25, //dam resist, multiplicative. as a percentage.
+0, //dam bonus multiplicative. as a percentage.
+0, //discount as a percentage, multiplicative
+0); //lifesteal multiplicative. as a percentage.
 
-                                                MakeEquipableItemTemplate("light_iron_armor", //string ID
-          "A heavy piece of armor worn by knights and paladins. It can protect against most attacks, and even though this one has been through hundreds of battles and taken thousands more blows, it still looks like it was forged yesterday. This one is light.",//the desc
-          "A powerful piece of armor. You feel safer being around it.", //blurb
-          "Iron Armor", //name
-          shortSwordSprite, //sprite
-          "common", //rarity string
-          10, //value in eyes
-          1, //amount in birb's stock
-          1, //default quantity
-          true, //(true)beneficial or (false)harmful
-          0, //speed bonus
-          0, //health bonus
-          0, //mana bonus
-          0, //dmg bonus
-          3, //defense bonus 
-          0, //luck bonus 
-          0, //healing, multiplicative. as a percentage.
-          25, //dam resist, multiplicative. as a percentage.
-          0, //dam bonus multiplicative. as a percentage.
-          0, //discount as a percentage, multiplicative
-          0); //lifesteal multiplicative. as a percentage.
+        MakeEquipableItemTemplate("light_iron_armor", //string ID
+"A heavy piece of armor worn by knights and paladins. It can protect against most attacks, and even though this one has been through hundreds of battles and taken thousands more blows, it still looks like it was forged yesterday. This one is light.",//the desc
+"A powerful piece of armor. You feel safer being around it.", //blurb
+"Iron Armor", //name
+shortSwordSprite, //sprite
+"common", //rarity string
+10, //value in eyes
+1, //amount in birb's stock
+1, //default quantity
+true, //(true)beneficial or (false)harmful
+0, //speed bonus
+0, //health bonus
+0, //mana bonus
+0, //dmg bonus
+3, //defense bonus 
+0, //luck bonus 
+0, //healing, multiplicative. as a percentage.
+25, //dam resist, multiplicative. as a percentage.
+0, //dam bonus multiplicative. as a percentage.
+0, //discount as a percentage, multiplicative
+0); //lifesteal multiplicative. as a percentage.
 
-                                                MakeEquipableItemTemplate("warding_iron_armor", //string ID
-          "A heavy piece of armor worn by knights and paladins. It can protect against most attacks, and even though this one has been through hundreds of battles and taken thousands more blows, it still looks like it was forged yesterday. This one is tough.",//the desc
-          "A powerful piece of armor. You feel safer being around it.", //blurb
-          "Iron Armor", //name
-          shortSwordSprite, //sprite
-          "common", //rarity string
-          12, //value in eyes
-          1, //amount in birb's stock
-          1, //default quantity
-          true, //(true)beneficial or (false)harmful
-          -3, //speed bonus
-          0, //health bonus
-          0, //mana bonus
-          0, //dmg bonus
-          5, //defense bonus 
-          0, //luck bonus 
-          0, //healing, multiplicative. as a percentage.
-          25, //dam resist, multiplicative. as a percentage.
-          0, //dam bonus multiplicative. as a percentage.
-          0, //discount as a percentage, multiplicative
-          0); //lifesteal multiplicative. as a percentage.
+        MakeEquipableItemTemplate("warding_iron_armor", //string ID
+"A heavy piece of armor worn by knights and paladins. It can protect against most attacks, and even though this one has been through hundreds of battles and taken thousands more blows, it still looks like it was forged yesterday. This one is tough.",//the desc
+"A powerful piece of armor. You feel safer being around it.", //blurb
+"Iron Armor", //name
+shortSwordSprite, //sprite
+"common", //rarity string
+12, //value in eyes
+1, //amount in birb's stock
+1, //default quantity
+true, //(true)beneficial or (false)harmful
+-3, //speed bonus
+0, //health bonus
+0, //mana bonus
+0, //dmg bonus
+5, //defense bonus 
+0, //luck bonus 
+0, //healing, multiplicative. as a percentage.
+25, //dam resist, multiplicative. as a percentage.
+0, //dam bonus multiplicative. as a percentage.
+0, //discount as a percentage, multiplicative
+0); //lifesteal multiplicative. as a percentage.
 
-                                                MakeEquipableItemTemplate("damaged_iron_armor", //string ID
-          "A heavy piece of armor worn by knights and paladins. It can protect against most attacks, and even though this one has been through hundreds of battles and taken thousands more blows, it still looks like it was forged yesterday. This one is damaged.",//the desc
-          "A powerful piece of armor. You feel safer being around it.", //blurb
-          "Iron Armor", //name
-          shortSwordSprite, //sprite
-          "common", //rarity string
-          5, //value in eyes
-          1, //amount in birb's stock
-          1, //default quantity
-          true, //(true)beneficial or (false)harmful
-          -3, //speed bonus
-          0, //health bonus
-          0, //mana bonus
-          0, //dmg bonus
-          1, //defense bonus 
-          0, //luck bonus 
-          0, //healing, multiplicative. as a percentage.
-          10, //dam resist, multiplicative. as a percentage.
-          0, //dam bonus multiplicative. as a percentage.
-          0, //discount as a percentage, multiplicative
-          0); //lifesteal multiplicative. as a percentage.
+        MakeEquipableItemTemplate("damaged_iron_armor", //string ID
+"A heavy piece of armor worn by knights and paladins. It can protect against most attacks, and even though this one has been through hundreds of battles and taken thousands more blows, it still looks like it was forged yesterday. This one is damaged.",//the desc
+"A powerful piece of armor. You feel safer being around it.", //blurb
+"Iron Armor", //name
+shortSwordSprite, //sprite
+"common", //rarity string
+5, //value in eyes
+1, //amount in birb's stock
+1, //default quantity
+true, //(true)beneficial or (false)harmful
+-3, //speed bonus
+0, //health bonus
+0, //mana bonus
+0, //dmg bonus
+1, //defense bonus 
+0, //luck bonus 
+0, //healing, multiplicative. as a percentage.
+10, //dam resist, multiplicative. as a percentage.
+0, //dam bonus multiplicative. as a percentage.
+0, //discount as a percentage, multiplicative
+0); //lifesteal multiplicative. as a percentage.
 
-                                                MakeEquipableItemTemplate("cheap_iron_armor", //string ID
-          "A heavy piece of armor worn by knights and paladins. It can protect against most attacks, and even though this one has been through hundreds of battles and taken thousands more blows, it still looks like it was forged yesterday. This one is cheap.",//the desc
-          "A powerful piece of armor. You feel safer being around it.", //blurb
-          "Iron Armor", //name
-          shortSwordSprite, //sprite
-          "common", //rarity string
-          9, //value in eyes
-          1, //amount in birb's stock
-          1, //default quantity
-          true, //(true)beneficial or (false)harmful
-          -3, //speed bonus
-          0, //health bonus
-          0, //mana bonus
-          0, //dmg bonus
-          3, //defense bonus 
-          0, //luck bonus 
-          0, //healing, multiplicative. as a percentage.
-          25, //dam resist, multiplicative. as a percentage.
-          0, //dam bonus multiplicative. as a percentage.
-          0, //discount as a percentage, multiplicative
-          0); //lifesteal multiplicative. as a percentage.
+        MakeEquipableItemTemplate("cheap_iron_armor", //string ID
+"A heavy piece of armor worn by knights and paladins. It can protect against most attacks, and even though this one has been through hundreds of battles and taken thousands more blows, it still looks like it was forged yesterday. This one is cheap.",//the desc
+"A powerful piece of armor. You feel safer being around it.", //blurb
+"Iron Armor", //name
+shortSwordSprite, //sprite
+"common", //rarity string
+9, //value in eyes
+1, //amount in birb's stock
+1, //default quantity
+true, //(true)beneficial or (false)harmful
+-3, //speed bonus
+0, //health bonus
+0, //mana bonus
+0, //dmg bonus
+3, //defense bonus 
+0, //luck bonus 
+0, //healing, multiplicative. as a percentage.
+25, //dam resist, multiplicative. as a percentage.
+0, //dam bonus multiplicative. as a percentage.
+0, //discount as a percentage, multiplicative
+0); //lifesteal multiplicative. as a percentage.
 
-                                                MakeEquipableItemTemplate("wood_axe", //string ID
-          "A simple axe used for wood cutting. The slight marks on the end and the blood stains on the handle however point to this axe being used in more 'creative' ways.",//the desc
-          "A worn down, but reliable axe. It chops through bone better than wood.", //blurb
-          "Wood-Cutter's Axe", //name
-          shortSwordSprite, //sprite
-          "common", //rarity string
-          6, //value in eyes
-          1, //amount in birb's stock
-          1, //default quantity
-          true, //(true)beneficial or (false)harmful
-          0, //speed bonus
-          0, //health bonus
-          0, //mana bonus
-          0, //dmg bonus
-          0, //defense bonus 
-          0, //luck bonus 
-          0, //healing, multiplicative. as a percentage.
-          0, //dam resist, multiplicative. as a percentage.
-          33, //dam bonus multiplicative. as a percentage.
-          0, //discount as a percentage, multiplicative
-          0); //lifesteal multiplicative. as a percentage.
+        MakeEquipableItemTemplate("wood_axe", //string ID
+"A simple axe used for wood cutting. The slight marks on the end and the blood stains on the handle however point to this axe being used in more 'creative' ways.",//the desc
+"A worn down, but reliable axe. It chops through bone better than wood.", //blurb
+"Wood-Cutter's Axe", //name
+shortSwordSprite, //sprite
+"common", //rarity string
+6, //value in eyes
+1, //amount in birb's stock
+1, //default quantity
+true, //(true)beneficial or (false)harmful
+0, //speed bonus
+0, //health bonus
+0, //mana bonus
+0, //dmg bonus
+0, //defense bonus 
+0, //luck bonus 
+0, //healing, multiplicative. as a percentage.
+0, //dam resist, multiplicative. as a percentage.
+33, //dam bonus multiplicative. as a percentage.
+0, //discount as a percentage, multiplicative
+0); //lifesteal multiplicative. as a percentage.
 
-                                                        MakeEquipableItemTemplate("vengeful_wood_axe", //string ID
-          "A simple axe used for wood cutting. The slight marks on the end and the blood stains on the handle however point to this axe being used in more 'creative' ways. This one is haunted.",//the desc
-          "A worn down, but reliable axe. It chops through bone better than wood.", //blurb
-          "Wood-Cutter's Axe", //name
-          shortSwordSprite, //sprite
-          "common", //rarity string
-          11, //value in eyes
-          1, //amount in birb's stock
-          1, //default quantity
-          true, //(true)beneficial or (false)harmful
-          0, //speed bonus
-          0, //health bonus
-          0, //mana bonus
-          3, //dmg bonus
-          0, //defense bonus 
-          0, //luck bonus 
-          0, //healing, multiplicative. as a percentage.
-          0, //dam resist, multiplicative. as a percentage.
-          33, //dam bonus multiplicative. as a percentage.
-          0, //discount as a percentage, multiplicative
-          10); //lifesteal multiplicative. as a percentage.
+        MakeEquipableItemTemplate("vengeful_wood_axe", //string ID
+"A simple axe used for wood cutting. The slight marks on the end and the blood stains on the handle however point to this axe being used in more 'creative' ways. This one is haunted.",//the desc
+"A worn down, but reliable axe. It chops through bone better than wood.", //blurb
+"Wood-Cutter's Axe", //name
+shortSwordSprite, //sprite
+"common", //rarity string
+11, //value in eyes
+1, //amount in birb's stock
+1, //default quantity
+true, //(true)beneficial or (false)harmful
+0, //speed bonus
+0, //health bonus
+0, //mana bonus
+3, //dmg bonus
+0, //defense bonus 
+0, //luck bonus 
+0, //healing, multiplicative. as a percentage.
+0, //dam resist, multiplicative. as a percentage.
+33, //dam bonus multiplicative. as a percentage.
+0, //discount as a percentage, multiplicative
+10); //lifesteal multiplicative. as a percentage.
 
-                                                        MakeEquipableItemTemplate("sharp_wood_axe", //string ID
-          "A simple axe used for wood cutting. The slight marks on the end and the blood stains on the handle however point to this axe being used in more 'creative' ways. This one is sharp.",//the desc
-          "A worn down, but reliable axe. It chops through bone better than wood.", //blurb
-          "Wood-Cutter's Axe", //name
-          shortSwordSprite, //sprite
-          "common", //rarity string
-          8, //value in eyes
-          1, //amount in birb's stock
-          1, //default quantity
-          true, //(true)beneficial or (false)harmful
-          0, //speed bonus
-          0, //health bonus
-          0, //mana bonus
-          2, //dmg bonus
-          0, //defense bonus 
-          0, //luck bonus 
-          0, //healing, multiplicative. as a percentage.
-          0, //dam resist, multiplicative. as a percentage.
-          33, //dam bonus multiplicative. as a percentage.
-          0, //discount as a percentage, multiplicative
-          0); //lifesteal multiplicative. as a percentage.
+        MakeEquipableItemTemplate("sharp_wood_axe", //string ID
+"A simple axe used for wood cutting. The slight marks on the end and the blood stains on the handle however point to this axe being used in more 'creative' ways. This one is sharp.",//the desc
+"A worn down, but reliable axe. It chops through bone better than wood.", //blurb
+"Wood-Cutter's Axe", //name
+shortSwordSprite, //sprite
+"common", //rarity string
+8, //value in eyes
+1, //amount in birb's stock
+1, //default quantity
+true, //(true)beneficial or (false)harmful
+0, //speed bonus
+0, //health bonus
+0, //mana bonus
+2, //dmg bonus
+0, //defense bonus 
+0, //luck bonus 
+0, //healing, multiplicative. as a percentage.
+0, //dam resist, multiplicative. as a percentage.
+33, //dam bonus multiplicative. as a percentage.
+0, //discount as a percentage, multiplicative
+0); //lifesteal multiplicative. as a percentage.
 
-                                                        MakeEquipableItemTemplate("dull_wood_axe", //string ID
-          "A simple axe used for wood cutting. The slight marks on the end and the blood stains on the handle however point to this axe being used in more 'creative' ways. This one is dull.",//the desc
-          "A worn down, but reliable axe. It chops through bone better than wood.", //blurb
-          "Wood-Cutter's Axe", //name
-          shortSwordSprite, //sprite
-          "common", //rarity string
-          5, //value in eyes
-          1, //amount in birb's stock
-          1, //default quantity
-          true, //(true)beneficial or (false)harmful
-          0, //speed bonus
-          0, //health bonus
-          0, //mana bonus
-          0, //dmg bonus
-          0, //defense bonus 
-          0, //luck bonus 
-          0, //healing, multiplicative. as a percentage.
-          0, //dam resist, multiplicative. as a percentage.
-          25, //dam bonus multiplicative. as a percentage.
-          0, //discount as a percentage, multiplicative
-          0); //lifesteal multiplicative. as a percentage.
+        MakeEquipableItemTemplate("dull_wood_axe", //string ID
+"A simple axe used for wood cutting. The slight marks on the end and the blood stains on the handle however point to this axe being used in more 'creative' ways. This one is dull.",//the desc
+"A worn down, but reliable axe. It chops through bone better than wood.", //blurb
+"Wood-Cutter's Axe", //name
+shortSwordSprite, //sprite
+"common", //rarity string
+5, //value in eyes
+1, //amount in birb's stock
+1, //default quantity
+true, //(true)beneficial or (false)harmful
+0, //speed bonus
+0, //health bonus
+0, //mana bonus
+0, //dmg bonus
+0, //defense bonus 
+0, //luck bonus 
+0, //healing, multiplicative. as a percentage.
+0, //dam resist, multiplicative. as a percentage.
+25, //dam bonus multiplicative. as a percentage.
+0, //discount as a percentage, multiplicative
+0); //lifesteal multiplicative. as a percentage.
 
-                                                        MakeEquipableItemTemplate("cheap_wood_axe", //string ID
-          "A simple axe used for wood cutting. The slight marks on the end and the blood stains on the handle however point to this axe being used in more 'creative' ways. This one is cheap.",//the desc
-          "A worn down, but reliable axe. It chops through bone better than wood.", //blurb
-          "Wood-Cutter's Axe", //name
-          shortSwordSprite, //sprite
-          "common", //rarity string
-          5, //value in eyes
-          1, //amount in birb's stock
-          1, //default quantity
-          true, //(true)beneficial or (false)harmful
-          0, //speed bonus
-          0, //health bonus
-          0, //mana bonus
-          0, //dmg bonus
-          0, //defense bonus 
-          0, //luck bonus 
-          0, //healing, multiplicative. as a percentage.
-          0, //dam resist, multiplicative. as a percentage.
-          33, //dam bonus multiplicative. as a percentage.
-          0, //discount as a percentage, multiplicative
-          0); //lifesteal multiplicative. as a percentage.
+        MakeEquipableItemTemplate("cheap_wood_axe", //string ID
+"A simple axe used for wood cutting. The slight marks on the end and the blood stains on the handle however point to this axe being used in more 'creative' ways. This one is cheap.",//the desc
+"A worn down, but reliable axe. It chops through bone better than wood.", //blurb
+"Wood-Cutter's Axe", //name
+shortSwordSprite, //sprite
+"common", //rarity string
+5, //value in eyes
+1, //amount in birb's stock
+1, //default quantity
+true, //(true)beneficial or (false)harmful
+0, //speed bonus
+0, //health bonus
+0, //mana bonus
+0, //dmg bonus
+0, //defense bonus 
+0, //luck bonus 
+0, //healing, multiplicative. as a percentage.
+0, //dam resist, multiplicative. as a percentage.
+33, //dam bonus multiplicative. as a percentage.
+0, //discount as a percentage, multiplicative
+0); //lifesteal multiplicative. as a percentage.
 
-                                                        MakeEquipableItemTemplate("tornado_bottle", //string ID
-          "A bottled tornado. Holding the glass it's in, you can feel the power swirling around inside, as if the rage of a god was contained all within that small storm. The shopkeeper warns you not to open it, at least not near him.",//the desc
-          "A small tornado swirling inside a bottle. Opening it could cause disaster.", //blurb
-          "Tornado in a Bottle", //name
-          shortSwordSprite, //sprite
-          "uncommon", //rarity string
-          2, //value in eyes
-          1, //amount in birb's stock
-          1, //default quantity
-          true, //(true)beneficial or (false)harmful
-          9, //speed bonus
-          0, //health bonus
-          0, //mana bonus
-          0, //dmg bonus
-          0, //defense bonus 
-          0, //luck bonus 
-          0, //healing, multiplicative. as a percentage.
-          0, //dam resist, multiplicative. as a percentage.
-          0, //dam bonus multiplicative. as a percentage.
-          0, //discount as a percentage, multiplicative
-          0); //lifesteal multiplicative. as a percentage.
+        MakeEquipableItemTemplate("tornado_bottle", //string ID
+"A bottled tornado. Holding the glass it's in, you can feel the power swirling around inside, as if the rage of a god was contained all within that small storm. The shopkeeper warns you not to open it, at least not near him.",//the desc
+"A small tornado swirling inside a bottle. Opening it could cause disaster.", //blurb
+"Tornado in a Bottle", //name
+shortSwordSprite, //sprite
+"uncommon", //rarity string
+2, //value in eyes
+1, //amount in birb's stock
+1, //default quantity
+true, //(true)beneficial or (false)harmful
+9, //speed bonus
+0, //health bonus
+0, //mana bonus
+0, //dmg bonus
+0, //defense bonus 
+0, //luck bonus 
+0, //healing, multiplicative. as a percentage.
+0, //dam resist, multiplicative. as a percentage.
+0, //dam bonus multiplicative. as a percentage.
+0, //discount as a percentage, multiplicative
+0); //lifesteal multiplicative. as a percentage.
 
-                                                                MakeEquipableItemTemplate("light_tornado_bottle", //string ID
-          "A bottled tornado. Holding the glass it's in, you can feel the power swirling around inside, as if the rage of a god was contained all within that small storm. The shopkeeper warns you not to open it, at least not near him.",//the desc
-          "A small tornado swirling inside a bottle. Opening it could cause disaster.", //blurb
-          "Tornado in a Bottle", //name
-          shortSwordSprite, //sprite
-          "uncommon", //rarity string
-          2, //value in eyes
-          1, //amount in birb's stock
-          1, //default quantity
-          true, //(true)beneficial or (false)harmful
-          12, //speed bonus
-          0, //health bonus
-          0, //mana bonus
-          0, //dmg bonus
-          0, //defense bonus 
-          0, //luck bonus 
-          0, //healing, multiplicative. as a percentage.
-          0, //dam resist, multiplicative. as a percentage.
-          0, //dam bonus multiplicative. as a percentage.
-          0, //discount as a percentage, multiplicative
-          0); //lifesteal multiplicative. as a percentage.
+        MakeEquipableItemTemplate("light_tornado_bottle", //string ID
+"A bottled tornado. Holding the glass it's in, you can feel the power swirling around inside, as if the rage of a god was contained all within that small storm. The shopkeeper warns you not to open it, at least not near him.",//the desc
+"A small tornado swirling inside a bottle. Opening it could cause disaster.", //blurb
+"Tornado in a Bottle", //name
+shortSwordSprite, //sprite
+"uncommon", //rarity string
+2, //value in eyes
+1, //amount in birb's stock
+1, //default quantity
+true, //(true)beneficial or (false)harmful
+12, //speed bonus
+0, //health bonus
+0, //mana bonus
+0, //dmg bonus
+0, //defense bonus 
+0, //luck bonus 
+0, //healing, multiplicative. as a percentage.
+0, //dam resist, multiplicative. as a percentage.
+0, //dam bonus multiplicative. as a percentage.
+0, //discount as a percentage, multiplicative
+0); //lifesteal multiplicative. as a percentage.
 
-                                                                MakeEquipableItemTemplate("cheap_tornado_bottle", //string ID
-          "A bottled tornado. Holding the glass it's in, you can feel the power swirling around inside, as if the rage of a god was contained all within that small storm. The shopkeeper warns you not to open it, at least not near him. This one is cheap.",//the desc
-          "A small tornado swirling inside a bottle. Opening it could cause disaster.", //blurb
-          "Tornado in a Bottle", //name
-          shortSwordSprite, //sprite
-          "uncommon", //rarity string
-          1, //value in eyes
-          1, //amount in birb's stock
-          1, //default quantity
-          true, //(true)beneficial or (false)harmful
-          9, //speed bonus
-          0, //health bonus
-          0, //mana bonus
-          0, //dmg bonus
-          0, //defense bonus 
-          0, //luck bonus 
-          0, //healing, multiplicative. as a percentage.
-          0, //dam resist, multiplicative. as a percentage.
-          0, //dam bonus multiplicative. as a percentage.
-          0, //discount as a percentage, multiplicative
-          0); //lifesteal multiplicative. as a percentage.
+        MakeEquipableItemTemplate("cheap_tornado_bottle", //string ID
+"A bottled tornado. Holding the glass it's in, you can feel the power swirling around inside, as if the rage of a god was contained all within that small storm. The shopkeeper warns you not to open it, at least not near him. This one is cheap.",//the desc
+"A small tornado swirling inside a bottle. Opening it could cause disaster.", //blurb
+"Tornado in a Bottle", //name
+shortSwordSprite, //sprite
+"uncommon", //rarity string
+1, //value in eyes
+1, //amount in birb's stock
+1, //default quantity
+true, //(true)beneficial or (false)harmful
+9, //speed bonus
+0, //health bonus
+0, //mana bonus
+0, //dmg bonus
+0, //defense bonus 
+0, //luck bonus 
+0, //healing, multiplicative. as a percentage.
+0, //dam resist, multiplicative. as a percentage.
+0, //dam bonus multiplicative. as a percentage.
+0, //discount as a percentage, multiplicative
+0); //lifesteal multiplicative. as a percentage.
 
-                                                                MakeEquipableItemTemplate("enchanted_tornado_bottle", //string ID
-          "A bottled tornado. Holding the glass it's in, you can feel the power swirling around inside, as if the rage of a god was contained all within that small storm. The shopkeeper warns you not to open it, at least not near him. This one is enchanted.",//the desc
-          "A small tornado swirling inside a bottle. Opening it could cause disaster.", //blurb
-          "Tornado in a Bottle", //name
-          shortSwordSprite, //sprite
-          "uncommon", //rarity string
-          3, //value in eyes
-          1, //amount in birb's stock
-          1, //default quantity
-          true, //(true)beneficial or (false)harmful
-          9, //speed bonus
-          0, //health bonus
-          25, //mana bonus
-          0, //dmg bonus
-          0, //defense bonus 
-          0, //luck bonus 
-          0, //healing, multiplicative. as a percentage.
-          0, //dam resist, multiplicative. as a percentage.
-          0, //dam bonus multiplicative. as a percentage.
-          0, //discount as a percentage, multiplicative
-          0); //lifesteal multiplicative. as a percentage.
+        MakeEquipableItemTemplate("enchanted_tornado_bottle", //string ID
+"A bottled tornado. Holding the glass it's in, you can feel the power swirling around inside, as if the rage of a god was contained all within that small storm. The shopkeeper warns you not to open it, at least not near him. This one is enchanted.",//the desc
+"A small tornado swirling inside a bottle. Opening it could cause disaster.", //blurb
+"Tornado in a Bottle", //name
+shortSwordSprite, //sprite
+"uncommon", //rarity string
+3, //value in eyes
+1, //amount in birb's stock
+1, //default quantity
+true, //(true)beneficial or (false)harmful
+9, //speed bonus
+0, //health bonus
+25, //mana bonus
+0, //dmg bonus
+0, //defense bonus 
+0, //luck bonus 
+0, //healing, multiplicative. as a percentage.
+0, //dam resist, multiplicative. as a percentage.
+0, //dam bonus multiplicative. as a percentage.
+0, //discount as a percentage, multiplicative
+0); //lifesteal multiplicative. as a percentage.
 
-                                                                MakeEquipableItemTemplate("lucky_tornado_bottle", //string ID
-          "A bottled tornado. Holding the glass it's in, you can feel the power swirling around inside, as if the rage of a god was contained all within that small storm. The shopkeeper warns you not to open it, at least not near him. This one feels lucky.",//the desc
-          "A small tornado swirling inside a bottle. Opening it could cause disaster.", //blurb
-          "Tornado in a Bottle", //name
-          shortSwordSprite, //sprite
-          "uncommon", //rarity string
-          3, //value in eyes
-          1, //amount in birb's stock
-          1, //default quantity
-          true, //(true)beneficial or (false)harmful
-          9, //speed bonus
-          0, //health bonus
-          0, //mana bonus
-          0, //dmg bonus
-          0, //defense bonus 
-          10, //luck bonus 
-          0, //healing, multiplicative. as a percentage.
-          0, //dam resist, multiplicative. as a percentage.
-          0, //dam bonus multiplicative. as a percentage.
-          0, //discount as a percentage, multiplicative
-          0); //lifesteal multiplicative. as a percentage.
+        MakeEquipableItemTemplate("lucky_tornado_bottle", //string ID
+"A bottled tornado. Holding the glass it's in, you can feel the power swirling around inside, as if the rage of a god was contained all within that small storm. The shopkeeper warns you not to open it, at least not near him. This one feels lucky.",//the desc
+"A small tornado swirling inside a bottle. Opening it could cause disaster.", //blurb
+"Tornado in a Bottle", //name
+shortSwordSprite, //sprite
+"uncommon", //rarity string
+3, //value in eyes
+1, //amount in birb's stock
+1, //default quantity
+true, //(true)beneficial or (false)harmful
+9, //speed bonus
+0, //health bonus
+0, //mana bonus
+0, //dmg bonus
+0, //defense bonus 
+10, //luck bonus 
+0, //healing, multiplicative. as a percentage.
+0, //dam resist, multiplicative. as a percentage.
+0, //dam bonus multiplicative. as a percentage.
+0, //discount as a percentage, multiplicative
+0); //lifesteal multiplicative. as a percentage.
 
         MakeEquipableItemTemplate("life_amulet", //string ID
           "An amulet used to help nurse people back to health. Using a combination of rare gems imbued with various spells, the amulet can help protect the wearer from both phyisical damage, as well as viruses or infections.",//the desc
@@ -2748,8 +2756,12 @@ public class EntityDefiner : MonoBehaviour
                                    "The power which lies in the heart is not to be underestimated.", // blurb. wax poetic here as much as you want
                                    "Passive: Healing potions are less effective on this character.\nActive: <color=#45BA3D>Heal</color> Heals an ally for 50% HP.", //functional description
                                    null, //sprite
-                                   false); //false = t1. true = t2.
+                                   false,
+                                   MainData.MainLoop.TweakingComponent.CaringManaCost); //false = t1. true = t2.
                                            //gets automatically sent to the desired trait list upon generation, in the constructor
+
+        Debug.Log("Added new trait - [" + t1.identifier + "].");
+        MainData.traitList.Add(t1.identifier, t1);
 
         Trait t2 = new Trait("wrath", //string ID
                                    "Wrath", //name
@@ -2757,8 +2769,11 @@ public class EntityDefiner : MonoBehaviour
                                    "wrath stuff", // blurb. wax poetic here as much as you want
                                    "Passive:  Increased damage, lower defense.\nActive: <color=#F87777>Double Strike</color> Attacks twice.", //functional description
                                    null, //sprite
-                                   false); //false = t1. true = t2.
-        //gets automatically sent to the desired trait list upon generation, in the constructor
+                                   false,
+                                   MainData.MainLoop.TweakingComponent.WrathManaCost); //false = t1. true = t2.
+                                           //gets automatically sent to the desired trait list upon generation, in the constructor
+        Debug.Log("Added new trait - [" + t2.identifier + "].");
+        MainData.traitList.Add(t2.identifier, t2);
 
         Trait t3 = new Trait("greed", //string ID
                                    "Greed", //name
@@ -2766,8 +2781,11 @@ public class EntityDefiner : MonoBehaviour
                                    "greed stuff", // blurb. wax poetic here as much as you want
                                    "Passive: 10% loot bonus when completing a battle.\nActive: <color=#E8BE0D>Barter</color> Exchange some HP for gold during a battle", //functional description
                                    null, //sprite
-                                   false); //false = t1. true = t2.
-        //gets automatically sent to the desired trait list upon generation, in the constructor
+                                   false,
+                                   MainData.MainLoop.TweakingComponent.GreedManaCost); //false = t1. true = t2.
+                                           //gets automatically sent to the desired trait list upon generation, in the constructor
+        Debug.Log("Added new trait - [" + t3.identifier + "].");
+        MainData.traitList.Add(t3.identifier, t3);
 
         Trait t4 = new Trait("angry", //string ID
                                    "Anger", //name
@@ -2775,9 +2793,11 @@ public class EntityDefiner : MonoBehaviour
                                    "anger stuff.", // blurb. wax poetic here as much as you want
                                    "Passive: Taking damage increases the power of this unit’s next attack.\nActive: <color=#FF2C22>Lash out</color> Heals an ally for 50% HP.", //functional description
                                    null, //sprite
-                                   false); //false = t1. true = t2.
+                                   false,
+                                   MainData.MainLoop.TweakingComponent.AngerManaCost); //false = t1. true = t2.
         //gets automatically sent to the desired trait list upon generation, in the constructor
-
+        Debug.Log("Added new trait - [" + t4.identifier + "].");
+        MainData.traitList.Add(t4.identifier, t4);
 
 
 
@@ -2995,6 +3015,7 @@ public class EntityDefiner : MonoBehaviour
     {
 
         public List<Item> equippedItems = new List<Item>(); //this does not contain any consumables. those are in the collective inventory pool. this only contains items with isEquipable = true, which have an effect on stats
+        public List<Item> recentlyUnequippedItemsHP = new List<Item>(); //for removing HP after unequipping
         public Trait charTrait;
 
         public float threatFromStats;
@@ -3027,14 +3048,15 @@ public class EntityDefiner : MonoBehaviour
         public int baseDamageMax; //NOTE - damage is taken into calculation directly in the attack method.
         public int baseSpeed; //good to go
         public Slider HealthBar;
-
+        public Slider ManaBar;
 
         public int damageMin;
         public int damageMax;//handled
         public int speed; //NOTE - these are calculated by calling the GetCompoundSpeed(), GetCompoundDefense() and GetCompoundLuck() methods, just like you'd use the variable
         public int defense; //handled in attacking code
-        public int luck; //not yet
-        public int mana; //not yet
+        public int luck; //negative luck - more chance to critfail. positive luck - more chance to critical hit/win. always a bit of a chance to have a critical fail or win.
+        public int manaRegeneration; //soon
+        public int manaTotal; //always max 100. regenerates at a variable rate.
         public int difficultyCost;
 
         public bool canAct = true; //wether it's stunned or not
@@ -3099,7 +3121,9 @@ public class EntityDefiner : MonoBehaviour
         }
 
 
-
+        /// <summary>
+        /// poor tinman always gets smacked
+        /// </summary>
         public void RecalculateThreatFromStats()
         {
             threatFromStats = (speed + currentHealth + damageMin + defense) / 4; //averages them, sounds reasonable
@@ -3171,8 +3195,63 @@ public class EntityDefiner : MonoBehaviour
             }
 
         }
+        /// <summary>
+        /// is proc'd on equipping or unequipping items in the inventory
+        /// </summary>
+        public void RecalculateStatsFromItemsOutsideCombat()
+        {
+            if (recentlyUnequippedItemsHP.Count > 0)
+            {//purge stats of unequipped items so we don't mess up the stats
+                for (int i = 0; i < recentlyUnequippedItemsHP.Count; i++)
+                {//removes the health bonus/malus.
+                    maxHealth -= recentlyUnequippedItemsHP[i].healthmodifier;
+                    currentHealth -= recentlyUnequippedItemsHP[i].healthmodifier;
+                }
+                if (currentHealth <= 0)
+                {
+                    MainData.MainLoop.EventLoggingComponent.LogGray("Loss of life-sustaining items sent " + charName + " to the brink of death.");
+                    currentHealth = 1;
+                }
 
 
+
+                recentlyUnequippedItemsHP.Clear();
+            }
+
+            List<Item> eqCopy = new List<Item>(equippedItems); //so we can mess with the list it's made from without messing up the foreach loop
+            foreach (Item item in eqCopy)
+            {
+                if (item.healthmodifier != 0) //bonuses or maluses work
+                {
+                    //if for whatever reason the change brings you under 0 hp, remove it from inventory, but this shouldn't happen because we check for it on clicking an item in inventory
+                    if ((maxHealth + item.healthmodifier) < 0 || (currentHealth + item.healthmodifier) < 0)
+                    {
+                        MainData.equipmentInventory.Add(item);
+                        equippedItems.Remove(item);
+                        
+                        MainData.MainLoop.EventLoggingComponent.LogGray(charName + " tried to take" + item.itemName + " from the backpack, but hesitated at the last second.");
+                        //we skip over this iteration and remove the item from inventory. no need to remove from recentlyUnequippedItemsHP
+                    }
+                    else
+                    {
+                        maxHealth += item.healthmodifier;
+                        currentHealth += item.healthmodifier;
+                    } 
+                }
+            }
+
+
+        }
+
+
+        public void RegenerateMana()
+        {//simple
+            manaTotal += manaRegeneration;
+            if (manaTotal > 100)
+            {
+                manaTotal = 100;
+            }
+        }
 
 
         /// <summary>
@@ -3265,6 +3344,8 @@ public class EntityDefiner : MonoBehaviour
         }
         public void TakeDamageFromCharacter(Character attacker)
         {
+
+
             //here we deal with the generic damage modification
             int damagemod = 0;
             int defensemod = 0;
@@ -3314,10 +3395,10 @@ public class EntityDefiner : MonoBehaviour
                 defense = 0;
             }
             //MainData.MainLoop.EventLoggingComponent.Log("damage without modifiers - " + (damageRoll - damagemod) + ", defense without modifiers " + (defense - defensemod));
-            MainData.MainLoop.EventLoggingComponent.Log(attacker.charName + " " + attacker.attackverb + " the " + charName + " for " + (damageRoll + defense) + " damage. Armor protects for " + defense + " damage!");
 
 
 
+            string lifestealText = "";
             //Lifesteal
             if (attacker.equippedItems.FindIndex(f => f.Lifesteal > 0) != -1) //it returns -1 if none are found
             {
@@ -3333,7 +3414,8 @@ public class EntityDefiner : MonoBehaviour
 
                 }
                 lifestealmod /= countyy; //averages the lifesteal
-                int percentageheal = (damageRoll / 100) * lifestealmod; //could also add health amp here but seems overkill
+                int percentageheal = (damageRoll / 100) * lifestealmod; //could also add health amp here but seems overkill;
+                lifestealText = percentageheal.ToString();
                 attacker.GainHealth(percentageheal);
             }
 
@@ -3355,8 +3437,9 @@ public class EntityDefiner : MonoBehaviour
                 }
             }
 
+            ///// BASIC DAMAGE AND DEFENSE MODIFIERS FROM ITEMS 
 
-            MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(damageRoll, this, false);
+
             int damageMult = 0;
             int damageResist = 0;
             if (attacker.equippedItems.FindIndex(f => f.DamageBonusPercentage > 0) != -1) //it returns -1 if none are found
@@ -3383,8 +3466,82 @@ public class EntityDefiner : MonoBehaviour
             {
                 damageRoll = damageRoll / 100 * (100 - damageResist);
             }
+
+            int temp = defense;//temporary value so we can show that the hit passed through armor
+
+            //LUCK
+            string luckmessage = "";
+            //d100
+            //if the character's luck is negative, we increase the range where unluck happens
+            //if the character's luck is positive, we increase the range where luck happens
+            int unluckRange = 15; //if smaller than this, unlucky
+            int luckRange = 85; //if larger than this, lucky
+            if (luck >= 0)
+                luckRange -= luck; //bigger range
+            else
+                unluckRange += luck; //bigger range
+            int luckNumber = Random.Range(1, 101) + luck; //the character's luck is added on top of the random roll. Negative luck - more bad stuff happens
+            //relational switch cases are not available in this C# version so imma just use if 
+
+            //BAD LUCK HERE =================================
+            if (luckNumber <= 1)
+            { //CRITICAL FAILURE - TRIP
+                attacker.currentStatusEffects.Add(new StatusEffect("stun", "This character is stunned.", 1));
+                luckmessage = attacker.charName + " tries to attack " + charName + ", but through a twist of fate slips and bumps their head on a rock!";
+                return;
+            }
+            else if (luckNumber < 5)
+            {//MISS
+               MainData.MainLoop.EventLoggingComponent.Log(attacker.charName + " attempts to attack " + charName + ", but ill luck strikes and + " + attacker.charName + " misses!");
+                return;
+            }
+
+            else if (5 <= luckNumber && luckNumber <= unluckRange)
+            { //GLANCING HIT
+                damageRoll /= 3;
+                luckmessage = "Glancing hit! Damage reduced to a third.";
+            }
+
+
+
+
+
+            
+            //GOOD LUCK HERE ========================================
+            else if (luckNumber >= 100)
+            { //CRITICAL SUCCESS - DOUBLE DAMAGE + STUN
+                this.currentStatusEffects.Add(new StatusEffect("stun", "This character is stunned.", 1));
+                luckmessage = attacker.charName + " slips through " + this.charName + "'s defense and lands an eviscerating hit! "+ this.charName + " is stunned! (2x Damage, Stun)";
+                damageRoll = (damageRoll + defense) * 2; //double damage and passed through armor, stuns
+                temp = 0; 
+            }
+            else if (luckNumber > 15)
+            {//CRITICAL HIT - DOUBLE DAMAGE and IGNORES ARMOR
+                luckmessage = attacker.charName + " slips through " + this.charName + "'s defense and lands an eviscerating hit! (2x Damage)";
+                damageRoll = (damageRoll + defense) * 2; //double damage and passed through armor
+                temp = 0;
+            }
+
+            else if (luckRange <= luckNumber && luckNumber <= 100)
+            { //SOLID BLOW. improved damage
+                damageRoll = (int)(damageRoll * 1.5f); 
+                luckmessage = " What a solid blow! (1.5X Damage)";
+            }
+
+            // STATUS EFFECTS
+
+
+
+
+            //
             //(2 / 10) * 100
+
             currentHealth -= damageRoll; //INCORPORATED ARMOR CALCULATION HERE 
+            MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(damage: damageRoll, target: this, heal: false);
+            if (luckmessage != "") MainData.MainLoop.EventLoggingComponent.Log(luckmessage); //we describe the attack if it was special in some way.
+            MainData.MainLoop.EventLoggingComponent.Log(attacker.charName + " " + attacker.attackverb + " the " + charName + " for " + (damageRoll + temp) + " damage. Armor protects for " + temp + " damage! " + luckmessage);
+            if (lifestealText != "") MainData.MainLoop.EventLoggingComponent.Log(attacker.charName + " regains " + lifestealText + " health!");
+           
             attacker.Threat += (damageRoll); // WE APPLY THREAT
             selfScriptRef.GotHurt();
             if (!isPlayerPartyMember)
@@ -3394,7 +3551,7 @@ public class EntityDefiner : MonoBehaviour
             }
             else
             {
-                MainData.MainLoop.UserInterfaceHelperComponent.RefreshHealthBarPlayer();
+                MainData.MainLoop.UserInterfaceHelperComponent.RefreshHealthManaBarsPlayer();
             }
             if (currentHealth <= 0)
             {
@@ -3412,7 +3569,7 @@ public class EntityDefiner : MonoBehaviour
         { //generic take damage function
             currentHealth -= dmg;
             MainData.MainLoop.EventLoggingComponent.Log(this.charName + " is hurt " + "for " + dmg + " damage!");
-            MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(dmg, this, false);
+            MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(damage: dmg, target: this, heal: false);
 
             if (!isPlayerPartyMember)
             {//this updates the health bar so we don't run the whole big total refresh method
@@ -3421,7 +3578,7 @@ public class EntityDefiner : MonoBehaviour
             }
             else
             {
-                MainData.MainLoop.UserInterfaceHelperComponent.RefreshHealthBarPlayer();
+                MainData.MainLoop.UserInterfaceHelperComponent.RefreshHealthManaBarsPlayer();
             }
             if (currentHealth <= 0)
             {
@@ -3444,10 +3601,10 @@ public class EntityDefiner : MonoBehaviour
             }
             Debug.LogWarning(hp + " is the health value gained pre formula.");
             float b = (hp / 100) * (100 + healthAmp);
-            hp = (int)hp;
+            hp = Mathf.RoundToInt(b);
             Debug.LogWarning(hp + " is the health value gained post formula.");
             currentHealth += hp;
-            MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(hp, this, true);
+            MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(target: this, damage: hp, heal: true);
 
             //if (!isPlayerPartyMember)
             //{//this updates the health bar so we don't run the whole big total refresh method
@@ -3563,7 +3720,7 @@ public class EntityDefiner : MonoBehaviour
                     MainData.equipmentInventory.Add(item);
                 }
                 equippedItems.Clear();
-                MainData.MainLoop.UserInterfaceHelperComponent.RefreshHealthBarPlayer();
+                MainData.MainLoop.UserInterfaceHelperComponent.RefreshHealthManaBarsPlayer();
 
                 if (MainData.livingPlayerParty.Count == 0)
                 {

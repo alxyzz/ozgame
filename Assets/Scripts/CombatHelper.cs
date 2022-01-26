@@ -6,7 +6,7 @@ using static EntityDefiner;
 
 public class CombatHelper : MonoBehaviour
 {
-   // private bool endNext = false;
+    // private bool endNext = false;
     public float textFloatingDuration;
     public float textFloatSpeed;
     public float textOffset;
@@ -38,29 +38,59 @@ public class CombatHelper : MonoBehaviour
 
 
 
-
-    public void DisplayFloatingDamageNumbers(int damage, Character target, bool heal)
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="target">target from where the indicator floats</param>
+    /// <param name="message"> custom message for various things</param>
+    /// <param name="damage"> damage if relevant</param>
+    /// <param name="heal"> wether it's damage or healing. affects color</param>
+    public void DisplayFloatingDamageNumbers(Character target, string message = null, int damage = 0, bool heal = false)
     {
+
+
+
+
 
         GameObject TextObject = ObjectPooling.Instance.SpawnFromPool("damage_indicator", Camera.main.WorldToScreenPoint(target.selfScriptRef.transform.position), Quaternion.identity);
 
         TextObject.transform.SetParent(DamageIndicatorCanvas.transform);
         TextMeshProUGUI ourtext = TextObject.GetComponent<TextMeshProUGUI>();
-        if (heal)
+        if (message != null)
         {
-            ourtext.color = new Color(0.701f, 1f, 0.745f);
+            ourtext.color = Color.white;
+            ourtext.text = message;
+            if (damage != 0)
+            {//if there's damage too, put it on the next line
+                ourtext.text += "\n" + damage;
+            }
+        }
+        if (damage == 0)
+        {
+            Debug.LogError("DisplayFloatingDamageNumbers() was not provided with a damage value, nor a message.");
+            return;
         }
         else
         {
-            ourtext.color = new Color(0.996f, 0.380f, 0.345f);
+            if (heal)
+            {
+                ourtext.color = new Color(0.701f, 1f, 0.745f);
+            }
+            else
+            {
+                ourtext.color = new Color(0.996f, 0.380f, 0.345f);
+            }
+            ourtext.text = damage.ToString();
+            if (damage > 50 && !heal)
+            {
+                ourtext.text += "!";
+                ourtext.color = Color.red;
+                //switch color to red and add a !
+            }
         }
-        ourtext.text = damage.ToString();
-        if (damage > 50)
-        {
-            ourtext.text += "!";
-            ourtext.color = Color.red;
-            //switch color to red and add a !
-        }
+
+
+
 
         StartCoroutine(FloatingTextVisuals(target, TextObject));
     }
@@ -105,7 +135,7 @@ public class CombatHelper : MonoBehaviour
                     MainData.MainLoop.EventLoggingComponent.LogDanger("It is now " + combatants[i].charName + "'s turn!");
                 }
             }
-            
+
 
 
 
@@ -114,7 +144,7 @@ public class CombatHelper : MonoBehaviour
                 yield return new WaitUntil(() => combatants[i - 1].hasActedThisTurn == true);
             }
 
-            
+
 
 
             if (combatants[i].isDead || !combatants[i].canAct || MainData.livingEnemyParty.Count < 1)
@@ -154,7 +184,7 @@ public class CombatHelper : MonoBehaviour
                     }
                     else
                     {
-                        
+
 
                         allHaveActed = true;
                         EndCurrentTurn();
@@ -215,9 +245,11 @@ public class CombatHelper : MonoBehaviour
         foreach (Character item in MainData.livingPlayerParty)
         {
             item.RecalculateStatsFromTraits();
-            //item.RecalculateStatsFromItems(); this is done when we attack or use the stat in most cases, using either GetCompoundSpeed() or such, or a foreach loop looking into the items
+            //item stats are dealt with on being equipped anyways
+            item.RegenerateMana();
             item.RecalculateThreatFromStats();
         }
+        MainData.MainLoop.UserInterfaceHelperComponent.RefreshCharacterTabs();
         string b = "";
         combatants.Sort((x, y) => y.GetCompoundSpeed().CompareTo(x.GetCompoundSpeed()));
         foreach (Character item in combatants)
@@ -284,20 +316,33 @@ public class CombatHelper : MonoBehaviour
 
         //add a click sound here
     }
+
+
+
+
     public void ClickTraitAbility()
     {
 
         GameManager gameloop = MainData.MainLoop;
 
-        if (!activeCharacterWorldspaceObject.associatedCharacter.charTrait.forceCooldown && (activeCharacterWorldspaceObject.associatedCharacter.mana >= activeCharacterWorldspaceObject.associatedCharacter.charTrait.manaCost))
+        if (!activeCharacterWorldspaceObject.associatedCharacter.charTrait.forceCooldown) //Check if cooldown is forced
         {
+            if (activeCharacterWorldspaceObject.associatedCharacter.manaTotal < activeCharacterWorldspaceObject.associatedCharacter.charTrait.manaCost)// we check wether we have enough mana here.
+            {
+                MainData.MainLoop.EventLoggingComponent.Log(activeCharacterWorldspaceObject.associatedCharacter.charName + " does not have enough mana to express their " + activeCharacterWorldspaceObject.associatedCharacter.charTrait.traitName + "!");
+                //a failure sound, here
+                return;
+            }
+
             switch (activeCharacterWorldspaceObject.associatedCharacter.charTrait.identifier)
             {
                 case "caring"://so yeah this is where active traits go
                     //heal target. allied target.
                     if (activeTarget == null) { return; }
                     if (activeTarget.associatedCharacter == null) { return; }
-
+                    
+                    
+                   
                     if (activeTarget.associatedCharacter.isPlayerPartyMember)
                     {
 
@@ -313,7 +358,7 @@ public class CombatHelper : MonoBehaviour
                             int healing = (activeTarget.associatedCharacter.maxHealth / 100) * (MainData.MainLoop.TweakingComponent.caringActiveHealing);
                             activeTarget.associatedCharacter.GainHealth(gameloop.TweakingComponent.caringActiveHealing);
                             gameloop.EventLoggingComponent.Log(activeCharacterWorldspaceObject.associatedCharacter.charName + "'s caring nature mends " + activeTarget.associatedCharacter.charName + "'s wounds for " + healing + " health!");
-                            activeCharacterWorldspaceObject.associatedCharacter.mana -= activeCharacterWorldspaceObject.associatedCharacter.charTrait.manaCost;
+                            activeCharacterWorldspaceObject.associatedCharacter.manaRegeneration -= activeCharacterWorldspaceObject.associatedCharacter.charTrait.manaCost;
                             activeTarget.associatedCharacter.GainHealth(healing);
                             EndCurrentTurn();
                         }
@@ -367,7 +412,7 @@ public class CombatHelper : MonoBehaviour
                     {//in case the enemy just gets killed immediately
                         activeTarget.associatedCharacter.TakeDamageFromCharacter(activeCharacterWorldspaceObject.associatedCharacter);
                     }
-                    
+
                     EndCurrentTurn();
 
                     break;
@@ -376,6 +421,8 @@ public class CombatHelper : MonoBehaviour
                 default:
                     break;
             }
+            activeCharacterWorldspaceObject.associatedCharacter.manaTotal -= activeCharacterWorldspaceObject.associatedCharacter.charTrait.manaCost; //take the mana for the trait use.
+            MainData.MainLoop.UserInterfaceHelperComponent.RefreshCharacterTabs();
         }
 
         EndCurrentTurn();
@@ -440,7 +487,7 @@ public class CombatHelper : MonoBehaviour
 
         }
 
-       
+
 
     }
     /// <summary>
@@ -520,10 +567,10 @@ public class CombatHelper : MonoBehaviour
 
         yield return new WaitForSeconds(0.05f);
 
-            ReturnFromActiveSpot();
-            activeCharacterWorldspaceObject.associatedCharacter.hasActedThisTurn = true;
-            EndCurrentTurn();
-        
+        ReturnFromActiveSpot();
+        activeCharacterWorldspaceObject.associatedCharacter.hasActedThisTurn = true;
+        EndCurrentTurn();
+
 
 
 
@@ -616,7 +663,7 @@ public class CombatHelper : MonoBehaviour
             return;
         }
 
-        
+
         //highlights the current target, checks if there is no target in which case it hides the highlight
         if (!activeTarget.associatedCharacter.isDead || activeTarget.associatedCharacter.canAct)
         {

@@ -38,7 +38,7 @@ public class TraitHelper : MonoBehaviour
         /// <param name="description">description, longer</param>
         /// <param name="sprit">the sprite of the trait</param>
         /// <param name="t2">true if it's a tier 2 trait, false if it's t1</param>
-        public Trait(string id, string name, string adjec, string blurb, string description, Sprite sprit, bool t2)
+        public Trait(string id, string name, string adjec, string blurb, string description, Sprite sprit, bool t2, int ManaCost)
         {
             this.identifier = id;
             this.traitName = name;
@@ -46,6 +46,7 @@ public class TraitHelper : MonoBehaviour
             this.adjective = adjec;
             this.traitDescription = description;
             this.traitSprite = sprit;
+            this.manaCost = ManaCost;
             if (t2)
             {
                 if (!MainData.t2traitList.ContainsKey(id))
@@ -69,8 +70,7 @@ public class TraitHelper : MonoBehaviour
                 }
 
             }
-            Debug.Log("Added new trait - [" + this.identifier + "].");
-            MainData.traitList.Add(id, this);
+            
         }
 
         public object Clone()
