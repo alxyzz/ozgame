@@ -625,7 +625,7 @@ public class UserInterfaceHelper : MonoBehaviour
             fourthCharName.text = PC4.associatedCharacter.charName;
             PC4.associatedCharacter.HealthBar = fourthHealthBar;
             pc4Miniview.associatedCharacter = PC4.associatedCharacter;
-            if (PC1.associatedCharacter.charTrait != null)
+            if (PC4.associatedCharacter.charTrait != null)
             {
                 fourthCharTrait.text = PC4.associatedCharacter.charTrait.adjective;
             }
