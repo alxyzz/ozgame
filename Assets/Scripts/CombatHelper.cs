@@ -67,7 +67,7 @@ public class CombatHelper : MonoBehaviour
         }
         if (damage == 0)
         {
-            Debug.LogError("DisplayFloatingDamageNumbers() was not provided with a damage value, nor a message.");
+           //this happens for caring's ability used on full hp char
             return;
         }
         else
@@ -116,6 +116,7 @@ public class CombatHelper : MonoBehaviour
     }
     IEnumerator DoPatientCombatRound(List<Character> combatants)
     {//it waits for the current round to end, before it gives the next combatant the opportunity to fight.
+        
         Debug.LogWarning("Now doing combat turn. Patiently.");
         if (AreEnemiesDead())
         {
@@ -360,6 +361,7 @@ public class CombatHelper : MonoBehaviour
                             gameloop.EventLoggingComponent.Log(activeCharacterWorldspaceObject.associatedCharacter.charName + "'s caring nature mends " + activeTarget.associatedCharacter.charName + "'s wounds for " + healing + " health!");
                             activeCharacterWorldspaceObject.associatedCharacter.manaRegeneration -= activeCharacterWorldspaceObject.associatedCharacter.charTrait.manaCost;
                             activeTarget.associatedCharacter.GainHealth(healing);
+                            activeCharacterWorldspaceObject.associatedCharacter.manaTotal -= activeCharacterWorldspaceObject.associatedCharacter.charTrait.manaCost;
                             EndCurrentTurn();
                         }
 
@@ -380,11 +382,13 @@ public class CombatHelper : MonoBehaviour
                         activeCharacterWorldspaceObject.associatedCharacter.TakeDamage(gameloop.TweakingComponent.greedActiveSelfDamage);
                         gameloop.Currency += MainData.MainLoop.TweakingComponent.greedActiveRevenue;
                         gameloop.UserInterfaceHelperComponent.UpdateCurrencyCounter();
+                        activeCharacterWorldspaceObject.associatedCharacter.manaTotal -= activeCharacterWorldspaceObject.associatedCharacter.charTrait.manaCost;
                         EndCurrentTurn();
                     }
                     else
                     {
                         gameloop.EventLoggingComponent.Log("Too wounded! " + activeCharacterWorldspaceObject.associatedCharacter.charName + " is still not ready to sell their soul completely.");
+
                         EndCurrentTurn();
                     }
                     break;
@@ -397,6 +401,7 @@ public class CombatHelper : MonoBehaviour
                     activeCharacterWorldspaceObject.associatedCharacter.damageMin -= gameloop.TweakingComponent.angryActiveDamageMalus;
                     gameloop.EventLoggingComponent.Log(activeCharacterWorldspaceObject.associatedCharacter.charName + " lashes out! " + activeTarget.associatedCharacter.charName + " takes " + gameloop.TweakingComponent.angryActivePowerDamage + " damage!");
                     activeTarget.associatedCharacter.TakeDamage(gameloop.TweakingComponent.angryActivePowerDamage);
+                    activeCharacterWorldspaceObject.associatedCharacter.manaTotal -= activeCharacterWorldspaceObject.associatedCharacter.charTrait.manaCost;
                     EndCurrentTurn();
 
                     break;
@@ -412,7 +417,7 @@ public class CombatHelper : MonoBehaviour
                     {//in case the enemy just gets killed immediately
                         activeTarget.associatedCharacter.TakeDamageFromCharacter(activeCharacterWorldspaceObject.associatedCharacter);
                     }
-
+                    activeCharacterWorldspaceObject.associatedCharacter.manaTotal -= activeCharacterWorldspaceObject.associatedCharacter.charTrait.manaCost;
                     EndCurrentTurn();
 
                     break;
@@ -421,7 +426,7 @@ public class CombatHelper : MonoBehaviour
                 default:
                     break;
             }
-            activeCharacterWorldspaceObject.associatedCharacter.manaTotal -= activeCharacterWorldspaceObject.associatedCharacter.charTrait.manaCost; //take the mana for the trait use.
+             //take the mana for the trait use.
             MainData.MainLoop.UserInterfaceHelperComponent.RefreshCharacterTabs();
         }
 
@@ -638,7 +643,7 @@ public class CombatHelper : MonoBehaviour
     {
         if (activeCharacterWorldspaceObject != null)
         {
-            Debug.LogWarning("Could not move " + chara.gameObject.name + ", CurrentlyActiveChar is not null");
+            //Debug.LogWarning("Could not move " + chara.gameObject.name + ", CurrentlyActiveChar is not null");
             return;
         }
         chara.transform.position = ActiveCharSpot.transform.position; //replace this with the sliding thing
