@@ -61,7 +61,6 @@ public class CombatHelper : MonoBehaviour
                 ourtext.text += "\n" + damage;
             }
         }
-        
         else
         {
             if (heal)
@@ -407,7 +406,15 @@ public class CombatHelper : MonoBehaviour
                     activeTarget.associatedCharacter.TakeDamageFromCharacter(activeCharacterWorldspaceObject.associatedCharacter);
                     if (MainData.livingEnemyParty.Count > 0)
                     {//in case the enemy just gets killed immediately
-                        activeTarget.associatedCharacter.TakeDamageFromCharacter(activeCharacterWorldspaceObject.associatedCharacter);
+                        if (activeTarget != null)
+                        {
+                            if (activeTarget.associatedCharacter != null)
+                            {
+                                activeTarget.associatedCharacter.TakeDamageFromCharacter(activeCharacterWorldspaceObject.associatedCharacter);
+                            }
+                            
+                        }
+                        
                     }
                     activeCharacterWorldspaceObject.associatedCharacter.manaTotal -= activeCharacterWorldspaceObject.associatedCharacter.charTrait.manaCost;
                     EndCurrentTurn();

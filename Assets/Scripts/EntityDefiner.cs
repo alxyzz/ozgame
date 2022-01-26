@@ -3456,6 +3456,8 @@ true, //(true)beneficial or (false)harmful
             int temp = defense;//temporary value so we can show that the hit passed through armor
 
             //LUCK
+            bool critical = false;
+            bool solidblow = false;
             string luckmessage = "";
             //d100
             int luckAfterItems = attacker.GetCompoundLuck();
@@ -3467,12 +3469,15 @@ true, //(true)beneficial or (false)harmful
             if (randomLuck <= 1)
             { //CRITICAL FAILURE - TRIP
                 attacker.currentStatusEffects.Add(new StatusEffect("stun", "This character is stunned.", 1));
+
                 luckmessage = attacker.charName + " tries to attack " + charName + ", but through a twist of fate slips and bumps their head on a rock!";
+                MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(message: "Stunned!", target: attacker, heal: false);
                 return;
             }
             else if (randomLuck <= 5)
             {//MISS
                MainData.MainLoop.EventLoggingComponent.Log(attacker.charName + " attempts to attack " + charName + ", but ill luck strikes and + " + attacker.charName + " misses!");
+                MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(message: "Miss!", target: attacker, heal: false);
                 return;
             }
 
@@ -3491,6 +3496,7 @@ true, //(true)beneficial or (false)harmful
             else if (randomLuck >= 100)
             { //CRITICAL SUCCESS - DOUBLE DAMAGE + STUN
                 this.currentStatusEffects.Add(new StatusEffect("stun", "This character is stunned.", 1));
+                MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(message: "Stunned!", target: this, heal: false);
                 luckmessage = attacker.charName + " slips through " + this.charName + "'s defense and lands an eviscerating hit! "+ this.charName + " is stunned! (2x Damage, Stun)";
                 damageRoll = (damageRoll + defense) * 0; //double damage and passed through armor, stuns
                 temp = 0; 
@@ -3499,6 +3505,7 @@ true, //(true)beneficial or (false)harmful
             {//CRITICAL HIT - DOUBLE DAMAGE and IGNORES ARMOR
                 luckmessage = attacker.charName + " slips through " + this.charName + "'s defense and lands an eviscerating hit! (2x Damage)";
                 damageRoll = (damageRoll + defense) * 2; //double damage and passed through armor
+                critical = true;
                 temp = 0;
             }
 
@@ -3506,6 +3513,7 @@ true, //(true)beneficial or (false)harmful
             { //SOLID BLOW. improved damage
                 damageRoll = (int)(damageRoll * 1.5f); 
                 luckmessage = " What a solid blow! (1.5X Damage)";
+                solidblow = true;
             }
 
             // STATUS EFFECTS
@@ -3517,7 +3525,18 @@ true, //(true)beneficial or (false)harmful
             //(2 / 10) * 100
 
             currentHealth -= damageRoll; //INCORPORATED ARMOR CALCULATION HERE 
-            MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(damage: damageRoll, target: this, heal: false);
+            if (solidblow)
+            {
+                MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(damage: damageRoll, target: this, heal: false, message: "Solid Blow!");
+            }
+            else if (critical)
+            {
+                MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(damage: damageRoll, target: this, heal: false, message: "Critical!");
+            } else {
+
+                MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(damage: damageRoll, target: this, heal: false);
+            }
+            
             if (luckmessage != "") MainData.MainLoop.EventLoggingComponent.LogGray(luckmessage); //we describe the attack if it was special in some way.
             MainData.MainLoop.EventLoggingComponent.Log(attacker.charName + " " + attacker.attackverb + " the " + charName + " for " + (damageRoll + temp) + " damage. Armor protects for " + temp + " damage! ");
             if (lifestealText != "") MainData.MainLoop.EventLoggingComponent.Log(attacker.charName + " regains " + lifestealText + " health!");
