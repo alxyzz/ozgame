@@ -245,9 +245,11 @@ public class CombatHelper : MonoBehaviour
         foreach (Character item in MainData.livingPlayerParty)
         {
             item.RecalculateStatsFromTraits();
-            //item.RecalculateStatsFromItems(); this is done when we attack or use the stat in most cases, using either GetCompoundSpeed() or such, or a foreach loop looking into the items
+            //item stats are dealt with on being equipped anyways
+            item.RegenerateMana();
             item.RecalculateThreatFromStats();
         }
+        MainData.MainLoop.UserInterfaceHelperComponent.RefreshCharacterTabs();
         string b = "";
         combatants.Sort((x, y) => y.GetCompoundSpeed().CompareTo(x.GetCompoundSpeed()));
         foreach (Character item in combatants)
@@ -314,20 +316,33 @@ public class CombatHelper : MonoBehaviour
 
         //add a click sound here
     }
+
+
+
+
     public void ClickTraitAbility()
     {
 
         GameManager gameloop = MainData.MainLoop;
 
-        if (!activeCharacterWorldspaceObject.associatedCharacter.charTrait.forceCooldown && (activeCharacterWorldspaceObject.associatedCharacter.mana >= activeCharacterWorldspaceObject.associatedCharacter.charTrait.manaCost))
+        if (!activeCharacterWorldspaceObject.associatedCharacter.charTrait.forceCooldown) //Check if cooldown is forced
         {
+            if (activeCharacterWorldspaceObject.associatedCharacter.manaTotal < activeCharacterWorldspaceObject.associatedCharacter.charTrait.manaCost)// we check wether we have enough mana here.
+            {
+                MainData.MainLoop.EventLoggingComponent.Log(activeCharacterWorldspaceObject.associatedCharacter.charName + " does not have enough mana to express their " + activeCharacterWorldspaceObject.associatedCharacter.charTrait.traitName + "!");
+                //a failure sound, here
+                return;
+            }
+
             switch (activeCharacterWorldspaceObject.associatedCharacter.charTrait.identifier)
             {
                 case "caring"://so yeah this is where active traits go
                     //heal target. allied target.
                     if (activeTarget == null) { return; }
                     if (activeTarget.associatedCharacter == null) { return; }
-
+                    
+                    
+                   
                     if (activeTarget.associatedCharacter.isPlayerPartyMember)
                     {
 
@@ -343,7 +358,7 @@ public class CombatHelper : MonoBehaviour
                             int healing = (activeTarget.associatedCharacter.maxHealth / 100) * (MainData.MainLoop.TweakingComponent.caringActiveHealing);
                             activeTarget.associatedCharacter.GainHealth(gameloop.TweakingComponent.caringActiveHealing);
                             gameloop.EventLoggingComponent.Log(activeCharacterWorldspaceObject.associatedCharacter.charName + "'s caring nature mends " + activeTarget.associatedCharacter.charName + "'s wounds for " + healing + " health!");
-                            activeCharacterWorldspaceObject.associatedCharacter.mana -= activeCharacterWorldspaceObject.associatedCharacter.charTrait.manaCost;
+                            activeCharacterWorldspaceObject.associatedCharacter.manaRegeneration -= activeCharacterWorldspaceObject.associatedCharacter.charTrait.manaCost;
                             activeTarget.associatedCharacter.GainHealth(healing);
                             EndCurrentTurn();
                         }
@@ -406,6 +421,8 @@ public class CombatHelper : MonoBehaviour
                 default:
                     break;
             }
+            activeCharacterWorldspaceObject.associatedCharacter.manaTotal -= activeCharacterWorldspaceObject.associatedCharacter.charTrait.manaCost; //take the mana for the trait use.
+            MainData.MainLoop.UserInterfaceHelperComponent.RefreshCharacterTabs();
         }
 
         EndCurrentTurn();

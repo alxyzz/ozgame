@@ -12180,6 +12180,60 @@ MonoBehaviour:
   - {fileID: 9119808398692718170, guid: 9541f4594ccea944ab521c4f3ce57c4d, type: 3}
   - {fileID: 8222927616543567879, guid: 9541f4594ccea944ab521c4f3ce57c4d, type: 3}
   - {fileID: -5405946072551375038, guid: 9541f4594ccea944ab521c4f3ce57c4d, type: 3}
+  emeraldAttackSheet:
+  - {fileID: 1911782237783817021, guid: 58969e1c232b591428eb95c446e5aa60, type: 3}
+  - {fileID: 5106410157733136316, guid: 58969e1c232b591428eb95c446e5aa60, type: 3}
+  - {fileID: -2023805079525420340, guid: 58969e1c232b591428eb95c446e5aa60, type: 3}
+  - {fileID: 566771371485862291, guid: 58969e1c232b591428eb95c446e5aa60, type: 3}
+  - {fileID: 808037484166581360, guid: 58969e1c232b591428eb95c446e5aa60, type: 3}
+  - {fileID: 7089071414133586918, guid: 58969e1c232b591428eb95c446e5aa60, type: 3}
+  - {fileID: -3489703798651128856, guid: 58969e1c232b591428eb95c446e5aa60, type: 3}
+  - {fileID: -4034028596317336399, guid: 58969e1c232b591428eb95c446e5aa60, type: 3}
+  - {fileID: -171112409287005809, guid: 58969e1c232b591428eb95c446e5aa60, type: 3}
+  - {fileID: -7255090858744313379, guid: 58969e1c232b591428eb95c446e5aa60, type: 3}
+  - {fileID: 1894306252548066816, guid: 58969e1c232b591428eb95c446e5aa60, type: 3}
+  - {fileID: -1477715599373289777, guid: 58969e1c232b591428eb95c446e5aa60, type: 3}
+  - {fileID: 305528071613072333, guid: 58969e1c232b591428eb95c446e5aa60, type: 3}
+  emeraldHurtSheet:
+  - {fileID: 2075825730913533788, guid: edef2ce378041f148ae3ba655f0ddf9f, type: 3}
+  - {fileID: 8239506987302427618, guid: edef2ce378041f148ae3ba655f0ddf9f, type: 3}
+  - {fileID: -4338118297916561601, guid: edef2ce378041f148ae3ba655f0ddf9f, type: 3}
+  - {fileID: -4670095380038357989, guid: edef2ce378041f148ae3ba655f0ddf9f, type: 3}
+  - {fileID: -7180585383878743264, guid: edef2ce378041f148ae3ba655f0ddf9f, type: 3}
+  - {fileID: 4205942781842681987, guid: edef2ce378041f148ae3ba655f0ddf9f, type: 3}
+  - {fileID: -5205258256691514323, guid: edef2ce378041f148ae3ba655f0ddf9f, type: 3}
+  - {fileID: -2861124379360387359, guid: edef2ce378041f148ae3ba655f0ddf9f, type: 3}
+  - {fileID: 9115615564771337829, guid: edef2ce378041f148ae3ba655f0ddf9f, type: 3}
+  emeraldIdleSheet: []
+  witchAttackSheet:
+  - {fileID: 4717779163641589185, guid: 48c638356e842de40a3c878d187dc95e, type: 3}
+  - {fileID: -4057554251921169616, guid: 48c638356e842de40a3c878d187dc95e, type: 3}
+  - {fileID: -1668102934807186160, guid: 48c638356e842de40a3c878d187dc95e, type: 3}
+  - {fileID: -1322618472493123532, guid: 48c638356e842de40a3c878d187dc95e, type: 3}
+  - {fileID: -8621126605134799115, guid: 48c638356e842de40a3c878d187dc95e, type: 3}
+  - {fileID: 3609347476392397134, guid: 48c638356e842de40a3c878d187dc95e, type: 3}
+  - {fileID: 6020218397737206891, guid: 48c638356e842de40a3c878d187dc95e, type: 3}
+  - {fileID: 2832751039153309827, guid: 48c638356e842de40a3c878d187dc95e, type: 3}
+  - {fileID: 6154752631030280752, guid: 48c638356e842de40a3c878d187dc95e, type: 3}
+  - {fileID: 4298370251730974701, guid: 48c638356e842de40a3c878d187dc95e, type: 3}
+  - {fileID: 6840057799661445633, guid: 48c638356e842de40a3c878d187dc95e, type: 3}
+  - {fileID: -7608006544128455324, guid: 48c638356e842de40a3c878d187dc95e, type: 3}
+  - {fileID: 6743763617666244554, guid: 48c638356e842de40a3c878d187dc95e, type: 3}
+  - {fileID: -5376832402998373893, guid: 48c638356e842de40a3c878d187dc95e, type: 3}
+  - {fileID: -8939744756565087068, guid: 48c638356e842de40a3c878d187dc95e, type: 3}
+  - {fileID: -4838126419626304280, guid: 48c638356e842de40a3c878d187dc95e, type: 3}
+  witchHurtSheet:
+  - {fileID: -3359036497620873321, guid: 6071367319e8032489f3bb1f56609396, type: 3}
+  - {fileID: 7959721477615256545, guid: 6071367319e8032489f3bb1f56609396, type: 3}
+  - {fileID: 7123784528377107722, guid: 6071367319e8032489f3bb1f56609396, type: 3}
+  - {fileID: 4011949737258707409, guid: 6071367319e8032489f3bb1f56609396, type: 3}
+  - {fileID: -8993774575560430951, guid: 6071367319e8032489f3bb1f56609396, type: 3}
+  - {fileID: -6369268967358799061, guid: 6071367319e8032489f3bb1f56609396, type: 3}
+  - {fileID: -7907068464355919219, guid: 6071367319e8032489f3bb1f56609396, type: 3}
+  - {fileID: -6147696351160971110, guid: 6071367319e8032489f3bb1f56609396, type: 3}
+  - {fileID: 4841937665608415288, guid: 6071367319e8032489f3bb1f56609396, type: 3}
+  - {fileID: 8743441688034852386, guid: 6071367319e8032489f3bb1f56609396, type: 3}
+  witchIdleSheet: []
   BaseCurrency: 2
   difficultyCurrency: 0
 --- !u!114 &462129120
@@ -12278,6 +12332,10 @@ MonoBehaviour:
   angryPassiveDefenseMalus: 3
   wrathDamageIncrease: 3
   wrathSpeedIncrease: 3
+  GreedManaCost: 0
+  AngerManaCost: 0
+  CaringManaCost: 0
+  WrathManaCost: 0
   PCStartingMaxHealth: 20
   PCStartingMinDamage: 10
   PCStartingMaxDamage: 12
@@ -12416,24 +12474,28 @@ MonoBehaviour:
   firstCharName: {fileID: 655486161}
   firstCharTrait: {fileID: 734124063}
   firstHealthBar: {fileID: 427075581}
+  firstManaBar: {fileID: 0}
   firstselectionRectangle: {fileID: 0}
   PC2: {fileID: 0}
   secondCharAvatar: {fileID: 581524794}
   secondCharName: {fileID: 628612319}
   secondCharTrait: {fileID: 619782285}
   secondHealthBar: {fileID: 1333702648}
+  secondManaBar: {fileID: 0}
   secondselectionRectangle: {fileID: 0}
   PC3: {fileID: 0}
   thirdCharAvatar: {fileID: 2050584172}
   thirdCharName: {fileID: 804815930}
   thirdCharTrait: {fileID: 1786524842}
   thirdHealthBar: {fileID: 1501843637}
+  thirdManaBar: {fileID: 0}
   thirdselectionRectangle: {fileID: 0}
   PC4: {fileID: 0}
   fourthCharAvatar: {fileID: 321113481}
   fourthCharName: {fileID: 1066775608}
   fourthCharTrait: {fileID: 227660419}
   fourthHealthBar: {fileID: 575049628}
+  fourthManaBar: {fileID: 0}
   fourthselectionRectangle: {fileID: 0}
   NPC1: {fileID: 0}
   NPC1Avatar: {fileID: 1582593875}
@@ -12467,6 +12529,10 @@ MonoBehaviour:
   PC2nmbr: {fileID: 444337806}
   PC3nmbr: {fileID: 532751865}
   PC4nmbr: {fileID: 614615587}
+  PC1nmbrMana: {fileID: 0}
+  PC2nmbrMana: {fileID: 0}
+  PC3nmbrMana: {fileID: 0}
+  PC4nmbrMana: {fileID: 0}
   pc1Miniview: {fileID: 410109071}
   pc2Miniview: {fileID: 1075322004}
   pc3Miniview: {fileID: 1475450951}
@@ -18588,18 +18654,18 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 728974203}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 67417093}
   - {fileID: 678841477}
   m_Father: {fileID: 1536751399}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -34.999996, y: -6.8000045}
+  m_AnchoredPosition: {x: -27.99997, y: -9.299995}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &729058942
@@ -19023,18 +19089,18 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 738907524}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1231669779}
   - {fileID: 1619084039}
   m_Father: {fileID: 1536751399}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 196.1, y: 0}
+  m_AnchoredPosition: {x: 203.09991, y: -2.5000057}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &739411403
@@ -31294,7 +31360,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.000062013, y: 0.000026941}
+  m_AnchoredPosition: {x: 7.000023, y: -2.4999642}
   m_SizeDelta: {x: 801.1774, y: 453.2907}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1266881355
@@ -32489,7 +32555,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.8378445, b: 0, a: 0.08627451}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -35570,7 +35636,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.8378445, b: 0, a: 0.08627451}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -36494,7 +36560,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.8378445, b: 0, a: 0.08627451}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -37199,15 +37265,15 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1266881354}
-  - {fileID: 728974204}
   - {fileID: 738907525}
+  - {fileID: 728974204}
   m_Father: {fileID: 2117144064}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -113, y: 0}
-  m_SizeDelta: {x: 801.1775, y: 453.2907}
+  m_AnchoredPosition: {x: -120, y: 2.5}
+  m_SizeDelta: {x: 845.98083, y: 494.2511}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1536751400
 MonoBehaviour:
@@ -51920,7 +51986,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.8378445, b: 0, a: 0.08627451}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

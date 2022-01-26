@@ -62,7 +62,7 @@ public class CharacterWorldspaceScript : MonoBehaviour
         associatedCharacter.entityDescription = template.entityDescription;
         associatedCharacter.isPlayerPartyMember = !isEnemyCharacter;
         associatedCharacter.luck = template.luck;
-        associatedCharacter.mana = template.mana;
+        associatedCharacter.manaRegeneration = template.manaRegeneration;
         associatedCharacter.turnSound = template.turnSound;
         associatedCharacter.speed = template.speed;
         associatedCharacter.valueBounty = template.valueBounty;
@@ -92,6 +92,14 @@ public class CharacterWorldspaceScript : MonoBehaviour
 
     public void SetupIdleAnimAndStart()
     {
+        if (associatedCharacter.idleSprite == null)
+        {
+            return;
+        }
+        if (associatedCharacter.idleSprite.Length < 2)
+        {
+            return;
+        }
         if (!this.isActiveAndEnabled)
         {
             Debug.LogWarning(associatedCharacter.charName + " was INACTIVE/DISABLED ON SetupIdleAnimAndStart()");

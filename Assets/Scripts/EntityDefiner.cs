@@ -67,6 +67,14 @@ public class EntityDefiner : MonoBehaviour
     public Sprite[] monkeyHurtSheet;
     public Sprite[] monkeyIdleSheet;
 
+    public Sprite[] emeraldAttackSheet;
+    public Sprite[] emeraldHurtSheet;
+    public Sprite[] emeraldIdleSheet;
+
+    public Sprite[] witchAttackSheet;
+    public Sprite[] witchHurtSheet;
+    public Sprite[] witchIdleSheet;
+
     public int BaseCurrency;
     public int difficultyCurrency;
 
@@ -407,7 +415,7 @@ public class EntityDefiner : MonoBehaviour
         Chara.baseDamageMin = baseMaxDMG;
         Chara.baseSpeed = baseSPD;
         Chara.currentHealth = baseHP;
-        Chara.mana = Mana;
+        Chara.manaRegeneration = Mana;
         Chara.luck = Luck;
         Chara.damageMin = baseMinDMG;
         Chara.damageMax = baseMaxDMG;
@@ -2733,7 +2741,8 @@ true, //(true)beneficial or (false)harmful
                                    "The power which lies in the heart is not to be underestimated.", // blurb. wax poetic here as much as you want
                                    "Passive: Healing potions are less effective on this character.\nActive: <color=#45BA3D>Heal</color> Heals an ally for 50% HP.", //functional description
                                    null, //sprite
-                                   false); //false = t1. true = t2.
+                                   false,
+                                   MainData.MainLoop.TweakingComponent.CaringManaCost); //false = t1. true = t2.
                                            //gets automatically sent to the desired trait list upon generation, in the constructor
 
         Debug.Log("Added new trait - [" + t1.identifier + "].");
@@ -2745,7 +2754,8 @@ true, //(true)beneficial or (false)harmful
                                    "wrath stuff", // blurb. wax poetic here as much as you want
                                    "Passive:  Increased damage, lower defense.\nActive: <color=#F87777>Double Strike</color> Attacks twice.", //functional description
                                    null, //sprite
-                                   false); //false = t1. true = t2.
+                                   false,
+                                   MainData.MainLoop.TweakingComponent.WrathManaCost); //false = t1. true = t2.
                                            //gets automatically sent to the desired trait list upon generation, in the constructor
         Debug.Log("Added new trait - [" + t2.identifier + "].");
         MainData.traitList.Add(t2.identifier, t2);
@@ -2756,7 +2766,8 @@ true, //(true)beneficial or (false)harmful
                                    "greed stuff", // blurb. wax poetic here as much as you want
                                    "Passive: 10% loot bonus when completing a battle.\nActive: <color=#E8BE0D>Barter</color> Exchange some HP for gold during a battle", //functional description
                                    null, //sprite
-                                   false); //false = t1. true = t2.
+                                   false,
+                                   MainData.MainLoop.TweakingComponent.GreedManaCost); //false = t1. true = t2.
                                            //gets automatically sent to the desired trait list upon generation, in the constructor
         Debug.Log("Added new trait - [" + t3.identifier + "].");
         MainData.traitList.Add(t3.identifier, t3);
@@ -2767,7 +2778,8 @@ true, //(true)beneficial or (false)harmful
                                    "anger stuff.", // blurb. wax poetic here as much as you want
                                    "Passive: Taking damage increases the power of this unit’s next attack.\nActive: <color=#FF2C22>Lash out</color> Heals an ally for 50% HP.", //functional description
                                    null, //sprite
-                                   false); //false = t1. true = t2.
+                                   false,
+                                   MainData.MainLoop.TweakingComponent.AngerManaCost); //false = t1. true = t2.
         //gets automatically sent to the desired trait list upon generation, in the constructor
         Debug.Log("Added new trait - [" + t4.identifier + "].");
         MainData.traitList.Add(t4.identifier, t4);
@@ -3021,14 +3033,15 @@ true, //(true)beneficial or (false)harmful
         public int baseDamageMax; //NOTE - damage is taken into calculation directly in the attack method.
         public int baseSpeed; //good to go
         public Slider HealthBar;
-
+        public Slider ManaBar;
 
         public int damageMin;
         public int damageMax;//handled
         public int speed; //NOTE - these are calculated by calling the GetCompoundSpeed(), GetCompoundDefense() and GetCompoundLuck() methods, just like you'd use the variable
         public int defense; //handled in attacking code
         public int luck; //negative luck - more chance to critfail. positive luck - more chance to critical hit/win. always a bit of a chance to have a critical fail or win.
-        public int mana; //not yet
+        public int manaRegeneration; //soon
+        public int manaTotal; //always max 100. regenerates at a variable rate.
         public int difficultyCost;
 
         public bool canAct = true; //wether it's stunned or not
@@ -3093,7 +3106,9 @@ true, //(true)beneficial or (false)harmful
         }
 
 
-
+        /// <summary>
+        /// poor tinman always gets smacked
+        /// </summary>
         public void RecalculateThreatFromStats()
         {
             threatFromStats = (speed + currentHealth + damageMin + defense) / 4; //averages them, sounds reasonable
@@ -3165,19 +3180,21 @@ true, //(true)beneficial or (false)harmful
             }
 
         }
-
+        /// <summary>
+        /// is proc'd on equipping or unequipping items in the inventory
+        /// </summary>
         public void RecalculateStatsFromItemsOutsideCombat()
         {
             if (recentlyUnequippedItemsHP.Count > 0)
-            {
+            {//purge stats of unequipped items so we don't mess up the stats
                 for (int i = 0; i < recentlyUnequippedItemsHP.Count; i++)
                 {//removes the health bonus/malus.
                     maxHealth -= recentlyUnequippedItemsHP[i].healthmodifier;
                     currentHealth -= recentlyUnequippedItemsHP[i].healthmodifier;
                 }
-                if (currentHealth <= 0 )
+                if (currentHealth <= 0)
                 {
-                    MainData.MainLoop.EventLoggingComponent.LogGray("Loss of life-sustaining items have lead "+ charName + " to the brink of death.");
+                    MainData.MainLoop.EventLoggingComponent.LogGray("Loss of life-sustaining items sent " + charName + " to the brink of death.");
                     currentHealth = 1;
                 }
 
@@ -3186,23 +3203,39 @@ true, //(true)beneficial or (false)harmful
                 recentlyUnequippedItemsHP.Clear();
             }
 
-            foreach (Item item in equippedItems)
+            List<Item> eqCopy = new List<Item>(equippedItems); //so we can mess with the list it's made from without messing up the foreach loop
+            foreach (Item item in eqCopy)
             {
                 if (item.healthmodifier != 0) //bonuses or maluses work
                 {
-
-                    maxHealth += item.healthmodifier;
-
-
-                    if ((maxHealth+ item.healthmodifier) > 0)
+                    //if for whatever reason the change brings you under 0 hp, remove it from inventory, but this shouldn't happen because we check for it on clicking an item in inventory
+                    if ((maxHealth + item.healthmodifier) < 0 || (currentHealth + item.healthmodifier) < 0)
                     {
-
+                        MainData.equipmentInventory.Add(item);
+                        equippedItems.Remove(item);
+                        
+                        MainData.MainLoop.EventLoggingComponent.LogGray(charName + " tried to take" + item.itemName + " from the backpack, but hesitated at the last second.");
+                        //we skip over this iteration and remove the item from inventory. no need to remove from recentlyUnequippedItemsHP
                     }
-                    
+                    else
+                    {
+                        maxHealth += item.healthmodifier;
+                        currentHealth += item.healthmodifier;
+                    } 
                 }
             }
 
 
+        }
+
+
+        public void RegenerateMana()
+        {//simple
+            manaTotal += manaRegeneration;
+            if (manaTotal > 100)
+            {
+                manaTotal = 100;
+            }
         }
 
 
@@ -3298,20 +3331,6 @@ true, //(true)beneficial or (false)harmful
         {
 
 
-
-            string specialText = ""; // for special stuff like hitting, elemental effects maybe 
-
-
-
-
-
-
-
-
-
-
-
-
             //here we deal with the generic damage modification
             int damagemod = 0;
             int defensemod = 0;
@@ -3364,7 +3383,7 @@ true, //(true)beneficial or (false)harmful
 
 
 
-
+            string lifestealText = "";
             //Lifesteal
             if (attacker.equippedItems.FindIndex(f => f.Lifesteal > 0) != -1) //it returns -1 if none are found
             {
@@ -3380,8 +3399,8 @@ true, //(true)beneficial or (false)harmful
 
                 }
                 lifestealmod /= countyy; //averages the lifesteal
-                int percentageheal = (damageRoll / 100) * lifestealmod; //could also add health amp here but seems overkill
-                specialText += "The hit stole " + percentageheal + " health! ";
+                int percentageheal = (damageRoll / 100) * lifestealmod; //could also add health amp here but seems overkill;
+                lifestealText = percentageheal.ToString();
                 attacker.GainHealth(percentageheal);
             }
 
@@ -3433,10 +3452,10 @@ true, //(true)beneficial or (false)harmful
                 damageRoll = damageRoll / 100 * (100 - damageResist);
             }
 
-
+            int temp = defense;//temporary value so we can show that the hit passed through armor
 
             //LUCK
-
+            string luckmessage = "";
             //d100
             //if the character's luck is negative, we increase the range where unluck happens
             //if the character's luck is positive, we increase the range where luck happens
@@ -3446,52 +3465,52 @@ true, //(true)beneficial or (false)harmful
                 luckRange -= luck; //bigger range
             else
                 unluckRange += luck; //bigger range
-            int luckNumber = Random.Range(1, 101);
+            int luckNumber = Random.Range(1, 101) + luck; //the character's luck is added on top of the random roll. Negative luck - more bad stuff happens
             //relational switch cases are not available in this C# version so imma just use if 
 
             //BAD LUCK HERE =================================
-            if (luckNumber == 1)
-            { //CRITICAL FAILURE
+            if (luckNumber <= 1)
+            { //CRITICAL FAILURE - TRIP
                 attacker.currentStatusEffects.Add(new StatusEffect("stun", "This character is stunned.", 1));
-                MainData.MainLoop.EventLoggingComponent.Log(attacker.charName + " tries to attack, but through a twist of fate slips and bumps their head on a rock!");
+                luckmessage = attacker.charName + " tries to attack " + charName + ", but through a twist of fate slips and bumps their head on a rock!";
                 return;
             }
             else if (luckNumber < 5)
             {//MISS
-                MainData.MainLoop.EventLoggingComponent.Log(attacker.charName + " attempts to attack, but ill luck strikes and + " + attacker.charName + " misses!");
+               MainData.MainLoop.EventLoggingComponent.Log(attacker.charName + " attempts to attack " + charName + ", but ill luck strikes and + " + attacker.charName + " misses!");
                 return;
             }
 
             else if (5 <= luckNumber && luckNumber <= unluckRange)
             { //GLANCING HIT
                 damageRoll /= 3;
-                MainData.MainLoop.EventLoggingComponent.Log("Glancing hit!");
-
+                luckmessage = "Glancing hit! Damage reduced to a third.";
             }
 
 
 
-            int temp = defense;//temporary value so we can show that the hit passed through armor
+
+
+            
             //GOOD LUCK HERE ========================================
-            if (luckNumber == 100)
-            { //CRITICAL SUCCESS
-                MainData.MainLoop.EventLoggingComponent.Log(attacker.charName + " slips through " + this.charName + "'s defense and lands an eviscerating hit!");
-                damageRoll = (damageRoll + defense) * 2; //double damage and passed throuugh armor
-                defense = 0;
-                return;
+            else if (luckNumber >= 100)
+            { //CRITICAL SUCCESS - DOUBLE DAMAGE + STUN
+                this.currentStatusEffects.Add(new StatusEffect("stun", "This character is stunned.", 1));
+                luckmessage = attacker.charName + " slips through " + this.charName + "'s defense and lands an eviscerating hit! "+ this.charName + " is stunned! (2x Damage, Stun)";
+                damageRoll = (damageRoll + defense) * 2; //double damage and passed through armor, stuns
+                temp = 0; 
             }
-            else if (luckNumber < 5)
-            {//CRITICAL HIT
-                damageRoll = 0;
-                MainData.MainLoop.EventLoggingComponent.Log(attacker.charName + " attempts to attack, but misses!");
-                return;
+            else if (luckNumber > 15)
+            {//CRITICAL HIT - DOUBLE DAMAGE and IGNORES ARMOR
+                luckmessage = attacker.charName + " slips through " + this.charName + "'s defense and lands an eviscerating hit! (2x Damage)";
+                damageRoll = (damageRoll + defense) * 2; //double damage and passed through armor
+                temp = 0;
             }
 
             else if (luckRange <= luckNumber && luckNumber <= 100)
-            { //SOLID BLOW. most of the 
-                damageRoll /= 3;
-                MainData.MainLoop.EventLoggingComponent.Log("Solid blow!");
-
+            { //SOLID BLOW. improved damage
+                damageRoll = (int)(damageRoll * 1.5f); 
+                luckmessage = " What a solid blow! (1.5X Damage)";
             }
 
             // STATUS EFFECTS
@@ -3504,8 +3523,10 @@ true, //(true)beneficial or (false)harmful
 
             currentHealth -= damageRoll; //INCORPORATED ARMOR CALCULATION HERE 
             MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(damage: damageRoll, target: this, heal: false);
-            MainData.MainLoop.EventLoggingComponent.Log(attacker.charName + " " + attacker.attackverb + " the " + charName + " for " + (damageRoll + defense) + " damage. Armor protects for " + defense + " damage!" + specialText);
-            defense = temp;
+            if (luckmessage != "") MainData.MainLoop.EventLoggingComponent.Log(luckmessage); //we describe the attack if it was special in some way.
+            MainData.MainLoop.EventLoggingComponent.Log(attacker.charName + " " + attacker.attackverb + " the " + charName + " for " + (damageRoll + temp) + " damage. Armor protects for " + temp + " damage! " + luckmessage);
+            if (lifestealText != "") MainData.MainLoop.EventLoggingComponent.Log(attacker.charName + " regains " + lifestealText + " health!");
+           
             attacker.Threat += (damageRoll); // WE APPLY THREAT
             selfScriptRef.GotHurt();
             if (!isPlayerPartyMember)
@@ -3515,7 +3536,7 @@ true, //(true)beneficial or (false)harmful
             }
             else
             {
-                MainData.MainLoop.UserInterfaceHelperComponent.RefreshHealthBarPlayer();
+                MainData.MainLoop.UserInterfaceHelperComponent.RefreshHealthManaBarsPlayer();
             }
             if (currentHealth <= 0)
             {
@@ -3542,7 +3563,7 @@ true, //(true)beneficial or (false)harmful
             }
             else
             {
-                MainData.MainLoop.UserInterfaceHelperComponent.RefreshHealthBarPlayer();
+                MainData.MainLoop.UserInterfaceHelperComponent.RefreshHealthManaBarsPlayer();
             }
             if (currentHealth <= 0)
             {
@@ -3680,7 +3701,7 @@ true, //(true)beneficial or (false)harmful
                     MainData.equipmentInventory.Add(item);
                 }
                 equippedItems.Clear();
-                MainData.MainLoop.UserInterfaceHelperComponent.RefreshHealthBarPlayer();
+                MainData.MainLoop.UserInterfaceHelperComponent.RefreshHealthManaBarsPlayer();
 
                 if (MainData.livingPlayerParty.Count == 0)
                 {

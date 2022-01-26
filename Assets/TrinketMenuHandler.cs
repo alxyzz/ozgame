@@ -302,7 +302,7 @@ public class TrinketMenuHandler : MonoBehaviour
 
         int speedmodifier = current.speed;
         int healthmodifier = current.maxHealth;
-        int manamodifier = current.mana;
+        int manamodifier = current.manaRegeneration;
         int dmgmodifier = (current.damageMax + current.damageMin) / 2;
         int defensemodifier = current.defense;
         int luckmodifier = current.luck;
@@ -378,6 +378,7 @@ public class TrinketMenuHandler : MonoBehaviour
             ItemDesc.text = "";
             ItemName.text = "";
             ItemRarity.text = "";
+            ItemValue.gameObject.SetActive(false);
             ItemValue.text = "";
             ItemBonuses.text = "";
             return;
@@ -385,7 +386,7 @@ public class TrinketMenuHandler : MonoBehaviour
 
         //}
 
-
+        ItemValue.gameObject.SetActive(true);
         ItemDesc.text = currentlySelectedItem.description;
         ItemName.text = currentlySelectedItem.itemName;
         ItemRarity.text = currentlySelectedItem.rarity;
