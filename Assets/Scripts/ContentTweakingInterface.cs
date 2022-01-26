@@ -38,6 +38,7 @@ public class ContentTweakingInterface : MonoBehaviour
     public int wrathDamageIncrease = 0;
     public int wrathSpeedIncrease = 0;
     [Space(5)]
+    [Header("These should be from 0 to 100, no more. You gain the amount per turn.")]
     public int GreedManaCost;
     public int AngerManaCost;
     public int CaringManaCost;
@@ -53,6 +54,7 @@ public class ContentTweakingInterface : MonoBehaviour
     public int PCStartingSpeed = 0;
     public int PCStartingLuck = 0;
     public int PCStartingDefense = 0;
+    public int PCStartingManaRegen = 0;
     [Header("Enemy Characters")]
     public int flyingMonkeyMaxHealth = 0;
     public int flyingMonkeyMinDamage = 0;

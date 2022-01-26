@@ -416,6 +416,7 @@ public class EntityDefiner : MonoBehaviour
         Chara.baseSpeed = baseSPD;
         Chara.currentHealth = baseHP;
         Chara.manaRegeneration = Mana;
+        Chara.manaTotal = 100;
         Chara.luck = Luck;
         Chara.damageMin = baseMinDMG;
         Chara.damageMax = baseMaxDMG;
@@ -441,7 +442,7 @@ public class EntityDefiner : MonoBehaviour
                        MainData.MainLoop.TweakingComponent.PCStartingSpeed, //base speed, higher is better
                        MainData.MainLoop.TweakingComponent.PCStartingDefense, //defense
                        MainData.MainLoop.TweakingComponent.PCStartingLuck, //luck
-                       100, //mana
+                       MainData.MainLoop.TweakingComponent.PCStartingManaRegen, //mana
                        null, //sound for when it is this character's turn to act
                        scarecrowAttackSheet, //character's attack animation sprite 
                        0, //bounty, not relevant for PC
@@ -463,7 +464,7 @@ public class EntityDefiner : MonoBehaviour
                        MainData.MainLoop.TweakingComponent.PCStartingSpeed, //base speed, higher is better
                        MainData.MainLoop.TweakingComponent.PCStartingDefense, //defense
                        MainData.MainLoop.TweakingComponent.PCStartingLuck, //luck
-                       100, //mana
+                       MainData.MainLoop.TweakingComponent.PCStartingManaRegen, //mana
                        null, //sound for when it is this character's turn to act
                        tinmanAttackSheet, //character's attack animation sprite 
                        0, //bounty, not relevant for PC
@@ -485,7 +486,7 @@ public class EntityDefiner : MonoBehaviour
                        MainData.MainLoop.TweakingComponent.PCStartingSpeed, //base speed, higher is better
                        MainData.MainLoop.TweakingComponent.PCStartingDefense, //defense
                        MainData.MainLoop.TweakingComponent.PCStartingLuck, //luck
-                       100, //mana
+                       MainData.MainLoop.TweakingComponent.PCStartingManaRegen, //mana
                        null, //sound for when it is this character's turn to act
                        lionAttackSheet, //character's attack animation sprite 
                        0, //bounty, not relevant for PC
@@ -507,7 +508,7 @@ public class EntityDefiner : MonoBehaviour
                        MainData.MainLoop.TweakingComponent.PCStartingSpeed, //base speed, higher is better
                        MainData.MainLoop.TweakingComponent.PCStartingDefense, //defense
                        MainData.MainLoop.TweakingComponent.PCStartingLuck, //luck
-                       100, //mana
+                       MainData.MainLoop.TweakingComponent.PCStartingManaRegen, //mana
                        null, //sound for when it is this character's turn to act
                        dorothyAttackSheet, //character's attack animation sprite 
                        0, //bounty, not relevant for PC
@@ -3465,23 +3466,24 @@ true, //(true)beneficial or (false)harmful
                 luckRange -= luck; //bigger range
             else
                 unluckRange += luck; //bigger range
-            int luckNumber = Random.Range(1, 101) + luck; //the character's luck is added on top of the random roll. Negative luck - more bad stuff happens
+            int randomLuck = Random.Range(1, 101) + luck; //the character's luck is added on top of the random roll. Negative luck - more bad stuff happens
+            MainData.MainLoop.EventLoggingComponent.LogDanger("Random Luck Number was " + randomLuck + " including char luck - and the char luck was " + luck);
             //relational switch cases are not available in this C# version so imma just use if 
 
             //BAD LUCK HERE =================================
-            if (luckNumber <= 1)
+            if (randomLuck <= 1)
             { //CRITICAL FAILURE - TRIP
                 attacker.currentStatusEffects.Add(new StatusEffect("stun", "This character is stunned.", 1));
                 luckmessage = attacker.charName + " tries to attack " + charName + ", but through a twist of fate slips and bumps their head on a rock!";
                 return;
             }
-            else if (luckNumber < 5)
+            else if (randomLuck <= 5)
             {//MISS
                MainData.MainLoop.EventLoggingComponent.Log(attacker.charName + " attempts to attack " + charName + ", but ill luck strikes and + " + attacker.charName + " misses!");
                 return;
             }
 
-            else if (5 <= luckNumber && luckNumber <= unluckRange)
+            else if (randomLuck <= 15)
             { //GLANCING HIT
                 damageRoll /= 3;
                 luckmessage = "Glancing hit! Damage reduced to a third.";
@@ -3493,21 +3495,21 @@ true, //(true)beneficial or (false)harmful
 
             
             //GOOD LUCK HERE ========================================
-            else if (luckNumber >= 100)
+            else if (randomLuck >= 100)
             { //CRITICAL SUCCESS - DOUBLE DAMAGE + STUN
                 this.currentStatusEffects.Add(new StatusEffect("stun", "This character is stunned.", 1));
                 luckmessage = attacker.charName + " slips through " + this.charName + "'s defense and lands an eviscerating hit! "+ this.charName + " is stunned! (2x Damage, Stun)";
                 damageRoll = (damageRoll + defense) * 2; //double damage and passed through armor, stuns
                 temp = 0; 
             }
-            else if (luckNumber > 15)
+            else if (randomLuck >= 95)
             {//CRITICAL HIT - DOUBLE DAMAGE and IGNORES ARMOR
                 luckmessage = attacker.charName + " slips through " + this.charName + "'s defense and lands an eviscerating hit! (2x Damage)";
                 damageRoll = (damageRoll + defense) * 2; //double damage and passed through armor
                 temp = 0;
             }
 
-            else if (luckRange <= luckNumber && luckNumber <= 100)
+            else if (randomLuck >= 85)
             { //SOLID BLOW. improved damage
                 damageRoll = (int)(damageRoll * 1.5f); 
                 luckmessage = " What a solid blow! (1.5X Damage)";
@@ -3523,8 +3525,8 @@ true, //(true)beneficial or (false)harmful
 
             currentHealth -= damageRoll; //INCORPORATED ARMOR CALCULATION HERE 
             MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(damage: damageRoll, target: this, heal: false);
-            if (luckmessage != "") MainData.MainLoop.EventLoggingComponent.Log(luckmessage); //we describe the attack if it was special in some way.
-            MainData.MainLoop.EventLoggingComponent.Log(attacker.charName + " " + attacker.attackverb + " the " + charName + " for " + (damageRoll + temp) + " damage. Armor protects for " + temp + " damage! " + luckmessage);
+            if (luckmessage != "") MainData.MainLoop.EventLoggingComponent.LogGray(luckmessage); //we describe the attack if it was special in some way.
+            MainData.MainLoop.EventLoggingComponent.Log(attacker.charName + " " + attacker.attackverb + " the " + charName + " for " + (damageRoll + temp) + " damage. Armor protects for " + temp + " damage! ");
             if (lifestealText != "") MainData.MainLoop.EventLoggingComponent.Log(attacker.charName + " regains " + lifestealText + " health!");
            
             attacker.Threat += (damageRoll); // WE APPLY THREAT
