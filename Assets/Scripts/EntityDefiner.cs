@@ -3507,15 +3507,8 @@ true, //(true)beneficial or (false)harmful
             //LUCK
             string luckmessage = "";
             //d100
-            //if the character's luck is negative, we increase the range where unluck happens
-            //if the character's luck is positive, we increase the range where luck happens
-            int unluckRange = 15; //if smaller than this, unlucky
-            int luckRange = 85; //if larger than this, lucky
-            if (luck >= 0)
-                luckRange -= luck; //bigger range
-            else
-                unluckRange += luck; //bigger range
-            int randomLuck = Random.Range(1, 101) + luck; //the character's luck is added on top of the random roll. Negative luck - more bad stuff happens
+            int luckAfterItems = attacker.GetCompoundLuck();
+            int randomLuck = Random.Range(1, 101) + attacker.GetCompoundLuck(); //the character's luck is added on top of the random roll. Negative luck - more bad stuff happens
             MainData.MainLoop.EventLoggingComponent.LogDanger("Random Luck Number was " + randomLuck + " including char luck - and the char luck was " + luck);
             //relational switch cases are not available in this C# version so imma just use if 
 
@@ -3548,7 +3541,7 @@ true, //(true)beneficial or (false)harmful
             { //CRITICAL SUCCESS - DOUBLE DAMAGE + STUN
                 this.currentStatusEffects.Add(new StatusEffect("stun", "This character is stunned.", 1));
                 luckmessage = attacker.charName + " slips through " + this.charName + "'s defense and lands an eviscerating hit! "+ this.charName + " is stunned! (2x Damage, Stun)";
-                damageRoll = (damageRoll + defense) * 2; //double damage and passed through armor, stuns
+                damageRoll = (damageRoll + defense) * 0; //double damage and passed through armor, stuns
                 temp = 0; 
             }
             else if (randomLuck >= 95)

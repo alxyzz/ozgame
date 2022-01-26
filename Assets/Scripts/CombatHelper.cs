@@ -48,10 +48,6 @@ public class CombatHelper : MonoBehaviour
     public void DisplayFloatingDamageNumbers(Character target, string message = null, int damage = 0, bool heal = false)
     {
 
-
-
-
-
         GameObject TextObject = ObjectPooling.Instance.SpawnFromPool("damage_indicator", Camera.main.WorldToScreenPoint(target.selfScriptRef.transform.position), Quaternion.identity);
 
         TextObject.transform.SetParent(DamageIndicatorCanvas.transform);
@@ -65,11 +61,7 @@ public class CombatHelper : MonoBehaviour
                 ourtext.text += "\n" + damage;
             }
         }
-        if (damage == 0)
-        {
-           //this happens for caring's ability used on full hp char
-            return;
-        }
+        
         else
         {
             if (heal)
@@ -202,7 +194,7 @@ public class CombatHelper : MonoBehaviour
                     combatants[i].hasActedThisTurn = true;
                     continue;
                 }
-                yield return new WaitUntil(() => combatants[i].hasActedThisTurn == true);
+                yield return new WaitUntil(() => combatants[i].hasActedThisTurn == true || combatants[i] == null);
                 //disable controls here
 
 
