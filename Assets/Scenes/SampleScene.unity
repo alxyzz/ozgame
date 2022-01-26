@@ -11950,6 +11950,23 @@ MonoBehaviour:
   SharpeningStoneSprite: {fileID: 0}
   HealingMushroomSprite: {fileID: 0}
   shortSwordSprite: {fileID: 21300000, guid: 2ce97f70fc7206148b61fe1859971d31, type: 3}
+  longSwordSprite: {fileID: 21300000, guid: 9d47266f626192c419efc8fe88d96ca0, type: 3}
+  VampiricSprite: {fileID: 21300000, guid: d5ae02de952f0ce4881d0630e92b6b50, type: 3}
+  ConstitutionSprite: {fileID: 21300000, guid: 603a620973e93f24fba32643794475c6, type: 3}
+  PowerSprite: {fileID: 21300000, guid: 64ede013fbc46a944a1c292c46c24178, type: 3}
+  EmeraldSprite: {fileID: 21300000, guid: 231d62fbf42b6b44a870d5c359cbe49b, type: 3}
+  GlassesSprite: {fileID: 21300000, guid: 71611abd3d9c3ac4094fb5403087161e, type: 3}
+  MonkeyFangSprite: {fileID: 21300000, guid: d1f93bdf71349894b8ff3a4d369f848e, type: 3}
+  ManaweavingAmuletSprite: {fileID: 21300000, guid: 9bf0c810f35ea134c9f7c95ed847617d, type: 3}
+  IronArmorSprite: {fileID: 21300000, guid: ce42d422b3fc4164a93199ee6b75e632, type: 3}
+  AxeSprite: {fileID: 21300000, guid: c85a57133b038a8479508cfdc5f6c2f9, type: 3}
+  TornadoSprite: {fileID: 21300000, guid: 3b21dba58932a674bab4a03f051462e0, type: 3}
+  lifeGivingAmuletSprite: {fileID: 21300000, guid: 0cbde0e825ecc78409ba80f57cbb1d26, type: 3}
+  ShieldSprite: {fileID: 21300000, guid: b5405ef004dfb0a4b967fa7b23886efe, type: 3}
+  PuritySprite: {fileID: 21300000, guid: ddf46be6de0b04c4faee4246faf4b553, type: 3}
+  CloverSprite: {fileID: 21300000, guid: 5ed788bbc6acafa47aab13b579bda2a1, type: 3}
+  DualitySprite: {fileID: 21300000, guid: b063d6286ae578647ab99d5a0be4f8e0, type: 3}
+  EmeraldArmorSprite: {fileID: 21300000, guid: fce03cbc8f18bbc40af6d829d88248d9, type: 3}
   SpawnAnimationPrefab: {fileID: 0}
   scarecrowAttackSheet:
   - {fileID: 4365275974601378459, guid: 27c48bcb3db47fb44855e94af25fdb0b, type: 3}
@@ -12299,10 +12316,12 @@ MonoBehaviour:
   EncountersPaused: 0
   ButtonMoveOn: {fileID: 1736543281}
   enemyNames:
-  - weakflyingmonkey
+  - corrupted
   - flyingmonkey
   - strongflyingmonkey
   - hellflyingmonkey
+  - weakflyingmonkey
+  difCurrency: 0
 --- !u!114 &462129122
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12316,33 +12335,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   swordDamage: 5
-  HealthPotionHealthGiven: 35
-  caringActiveHealing: 50
+  HealthPotionHealthGiven: 20
+  caringActiveHealing: 30
   caringHealingPotionPercentageHealingTakenMalus: 50
   caringPassiveHealthBonus: 10
   caringPassiveDamageMalus: 5
   greedActiveSelfDamage: 10
   greedActiveRevenue: 10
-  greedBountyPercentageBonus: 10
+  greedBountyPercentageBonus: 50
   greedPassiveHealthMalus: 5
   greedPassiveSpeedMalus: 3
-  angryActiveDamageMalus: 3
+  angryActiveDamageMalus: 2
   angryActivePowerDamage: 20
   angryPassiveDamageBonus: 3
   angryPassiveDefenseMalus: 3
-  wrathDamageIncrease: 3
+  wrathDamageIncrease: 4
   wrathSpeedIncrease: 3
-  GreedManaCost: 100
-  AngerManaCost: 100
-  CaringManaCost: 100
-  WrathManaCost: 100
+  GreedManaCost: 10
+  AngerManaCost: 75
+  CaringManaCost: 33
+  WrathManaCost: 50
   PCStartingMaxHealth: 20
   PCStartingMinDamage: 10
   PCStartingMaxDamage: 12
   PCStartingSpeed: 5
   PCStartingLuck: 0
   PCStartingDefense: 2
-  PCStartingManaRegen: 25
+  PCStartingManaRegen: 100
   flyingMonkeyMaxHealth: 15
   flyingMonkeyMinDamage: 4
   flyingMonkeyMaxDamage: 8
@@ -12367,6 +12386,12 @@ MonoBehaviour:
   hellbentflyingMonkeySpeed: 2
   hellbentflyingMonkeyLuck: 0
   hellbentflyingMonkeyDefense: 1
+  corruptedMaxHealth: 1
+  corruptedMinDamage: 1
+  corruptedMaxDamage: 2
+  corruptedSpeed: 1
+  corruptedLuck: 1
+  corruptedDefense: 1
   CommonColor: {r: 0.735849, g: 0.735849, b: 0.735849, a: 1}
   UncommonColor: {r: 0.85844606, g: 0.9528302, b: 0.87069815, a: 1}
   RareColor: {r: 0.754717, g: 0.6775995, b: 0.3737985, a: 1}

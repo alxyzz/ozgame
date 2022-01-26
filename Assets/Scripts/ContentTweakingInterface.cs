@@ -94,6 +94,17 @@ public class ContentTweakingInterface : MonoBehaviour
     public int hellbentflyingMonkeyLuck = 0;
     public int hellbentflyingMonkeyDefense = 0;
     //Hellbent Monkey
+    [Space(5)]
+
+    public int corruptedMaxHealth = 0;
+    public int corruptedMinDamage = 0;
+    public int corruptedMaxDamage = 0;
+
+    public int corruptedSpeed = 0;
+    public int corruptedLuck = 0;
+    public int corruptedDefense = 0;
+    //Weak monkey
+    [Space(5)]
 
     [Space(5)]
     [Header("ItemColors")]

@@ -35,6 +35,23 @@ public class EntityDefiner : MonoBehaviour
     [Space(10)]
     [Header("Equipment")]
     public Sprite shortSwordSprite;
+    public Sprite longSwordSprite;
+    public Sprite VampiricSprite;
+    public Sprite ConstitutionSprite;
+    public Sprite PowerSprite;
+    public Sprite EmeraldSprite;
+    public Sprite GlassesSprite;
+    public Sprite MonkeyFangSprite;
+    public Sprite ManaweavingAmuletSprite;
+    public Sprite IronArmorSprite;
+    public Sprite AxeSprite;
+    public Sprite TornadoSprite;
+    public Sprite lifeGivingAmuletSprite;
+    public Sprite ShieldSprite;
+    public Sprite PuritySprite;
+    public Sprite CloverSprite;
+    public Sprite DualitySprite;
+    public Sprite EmeraldArmorSprite;
 
     [Space(10)]
     //public GameObject EnemyPrefab;
@@ -595,6 +612,23 @@ public class EntityDefiner : MonoBehaviour
                        monkeyAttackSheet, //character's attack animation sprite 
                        2, monkeyAvatar, monkeyAttackSheet[0], monkeyHurtSheet, scarecrowWalk_Sheet, monkeyIdleSheet,
                        3);
+
+        MakeMobTemplate("corrupted", //characterID
+                       "Corrupt Citizen", // charName
+                       "A former citizen of the Emerald Palace, now corrupted by it;s magic.", // charDesc
+                       "claws", //verb used when attacking
+                       false, //is it a player character(true), or is it an enemy(false)?
+                       MainData.MainLoop.TweakingComponent.corruptedMaxHealth, //the base HP value
+                       MainData.MainLoop.TweakingComponent.corruptedMinDamage, // the minimum damage value
+                       MainData.MainLoop.TweakingComponent.corruptedMaxDamage, //the maximum damage value.
+                       MainData.MainLoop.TweakingComponent.corruptedSpeed, //base speed, higher is better
+                       MainData.MainLoop.TweakingComponent.corruptedDefense, //defense
+                       MainData.MainLoop.TweakingComponent.corruptedLuck, //luck
+                       0, //mana
+                       null, //sound for when it is this character's turn to act
+                       emeraldAttackSheet, //character's attack animation sprite 
+                       2, monkeyAvatar, emeraldAttackSheet[0], emeraldHurtSheet, scarecrowWalk_Sheet, emeraldIdleSheet,
+                       3);
     }
 
 
@@ -1077,7 +1111,7 @@ public class EntityDefiner : MonoBehaviour
                                   "A sword, preeminent double-hand weapon through a long period of history. Consisting of the strongest metal known in the kingdom and crafted by the most talented blacksmiths, this weapon is sure to make any combat encounter short. This one is normal.",//the desc
                                   "Common implement of war. Can usually be found between your ribs.", //blurb
                                   "Longsword", //name
-                                  shortSwordSprite, //sprite
+                                  longSwordSprite, //sprite
                                   "uncommon", //rarity string
                                   8, //value in eyes
                                   1, //amount in birb's stock
@@ -1099,7 +1133,7 @@ public class EntityDefiner : MonoBehaviour
                           "A sword, preeminent double-hand weapon through a long period of history. Consisting of the strongest metal known in the kingdom and crafted by the most talented blacksmiths, this weapon is sure to make any combat encounter short. This one is dull.",//the desc
                           "Common implement of war. Can usually be found between your ribs.", //blurb
                           "Longsword", //name
-                          shortSwordSprite, //sprite
+                          longSwordSprite, //sprite
                           "uncommon", //rarity string
                           6, //value in eyes
                           1, //amount in birb's stock
@@ -1121,7 +1155,7 @@ public class EntityDefiner : MonoBehaviour
                           "A sword, preeminent double-hand weapon through a long period of history. Consisting of the strongest metal known in the kingdom and crafted by the most talented blacksmiths, this weapon is sure to make any combat encounter short. This one is haunted.",//the desc
                           "Common implement of war. Can usually be found between your ribs.", //blurb
                           "Longsword", //name
-                          shortSwordSprite, //sprite
+                          longSwordSprite, //sprite
                           "uncommon", //rarity string
                           13, //value in eyes
                           1, //amount in birb's stock
@@ -1143,7 +1177,7 @@ public class EntityDefiner : MonoBehaviour
                           "A sword, preeminent double-hand weapon through a long period of history. Consisting of the strongest metal known in the kingdom and crafted by the most talented blacksmiths, this weapon is sure to make any combat encounter short. This one is damaged.",//the desc
                           "Common implement of war. Can usually be found between your ribs.", //blurb
                           "Longsword", //name
-                          shortSwordSprite, //sprite
+                          longSwordSprite, //sprite
                           "uncommon", //rarity string
                           3, //value in eyes
                           1, //amount in birb's stock
@@ -1165,7 +1199,7 @@ public class EntityDefiner : MonoBehaviour
                           "A sword, preeminent double-hand weapon through a long period of history. Consisting of the strongest metal known in the kingdom and crafted by the most talented blacksmiths, this weapon is sure to make any combat encounter short. This one is enchanted.",//the desc
                           "Common implement of war. Can usually be found between your ribs.", //blurb
                           "Longsword", //name
-                          shortSwordSprite, //sprite
+                          longSwordSprite, //sprite
                           "uncommon", //rarity string
                           9, //value in eyes
                           1, //amount in birb's stock
@@ -1187,7 +1221,7 @@ public class EntityDefiner : MonoBehaviour
                           "A vampire's ring, recovered by archeologists exploring ancient ruins. Crafted with fine gold and blood ruby, it contains the haunting spirit of a vampire within, granting the wearer unique, supernatural abilities. This one is normal.",//the desc
                           "A rare, special relic. You feel drawn in by it's emminating power.", //blurb
                           "Vampiric Ring", //name
-                          shortSwordSprite, //sprite
+                          VampiricSprite, //sprite
                           "rare", //rarity string
                           7, //value in eyes
                           1, //amount in birb's stock
@@ -1209,7 +1243,7 @@ public class EntityDefiner : MonoBehaviour
                   "A vampire's ring, recovered by archeologists exploring ancient ruins. Crafted with fine gold and blood ruby, it contains the haunting spirit of a vampire within, granting the wearer unique, supernatural abilities. This one is tough.",//the desc
                   "A rare, special relic. You feel drawn in by it's emminating power.", //blurb
                   "Vampiric Ring", //name
-                  shortSwordSprite, //sprite
+                  VampiricSprite, //sprite
                   "rare", //rarity string
                   9, //value in eyes
                   1, //amount in birb's stock
@@ -1231,7 +1265,7 @@ public class EntityDefiner : MonoBehaviour
                   "A vampire's ring, recovered by archeologists exploring ancient ruins. Crafted with fine gold and blood ruby, it contains the haunting spirit of a vampire within, granting the wearer unique, supernatural abilities. This one feels lucky.",//the desc
                   "A rare, special relic. You feel drawn in by it's emminating power.", //blurb
                   "Vampiric Ring", //name
-                  shortSwordSprite, //sprite
+                  VampiricSprite, //sprite
                   "rare", //rarity string
                   8, //value in eyes
                   1, //amount in birb's stock
@@ -1253,7 +1287,7 @@ public class EntityDefiner : MonoBehaviour
                   "A vampire's ring, recovered by archeologists exploring ancient ruins. Crafted with fine gold and blood ruby, it contains the haunting spirit of a vampire within, granting the wearer unique, supernatural abilities. This one is enchanted.",//the desc
                   "A rare, special relic. You feel drawn in by it's emminating power.", //blurb
                   "Vampiric Ring", //name
-                  shortSwordSprite, //sprite
+                  VampiricSprite, //sprite
                   "rare", //rarity string
                   8, //value in eyes
                   1, //amount in birb's stock
@@ -1275,7 +1309,7 @@ public class EntityDefiner : MonoBehaviour
                   "A vampire's ring, recovered by archeologists exploring ancient ruins. Crafted with fine gold and blood ruby, it contains the haunting spirit of a vampire within, granting the wearer unique, supernatural abilities. This one is cheap.",//the desc
                   "A rare, special relic. You feel drawn in by it's emminating power.", //blurb
                   "Vampiric Ring", //name
-                  shortSwordSprite, //sprite
+                  VampiricSprite, //sprite
                   "rare", //rarity string
                   6, //value in eyes
                   1, //amount in birb's stock
@@ -1297,7 +1331,7 @@ public class EntityDefiner : MonoBehaviour
                   "A rare gem radiating unexplainable magic. Excavated from the royal mining site, rare gems like these have been told to contain the souls of dragons who died underground in their lairs. Others say they are unique combinations of minerals. This one is normal.",//the desc
                   "A powerful and rare gem. You feel drawn in by it's emminating power.", //blurb
                   "Shard of Constitution", //name
-                  shortSwordSprite, //sprite
+                  ConstitutionSprite, //sprite
                   "common", //rarity string
                   4, //value in eyes
                   1, //amount in birb's stock
@@ -1319,7 +1353,7 @@ public class EntityDefiner : MonoBehaviour
           "A rare gem radiating unexplainable magic. Excavated from the royal mining site, rare gems like these have been told to contain the souls of dragons who died underground in their lairs. Others say they are unique combinations of minerals. This one is enchanted.",//the desc
           "A powerful and rare gem. You feel drawn in by it's emminating power.", //blurb
           "Shard of Constitution", //name
-          shortSwordSprite, //sprite
+          ConstitutionSprite, //sprite
           "common", //rarity string
           1, //value in eyes
           1, //amount in birb's stock
@@ -1341,7 +1375,7 @@ public class EntityDefiner : MonoBehaviour
           "A rare gem radiating unexplainable magic. Excavated from the royal mining site, rare gems like these have been told to contain the souls of dragons who died underground in their lairs. Others say they are unique combinations of minerals. This one is tough.",//the desc
           "A powerful and rare gem. You feel drawn in by it's emminating power.", //blurb
           "Shard of Constitution", //name
-          shortSwordSprite, //sprite
+          ConstitutionSprite, //sprite
           "common", //rarity string
           6, //value in eyes
           1, //amount in birb's stock
@@ -1363,7 +1397,7 @@ public class EntityDefiner : MonoBehaviour
           "A rare gem radiating unexplainable magic. Excavated from the royal mining site, rare gems like these have been told to contain the souls of dragons who died underground in their lairs. Others say they are unique combinations of minerals. This one is damaged.",//the desc
           "A powerful and rare gem. You feel drawn in by it's emminating power.", //blurb
           "Shard of Constitution", //name
-          shortSwordSprite, //sprite
+          ConstitutionSprite, //sprite
           "common", //rarity string
           1, //value in eyes
           1, //amount in birb's stock
@@ -1385,7 +1419,7 @@ public class EntityDefiner : MonoBehaviour
           "A rare gem radiating unexplainable magic. Excavated from the royal mining site, rare gems like these have been told to contain the souls of dragons who died underground in their lairs. Others say they are unique combinations of minerals. This one is light.",//the desc
           "A powerful and rare gem. You feel drawn in by it's emminating power.", //blurb
           "Shard of Constitution", //name
-          shortSwordSprite, //sprite
+          ConstitutionSprite, //sprite
           "common", //rarity string
           4, //value in eyes
           1, //amount in birb's stock
@@ -1407,7 +1441,7 @@ public class EntityDefiner : MonoBehaviour
           "A rare gem radiating unexplainable magic. Excavated from the royal mining site, rare gems like these have been told to contain the souls of dragons who died underground in their lairs. Others say they are unique combinations of minerals. This one is normal.",//the desc
           "A powerful and rare gem. You feel drawn in by it's emminating power.", //blurb
           "Shard of Power", //name
-          shortSwordSprite, //sprite
+          PowerSprite, //sprite
           "common", //rarity string
           4, //value in eyes
           1, //amount in birb's stock
@@ -1429,7 +1463,7 @@ public class EntityDefiner : MonoBehaviour
           "A rare gem radiating unexplainable magic. Excavated from the royal mining site, rare gems like these have been told to contain the souls of dragons who died underground in their lairs. Others say they are unique combinations of minerals. This one is tough.",//the desc
           "A powerful and rare gem. You feel drawn in by it's emminating power.", //blurb
           "Shard of Power", //name
-          shortSwordSprite, //sprite
+          PowerSprite, //sprite
           "common", //rarity string
           6, //value in eyes
           1, //amount in birb's stock
@@ -1451,7 +1485,7 @@ public class EntityDefiner : MonoBehaviour
   "A rare gem radiating unexplainable magic. Excavated from the royal mining site, rare gems like these have been told to contain the souls of dragons who died underground in their lairs. Others say they are unique combinations of minerals. This one is haunted.",//the desc
   "A powerful and rare gem. You feel drawn in by it's emminating power.", //blurb
   "Shard of Power", //name
-  shortSwordSprite, //sprite
+  PowerSprite, //sprite
   "common", //rarity string
   9, //value in eyes
   1, //amount in birb's stock
@@ -1473,7 +1507,7 @@ public class EntityDefiner : MonoBehaviour
   "A rare gem radiating unexplainable magic. Excavated from the royal mining site, rare gems like these have been told to contain the souls of dragons who died underground in their lairs. Others say they are unique combinations of minerals. This one is cheap.",//the desc
   "A powerful and rare gem. You feel drawn in by it's emminating power.", //blurb
   "Shard of Power", //name
-  shortSwordSprite, //sprite
+  PowerSprite, //sprite
   "common", //rarity string
   3, //value in eyes
   1, //amount in birb's stock
@@ -1495,7 +1529,7 @@ public class EntityDefiner : MonoBehaviour
   "A rare gem radiating unexplainable magic. Excavated from the royal mining site, rare gems like these have been told to contain the souls of dragons who died underground in their lairs. Others say they are unique combinations of minerals. This one feels lucky.",//the desc
   "A powerful and rare gem. You feel drawn in by it's emminating power.", //blurb
   "Shard of Power", //name
-  shortSwordSprite, //sprite
+  PowerSprite, //sprite
   "common", //rarity string
   5, //value in eyes
   1, //amount in birb's stock
@@ -1517,7 +1551,7 @@ public class EntityDefiner : MonoBehaviour
   "A rare gem radiating unexplainable magic. Excavated from the royal mining site, rare gems like these have been told to contain the souls of dragons who died underground in their lairs. Others say they are unique combinations of minerals. This one is normal.",//the desc
   "A powerful and rare gem. You feel drawn in by it's emminating power.", //blurb
   "Shard of Emerald", //name
-  shortSwordSprite, //sprite
+  EmeraldSprite, //sprite
   "common", //rarity string
   4, //value in eyes
   1, //amount in birb's stock
@@ -1539,7 +1573,7 @@ public class EntityDefiner : MonoBehaviour
           "A rare gem radiating unexplainable magic. Excavated from the royal mining site, rare gems like these have been told to contain the souls of dragons who died underground in their lairs. Others say they are unique combinations of minerals. This one feels lucky.",//the desc
           "A powerful and rare gem. You feel drawn in by it's emminating power.", //blurb
           "Shard of Emerald", //name
-          shortSwordSprite, //sprite
+          EmeraldSprite, //sprite
           "common", //rarity string
           5, //value in eyes
           1, //amount in birb's stock
@@ -1561,7 +1595,7 @@ public class EntityDefiner : MonoBehaviour
           "A rare gem radiating unexplainable magic. Excavated from the royal mining site, rare gems like these have been told to contain the souls of dragons who died underground in their lairs. Others say they are unique combinations of minerals. This one is tough.",//the desc
           "A powerful and rare gem. You feel drawn in by it's emminating power.", //blurb
           "Shard of Emerald", //name
-          shortSwordSprite, //sprite
+          EmeraldSprite, //sprite
           "common", //rarity string
           6, //value in eyes
           1, //amount in birb's stock
@@ -1583,7 +1617,7 @@ public class EntityDefiner : MonoBehaviour
           "A rare gem radiating unexplainable magic. Excavated from the royal mining site, rare gems like these have been told to contain the souls of dragons who died underground in their lairs. Others say they are unique combinations of minerals. This one is damaged.",//the desc
           "A powerful and rare gem. You feel drawn in by it's emminating power.", //blurb
           "Shard of Emerald", //name
-          shortSwordSprite, //sprite
+          EmeraldSprite, //sprite
           "common", //rarity string
           1, //value in eyes
           1, //amount in birb's stock
@@ -1605,7 +1639,7 @@ public class EntityDefiner : MonoBehaviour
           "A rare gem radiating unexplainable magic. Excavated from the royal mining site, rare gems like these have been told to contain the souls of dragons who died underground in their lairs. Others say they are unique combinations of minerals. This one is enchanted.",//the desc
           "A powerful and rare gem. You feel drawn in by it's emminating power.", //blurb
           "Shard of Emerald", //name
-          shortSwordSprite, //sprite
+          EmeraldSprite, //sprite
           "common", //rarity string
           5, //value in eyes
           1, //amount in birb's stock
@@ -1627,7 +1661,7 @@ public class EntityDefiner : MonoBehaviour
   "These glasses have been crafted from by the most talented tinkerers in all of the Emerald palace, using highly refined emerald sheets as their lenses. Usually used only by artificers, these glasses help the wearer see hidden details in the world.",//the desc
   "A beautifully crafted pair of glasses. You feel like you can see everything when wearing them.", //blurb
   "Emerald Glasses", //name
-  shortSwordSprite, //sprite
+  GlassesSprite, //sprite
   "rare", //rarity string
   6, //value in eyes
   1, //amount in birb's stock
@@ -1649,7 +1683,7 @@ public class EntityDefiner : MonoBehaviour
 "These glasses have been crafted from by the most talented tinkerers in all of the Emerald palace, using highly refined emerald sheets as their lenses. Usually used only by artificers, these glasses help the wearer see hidden details in the world. This pair is tough.",//the desc
 "A beautifully crafted pair of glasses. You feel like you can see everything when wearing them.", //blurb
 "Emerald Glasses", //name
-shortSwordSprite, //sprite
+GlassesSprite, //sprite
 "rare", //rarity string
 8, //value in eyes
 1, //amount in birb's stock
@@ -1671,7 +1705,7 @@ true, //(true)beneficial or (false)harmful
 "These glasses have been crafted from by the most talented tinkerers in all of the Emerald palace, using highly refined emerald sheets as their lenses. Usually used only by artificers, these glasses help the wearer see hidden details in the world. This pair is light.",//the desc
 "A beautifully crafted pair of glasses. You feel like you can see everything when wearing them.", //blurb
 "Emerald Glasses", //name
-shortSwordSprite, //sprite
+GlassesSprite, //sprite
 "rare", //rarity string
 6, //value in eyes
 1, //amount in birb's stock
@@ -1693,7 +1727,7 @@ true, //(true)beneficial or (false)harmful
 "These glasses have been crafted from by the most talented tinkerers in all of the Emerald palace, using highly refined emerald sheets as their lenses. Usually used only by artificers, these glasses help the wearer see hidden details in the world. This pair feels lucky.",//the desc
 "A beautifully crafted pair of glasses. You feel like you can see everything when wearing them.", //blurb
 "Emerald Glasses", //name
-shortSwordSprite, //sprite
+GlassesSprite, //sprite
 "rare", //rarity string
 7, //value in eyes
 1, //amount in birb's stock
@@ -1715,7 +1749,7 @@ true, //(true)beneficial or (false)harmful
 "These glasses have been crafted from by the most talented tinkerers in all of the Emerald palace, using highly refined emerald sheets as their lenses. Usually used only by artificers, these glasses help the wearer see hidden details in the world. This pair is cheap.",//the desc
 "A beautifully crafted pair of glasses. You feel like you can see everything when wearing them.", //blurb
 "Emerald Glasses", //name
-shortSwordSprite, //sprite
+GlassesSprite, //sprite
 "rare", //rarity string
 5, //value in eyes
 1, //amount in birb's stock
@@ -1737,7 +1771,7 @@ true, //(true)beneficial or (false)harmful
 "Pulled from the mouth of a beast. These teeth, found from flying monkeys, differ quite a lot from their non-avian counterparts. These teeth are greater in size and are serrated, hinting at the Flying Monkey's more predatory nature.",//the desc
 "A dangerous piece of natural weaponry. Don't cut yourself on it.", //blurb
 "Monkey Fang", //name
-shortSwordSprite, //sprite
+MonkeyFangSprite, //sprite
 "common", //rarity string
 5, //value in eyes
 1, //amount in birb's stock
@@ -1759,7 +1793,7 @@ true, //(true)beneficial or (false)harmful
 "Pulled from the mouth of a beast. These teeth, found from flying monkeys, differ quite a lot from their non-avian counterparts. These teeth are greater in size and are serrated, hinting at the Flying Monkey's more predatory nature. This one is sharp.",//the desc
 "A dangerous piece of natural weaponry. Don't cut yourself on it.", //blurb
 "Monkey Fang", //name
-shortSwordSprite, //sprite
+MonkeyFangSprite, //sprite
 "common", //rarity string
 7, //value in eyes
 1, //amount in birb's stock
@@ -1781,7 +1815,7 @@ true, //(true)beneficial or (false)harmful
 "Pulled from the mouth of a beast. These teeth, found from flying monkeys, differ quite a lot from their non-avian counterparts. These teeth are greater in size and are serrated, hinting at the Flying Monkey's more predatory nature. This one is haunted.",//the desc
 "A dangerous piece of natural weaponry. Don't cut yourself on it.", //blurb
 "Monkey Fang", //name
-shortSwordSprite, //sprite
+MonkeyFangSprite, //sprite
 "common", //rarity string
 10, //value in eyes
 1, //amount in birb's stock
@@ -1803,7 +1837,7 @@ true, //(true)beneficial or (false)harmful
 "Pulled from the mouth of a beast. These teeth, found from flying monkeys, differ quite a lot from their non-avian counterparts. These teeth are greater in size and are serrated, hinting at the Flying Monkey's more predatory nature. This one is dull.",//the desc
 "A dangerous piece of natural weaponry. Don't cut yourself on it.", //blurb
 "Monkey Fang", //name
-shortSwordSprite, //sprite
+MonkeyFangSprite, //sprite
 "common", //rarity string
 3, //value in eyes
 1, //amount in birb's stock
@@ -1825,7 +1859,7 @@ true, //(true)beneficial or (false)harmful
 "Pulled from the mouth of a beast. These teeth, found from flying monkeys, differ quite a lot from their non-avian counterparts. These teeth are greater in size and are serrated, hinting at the Flying Monkey's more predatory nature. This one is cheap.",//the desc
 "A dangerous piece of natural weaponry. Don't cut yourself on it.", //blurb
 "Monkey Fang", //name
-shortSwordSprite, //sprite
+MonkeyFangSprite, //sprite
 "common", //rarity string
 4, //value in eyes
 1, //amount in birb's stock
@@ -1847,7 +1881,7 @@ true, //(true)beneficial or (false)harmful
 "An amulet used for training mages in arcane schools due to it's ability to enhance its user's magical abilities and stamina. Although they aren't common to find, they are a fairly common commodity in the magical world, being used by most witches and wizards.",//the desc
 "A fragile gem encased in a hard metal. You feel more focused when wearing the amulet.", //blurb
 "Mana-Weaving Amulet", //name
-shortSwordSprite, //sprite
+ManaweavingAmuletSprite, //sprite
 "common", //rarity string
 4, //value in eyes
 1, //amount in birb's stock
@@ -1869,7 +1903,7 @@ true, //(true)beneficial or (false)harmful
 "An amulet used for training mages in arcane schools due to it's ability to enhance its user's magical abilities and stamina. Although they aren't common to find, they are a fairly common commodity in the magical world, being used by most witches and wizards. This one is enchanted.",//the desc
 "A fragile gem encased in a hard metal. You feel more focused when wearing the amulet.", //blurb
 "Mana-Weaving Amulet", //name
-shortSwordSprite, //sprite
+ManaweavingAmuletSprite, //sprite
 "common", //rarity string
 5, //value in eyes
 1, //amount in birb's stock
@@ -1891,7 +1925,7 @@ true, //(true)beneficial or (false)harmful
 "An amulet used for training mages in arcane schools due to it's ability to enhance its user's magical abilities and stamina. Although they aren't common to find, they are a fairly common commodity in the magical world, being used by most witches and wizards. This one is tough.",//the desc
 "A fragile gem encased in a hard metal. You feel more focused when wearing the amulet.", //blurb
 "Mana-Weaving Amulet", //name
-shortSwordSprite, //sprite
+ManaweavingAmuletSprite, //sprite
 "common", //rarity string
 2, //value in eyes
 1, //amount in birb's stock
@@ -1913,7 +1947,7 @@ true, //(true)beneficial or (false)harmful
 "An amulet used for training mages in arcane schools due to it's ability to enhance its user's magical abilities and stamina. Although they aren't common to find, they are a fairly common commodity in the magical world, being used by most witches and wizards. This one is light.",//the desc
 "A fragile gem encased in a hard metal. You feel more focused when wearing the amulet.", //blurb
 "Mana-Weaving Amulet", //name
-shortSwordSprite, //sprite
+ManaweavingAmuletSprite, //sprite
 "common", //rarity string
 4, //value in eyes
 1, //amount in birb's stock
@@ -1935,7 +1969,7 @@ true, //(true)beneficial or (false)harmful
 "A heavy piece of armor worn by knights and paladins. It can protect against most attacks, and even though this one has been through hundreds of battles and taken thousands more blows, it still looks like it was forged yesterday.",//the desc
 "A powerful piece of armor. You feel safer being around it.", //blurb
 "Iron Armor", //name
-shortSwordSprite, //sprite
+IronArmorSprite, //sprite
 "common", //rarity string
 10, //value in eyes
 1, //amount in birb's stock
@@ -1957,7 +1991,7 @@ true, //(true)beneficial or (false)harmful
 "A heavy piece of armor worn by knights and paladins. It can protect against most attacks, and even though this one has been through hundreds of battles and taken thousands more blows, it still looks like it was forged yesterday. This one is light.",//the desc
 "A powerful piece of armor. You feel safer being around it.", //blurb
 "Iron Armor", //name
-shortSwordSprite, //sprite
+IronArmorSprite, //sprite
 "common", //rarity string
 10, //value in eyes
 1, //amount in birb's stock
@@ -1979,7 +2013,7 @@ true, //(true)beneficial or (false)harmful
 "A heavy piece of armor worn by knights and paladins. It can protect against most attacks, and even though this one has been through hundreds of battles and taken thousands more blows, it still looks like it was forged yesterday. This one is tough.",//the desc
 "A powerful piece of armor. You feel safer being around it.", //blurb
 "Iron Armor", //name
-shortSwordSprite, //sprite
+IronArmorSprite, //sprite
 "common", //rarity string
 12, //value in eyes
 1, //amount in birb's stock
@@ -2001,7 +2035,7 @@ true, //(true)beneficial or (false)harmful
 "A heavy piece of armor worn by knights and paladins. It can protect against most attacks, and even though this one has been through hundreds of battles and taken thousands more blows, it still looks like it was forged yesterday. This one is damaged.",//the desc
 "A powerful piece of armor. You feel safer being around it.", //blurb
 "Iron Armor", //name
-shortSwordSprite, //sprite
+IronArmorSprite, //sprite
 "common", //rarity string
 5, //value in eyes
 1, //amount in birb's stock
@@ -2023,7 +2057,7 @@ true, //(true)beneficial or (false)harmful
 "A heavy piece of armor worn by knights and paladins. It can protect against most attacks, and even though this one has been through hundreds of battles and taken thousands more blows, it still looks like it was forged yesterday. This one is cheap.",//the desc
 "A powerful piece of armor. You feel safer being around it.", //blurb
 "Iron Armor", //name
-shortSwordSprite, //sprite
+IronArmorSprite, //sprite
 "common", //rarity string
 9, //value in eyes
 1, //amount in birb's stock
@@ -2045,7 +2079,7 @@ true, //(true)beneficial or (false)harmful
 "A simple axe used for wood cutting. The slight marks on the end and the blood stains on the handle however point to this axe being used in more 'creative' ways.",//the desc
 "A worn down, but reliable axe. It chops through bone better than wood.", //blurb
 "Wood-Cutter's Axe", //name
-shortSwordSprite, //sprite
+AxeSprite, //sprite
 "common", //rarity string
 6, //value in eyes
 1, //amount in birb's stock
@@ -2067,7 +2101,7 @@ true, //(true)beneficial or (false)harmful
 "A simple axe used for wood cutting. The slight marks on the end and the blood stains on the handle however point to this axe being used in more 'creative' ways. This one is haunted.",//the desc
 "A worn down, but reliable axe. It chops through bone better than wood.", //blurb
 "Wood-Cutter's Axe", //name
-shortSwordSprite, //sprite
+AxeSprite, //sprite
 "common", //rarity string
 11, //value in eyes
 1, //amount in birb's stock
@@ -2089,7 +2123,7 @@ true, //(true)beneficial or (false)harmful
 "A simple axe used for wood cutting. The slight marks on the end and the blood stains on the handle however point to this axe being used in more 'creative' ways. This one is sharp.",//the desc
 "A worn down, but reliable axe. It chops through bone better than wood.", //blurb
 "Wood-Cutter's Axe", //name
-shortSwordSprite, //sprite
+AxeSprite, //sprite
 "common", //rarity string
 8, //value in eyes
 1, //amount in birb's stock
@@ -2111,7 +2145,7 @@ true, //(true)beneficial or (false)harmful
 "A simple axe used for wood cutting. The slight marks on the end and the blood stains on the handle however point to this axe being used in more 'creative' ways. This one is dull.",//the desc
 "A worn down, but reliable axe. It chops through bone better than wood.", //blurb
 "Wood-Cutter's Axe", //name
-shortSwordSprite, //sprite
+AxeSprite, //sprite
 "common", //rarity string
 5, //value in eyes
 1, //amount in birb's stock
@@ -2133,7 +2167,7 @@ true, //(true)beneficial or (false)harmful
 "A simple axe used for wood cutting. The slight marks on the end and the blood stains on the handle however point to this axe being used in more 'creative' ways. This one is cheap.",//the desc
 "A worn down, but reliable axe. It chops through bone better than wood.", //blurb
 "Wood-Cutter's Axe", //name
-shortSwordSprite, //sprite
+AxeSprite, //sprite
 "common", //rarity string
 5, //value in eyes
 1, //amount in birb's stock
@@ -2155,7 +2189,7 @@ true, //(true)beneficial or (false)harmful
 "A bottled tornado. Holding the glass it's in, you can feel the power swirling around inside, as if the rage of a god was contained all within that small storm. The shopkeeper warns you not to open it, at least not near him.",//the desc
 "A small tornado swirling inside a bottle. Opening it could cause disaster.", //blurb
 "Tornado in a Bottle", //name
-shortSwordSprite, //sprite
+TornadoSprite, //sprite
 "uncommon", //rarity string
 2, //value in eyes
 1, //amount in birb's stock
@@ -2177,7 +2211,7 @@ true, //(true)beneficial or (false)harmful
 "A bottled tornado. Holding the glass it's in, you can feel the power swirling around inside, as if the rage of a god was contained all within that small storm. The shopkeeper warns you not to open it, at least not near him.",//the desc
 "A small tornado swirling inside a bottle. Opening it could cause disaster.", //blurb
 "Tornado in a Bottle", //name
-shortSwordSprite, //sprite
+TornadoSprite, //sprite
 "uncommon", //rarity string
 2, //value in eyes
 1, //amount in birb's stock
@@ -2199,7 +2233,7 @@ true, //(true)beneficial or (false)harmful
 "A bottled tornado. Holding the glass it's in, you can feel the power swirling around inside, as if the rage of a god was contained all within that small storm. The shopkeeper warns you not to open it, at least not near him. This one is cheap.",//the desc
 "A small tornado swirling inside a bottle. Opening it could cause disaster.", //blurb
 "Tornado in a Bottle", //name
-shortSwordSprite, //sprite
+TornadoSprite, //sprite
 "uncommon", //rarity string
 1, //value in eyes
 1, //amount in birb's stock
@@ -2221,7 +2255,7 @@ true, //(true)beneficial or (false)harmful
 "A bottled tornado. Holding the glass it's in, you can feel the power swirling around inside, as if the rage of a god was contained all within that small storm. The shopkeeper warns you not to open it, at least not near him. This one is enchanted.",//the desc
 "A small tornado swirling inside a bottle. Opening it could cause disaster.", //blurb
 "Tornado in a Bottle", //name
-shortSwordSprite, //sprite
+TornadoSprite, //sprite
 "uncommon", //rarity string
 3, //value in eyes
 1, //amount in birb's stock
@@ -2243,7 +2277,7 @@ true, //(true)beneficial or (false)harmful
 "A bottled tornado. Holding the glass it's in, you can feel the power swirling around inside, as if the rage of a god was contained all within that small storm. The shopkeeper warns you not to open it, at least not near him. This one feels lucky.",//the desc
 "A small tornado swirling inside a bottle. Opening it could cause disaster.", //blurb
 "Tornado in a Bottle", //name
-shortSwordSprite, //sprite
+TornadoSprite, //sprite
 "uncommon", //rarity string
 3, //value in eyes
 1, //amount in birb's stock
@@ -2265,7 +2299,7 @@ true, //(true)beneficial or (false)harmful
           "An amulet used to help nurse people back to health. Using a combination of rare gems imbued with various spells, the amulet can help protect the wearer from both phyisical damage, as well as viruses or infections.",//the desc
           "Usually found on the necks of frontline soldiers, helping them heal small wounds during combat.", //blurb
           "Life-Giving Amulet", //name
-          shortSwordSprite, //sprite
+          lifeGivingAmuletSprite, //sprite
           "common", //rarity string
           6, //value in eyes
           1, //amount in birb's stock
@@ -2287,7 +2321,7 @@ true, //(true)beneficial or (false)harmful
           "An amulet used to help nurse people back to health. Using a combination of rare gems imbued with various spells, the amulet can help protect the wearer from both phyisical damage, as well as viruses or infections. This one is tough.",//the desc
           "Usually found on the necks of frontline soldiers, helping them heal small wounds during combat.", //blurb
           "Life-Giving Amulet", //name
-          shortSwordSprite, //sprite
+          lifeGivingAmuletSprite, //sprite
           "common", //rarity string
           8, //value in eyes
           1, //amount in birb's stock
@@ -2309,7 +2343,7 @@ true, //(true)beneficial or (false)harmful
           "An amulet used to help nurse people back to health. Using a combination of rare gems imbued with various spells, the amulet can help protect the wearer from both phyisical damage, as well as viruses or infections. This one is enchanted.",//the desc
           "Usually found on the necks of frontline soldiers, helping them heal small wounds during combat.", //blurb
           "Life-Giving Amulet", //name
-          shortSwordSprite, //sprite
+          lifeGivingAmuletSprite, //sprite
           "common", //rarity string
           7, //value in eyes
           1, //amount in birb's stock
@@ -2331,7 +2365,7 @@ true, //(true)beneficial or (false)harmful
           "An amulet used to help nurse people back to health. Using a combination of rare gems imbued with various spells, the amulet can help protect the wearer from both phyisical damage, as well as viruses or infections. This one is cheap.",//the desc
           "Usually found on the necks of frontline soldiers, helping them heal small wounds during combat.", //blurb
           "Life-Giving Amulet", //name
-          shortSwordSprite, //sprite
+          lifeGivingAmuletSprite, //sprite
           "common", //rarity string
           5, //value in eyes
           1, //amount in birb's stock
@@ -2353,7 +2387,7 @@ true, //(true)beneficial or (false)harmful
           "An amulet used to help nurse people back to health. Using a combination of rare gems imbued with various spells, the amulet can help protect the wearer from both phyisical damage, as well as viruses or infections. This one is light.",//the desc
           "Usually found on the necks of frontline soldiers, helping them heal small wounds during combat.", //blurb
           "Life-Giving Amulet", //name
-          shortSwordSprite, //sprite
+          lifeGivingAmuletSprite, //sprite
           "common", //rarity string
           6, //value in eyes
           1, //amount in birb's stock
@@ -2375,7 +2409,7 @@ true, //(true)beneficial or (false)harmful
           "A shield only equipped by paladins of the highest ranks. It symbolises protection, safety, and a guard's unwavering faith to their king. How this shopkeeper got a hold of it is baffling.",//the desc
           "A symbolic bulwark given to the most trusted and respected paladins.", //blurb
           "Paladin's Shield", //name
-          shortSwordSprite, //sprite
+          ShieldSprite, //sprite
           "rare", //rarity string
           15, //value in eyes
           1, //amount in birb's stock
@@ -2397,7 +2431,7 @@ true, //(true)beneficial or (false)harmful
           "A shield only equipped by paladins of the highest ranks. It symbolises protection, safety, and a guard's unwavering faith to their king. How this shopkeeper got a hold of it is baffling. This one is tough.",//the desc
           "A symbolic bulwark given to the most trusted and respected paladins.", //blurb
           "Paladin's Shield", //name
-          shortSwordSprite, //sprite
+          ShieldSprite, //sprite
           "rare", //rarity string
           17, //value in eyes
           1, //amount in birb's stock
@@ -2419,7 +2453,7 @@ true, //(true)beneficial or (false)harmful
           "A shield only equipped by paladins of the highest ranks. It symbolises protection, safety, and a guard's unwavering faith to their king. How this shopkeeper got a hold of it is baffling. This one feels lucky.",//the desc
           "A symbolic bulwark given to the most trusted and respected paladins.", //blurb
           "Paladin's Shield", //name
-          shortSwordSprite, //sprite
+          ShieldSprite, //sprite
           "rare", //rarity string
           16, //value in eyes
           1, //amount in birb's stock
@@ -2441,7 +2475,7 @@ true, //(true)beneficial or (false)harmful
           "A shield only equipped by paladins of the highest ranks. It symbolises protection, safety, and a guard's unwavering faith to their king. How this shopkeeper got a hold of it is baffling. This one is haunted.",//the desc
           "A symbolic bulwark given to the most trusted and respected paladins.", //blurb
           "Paladin's Shield", //name
-          shortSwordSprite, //sprite
+          ShieldSprite, //sprite
           "rare", //rarity string
           20, //value in eyes
           1, //amount in birb's stock
@@ -2463,7 +2497,7 @@ true, //(true)beneficial or (false)harmful
           "A shield only equipped by paladins of the highest ranks. It symbolises protection, safety, and a guard's unwavering faith to their king. How this shopkeeper got a hold of it is baffling. This one is damaged.",//the desc
           "A symbolic bulwark given to the most trusted and respected paladins.", //blurb
           "Paladin's Shield", //name
-          shortSwordSprite, //sprite
+          ShieldSprite, //sprite
           "rare", //rarity string
           10, //value in eyes
           1, //amount in birb's stock
@@ -2485,7 +2519,7 @@ true, //(true)beneficial or (false)harmful
           "This emblem has been forged through generations by the nomadic tribes of the east. It symbolises the rejection of modern civilization and the acceptance of changing and ruling the natural world through your will and strength alone.",//the desc
           "A charm worn by the shamans of nomadic tribes to show their domination over the natural world.", //blurb
           "Emblem of Purity", //name
-          shortSwordSprite, //sprite
+          PuritySprite, //sprite
           "common", //rarity string
           8, //value in eyes
           1, //amount in birb's stock
@@ -2507,7 +2541,7 @@ true, //(true)beneficial or (false)harmful
           "This emblem has been forged through generations by the nomadic tribes of the east. It symbolises the rejection of modern civilization and the acceptance of changing and ruling the natural world through your will and strength alone. This one is cheap.",//the desc
           "A charm worn by the shamans of nomadic tribes to show their domination over the natural world.", //blurb
           "Emblem of Purity", //name
-          shortSwordSprite, //sprite
+          PuritySprite, //sprite
           "common", //rarity string
           7, //value in eyes
           1, //amount in birb's stock
@@ -2529,7 +2563,7 @@ true, //(true)beneficial or (false)harmful
           "This emblem has been forged through generations by the nomadic tribes of the east. It symbolises the rejection of modern civilization and the acceptance of changing and ruling the natural world through your will and strength alone. This one is sharp.",//the desc
           "A charm worn by the shamans of nomadic tribes to show their domination over the natural world.", //blurb
           "Emblem of Purity", //name
-          shortSwordSprite, //sprite
+          PuritySprite, //sprite
           "common", //rarity string
           10, //value in eyes
           1, //amount in birb's stock
@@ -2551,7 +2585,7 @@ true, //(true)beneficial or (false)harmful
           "This emblem has been forged through generations by the nomadic tribes of the east. It symbolises the rejection of modern civilization and the acceptance of changing and ruling the natural world through your will and strength alone. This one is haunted.",//the desc
           "A charm worn by the shamans of nomadic tribes to show their domination over the natural world.", //blurb
           "Emblem of Purity", //name
-          shortSwordSprite, //sprite
+          PuritySprite, //sprite
           "common", //rarity string
           13, //value in eyes
           1, //amount in birb's stock
@@ -2573,7 +2607,7 @@ true, //(true)beneficial or (false)harmful
           "This emblem has been forged through generations by the nomadic tribes of the east. It symbolises the rejection of modern civilization and the acceptance of changing and ruling the natural world through your will and strength alone. This one is light.",//the desc
           "A charm worn by the shamans of nomadic tribes to show their domination over the natural world.", //blurb
           "Emblem of Purity", //name
-          shortSwordSprite, //sprite
+          PuritySprite, //sprite
           "common", //rarity string
           8, //value in eyes
           1, //amount in birb's stock
@@ -2595,7 +2629,7 @@ true, //(true)beneficial or (false)harmful
           "A 4 leaf clover. Said to provide those who wear it with extreme luck.",//the desc
           "Just a leaf. How lucky can it really be?", //blurb
           "Lucky Leaf", //name
-          shortSwordSprite, //sprite
+          CloverSprite, //sprite
           "masterwork", //rarity string
           10, //value in eyes
           1, //amount in birb's stock
@@ -2617,7 +2651,7 @@ true, //(true)beneficial or (false)harmful
           "Unlike normal armor worn by soliders from other nations, the emerald armor worn by emerald palace guards are quite brittle and are destroyed quite easily. Instead, they use emerald's unique magical abilities to enhance the user's combat prowess.",//the desc
           "A piece of unique armor. Wearing it as protection would end quite badly.", //blurb
           "Emerald Armor", //name
-          shortSwordSprite, //sprite
+          EmeraldArmorSprite, //sprite
           "uncommon", //rarity string
           5, //value in eyes
           1, //amount in birb's stock
@@ -2639,7 +2673,7 @@ true, //(true)beneficial or (false)harmful
           "Unlike normal armor worn by soliders from other nations, the emerald armor worn by emerald palace guards are quite brittle and are destroyed quite easily. Instead, they use emerald's unique magical abilities to enhance the user's combat prowess. This one is enchanted.",//the desc
           "A piece of unique armor. Wearing it as protection would end quite badly.", //blurb
           "Emerald Armor", //name
-          shortSwordSprite, //sprite
+          EmeraldArmorSprite, //sprite
           "uncommon", //rarity string
           6, //value in eyes
           1, //amount in birb's stock
@@ -2661,7 +2695,7 @@ true, //(true)beneficial or (false)harmful
           "Unlike normal armor worn by soliders from other nations, the emerald armor worn by emerald palace guards are quite brittle and are destroyed quite easily. Instead, they use emerald's unique magical abilities to enhance the user's combat prowess. This one is cheap.",//the desc
           "A piece of unique armor. Wearing it as protection would end quite badly.", //blurb
           "Emerald Armor", //name
-          shortSwordSprite, //sprite
+          EmeraldArmorSprite, //sprite
           "uncommon", //rarity string
           4, //value in eyes
           1, //amount in birb's stock
@@ -2683,7 +2717,7 @@ true, //(true)beneficial or (false)harmful
           "Unlike normal armor worn by soliders from other nations, the emerald armor worn by emerald palace guards are quite brittle and are destroyed quite easily. Instead, they use emerald's unique magical abilities to enhance the user's combat prowess. This one is tough.",//the desc
           "A piece of unique armor. Wearing it as protection would end quite badly.", //blurb
           "Emerald Armor", //name
-          shortSwordSprite, //sprite
+          EmeraldArmorSprite, //sprite
           "uncommon", //rarity string
           7, //value in eyes
           1, //amount in birb's stock
@@ -2705,7 +2739,7 @@ true, //(true)beneficial or (false)harmful
           "Unlike normal armor worn by soliders from other nations, the emerald armor worn by emerald palace guards are quite brittle and are destroyed quite easily. Instead, they use emerald's unique magical abilities to enhance the user's combat prowess. This one is haunted.",//the desc
           "A piece of unique armor. Wearing it as protection would end quite badly.", //blurb
           "Emerald Armor", //name
-          shortSwordSprite, //sprite
+          EmeraldArmorSprite, //sprite
           "uncommon", //rarity string
           10, //value in eyes
           1, //amount in birb's stock
@@ -2727,7 +2761,7 @@ true, //(true)beneficial or (false)harmful
           "The beauty of this blade cannot be overstated. Just looking at it sends chills down one's spine. Legend says that this blade is able to cut an opponent in half just by drawing it from a sheath. No price could be high enough for this weapon.",//the desc
           "The duality of man given form to a blade.", //blurb
           "Duality", //name
-          shortSwordSprite, //sprite
+          DualitySprite, //sprite
           "masterwork", //rarity string
           20, //value in eyes
           1, //amount in birb's stock
