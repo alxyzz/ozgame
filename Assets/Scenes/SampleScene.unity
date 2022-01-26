@@ -12336,11 +12336,11 @@ MonoBehaviour:
   AngerManaCost: 100
   CaringManaCost: 100
   WrathManaCost: 100
-  PCStartingMaxHealth: 5
+  PCStartingMaxHealth: 20
   PCStartingMinDamage: 10
   PCStartingMaxDamage: 12
   PCStartingSpeed: 5
-  PCStartingLuck: 100
+  PCStartingLuck: 0
   PCStartingDefense: 2
   PCStartingManaRegen: 25
   flyingMonkeyMaxHealth: 15
