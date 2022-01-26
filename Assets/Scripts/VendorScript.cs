@@ -185,10 +185,6 @@ public class VendorScript : MonoBehaviour
     //this could play a short nice animation, perhaps
     public void OpenVendorMenu()
     {
-        difficultyCurrency += (difficultyCurrency / 15) + 3;
-        Debug.Log("TEST: " + difficultyCurrency);
-        MainData.MainLoop.LevelHelperComponent.GENERATE();
-
         if (MainData.currentLevel == null)
         {
             MainData.MainLoop.EventLoggingComponent.LogGray("You try to talk to the merchant, but sudden apprehension fills your thoughts as you realize that the reality which you are perceiving is not real. Will these iterations never end? Are we cursed to relive the same battles again and again, without the mercy of returning to the rapturous oblivion from whence we came? The world is a series of walls, I can see it. Six l̵a̶y̶e̸r̵s̸ of reality, five below and one above, endlessly moving around us as we stay still. Divines have mercy on our C̸͉̚ḣ̵̗a̵̧͋r̷̭͂a̵̍ͅc̵̦̏t̶̃ͅé̸̖r̴̭͠S̷̹̐c̷̟͌r̶͖̆i̴͖͗p̵͈̏t̸̟͒");

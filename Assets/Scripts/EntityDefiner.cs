@@ -646,6 +646,10 @@ public class EntityDefiner : MonoBehaviour
 
     public void SpawnEncounter(Encounter b)
     {
+        difficultyCurrency += (Mathf.Clamp(difficultyCurrency / 6, 0, 10) + 5);
+        Debug.Log("TEST: " + difficultyCurrency);
+        MainData.MainLoop.LevelHelperComponent.GENERATE();
+
         List<CharacterWorldspaceScript> enemiesSpawned = new List<CharacterWorldspaceScript>();
         b.spawned = true;//no repeat customers
 
@@ -672,6 +676,17 @@ public class EntityDefiner : MonoBehaviour
         foreach (CharacterWorldspaceScript item in enemiesSpawned)
         {
             item.SetupIdleAnimAndStart();
+            float baseScaleAmnt = MainData.MainLoop.LevelHelperComponent.difCurrency / 10; //Calculate stat scaling
+
+            item.associatedCharacter.baseDamageMin += ((int)baseScaleAmnt) * 2; //Apply scaling to damage (min and max equally)
+            item.associatedCharacter.baseDamageMax += ((int)baseScaleAmnt) * 2;
+            item.associatedCharacter.defense += (int)((int)baseScaleAmnt * 0.3); //Apply bonus defense
+            item.associatedCharacter.maxHealth += (int)baseScaleAmnt;
+            item.associatedCharacter.currentHealth += (int)baseScaleAmnt;
+            item.associatedCharacter.InitializeHealthBar();
+            item.associatedCharacter.baseSpeed += (int)((int)baseScaleAmnt * 0.7);
+
+            Debug.Log("DIFFICULTY = " + baseScaleAmnt);
         }
 
         //MainData.MainLoop.EventLoggingComponent.LogDisplayGradualText("You get a bad feeling.");
@@ -3668,6 +3683,10 @@ true, //(true)beneficial or (false)harmful
 
         }
 
+        public void InitializeHealthBar()
+        {
+            MainData.MainLoop.UserInterfaceHelperComponent.RefreshHealthBarEnemy();
+        }
 
         public void GotKilled(Character killer = null)
         {
