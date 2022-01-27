@@ -1037,10 +1037,10 @@ public class EntityDefiner : MonoBehaviour
         // slot2ref.associatedCharacter.ChangeTrait(MainData.t1traitList["wrath"]);
         //slot3ref.associatedCharacter.ChangeTrait(MainData.t1traitList["caring"]);
         //slot4ref.associatedCharacter.ChangeTrait(MainData.t1traitList["angry"]);
-        slot1ref.associatedCharacter.ChangeTrait(MainData.t1traitList["bulwark"]);
-        slot2ref.associatedCharacter.ChangeTrait(MainData.t1traitList["bulwark"]);
-        slot3ref.associatedCharacter.ChangeTrait(MainData.t1traitList["bulwark"]);
-        slot4ref.associatedCharacter.ChangeTrait(MainData.t1traitList["bulwark"]);
+        slot1ref.associatedCharacter.ChangeTrait(MainData.t1traitList["nurturing"]);
+        slot2ref.associatedCharacter.ChangeTrait(MainData.t1traitList["nurturing"]);
+        slot3ref.associatedCharacter.ChangeTrait(MainData.t1traitList["nurturing"]);
+        slot4ref.associatedCharacter.ChangeTrait(MainData.t1traitList["nurturing"]);
 
 
         MainData.MainLoop.UserInterfaceHelperComponent.RefreshCharacterTabs();
@@ -2899,6 +2899,18 @@ true, //(true)beneficial or (false)harmful
         Debug.Log("Added new trait - [" + t5.identifier + "].");
         MainData.traitList.Add(t5.identifier, t5);
 
+        Trait t6 = new Trait("nurturing", //string ID
+                           "Nurturing", //name
+                           "Nuturing", //adjective given to characters with this
+                           "nurturing stuff.", // blurb. wax poetic here as much as you want
+                           "Passive: Slight increase to health, slight decrease in damage and speed.\nActive: <color=#55ff22>Inspire you and an ally</color>, healing you both for a small amount.", //functional description
+                           null, //sprite
+                           false,
+                           MainData.MainLoop.TweakingComponent.NurturingManaCost); //false = t1. true = t2.
+        //gets automatically sent to the desired trait list upon generation, in the constructor
+        Debug.Log("Added new trait - [" + t6.identifier + "].");
+        MainData.traitList.Add(t6.identifier, t6);
+
     }
 
     public void MakeEquipableItemTemplate(string identifier,
@@ -3295,6 +3307,18 @@ true, //(true)beneficial or (false)harmful
                         }
                         break;
 
+                    case "nurturing":
+                        if (!charTrait.hasAppliedStats)
+                        {
+                            damageMax -= MainData.MainLoop.TweakingComponent.nurturePassiveDamageMalus;
+                            damageMin -= MainData.MainLoop.TweakingComponent.nurturePassiveDamageMalus;
+                            maxHealth += MainData.MainLoop.TweakingComponent.nurturePassiveHealthBonus;
+                            currentHealth += MainData.MainLoop.TweakingComponent.nurturePassiveHealthBonus;
+                            speed -= MainData.MainLoop.TweakingComponent.nurturePassiveSpeedMalus;
+                            charTrait.hasAppliedStats = true;
+                        }
+                        break;
+
                     case "angry":
                         if (!charTrait.hasAppliedStats)
                         {
@@ -3420,6 +3444,17 @@ true, //(true)beneficial or (false)harmful
                         maxHealth -= MainData.MainLoop.TweakingComponent.caringPassiveHealthBonus;
                         charTrait = null;
 
+                        break;
+
+
+                    case "nurturing":
+
+                            damageMax += MainData.MainLoop.TweakingComponent.nurturePassiveDamageMalus;
+                            damageMin += MainData.MainLoop.TweakingComponent.nurturePassiveDamageMalus;
+                            maxHealth -= MainData.MainLoop.TweakingComponent.nurturePassiveHealthBonus;
+                            currentHealth -= MainData.MainLoop.TweakingComponent.nurturePassiveHealthBonus;
+                            speed += MainData.MainLoop.TweakingComponent.nurturePassiveSpeedMalus;
+                            charTrait = null;
                         break;
 
                     case "angry":

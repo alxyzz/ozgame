@@ -446,6 +446,37 @@ public class CombatHelper : MonoBehaviour
                         EndCurrentTurn();
                     break;
 
+                case "nurturing"://so yeah this is where active traits go
+                    //heal target. allied target.
+                    if (activeTarget == null)
+                    {
+                        Debug.LogError("Target was null. Can't use caring.");
+                        return;
+                    }
+                    if (activeTarget.associatedCharacter == null)
+                    {
+                        Debug.LogError("Target's assoc char was null. Can't use caring.");
+                        return;
+                    }
+
+                    if (activeTarget.associatedCharacter.isPlayerPartyMember)
+                    {
+                        //heals for a percentage of max health
+                            int healing = MainData.MainLoop.TweakingComponent.nurtureActiveHealing;
+                            Debug.LogError("healing is " + healing.ToString());
+                            gameloop.EventLoggingComponent.Log(activeCharacterWorldspaceObject.associatedCharacter.charName + "'s inspiration helps " + activeTarget.associatedCharacter.charName + ", healing them for " + healing + " health!");
+                            activeTarget.associatedCharacter.GainHealth(healing);
+                            activeCharacterWorldspaceObject.associatedCharacter.GainHealth(healing);
+                            Caster.manaTotal -= Caster.charTrait.manaCost;
+                            EndCurrentTurn();
+                    }
+                    else
+                    {
+                        MainData.MainLoop.EventLoggingComponent.LogGray(Caster.charName + " can't inspire something without a mind.");
+                        return;
+                    }
+                    break;
+
                 default:
                     break;
             }

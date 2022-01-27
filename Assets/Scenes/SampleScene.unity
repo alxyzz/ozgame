@@ -12343,6 +12343,10 @@ MonoBehaviour:
   caringHealingPotionPercentageHealingTakenMalus: 50
   caringPassiveHealthBonus: 10
   caringPassiveDamageMalus: 5
+  nurtureActiveHealing: 5
+  nurturePassiveHealthBonus: 5
+  nurturePassiveDamageMalus: 2
+  nurturePassiveSpeedMalus: 0
   greedActiveSelfDamage: 10
   greedActiveRevenue: 10
   greedBountyPercentageBonus: 50
@@ -12362,6 +12366,7 @@ MonoBehaviour:
   CaringManaCost: 33
   WrathManaCost: 50
   BulwarkManaCost: 75
+  NurturingManaCost: 33
   PCStartingMaxHealth: 20
   PCStartingMinDamage: 10
   PCStartingMaxDamage: 12
