@@ -405,8 +405,8 @@ public class CombatHelper : MonoBehaviour
                     if (activeTarget.associatedCharacter == null) { return; }
                     Caster.damageMax -= gameloop.TweakingComponent.angryActiveDamageMalus;
                     Caster.damageMin -= gameloop.TweakingComponent.angryActiveDamageMalus;
-                    gameloop.EventLoggingComponent.Log(Caster.charName + " lashes out! " + activeTarget.associatedCharacter.charName + " takes " + gameloop.TweakingComponent.angryActivePowerDamage + " damage!");
-                    activeTarget.associatedCharacter.TakeDamage(gameloop.TweakingComponent.angryActivePowerDamage);
+                    gameloop.EventLoggingComponent.Log(Caster.charName + " lashes out! " + activeTarget.associatedCharacter.charName + " takes " + (gameloop.TweakingComponent.angryActivePowerDamage + (Caster.damageMax * 2)) + " damage!");
+                    activeTarget.associatedCharacter.TakeDamage(gameloop.TweakingComponent.angryActivePowerDamage + (Caster.damageMax * 2));
                     Caster.manaTotal -= Caster.charTrait.manaCost;
                     EndCurrentTurn();
 
@@ -415,8 +415,8 @@ public class CombatHelper : MonoBehaviour
                     //double attack
                     if (activeTarget == null) { return; }
                     if (activeTarget.associatedCharacter == null) { return; }
-                    activeCharacterWorldspaceObject.associatedCharacter.damageMax -= gameloop.TweakingComponent.angryActiveDamageMalus; //permanent damage loss
-                    activeCharacterWorldspaceObject.associatedCharacter.damageMin -= gameloop.TweakingComponent.angryActiveDamageMalus;
+                    //activeCharacterWorldspaceObject.associatedCharacter.damageMax -= gameloop.TweakingComponent.angryActiveDamageMalus; //permanent damage loss
+                    //activeCharacterWorldspaceObject.associatedCharacter.damageMin -= gameloop.TweakingComponent.angryActiveDamageMalus;
                     gameloop.EventLoggingComponent.Log(activeCharacterWorldspaceObject.associatedCharacter.charName + " wrathful nature provokes a double attack!");
                     activeTarget.associatedCharacter.TakeDamageFromCharacter(activeCharacterWorldspaceObject.associatedCharacter);
                     if (MainData.livingEnemyParty.Count > 0)

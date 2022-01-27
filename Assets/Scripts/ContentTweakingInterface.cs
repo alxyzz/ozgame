@@ -38,11 +38,16 @@ public class ContentTweakingInterface : MonoBehaviour
     public int wrathDamageIncrease = 0;
     public int wrathSpeedIncrease = 0;
     [Space(5)]
+    public int bulwarkDamageIncrease = 0;
+    public int bulwarkSpeedDecrease = 0;
+    public int bulwarkDefenseIncrease = 0;
+    [Space(5)]
     [Header("These should be from 0 to 100, no more. You gain the amount per turn.")]
     public int GreedManaCost;
     public int AngerManaCost;
     public int CaringManaCost;
     public int WrathManaCost;
+    public int BulwarkManaCost;
 
     //double strike has no value to edit
     [Space(5)]
@@ -94,6 +99,47 @@ public class ContentTweakingInterface : MonoBehaviour
     public int hellbentflyingMonkeyLuck = 0;
     public int hellbentflyingMonkeyDefense = 0;
     //Hellbent Monkey
+    [Space(5)]
+
+    public int corruptedMaxHealth = 0;
+    public int corruptedMinDamage = 0;
+    public int corruptedMaxDamage = 0;
+
+    public int corruptedSpeed = 0;
+    public int corruptedLuck = 0;
+    public int corruptedDefense = 0;
+    //Weak monkey
+    [Space(5)]
+
+    public int weakcorruptedMaxHealth = 0;
+    public int weakcorruptedMinDamage = 0;
+    public int weakcorruptedMaxDamage = 0;
+
+    public int weakcorruptedSpeed = 0;
+    public int weakcorruptedLuck = 0;
+    public int weakcorruptedDefense = 0;
+    //Weak monkey
+    [Space(5)]
+
+    public int toughcorruptedMaxHealth = 0;
+    public int toughcorruptedMinDamage = 0;
+    public int toughcorruptedMaxDamage = 0;
+
+    public int toughcorruptedSpeed = 0;
+    public int toughcorruptedLuck = 0;
+    public int toughcorruptedDefense = 0;
+    //Weak monkey
+    [Space(5)]
+
+    public int legendarycorruptedMaxHealth = 0;
+    public int legendarycorruptedMinDamage = 0;
+    public int legendarycorruptedMaxDamage = 0;
+
+    public int legendarycorruptedSpeed = 0;
+    public int legendarycorruptedLuck = 0;
+    public int legendarycorruptedDefense = 0;
+    //Weak monkey
+    [Space(5)]
 
     [Space(5)]
     [Header("ItemColors")]
