@@ -60,8 +60,15 @@ public class CombatHelper : MonoBehaviour
             {//if there's damage too, put it on the next line
                 ourtext.text += "\n" + damage;
             }
+            if (heal)
+            {
+                ourtext.color = new Color(0.701f, 1f, 0.745f);
+            }
+            else
+            {
+                ourtext.color = new Color(0.996f, 0.380f, 0.345f);
+            }
         }
-        
         else
         {
             if (heal)
@@ -108,7 +115,7 @@ public class CombatHelper : MonoBehaviour
     }
     IEnumerator DoPatientCombatRound(List<Character> combatants)
     {//it waits for the current round to end, before it gives the next combatant the opportunity to fight.
-        
+
         Debug.LogWarning("Now doing combat turn. Patiently.");
         if (AreEnemiesDead())
         {
@@ -315,71 +322,78 @@ public class CombatHelper : MonoBehaviour
 
     public void ClickTraitAbility()
     {
-
+        Debug.LogError("the active target is " + activeTarget.associatedCharacter.charName);
         GameManager gameloop = MainData.MainLoop;
-
-        if (!activeCharacterWorldspaceObject.associatedCharacter.charTrait.forceCooldown) //Check if cooldown is forced
+        Character Caster = activeCharacterWorldspaceObject.associatedCharacter;
+        if (!Caster.charTrait.forceCooldown) //Check if cooldown is forced
         {
-            if (activeCharacterWorldspaceObject.associatedCharacter.manaTotal < activeCharacterWorldspaceObject.associatedCharacter.charTrait.manaCost)// we check wether we have enough mana here.
+            if (Caster.manaTotal < Caster.charTrait.manaCost)// we check wether we have enough mana here.
             {
-                MainData.MainLoop.EventLoggingComponent.Log(activeCharacterWorldspaceObject.associatedCharacter.charName + " does not have enough mana to express their " + activeCharacterWorldspaceObject.associatedCharacter.charTrait.traitName + "!");
+                MainData.MainLoop.EventLoggingComponent.Log(Caster.charName + " does not have enough mana to express their " + Caster.charTrait.traitName + "!");
                 //a failure sound, here
                 return;
             }
 
-            switch (activeCharacterWorldspaceObject.associatedCharacter.charTrait.identifier)
+            switch (Caster.charTrait.identifier)
             {
                 case "caring"://so yeah this is where active traits go
                     //heal target. allied target.
-                    if (activeTarget == null) { return; }
-                    if (activeTarget.associatedCharacter == null) { return; }
-                    
-                    
-                   
+                    if (activeTarget == null)
+                    {
+                        Debug.LogError("Target was null. Can't use caring.");
+                        return;
+                    }
+                    if (activeTarget.associatedCharacter == null)
+                    {
+                        Debug.LogError("Target's assoc char was null. Can't use caring.");
+                        return;
+                    }
+
+
+
                     if (activeTarget.associatedCharacter.isPlayerPartyMember)
                     {
 
                         if (activeTarget.associatedCharacter.currentHealth >= activeTarget.associatedCharacter.maxHealth)
                         {
-                            gameloop.EventLoggingComponent.Log(activeCharacterWorldspaceObject.associatedCharacter.charName + "'s hugs " + activeTarget.associatedCharacter.charName + "! " + activeTarget.associatedCharacter.charName + " feels much better!");
+                            gameloop.EventLoggingComponent.Log(Caster.charName + "'s hugs " + activeTarget.associatedCharacter.charName + "! " + activeTarget.associatedCharacter.charName + " feels much better!");
                             activeTarget.associatedCharacter.GainHealth(0);
                             EndCurrentTurn();
 
                         }
                         else
-                        {
+                        {//heals for a percentage of max health
                             int healing = (activeTarget.associatedCharacter.maxHealth / 100) * (MainData.MainLoop.TweakingComponent.caringActiveHealing);
-                            activeTarget.associatedCharacter.GainHealth(gameloop.TweakingComponent.caringActiveHealing);
+                            Debug.LogError("healing is " + healing.ToString());
                             gameloop.EventLoggingComponent.Log(activeCharacterWorldspaceObject.associatedCharacter.charName + "'s caring nature mends " + activeTarget.associatedCharacter.charName + "'s wounds for " + healing + " health!");
-                            activeCharacterWorldspaceObject.associatedCharacter.manaRegeneration -= activeCharacterWorldspaceObject.associatedCharacter.charTrait.manaCost;
                             activeTarget.associatedCharacter.GainHealth(healing);
-                            activeCharacterWorldspaceObject.associatedCharacter.manaTotal -= activeCharacterWorldspaceObject.associatedCharacter.charTrait.manaCost;
+                            Caster.manaTotal -= Caster.charTrait.manaCost;
                             EndCurrentTurn();
                         }
 
                     }
                     else
                     {
-                        MainData.MainLoop.EventLoggingComponent.LogGray("Even " + activeCharacterWorldspaceObject.associatedCharacter.charName + " is wise enough not to waste their power on an enemy.");
+                        MainData.MainLoop.EventLoggingComponent.LogGray("Even " + Caster.charName + " is wise enough not to waste their power on an enemy.");
                         return;
                     }
                     break;
 
                 case "greed":
                     //sell off HP for gold
-                    if (activeCharacterWorldspaceObject.associatedCharacter.currentHealth > gameloop.TweakingComponent.greedActiveSelfDamage)
+                    if (Caster.currentHealth > gameloop.TweakingComponent.greedActiveSelfDamage)
                     {
 
-                        gameloop.EventLoggingComponent.Log(activeCharacterWorldspaceObject.associatedCharacter.charName + "'s sells off their vital energy for " + gameloop.TweakingComponent.greedActiveRevenue + " coins!");
-                        activeCharacterWorldspaceObject.associatedCharacter.TakeDamage(gameloop.TweakingComponent.greedActiveSelfDamage);
+                        gameloop.EventLoggingComponent.Log(Caster.charName + "'s sells off their vital energy for " + gameloop.TweakingComponent.greedActiveRevenue + " coins!");
+                        Caster.TakeDamage(gameloop.TweakingComponent.greedActiveSelfDamage);
                         gameloop.Currency += MainData.MainLoop.TweakingComponent.greedActiveRevenue;
                         gameloop.UserInterfaceHelperComponent.UpdateCurrencyCounter();
-                        activeCharacterWorldspaceObject.associatedCharacter.manaTotal -= activeCharacterWorldspaceObject.associatedCharacter.charTrait.manaCost;
+                        Caster.manaTotal -= Caster.charTrait.manaCost;
                         EndCurrentTurn();
                     }
                     else
                     {
-                        gameloop.EventLoggingComponent.Log("Too wounded! " + activeCharacterWorldspaceObject.associatedCharacter.charName + " is still not ready to sell their soul completely.");
+                        gameloop.EventLoggingComponent.Log("Too wounded! " + Caster.charName + " is still not ready to sell their soul completely.");
 
                         EndCurrentTurn();
                     }
@@ -389,11 +403,11 @@ public class CombatHelper : MonoBehaviour
                     //Lash out for massive damage.
                     if (activeTarget == null) { return; }
                     if (activeTarget.associatedCharacter == null) { return; }
-                    activeCharacterWorldspaceObject.associatedCharacter.damageMax -= gameloop.TweakingComponent.angryActiveDamageMalus;
-                    activeCharacterWorldspaceObject.associatedCharacter.damageMin -= gameloop.TweakingComponent.angryActiveDamageMalus;
-                    gameloop.EventLoggingComponent.Log(activeCharacterWorldspaceObject.associatedCharacter.charName + " lashes out! " + activeTarget.associatedCharacter.charName + " takes " + (gameloop.TweakingComponent.angryActivePowerDamage + (activeCharacterWorldspaceObject.associatedCharacter.damageMax * 2)) + " damage!");
-                    activeTarget.associatedCharacter.TakeDamage(gameloop.TweakingComponent.angryActivePowerDamage + (activeCharacterWorldspaceObject.associatedCharacter.damageMax * 2));
-                    activeCharacterWorldspaceObject.associatedCharacter.manaTotal -= activeCharacterWorldspaceObject.associatedCharacter.charTrait.manaCost;
+                    Caster.damageMax -= gameloop.TweakingComponent.angryActiveDamageMalus;
+                    Caster.damageMin -= gameloop.TweakingComponent.angryActiveDamageMalus;
+                    gameloop.EventLoggingComponent.Log(Caster.charName + " lashes out! " + activeTarget.associatedCharacter.charName + " takes " + (gameloop.TweakingComponent.angryActivePowerDamage + (Caster.damageMax * 2)) + " damage!");
+                    activeTarget.associatedCharacter.TakeDamage(gameloop.TweakingComponent.angryActivePowerDamage + (Caster.damageMax * 2));
+                    Caster.manaTotal -= Caster.charTrait.manaCost;
                     EndCurrentTurn();
 
                     break;
@@ -407,7 +421,15 @@ public class CombatHelper : MonoBehaviour
                     activeTarget.associatedCharacter.TakeDamageFromCharacter(activeCharacterWorldspaceObject.associatedCharacter);
                     if (MainData.livingEnemyParty.Count > 0)
                     {//in case the enemy just gets killed immediately
-                        activeTarget.associatedCharacter.TakeDamageFromCharacter(activeCharacterWorldspaceObject.associatedCharacter);
+                        if (activeTarget != null)
+                        {
+                            if (activeTarget.associatedCharacter != null)
+                            {
+                                activeTarget.associatedCharacter.TakeDamageFromCharacter(activeCharacterWorldspaceObject.associatedCharacter);
+                            }
+
+                        }
+
                     }
                     activeCharacterWorldspaceObject.associatedCharacter.manaTotal -= activeCharacterWorldspaceObject.associatedCharacter.charTrait.manaCost;
                     EndCurrentTurn();
@@ -418,7 +440,7 @@ public class CombatHelper : MonoBehaviour
                 default:
                     break;
             }
-             //take the mana for the trait use.
+            //take the mana for the trait use.
             MainData.MainLoop.UserInterfaceHelperComponent.RefreshCharacterTabs();
         }
 
@@ -741,11 +763,11 @@ public class CombatHelper : MonoBehaviour
         //StartCoroutine(SlideTo(CurrentlyActiveChar, ActiveCharSpot.transform.position, activationMovingSpeed, false));
         npc.selfScriptRef.transform.position = ActiveCharSpot.transform.position;
 
-        StartCoroutine(AttackRandomEnemy(npc.selfScriptRef));
+        StartCoroutine(AttackPlayerPartyBasedOnThreat(npc.selfScriptRef));
 
 
     }
-    public IEnumerator AttackRandomEnemy(CharacterWorldspaceScript chara)
+    public IEnumerator AttackPlayerPartyBasedOnThreat(CharacterWorldspaceScript chara)
     {
         chara.ToggleIdle(false);
         List<Character> results = MainData.livingPlayerParty.FindAll(x => x.isDead == false);
@@ -753,25 +775,50 @@ public class CombatHelper : MonoBehaviour
         Character Fool = results[0];
 
         //Debug.Log("attacking player at playerParty[" + b.ToString() + "]!");
-        if (chara.associatedCharacter != null)
+        chara.associatedCharacter.summoningCurrentDelay++;
+        if (chara.associatedCharacter.Summoner && chara.associatedCharacter.summoningCurrentDelay >= chara.associatedCharacter.summoningInterval && MainData.freeEnemyPartyMemberObjects.Count > 0)
         {
-            Fool.TakeDamageFromCharacter(chara.associatedCharacter);//this also handles the damage indicator 
-        }
+
+            int x = UnityEngine.Random.Range(0, MainData.freeEnemyPartyMemberObjects.Count);
+            GameObject f = MainData.freeEnemyPartyMemberObjects[x];
+            MainData.freeEnemyPartyMemberObjects.RemoveAt(x); //we remove the spot from the inactive/free enemy spot list
+            MainData.usedEnemyPartyMemberObjects.Add(f); //track usage...
+            MainData.MainLoop.EventLoggingComponent.LogGray(chara.associatedCharacter.charName + " starts focusing ambient mana. The air thrums with potential.");
+            yield return new WaitForSeconds(0.3f);
+            MainData.MainLoop.EventLoggingComponent.LogGray(chara.associatedCharacter.charName + " summons a " + MainData.characterTypes[chara.associatedCharacter.summonedEnemy].charName + " from thin air!");
+            f.SetActive(true);//we turn the spot on on
+            CharacterWorldspaceScript d = f.GetComponent<CharacterWorldspaceScript>();//get the Cscript reference
+            d.SetupCharacterByTemplate(MainData.characterTypes[chara.associatedCharacter.summonedEnemy]); //assign and set up an enemy template to the spot
+
+            chara.associatedCharacter.summoningCurrentDelay = 0;
 
 
-        for (int i = 0; i < activeCharacterWorldspaceObject.associatedCharacter.attackAnimation.Length; i++)
-        {
-            activeCharacterWorldspaceObject.spriteRenderer.sprite = activeCharacterWorldspaceObject.associatedCharacter.attackAnimation[i];
-            yield return new WaitForSecondsRealtime(0.06f);
-        }
-        if (activeCharacterWorldspaceObject.associatedCharacter.standingSprite != null)
-        {
-            activeCharacterWorldspaceObject.spriteRenderer.sprite = activeCharacterWorldspaceObject.associatedCharacter.standingSprite;
         }
         else
         {
-            activeCharacterWorldspaceObject.spriteRenderer.sprite = activeCharacterWorldspaceObject.associatedCharacter.attackAnimation[0];
+            if (chara.associatedCharacter != null)
+            {
+                Fool.TakeDamageFromCharacter(chara.associatedCharacter);//this also handles the damage indicator 
+            }
+
+
+            for (int i = 0; i < activeCharacterWorldspaceObject.associatedCharacter.attackAnimation.Length; i++)
+            {
+                activeCharacterWorldspaceObject.spriteRenderer.sprite = activeCharacterWorldspaceObject.associatedCharacter.attackAnimation[i];
+                yield return new WaitForSecondsRealtime(0.06f);
+            }
+            if (activeCharacterWorldspaceObject.associatedCharacter.standingSprite != null)
+            {
+                activeCharacterWorldspaceObject.spriteRenderer.sprite = activeCharacterWorldspaceObject.associatedCharacter.standingSprite;
+            }
+            else
+            {
+                activeCharacterWorldspaceObject.spriteRenderer.sprite = activeCharacterWorldspaceObject.associatedCharacter.attackAnimation[0];
+            }
         }
+
+
+
 
 
 

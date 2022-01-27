@@ -223,6 +223,15 @@ public class GameManager : MonoBehaviour
                 CombatHelperComponent.allHaveActed = true;
                 MainData.MainLoop.UserInterfaceHelperComponent.RefreshViewEnemy();
                 inCombat = false;
+                foreach (Character item in MainData.livingPlayerParty)
+                {
+                    item.manaTotal += 20;
+                    if (item.manaTotal > 100)
+                    {
+                        item.manaTotal = 100;
+                    }
+                }
+                MainData.MainLoop.UserInterfaceHelperComponent.RefreshHealthManaBarsPlayer();
             }
         }
         else
