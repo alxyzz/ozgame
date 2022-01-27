@@ -10935,7 +10935,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 1
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: -0.001541467, w: 0}
+  m_margin: {x: 0, y: 0, z: -207.5842, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -12373,7 +12373,7 @@ MonoBehaviour:
   PCStartingSpeed: 5
   PCStartingLuck: 0
   PCStartingDefense: 2
-  PCStartingManaRegen: 100
+  PCStartingManaRegen: 25
   flyingMonkeyMaxHealth: 50
   flyingMonkeyMinDamage: 10
   flyingMonkeyMaxDamage: 15

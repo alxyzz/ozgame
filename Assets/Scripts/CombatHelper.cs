@@ -145,7 +145,7 @@ public class CombatHelper : MonoBehaviour
             }
 
 
-            
+
 
             if (combatants[i].isDead || !combatants[i].canAct || MainData.livingEnemyParty.Count < 1)
             {//
@@ -358,7 +358,7 @@ public class CombatHelper : MonoBehaviour
                         {
                             gameloop.EventLoggingComponent.Log(Caster.charName + "'s hugs " + activeTarget.associatedCharacter.charName + "! " + activeTarget.associatedCharacter.charName + " feels much better!");
                             activeTarget.associatedCharacter.GainHealth(0);
-                            EndCurrentTurn();
+                           EndCurrentTurn();
 
                         }
                         else
@@ -368,7 +368,7 @@ public class CombatHelper : MonoBehaviour
                             gameloop.EventLoggingComponent.Log(activeCharacterWorldspaceObject.associatedCharacter.charName + "'s caring nature mends " + activeTarget.associatedCharacter.charName + "'s wounds for " + healing + " health!");
                             activeTarget.associatedCharacter.GainHealth(healing);
                             Caster.manaTotal -= Caster.charTrait.manaCost;
-                            EndCurrentTurn();
+                           EndCurrentTurn();
                         }
 
                     }
@@ -389,13 +389,13 @@ public class CombatHelper : MonoBehaviour
                         gameloop.Currency += MainData.MainLoop.TweakingComponent.greedActiveRevenue;
                         gameloop.UserInterfaceHelperComponent.UpdateCurrencyCounter();
                         Caster.manaTotal -= Caster.charTrait.manaCost;
-                        EndCurrentTurn();
+                       EndCurrentTurn();
                     }
                     else
                     {
                         gameloop.EventLoggingComponent.Log("Too wounded! " + Caster.charName + " is still not ready to sell their soul completely.");
 
-                        EndCurrentTurn();
+                       EndCurrentTurn();
                     }
                     break;
 
@@ -451,12 +451,12 @@ public class CombatHelper : MonoBehaviour
 
                 case "bulwark":
                     //sell off HP for gold
-                        Caster.defense += 1;
-                        Caster.threatBonus = 999;
-                        Debug.Log(Caster.threatBonus + " THREAT BONUS");
-                        gameloop.EventLoggingComponent.Log(Caster.charName + " taunts the enemies and prepares for combat!");
-                        Caster.manaTotal -= Caster.charTrait.manaCost;
-                        EndCurrentTurn();
+                    Caster.defense += 1;
+                    Caster.threatBonus = 999;
+                    Debug.Log(Caster.threatBonus + " THREAT BONUS");
+                    gameloop.EventLoggingComponent.Log(Caster.charName + " taunts the enemies and prepares for combat!");
+                    Caster.manaTotal -= Caster.charTrait.manaCost;
+                    EndCurrentTurn();
                     break;
 
                 case "nurturing"://so yeah this is where active traits go
@@ -496,7 +496,11 @@ public class CombatHelper : MonoBehaviour
             //take the mana for the trait use.
             MainData.MainLoop.UserInterfaceHelperComponent.RefreshCharacterTabs();
         }
-
+        activeCharacterWorldspaceObject.associatedCharacter.manaTotal += 10;
+        if (activeCharacterWorldspaceObject.associatedCharacter.manaTotal > 100)
+        {
+            activeCharacterWorldspaceObject.associatedCharacter.manaTotal = 100;
+        }
         EndCurrentTurn();
     }
     public void EndCombat()
@@ -508,7 +512,15 @@ public class CombatHelper : MonoBehaviour
         {
             item.HandleListsUponDeath();
         }
-
+        foreach (Character item in MainData.livingPlayerParty)
+        {
+            item.manaTotal += 10;
+            if (item.manaTotal > 100)
+            {
+                item.manaTotal = 100;
+            }
+        }
+        MainData.MainLoop.UserInterfaceHelperComponent.RefreshHealthManaBarsPlayer();
         PurgeAllStatusEffects();
         MainData.MainLoop.UserInterfaceHelperComponent.ToggleFightButtonVisiblity(false);
         MainData.MainLoop.inCombat = false;
@@ -539,6 +551,7 @@ public class CombatHelper : MonoBehaviour
         }
 
         ReturnFromActiveSpot(); //we send the character back in this moment.
+
         foreach (Character item in MainData.allChars)
         {
             item.selfScriptRef.transform.position = item.InitialPosition;
@@ -647,6 +660,7 @@ public class CombatHelper : MonoBehaviour
         yield return new WaitForSeconds(0.05f);
 
         ReturnFromActiveSpot();
+        MainData.MainLoop.UserInterfaceHelperComponent.RefreshHealthManaBarsPlayer();
         activeCharacterWorldspaceObject.associatedCharacter.hasActedThisTurn = true;
         EndCurrentTurn();
 

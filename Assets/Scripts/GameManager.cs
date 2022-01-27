@@ -189,11 +189,8 @@ public class GameManager : MonoBehaviour
         catch (System.Exception)
         {
             MainData.MainLoop.CombatHelperComponent.EndCombat();
-            EventLoggingComponent.Log("All enemies have been vanquished.");
-            foreach (Character item in MainData.livingPlayerParty)
-            {
-                item.manaTotal = 100;
-            }
+            EventLoggingComponent.Log("No enemies left.");
+
             MainData.MainLoop.UserInterfaceHelperComponent.RefreshCharacterTabs();
             inCombat = false;
             return;
@@ -218,20 +215,11 @@ public class GameManager : MonoBehaviour
             else
             {
                 MainData.turnNumber = 0;
-
                 EventLoggingComponent.Log("All enemies have been vanquished.");
                 CombatHelperComponent.allHaveActed = true;
                 MainData.MainLoop.UserInterfaceHelperComponent.RefreshViewEnemy();
                 inCombat = false;
-                foreach (Character item in MainData.livingPlayerParty)
-                {
-                    item.manaTotal += 20;
-                    if (item.manaTotal > 100)
-                    {
-                        item.manaTotal = 100;
-                    }
-                }
-                MainData.MainLoop.UserInterfaceHelperComponent.RefreshHealthManaBarsPlayer();
+
             }
         }
         else
