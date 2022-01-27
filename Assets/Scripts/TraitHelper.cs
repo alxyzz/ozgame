@@ -26,7 +26,7 @@ public class TraitHelper : MonoBehaviour
         public string adjective;
         public Sprite traitSprite;
         public int manaCost;
-        public bool forceCooldown;//in case we want to turn that stuff off for a while
+        public bool forceCooldown = false;//in case we want to turn that stuff off for a while
         public int GenericTraitValue = 0; //we will just use this for whatever is needed at the moment. things like stacking damage boosts for Angry, since it's simpler than adding yet another value to the character class 
         public bool hasAppliedStats = false;
         /// <summary>

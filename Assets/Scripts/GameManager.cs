@@ -225,7 +225,11 @@ public class GameManager : MonoBehaviour
                 inCombat = false;
                 foreach (Character item in MainData.livingPlayerParty)
                 {
-                    item.manaTotal = 100;
+                    item.manaTotal += 20;
+                    if (item.manaTotal > 100)
+                    {
+                        item.manaTotal = 100;
+                    }
                 }
                 MainData.MainLoop.UserInterfaceHelperComponent.RefreshHealthManaBarsPlayer();
             }

@@ -399,7 +399,7 @@ public class UserInterfaceHelper : MonoBehaviour
         }
         if (Target.associatedCharacter.charAvatar != null)
         {
-            selectedCharAvatar.sprite = Target.associatedCharacter.charAvatar;
+            selectedEnemyCharAvatar.sprite = Target.associatedCharacter.charAvatar;
         }
         selectedEnemyCharName.text = Target.associatedCharacter.charName;
         if (Target.associatedCharacter.entityDescription != null)
@@ -520,6 +520,7 @@ public class UserInterfaceHelper : MonoBehaviour
 
             selectedEnemyCharName.text = "";
             selectedEnemyCharDescription.text = "";
+            selectedCharAvatar.sprite = transparency;
 
 
             return;
