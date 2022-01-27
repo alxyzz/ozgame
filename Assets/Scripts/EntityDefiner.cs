@@ -2884,7 +2884,17 @@ true, //(true)beneficial or (false)harmful
         Debug.Log("Added new trait - [" + t4.identifier + "].");
         MainData.traitList.Add(t4.identifier, t4);
 
-
+        Trait t5 = new Trait("bulwark", //string ID
+                                   "Stoic", //name
+                                   "Bulwark", //adjective given to characters with this
+                                   "bulwark stuff.", // blurb. wax poetic here as much as you want
+                                   "Passive: Taking damage permanently increases the maximum HP of this unit.\nActive: <color=#FF2C22>Taunt</color>, becoming the primary focus of enemies this battle.", //functional description
+                                   null, //sprite
+                                   false,
+                                   MainData.MainLoop.TweakingComponent.BulwarkManaCost); //false = t1. true = t2.
+        //gets automatically sent to the desired trait list upon generation, in the constructor
+        Debug.Log("Added new trait - [" + t5.identifier + "].");
+        MainData.traitList.Add(t5.identifier, t5);
 
     }
 
@@ -3239,6 +3249,17 @@ true, //(true)beneficial or (false)harmful
                         }
                         break;
 
+                    case "bulwark":
+                        if (!charTrait.hasAppliedStats)
+                        {
+                            damageMax += MainData.MainLoop.TweakingComponent.bulwarkDamageIncrease;
+                            damageMin += MainData.MainLoop.TweakingComponent.bulwarkDamageIncrease;
+                            defense += MainData.MainLoop.TweakingComponent.bulwarkDefenseIncrease;
+                            speed -= Mathf.Clamp(MainData.MainLoop.TweakingComponent.bulwarkSpeedDecrease, 0, 999);
+                            charTrait.hasAppliedStats = true;
+                        }
+                        break;
+
                     case "greed":
                         if (!charTrait.hasAppliedStats)
                         {
@@ -3355,6 +3376,16 @@ true, //(true)beneficial or (false)harmful
                         damageMin -= MainData.MainLoop.TweakingComponent.wrathDamageIncrease;
                         speed -= MainData.MainLoop.TweakingComponent.wrathSpeedIncrease;
                         charTrait = null;
+
+                        break;
+
+                    case "bulwark":
+
+                            damageMax -= MainData.MainLoop.TweakingComponent.bulwarkDamageIncrease;
+                            damageMin -= MainData.MainLoop.TweakingComponent.bulwarkDamageIncrease;
+                            defense -= MainData.MainLoop.TweakingComponent.bulwarkDefenseIncrease;
+                            speed += Mathf.Clamp(MainData.MainLoop.TweakingComponent.bulwarkSpeedDecrease, 0, 999);
+                            charTrait = null;
 
                         break;
 
@@ -3514,6 +3545,12 @@ true, //(true)beneficial or (false)harmful
                     case "angry":            //Anger's damage increase on getting hit
 
                         charTrait.GenericTraitValue += MainData.MainLoop.TweakingComponent.angryPassiveDamageBonus;
+                        break;
+
+                    case "bulwark":            //Bulwark HP increase
+
+                        maxHealth += 1;
+                        
                         break;
 
                     default:

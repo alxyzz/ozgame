@@ -12351,13 +12351,17 @@ MonoBehaviour:
   angryActiveDamageMalus: 2
   angryActivePowerDamage: 20
   angryPassiveDamageBonus: 3
-  angryPassiveDefenseMalus: 3
+  angryPassiveDefenseMalus: 4
   wrathDamageIncrease: 4
   wrathSpeedIncrease: 3
+  bulwarkDamageIncrease: 1
+  bulwarkSpeedDecrease: 3
+  bulwarkDefenseIncrease: 2
   GreedManaCost: 10
   AngerManaCost: 75
   CaringManaCost: 33
   WrathManaCost: 50
+  BulwarkManaCost: 0
   PCStartingMaxHealth: 20
   PCStartingMinDamage: 10
   PCStartingMaxDamage: 12
@@ -12398,7 +12402,7 @@ MonoBehaviour:
   weakcorruptedMaxHealth: 7
   weakcorruptedMinDamage: 1
   weakcorruptedMaxDamage: 3
-  weakcorruptedSpeed: 3
+  weakcorruptedSpeed: 6
   weakcorruptedLuck: 20
   weakcorruptedDefense: 0
   toughcorruptedMaxHealth: 18

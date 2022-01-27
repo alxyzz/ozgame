@@ -38,11 +38,16 @@ public class ContentTweakingInterface : MonoBehaviour
     public int wrathDamageIncrease = 0;
     public int wrathSpeedIncrease = 0;
     [Space(5)]
+    public int bulwarkDamageIncrease = 0;
+    public int bulwarkSpeedDecrease = 0;
+    public int bulwarkDefenseIncrease = 0;
+    [Space(5)]
     [Header("These should be from 0 to 100, no more. You gain the amount per turn.")]
     public int GreedManaCost;
     public int AngerManaCost;
     public int CaringManaCost;
     public int WrathManaCost;
+    public int BulwarkManaCost;
 
     //double strike has no value to edit
     [Space(5)]
