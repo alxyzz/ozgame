@@ -145,7 +145,7 @@ public class CombatHelper : MonoBehaviour
             }
 
 
-
+            
 
             if (combatants[i].isDead || !combatants[i].canAct || MainData.livingEnemyParty.Count < 1)
             {//
@@ -436,6 +436,15 @@ public class CombatHelper : MonoBehaviour
 
                     break;
 
+                case "bulwark":
+                    //sell off HP for gold
+                        Caster.defense += 1;
+                        Caster.threatBonus = 999;
+                        Debug.Log(Caster.threatBonus + " THREAT BONUS");
+                        gameloop.EventLoggingComponent.Log(Caster.charName + " taunts the enemies and prepares for combat!");
+                        Caster.manaTotal -= Caster.charTrait.manaCost;
+                        EndCurrentTurn();
+                    break;
 
                 default:
                     break;
@@ -455,6 +464,7 @@ public class CombatHelper : MonoBehaviour
         {
             item.HandleListsUponDeath();
         }
+
         PurgeAllStatusEffects();
         MainData.MainLoop.UserInterfaceHelperComponent.ToggleFightButtonVisiblity(false);
         MainData.MainLoop.inCombat = false;

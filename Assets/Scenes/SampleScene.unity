@@ -12361,7 +12361,7 @@ MonoBehaviour:
   AngerManaCost: 75
   CaringManaCost: 33
   WrathManaCost: 50
-  BulwarkManaCost: 0
+  BulwarkManaCost: 75
   PCStartingMaxHealth: 20
   PCStartingMinDamage: 10
   PCStartingMaxDamage: 12

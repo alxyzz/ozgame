@@ -1033,11 +1033,14 @@ public class EntityDefiner : MonoBehaviour
         CharacterWorldspaceScript slot4ref = MainData.MainLoop.PositionHolderComponent.PartySlot4.GetComponent<CharacterWorldspaceScript>();
 
 
-        slot1ref.associatedCharacter.ChangeTrait(MainData.t1traitList["greed"]);
-        slot2ref.associatedCharacter.ChangeTrait(MainData.t1traitList["wrath"]);
-        slot3ref.associatedCharacter.ChangeTrait(MainData.t1traitList["caring"]);
-        slot4ref.associatedCharacter.ChangeTrait(MainData.t1traitList["angry"]);
-
+        //slot1ref.associatedCharacter.ChangeTrait(MainData.t1traitList["greed"]);
+        // slot2ref.associatedCharacter.ChangeTrait(MainData.t1traitList["wrath"]);
+        //slot3ref.associatedCharacter.ChangeTrait(MainData.t1traitList["caring"]);
+        //slot4ref.associatedCharacter.ChangeTrait(MainData.t1traitList["angry"]);
+        slot1ref.associatedCharacter.ChangeTrait(MainData.t1traitList["bulwark"]);
+        slot2ref.associatedCharacter.ChangeTrait(MainData.t1traitList["bulwark"]);
+        slot3ref.associatedCharacter.ChangeTrait(MainData.t1traitList["bulwark"]);
+        slot4ref.associatedCharacter.ChangeTrait(MainData.t1traitList["bulwark"]);
 
 
         MainData.MainLoop.UserInterfaceHelperComponent.RefreshCharacterTabs();
@@ -3142,6 +3145,7 @@ true, //(true)beneficial or (false)harmful
         public int baseDamageMin;
         public int baseDamageMax; //NOTE - damage is taken into calculation directly in the attack method.
         public int baseSpeed; //good to go
+        public int threatBonus;
         public Slider HealthBar;
         public Slider ManaBar;
 
@@ -3227,8 +3231,8 @@ true, //(true)beneficial or (false)harmful
         /// </summary>
         public void RecalculateThreatFromStats()
         {
-            threatFromStats = (speed + currentHealth + damageMin + defense) / 4; //averages them, sounds reasonable
-
+            threatFromStats = (speed + currentHealth + damageMin + defense + threatBonus) / 4; //averages them, sounds reasonable
+            Debug.Log(threatBonus + " THREAT BONUS");
         }
 
 
@@ -3325,7 +3329,8 @@ true, //(true)beneficial or (false)harmful
                     currentHealth = 1;
                 }
 
-
+                threatBonus = 0;
+                Debug.Log(threatBonus + " THREAT BONUS");
 
                 recentlyUnequippedItemsHP.Clear();
             }
