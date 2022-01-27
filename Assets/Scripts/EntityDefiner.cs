@@ -547,7 +547,7 @@ public class EntityDefiner : MonoBehaviour
     {
         MakeMobTemplate("weakflyingmonkey", //characterID
                        "Weak Flying Monkey", // charName
-                       "Evil flying monkey hellbent on causing mischief and wreaking havok.", // charDesc
+                       "Evil flying monkey hell-bent on causing mischief and wreaking havok.", // charDesc
                        "claws", //verb used when attacking
                        false, //is it a player character(true), or is it an enemy(false)?
                        MainData.MainLoop.TweakingComponent.weakflyingMonkeyMaxHealth, //the base HP value
@@ -564,7 +564,7 @@ public class EntityDefiner : MonoBehaviour
 
         MakeMobTemplate("flyingmonkey", //characterID
                        "Flying Monkey", // charName
-                       "Evil flying monkey hellbent on causing mischief and wreaking havok.", // charDesc
+                       "Evil flying monkey hell-bent on causing mischief and wreaking havok.", // charDesc
                        "claws", //verb used when attacking
                        false, //is it a player character(true), or is it an enemy(false)?
                        MainData.MainLoop.TweakingComponent.flyingMonkeyMaxHealth, //the base HP value
@@ -581,7 +581,7 @@ public class EntityDefiner : MonoBehaviour
 
         MakeMobTemplate("strongflyingmonkey", //characterID
                        "Strong Flying Monkey", // charName
-                       "Evil flying monkey hellbent on causing mischief and wreaking havok.", // charDesc
+                       "Evil flying monkey hell-bent on causing mischief and wreaking havok.", // charDesc
                        "claws", //verb used when attacking
                        false, //is it a player character(true), or is it an enemy(false)?
                        MainData.MainLoop.TweakingComponent.strongflyingMonkeyMaxHealth, //the base HP value
@@ -598,7 +598,7 @@ public class EntityDefiner : MonoBehaviour
 
         MakeMobTemplate("hellflyingmonkey", //characterID
                        "Hellbent Flying Monkey", // charName
-                       "Evil flying monkey hellbent on causing mischief and wreaking havok.", // charDesc
+                       "Evil flying monkey hell-bent on causing mischief and wreaking havok.", // charDesc
                        "claws", //verb used when attacking
                        false, //is it a player character(true), or is it an enemy(false)?
                        MainData.MainLoop.TweakingComponent.hellbentflyingMonkeyMaxHealth, //the base HP value
@@ -615,7 +615,7 @@ public class EntityDefiner : MonoBehaviour
 
         MakeMobTemplate("corrupted", //characterID
                        "Corrupt Citizen", // charName
-                       "A former citizen of the Emerald Palace, now corrupted by it;s magic.", // charDesc
+                       "A former citizen of the Emerald Palace, now corrupted by its magic.", // charDesc
                        "claws", //verb used when attacking
                        false, //is it a player character(true), or is it an enemy(false)?
                        MainData.MainLoop.TweakingComponent.corruptedMaxHealth, //the base HP value
@@ -632,7 +632,7 @@ public class EntityDefiner : MonoBehaviour
 
         MakeMobTemplate("weakcorrupted", //characterID
                "Weak Corrupt Citizen", // charName
-               "A former citizen of the Emerald Palace, now corrupted by it;s magic.", // charDesc
+               "A former citizen of the Emerald Palace, now corrupted by its magic.", // charDesc
                "claws", //verb used when attacking
                false, //is it a player character(true), or is it an enemy(false)?
                MainData.MainLoop.TweakingComponent.weakcorruptedMaxHealth, //the base HP value
@@ -649,7 +649,7 @@ public class EntityDefiner : MonoBehaviour
 
         MakeMobTemplate("toughcorrupted", //characterID
                "Tough Corrupt Citizen", // charName
-               "A former citizen of the Emerald Palace, now corrupted by it;s magic.", // charDesc
+               "A former citizen of the Emerald Palace, now corrupted by its magic.", // charDesc
                "claws", //verb used when attacking
                false, //is it a player character(true), or is it an enemy(false)?
                MainData.MainLoop.TweakingComponent.toughcorruptedMaxHealth, //the base HP value
@@ -666,7 +666,7 @@ public class EntityDefiner : MonoBehaviour
 
         MakeMobTemplate("legendarycorrupted", //characterID
                "Legendary Corrupt Citizen", // charName
-               "A former citizen of the Emerald Palace, now corrupted by it;s magic.", // charDesc
+               "A former citizen of the Emerald Palace, now corrupted by its magic.", // charDesc
                "claws", //verb used when attacking
                false, //is it a player character(true), or is it an enemy(false)?
                MainData.MainLoop.TweakingComponent.legendarycorruptedMaxHealth, //the base HP value
@@ -680,6 +680,26 @@ public class EntityDefiner : MonoBehaviour
                emeraldAttackSheet, //character's attack animation sprite 
                2, monkeyAvatar, emeraldAttackSheet[0], emeraldHurtSheet, scarecrowWalk_Sheet, emeraldIdleSheet,
                3);
+
+        MakeMobTemplate("wickedwitch", //characterID
+               "Wicked Witch of the East", // charName
+               "A former citizen of the Emerald Palace, now corrupted by its magic.", // charDesc
+               "claws", //verb used when attacking
+               false, //is it a player character(true), or is it an enemy(false)?
+               MainData.MainLoop.TweakingComponent.legendarycorruptedMaxHealth, //the base HP value
+               MainData.MainLoop.TweakingComponent.legendarycorruptedMinDamage, // the minimum damage value
+               MainData.MainLoop.TweakingComponent.legendarycorruptedMaxDamage, //the maximum damage value.
+               MainData.MainLoop.TweakingComponent.legendarycorruptedSpeed, //base speed, higher is better
+               MainData.MainLoop.TweakingComponent.legendarycorruptedDefense, //defense
+               MainData.MainLoop.TweakingComponent.legendarycorruptedLuck, //luck
+               0, //mana
+               null, //sound for when it is this character's turn to act
+               witchAttackSheet, //character's attack animation sprite 
+               2, monkeyAvatar, emeraldAttackSheet[0], emeraldHurtSheet, scarecrowWalk_Sheet, emeraldIdleSheet,
+               3);
+
+
+
     }
 
 
@@ -3643,8 +3663,8 @@ true, //(true)beneficial or (false)harmful
             //GOOD LUCK HERE ========================================
             else if (randomLuck >= 100)
             { //CRITICAL SUCCESS - DOUBLE DAMAGE + STUN
-                this.currentStatusEffects.Add(new StatusEffect("stun", "This character is stunned.", 1));
-                stunned = true;
+                //this.currentStatusEffects.Add(new StatusEffect("stun", "This character is stunned.", 1));
+               // stunned = true;
                 luckmessage = attacker.charName + " slips through " + this.charName + "'s defense and lands an eviscerating hit! " + this.charName + " is stunned! (2x Damage, Stun)";
                 damageRoll = (damageRoll + defense) * 2; //double damage and passed through armor, stuns
                 temp = 0;
