@@ -411,6 +411,19 @@ public class CombatHelper : MonoBehaviour
                     EndCurrentTurn();
 
                     break;
+
+                case "malicious":
+                    //Lash out for massive damage.
+                    if (activeTarget == null) { return; }
+                    if (activeTarget.associatedCharacter == null) { return; }
+
+                    gameloop.EventLoggingComponent.Log(Caster.charName + " releases their power! " + activeTarget.associatedCharacter.charName + " takes " + (Caster.manaTotal / 5) + " damage!");
+                    activeTarget.associatedCharacter.TakeDamage((Caster.manaTotal / 5));
+                    Caster.manaTotal = 0;
+                    EndCurrentTurn();
+
+                    break;
+
                 case "wrath":
                     //double attack
                     if (activeTarget == null) { return; }
@@ -418,14 +431,14 @@ public class CombatHelper : MonoBehaviour
                     //activeCharacterWorldspaceObject.associatedCharacter.damageMax -= gameloop.TweakingComponent.angryActiveDamageMalus; //permanent damage loss
                     //activeCharacterWorldspaceObject.associatedCharacter.damageMin -= gameloop.TweakingComponent.angryActiveDamageMalus;
                     gameloop.EventLoggingComponent.Log(activeCharacterWorldspaceObject.associatedCharacter.charName + " wrathful nature provokes a double attack!");
-                    activeTarget.associatedCharacter.TakeDamageFromCharacter(activeCharacterWorldspaceObject.associatedCharacter);
+                    activeTarget.associatedCharacter.TakeDamageFromCharacter(activeCharacterWorldspaceObject.associatedCharacter, false);
                     if (MainData.livingEnemyParty.Count > 0)
                     {//in case the enemy just gets killed immediately
                         if (activeTarget != null)
                         {
                             if (activeTarget.associatedCharacter != null)
                             {
-                                activeTarget.associatedCharacter.TakeDamageFromCharacter(activeCharacterWorldspaceObject.associatedCharacter);
+                                activeTarget.associatedCharacter.TakeDamageFromCharacter(activeCharacterWorldspaceObject.associatedCharacter, false);
                             }
 
                         }
@@ -517,6 +530,14 @@ public class CombatHelper : MonoBehaviour
     /// </summary>
     public void EndCurrentTurn()
     {
+        if (activeCharacterWorldspaceObject.associatedCharacter.charTrait.identifier == "malicious")
+        {
+            for (int i = 0; i < MainData.livingEnemyParty.Count; i++)
+            {
+                MainData.livingEnemyParty[i].TakeDamageFromCharacter(activeCharacterWorldspaceObject.associatedCharacter, true);
+            }
+        }
+
         ReturnFromActiveSpot(); //we send the character back in this moment.
         foreach (Character item in MainData.allChars)
         {
@@ -546,8 +567,6 @@ public class CombatHelper : MonoBehaviour
         {
 
         }
-
-
 
     }
     /// <summary>
@@ -623,7 +642,7 @@ public class CombatHelper : MonoBehaviour
         }
 
         //animation
-        Fool.TakeDamageFromCharacter(activeCharacterWorldspaceObject.associatedCharacter);//this also handles damage indicator
+        Fool.TakeDamageFromCharacter(activeCharacterWorldspaceObject.associatedCharacter, false);//this also handles damage indicator
 
         yield return new WaitForSeconds(0.05f);
 
@@ -839,7 +858,7 @@ public class CombatHelper : MonoBehaviour
         {
             if (chara.associatedCharacter != null)
             {
-                Fool.TakeDamageFromCharacter(chara.associatedCharacter);//this also handles the damage indicator 
+                Fool.TakeDamageFromCharacter(chara.associatedCharacter, false);//this also handles the damage indicator 
             }
 
 
