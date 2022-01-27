@@ -21,7 +21,8 @@ public class EntityDefiner : MonoBehaviour
     public Sprite lionStanding;
     public Sprite dorothyStanding;
     [Space(5)]
-
+    public string[] traitNames;
+    public int[] traitCounter;
     [Space(5)]
     [Header("Enemies")]
 
@@ -1052,15 +1053,41 @@ public class EntityDefiner : MonoBehaviour
         CharacterWorldspaceScript slot3ref = MainData.MainLoop.PositionHolderComponent.PartySlot3.GetComponent<CharacterWorldspaceScript>();
         CharacterWorldspaceScript slot4ref = MainData.MainLoop.PositionHolderComponent.PartySlot4.GetComponent<CharacterWorldspaceScript>();
 
+        int i = 0;
 
-        //slot1ref.associatedCharacter.ChangeTrait(MainData.t1traitList["greed"]);
-        // slot2ref.associatedCharacter.ChangeTrait(MainData.t1traitList["wrath"]);
-        //slot3ref.associatedCharacter.ChangeTrait(MainData.t1traitList["caring"]);
-        //slot4ref.associatedCharacter.ChangeTrait(MainData.t1traitList["angry"]);
-        slot1ref.associatedCharacter.ChangeTrait(MainData.t1traitList["malicious"]);
-        slot2ref.associatedCharacter.ChangeTrait(MainData.t1traitList["malicious"]);
-        slot3ref.associatedCharacter.ChangeTrait(MainData.t1traitList["malicious"]);
-        slot4ref.associatedCharacter.ChangeTrait(MainData.t1traitList["malicious"]);
+        while (i < 4)
+        {
+            int r = Random.Range(0, 7);
+
+            if (i == 0)
+            {
+                i++;
+                traitCounter[0] = r;
+                slot1ref.associatedCharacter.ChangeTrait(MainData.t1traitList[traitNames[r]]);
+            }
+            else if (i == 1 && r != traitCounter[0])
+            {
+                i++;
+                traitCounter[1] = r;
+                slot2ref.associatedCharacter.ChangeTrait(MainData.t1traitList[traitNames[r]]);
+            }
+            else if (i == 2 && r != traitCounter[0] && r != traitCounter[1])
+            {
+                i++;
+                traitCounter[2] = r;
+                slot3ref.associatedCharacter.ChangeTrait(MainData.t1traitList[traitNames[r]]);
+            }
+            else if (i == 3 && r != traitCounter[0] && r != traitCounter[1] && r != traitCounter[2])
+            {
+                i++;
+                traitCounter[3] = r;
+                slot4ref.associatedCharacter.ChangeTrait(MainData.t1traitList[traitNames[r]]);
+            }
+            else if (i == 4)
+            {
+                i++;
+            }
+        }
 
 
         MainData.MainLoop.UserInterfaceHelperComponent.RefreshCharacterTabs();
@@ -2943,6 +2970,18 @@ true, //(true)beneficial or (false)harmful
         Debug.Log("Added new trait - [" + t7.identifier + "].");
         MainData.traitList.Add(t7.identifier, t7);
 
+        Trait t8 = new Trait("perfectionist", //string ID
+           "Perfectionist", //name
+           "Perfectionist", //adjective given to characters with this
+           "perfectionist stuff.", // blurb. wax poetic here as much as you want
+           "Passive: Take extra damage while not at full health.\nActive: <color=#efea48>Improve</color> yourself, increasing all of your stats.", //functional description
+           null, //sprite
+           false,
+           MainData.MainLoop.TweakingComponent.PerfectionistManaCost); //false = t1. true = t2.
+        //gets automatically sent to the desired trait list upon generation, in the constructor
+        Debug.Log("Added new trait - [" + t8.identifier + "].");
+        MainData.traitList.Add(t8.identifier, t8);
+
     }
 
     public void MakeEquipableItemTemplate(string identifier,
@@ -3596,6 +3635,12 @@ true, //(true)beneficial or (false)harmful
             {
                 defense = 0;
             }
+
+            if (charTrait.identifier == "perfectionist" && currentHealth != maxHealth)
+            {
+                Debug.Log("HAPPENING");
+                damageRoll *= 2;
+            }
             //MainData.MainLoop.EventLoggingComponent.Log("damage without modifiers - " + (damageRoll - damagemod) + ", defense without modifiers " + (defense - defensemod));
 
 
@@ -3795,6 +3840,10 @@ true, //(true)beneficial or (false)harmful
 
         public void TakeDamage(int dmg)
         { //generic take damage function
+            if(charTrait.traitName == "perfectionist" && currentHealth != maxHealth)
+            {
+                currentHealth -= dmg;
+            }
             currentHealth -= dmg;
             MainData.MainLoop.EventLoggingComponent.Log(this.charName + " is hurt " + "for " + dmg + " damage!");
             MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(damage: dmg, target: this, heal: false);

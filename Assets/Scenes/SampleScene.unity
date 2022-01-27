@@ -11946,6 +11946,16 @@ MonoBehaviour:
   tinmanStanding: {fileID: 21300000, guid: 1765c78cc85876b43b9238d1f97fc6d6, type: 3}
   lionStanding: {fileID: 21300000, guid: 9f2da6b9b24e76441af7ca820789421a, type: 3}
   dorothyStanding: {fileID: 21300000, guid: f7a5a6f207399f849a8917b694d4efda, type: 3}
+  traitNames:
+  - caring
+  - wrath
+  - greed
+  - angry
+  - bulwark
+  - nurturing
+  - malicious
+  - perfectionist
+  traitCounter: 00000000000000000000000000000000
   HealthPotionSprite: {fileID: 21300000, guid: 0671f0f5d7b9dc5478caa9a0d6deba02, type: 3}
   SharpeningStoneSprite: {fileID: 0}
   HealingMushroomSprite: {fileID: 0}
@@ -12346,7 +12356,7 @@ MonoBehaviour:
   nurtureActiveHealing: 5
   nurturePassiveHealthBonus: 5
   nurturePassiveDamageMalus: 2
-  nurturePassiveSpeedMalus: 0
+  nurturePassiveSpeedMalus: 1
   greedActiveSelfDamage: 10
   greedActiveRevenue: 10
   greedBountyPercentageBonus: 50
@@ -12366,6 +12376,8 @@ MonoBehaviour:
   CaringManaCost: 33
   WrathManaCost: 50
   BulwarkManaCost: 75
+  MaliciousManaCost: 0
+  PerfectionistManaCost: 50
   NurturingManaCost: 33
   PCStartingMaxHealth: 20
   PCStartingMinDamage: 10

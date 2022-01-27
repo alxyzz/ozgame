@@ -54,7 +54,8 @@ public class ContentTweakingInterface : MonoBehaviour
     public int WrathManaCost;
     public int BulwarkManaCost;
     public int MaliciousManaCost;
-    public int NurturingManaCost; //7
+    public int PerfectionistManaCost;
+    public int NurturingManaCost;
 
     //double strike has no value to edit
     [Space(5)]

@@ -459,6 +459,20 @@ public class CombatHelper : MonoBehaviour
                     EndCurrentTurn();
                     break;
 
+                case "perfectionist":
+                    //increase base stats
+                    Caster.defense += 1;
+                    Caster.maxHealth += 5;
+                    Caster.currentHealth += 5;
+                    Caster.baseDamageMin += 2;
+                    Caster.baseDamageMax += 2;
+                    Caster.luck += 3;
+                    Caster.speed += 2;
+                    gameloop.EventLoggingComponent.Log(Caster.charName + " strives for perfection and increases their stats!");
+                    Caster.manaTotal -= Caster.charTrait.manaCost;
+                    EndCurrentTurn();
+                    break;
+
                 case "nurturing"://so yeah this is where active traits go
                     //heal target. allied target.
                     if (activeTarget == null)
