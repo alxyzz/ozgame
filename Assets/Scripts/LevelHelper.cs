@@ -221,9 +221,8 @@ public class LevelHelper : MonoBehaviour
     public void GenerateLevels()
     {
         List<string> teamrocket = new List<string>();
-        for (int i = 0; i < 1; i++) //change the 5 to whatever amount to change monkey quantity.
+        for (int i = 0; i < 3; i++) //change the 5 to whatever amount to change monkey quantity.
         {
-            int r = Random.Range(0, enemyNames.Length);
             teamrocket.Add(enemyNames[0]);
         }
 
@@ -247,33 +246,17 @@ public class LevelHelper : MonoBehaviour
 
     public void GENERATE()
     {
-        difCurrency = MainData.MainLoop.EntityDefComponent.difficultyCurrency;
-
+        difCurrency = MainData.MainLoop.EntityDefComponent.difficultyCurrency + 3;
+        Debug.Log(difCurrency + "SSSSSSSSSSSSSS");
         List<string> teamrocket = new List<string>();
 
-        maxEnemies = Mathf.Clamp((difCurrency / 15) - 3, 1, 8);
-        loops = 0;
-
-        for (int i = 0; i < maxEnemies; i++) //change the 5 to whatever amount to change monkey quantity.
-        {
-            int r = Random.Range(0, enemyNames.Length);
-            
-            if (difCurrency < (r * 4) && (difCurrency / i) > r + 2 && loops < 10)
+            for (int i = 0; i < difCurrency; i++)
             {
-                loops += 1;
-                i -= 1;
-                return;
+                int r = Random.Range(0, Mathf.Clamp((difCurrency / 2) - 1, 0, 8));
+                r += (difCurrency / 5);
+                Mathf.Clamp(r, 0, 8);
+                teamrocket.Add(enemyNames[r]);
             }
-            loops = 0;
-            difCurrency -= r * 4;
-            teamrocket.Add(enemyNames[r]);
-
-            if (difCurrency > (MainData.MainLoop.VendorScriptComponent.difficultyCurrency / 10))
-            {
-                MainData.MainLoop.VendorScriptComponent.difficultyCurrency += difCurrency;
-            }
-
-        }
 
         MainData.currentLevel.Encounters.Clear();
         MainData.currentLevel.Encounters = GenerateEncountersForLevel(1, //how many encounters

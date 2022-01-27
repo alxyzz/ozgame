@@ -93,7 +93,7 @@ public class EntityDefiner : MonoBehaviour
     public Sprite[] witchIdleSheet;
 
     public int BaseCurrency;
-    public int difficultyCurrency;
+    public int difficultyCurrency = 3;
 
     public void UseConsumable(Item consumable, Character target)
     {
@@ -629,6 +629,57 @@ public class EntityDefiner : MonoBehaviour
                        emeraldAttackSheet, //character's attack animation sprite 
                        2, monkeyAvatar, emeraldAttackSheet[0], emeraldHurtSheet, scarecrowWalk_Sheet, emeraldIdleSheet,
                        3);
+
+        MakeMobTemplate("weakcorrupted", //characterID
+               "Weak Corrupt Citizen", // charName
+               "A former citizen of the Emerald Palace, now corrupted by it;s magic.", // charDesc
+               "claws", //verb used when attacking
+               false, //is it a player character(true), or is it an enemy(false)?
+               MainData.MainLoop.TweakingComponent.weakcorruptedMaxHealth, //the base HP value
+               MainData.MainLoop.TweakingComponent.weakcorruptedMinDamage, // the minimum damage value
+               MainData.MainLoop.TweakingComponent.weakcorruptedMaxDamage, //the maximum damage value.
+               MainData.MainLoop.TweakingComponent.weakcorruptedSpeed, //base speed, higher is better
+               MainData.MainLoop.TweakingComponent.weakcorruptedDefense, //defense
+               MainData.MainLoop.TweakingComponent.weakcorruptedLuck, //luck
+               0, //mana
+               null, //sound for when it is this character's turn to act
+               emeraldAttackSheet, //character's attack animation sprite 
+               2, monkeyAvatar, emeraldAttackSheet[0], emeraldHurtSheet, scarecrowWalk_Sheet, emeraldIdleSheet,
+               3);
+
+        MakeMobTemplate("toughcorrupted", //characterID
+               "Tough Corrupt Citizen", // charName
+               "A former citizen of the Emerald Palace, now corrupted by it;s magic.", // charDesc
+               "claws", //verb used when attacking
+               false, //is it a player character(true), or is it an enemy(false)?
+               MainData.MainLoop.TweakingComponent.toughcorruptedMaxHealth, //the base HP value
+               MainData.MainLoop.TweakingComponent.toughcorruptedMinDamage, // the minimum damage value
+               MainData.MainLoop.TweakingComponent.toughcorruptedMaxDamage, //the maximum damage value.
+               MainData.MainLoop.TweakingComponent.toughcorruptedSpeed, //base speed, higher is better
+               MainData.MainLoop.TweakingComponent.toughcorruptedDefense, //defense
+               MainData.MainLoop.TweakingComponent.toughcorruptedLuck, //luck
+               0, //mana
+               null, //sound for when it is this character's turn to act
+               emeraldAttackSheet, //character's attack animation sprite 
+               2, monkeyAvatar, emeraldAttackSheet[0], emeraldHurtSheet, scarecrowWalk_Sheet, emeraldIdleSheet,
+               3);
+
+        MakeMobTemplate("legendarycorrupted", //characterID
+               "Legendary Corrupt Citizen", // charName
+               "A former citizen of the Emerald Palace, now corrupted by it;s magic.", // charDesc
+               "claws", //verb used when attacking
+               false, //is it a player character(true), or is it an enemy(false)?
+               MainData.MainLoop.TweakingComponent.legendarycorruptedMaxHealth, //the base HP value
+               MainData.MainLoop.TweakingComponent.legendarycorruptedMinDamage, // the minimum damage value
+               MainData.MainLoop.TweakingComponent.legendarycorruptedMaxDamage, //the maximum damage value.
+               MainData.MainLoop.TweakingComponent.legendarycorruptedSpeed, //base speed, higher is better
+               MainData.MainLoop.TweakingComponent.legendarycorruptedDefense, //defense
+               MainData.MainLoop.TweakingComponent.legendarycorruptedLuck, //luck
+               0, //mana
+               null, //sound for when it is this character's turn to act
+               emeraldAttackSheet, //character's attack animation sprite 
+               2, monkeyAvatar, emeraldAttackSheet[0], emeraldHurtSheet, scarecrowWalk_Sheet, emeraldIdleSheet,
+               3);
     }
 
 
@@ -681,8 +732,7 @@ public class EntityDefiner : MonoBehaviour
 
     public void SpawnEncounter(Encounter b)
     {
-        difficultyCurrency += (Mathf.Clamp(difficultyCurrency / 6, 0, 10) + 5);
-        Debug.Log("TEST: " + difficultyCurrency);
+        difficultyCurrency++;
         MainData.MainLoop.LevelHelperComponent.GENERATE();
 
         List<CharacterWorldspaceScript> enemiesSpawned = new List<CharacterWorldspaceScript>();
@@ -2306,7 +2356,7 @@ true, //(true)beneficial or (false)harmful
           1, //default quantity
           true, //(true)beneficial or (false)harmful
           0, //speed bonus
-          20, //health bonus
+          10, //health bonus
           0, //mana bonus
           0, //dmg bonus
           0, //defense bonus 
@@ -2328,7 +2378,7 @@ true, //(true)beneficial or (false)harmful
           1, //default quantity
           true, //(true)beneficial or (false)harmful
           0, //speed bonus
-          20, //health bonus
+          10, //health bonus
           0, //mana bonus
           0, //dmg bonus
           2, //defense bonus 
@@ -2350,7 +2400,7 @@ true, //(true)beneficial or (false)harmful
           1, //default quantity
           true, //(true)beneficial or (false)harmful
           0, //speed bonus
-          20, //health bonus
+          10, //health bonus
           25, //mana bonus
           0, //dmg bonus
           0, //defense bonus 
@@ -2372,7 +2422,7 @@ true, //(true)beneficial or (false)harmful
           1, //default quantity
           true, //(true)beneficial or (false)harmful
           0, //speed bonus
-          20, //health bonus
+          10, //health bonus
           0, //mana bonus
           0, //dmg bonus
           0, //defense bonus 
@@ -2394,7 +2444,7 @@ true, //(true)beneficial or (false)harmful
           1, //default quantity
           true, //(true)beneficial or (false)harmful
           3, //speed bonus
-          20, //health bonus
+          10, //health bonus
           0, //mana bonus
           0, //dmg bonus
           0, //defense bonus 
@@ -2826,7 +2876,7 @@ true, //(true)beneficial or (false)harmful
                                    "Anger", //name
                                    "Angry", //adjective given to characters with this
                                    "anger stuff.", // blurb. wax poetic here as much as you want
-                                   "Passive: Taking damage increases the power of this unit’s next attack.\nActive: <color=#FF2C22>Lash out</color> Heals an ally for 50% HP.", //functional description
+                                   "Passive: Taking damage increases the power of this unit’s next attack.\nActive: <color=#FF2C22>Lash out</color>, dealing massive damage. Reduces future damage.", //functional description
                                    null, //sprite
                                    false,
                                    MainData.MainLoop.TweakingComponent.AngerManaCost); //false = t1. true = t2.
@@ -3420,9 +3470,9 @@ true, //(true)beneficial or (false)harmful
             defense += defensemod;
             int baseDamageRoll = UnityEngine.Random.Range(attacker.damageMin, attacker.damageMax + 1) + damagemod;
             int damageRoll = baseDamageRoll - defense;
-            if (damageRoll <= 0)
+            if (damageRoll <= 1)
             {
-                damageRoll = 0;
+                damageRoll = 1;
             }
 
             if (defense < 0)

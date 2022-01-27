@@ -12316,12 +12316,15 @@ MonoBehaviour:
   EncountersPaused: 0
   ButtonMoveOn: {fileID: 1736543281}
   enemyNames:
+  - weakcorrupted
   - corrupted
+  - toughcorrupted
+  - weakflyingmonkey
+  - legendarycorrupted
   - flyingmonkey
   - strongflyingmonkey
   - hellflyingmonkey
-  - weakflyingmonkey
-  difCurrency: 0
+  difCurrency: 3
 --- !u!114 &462129122
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12362,36 +12365,54 @@ MonoBehaviour:
   PCStartingLuck: 0
   PCStartingDefense: 2
   PCStartingManaRegen: 100
-  flyingMonkeyMaxHealth: 15
-  flyingMonkeyMinDamage: 4
-  flyingMonkeyMaxDamage: 8
-  flyingMonkeySpeed: 4
-  flyingMonkeyLuck: 1
-  flyingMonkeyDefense: 1
-  strongflyingMonkeyMaxHealth: 18
-  strongflyingMonkeyMinDamage: 6
-  strongflyingMonkeyMaxDamage: 10
-  strongflyingMonkeySpeed: 1
-  strongflyingMonkeyLuck: 1
+  flyingMonkeyMaxHealth: 50
+  flyingMonkeyMinDamage: 10
+  flyingMonkeyMaxDamage: 15
+  flyingMonkeySpeed: 7
+  flyingMonkeyLuck: 0
+  flyingMonkeyDefense: 2
+  strongflyingMonkeyMaxHealth: 60
+  strongflyingMonkeyMinDamage: 15
+  strongflyingMonkeyMaxDamage: 20
+  strongflyingMonkeySpeed: 2
+  strongflyingMonkeyLuck: 0
   strongflyingMonkeyDefense: 3
-  weakflyingMonkeyMaxHealth: 7
-  weakflyingMonkeyMinDamage: 1
-  weakflyingMonkeyMaxDamage: 3
-  weakflyingMonkeySpeed: 3
-  weakflyingMonkeyLuck: 1
-  weakflyingMonkeyDefense: 0
-  hellbentflyingMonkeyMaxHealth: 30
-  hellbentflyingMonkeyMinDamage: 9
-  hellbentflyingMonkeyMaxDamage: 12
-  hellbentflyingMonkeySpeed: 2
-  hellbentflyingMonkeyLuck: 0
-  hellbentflyingMonkeyDefense: 1
-  corruptedMaxHealth: 1
-  corruptedMinDamage: 1
-  corruptedMaxDamage: 2
-  corruptedSpeed: 1
-  corruptedLuck: 1
+  weakflyingMonkeyMaxHealth: 30
+  weakflyingMonkeyMinDamage: 9
+  weakflyingMonkeyMaxDamage: 12
+  weakflyingMonkeySpeed: 2
+  weakflyingMonkeyLuck: 0
+  weakflyingMonkeyDefense: 1
+  hellbentflyingMonkeyMaxHealth: 100
+  hellbentflyingMonkeyMinDamage: 15
+  hellbentflyingMonkeyMaxDamage: 23
+  hellbentflyingMonkeySpeed: 9
+  hellbentflyingMonkeyLuck: 10
+  hellbentflyingMonkeyDefense: 0
+  corruptedMaxHealth: 15
+  corruptedMinDamage: 4
+  corruptedMaxDamage: 8
+  corruptedSpeed: 4
+  corruptedLuck: 10
   corruptedDefense: 1
+  weakcorruptedMaxHealth: 7
+  weakcorruptedMinDamage: 1
+  weakcorruptedMaxDamage: 3
+  weakcorruptedSpeed: 3
+  weakcorruptedLuck: 20
+  weakcorruptedDefense: 0
+  toughcorruptedMaxHealth: 18
+  toughcorruptedMinDamage: 6
+  toughcorruptedMaxDamage: 10
+  toughcorruptedSpeed: 1
+  toughcorruptedLuck: 10
+  toughcorruptedDefense: 5
+  legendarycorruptedMaxHealth: 50
+  legendarycorruptedMinDamage: 5
+  legendarycorruptedMaxDamage: 15
+  legendarycorruptedSpeed: 3
+  legendarycorruptedLuck: 33
+  legendarycorruptedDefense: 5
   CommonColor: {r: 0.735849, g: 0.735849, b: 0.735849, a: 1}
   UncommonColor: {r: 0.85844606, g: 0.9528302, b: 0.87069815, a: 1}
   RareColor: {r: 0.754717, g: 0.6775995, b: 0.3737985, a: 1}
