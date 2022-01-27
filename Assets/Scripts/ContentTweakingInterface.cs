@@ -23,6 +23,11 @@ public class ContentTweakingInterface : MonoBehaviour
     public int caringPassiveHealthBonus = 0;
     public int caringPassiveDamageMalus = 0;
     [Space(5)]
+    public int nurtureActiveHealing = 0;
+    public int nurturePassiveHealthBonus = 0;
+    public int nurturePassiveDamageMalus = 0;
+    public int nurturePassiveSpeedMalus = 0;
+    [Space(5)]
     public int greedActiveSelfDamage = 0;
     public int greedActiveRevenue = 0;
     public int greedBountyPercentageBonus = 0; //50 = 50% more loot from enemies.
@@ -48,6 +53,8 @@ public class ContentTweakingInterface : MonoBehaviour
     public int CaringManaCost;
     public int WrathManaCost;
     public int BulwarkManaCost;
+    public int MaliciousManaCost;
+    public int NurturingManaCost; //7
 
     //double strike has no value to edit
     [Space(5)]
