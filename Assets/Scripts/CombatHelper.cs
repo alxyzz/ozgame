@@ -411,6 +411,19 @@ public class CombatHelper : MonoBehaviour
                     EndCurrentTurn();
 
                     break;
+
+                case "malicious":
+                    //Lash out for massive damage.
+                    if (activeTarget == null) { return; }
+                    if (activeTarget.associatedCharacter == null) { return; }
+
+                    gameloop.EventLoggingComponent.Log(Caster.charName + " releases their power! " + activeTarget.associatedCharacter.charName + " takes " + (Caster.manaTotal / 5) + " damage!");
+                    activeTarget.associatedCharacter.TakeDamage((Caster.manaTotal / 5));
+                    Caster.manaTotal = 0;
+                    EndCurrentTurn();
+
+                    break;
+
                 case "wrath":
                     //double attack
                     if (activeTarget == null) { return; }
@@ -418,14 +431,14 @@ public class CombatHelper : MonoBehaviour
                     //activeCharacterWorldspaceObject.associatedCharacter.damageMax -= gameloop.TweakingComponent.angryActiveDamageMalus; //permanent damage loss
                     //activeCharacterWorldspaceObject.associatedCharacter.damageMin -= gameloop.TweakingComponent.angryActiveDamageMalus;
                     gameloop.EventLoggingComponent.Log(activeCharacterWorldspaceObject.associatedCharacter.charName + " wrathful nature provokes a double attack!");
-                    activeTarget.associatedCharacter.TakeDamageFromCharacter(activeCharacterWorldspaceObject.associatedCharacter);
+                    activeTarget.associatedCharacter.TakeDamageFromCharacter(activeCharacterWorldspaceObject.associatedCharacter, false);
                     if (MainData.livingEnemyParty.Count > 0)
                     {//in case the enemy just gets killed immediately
                         if (activeTarget != null)
                         {
                             if (activeTarget.associatedCharacter != null)
                             {
-                                activeTarget.associatedCharacter.TakeDamageFromCharacter(activeCharacterWorldspaceObject.associatedCharacter);
+                                activeTarget.associatedCharacter.TakeDamageFromCharacter(activeCharacterWorldspaceObject.associatedCharacter, false);
                             }
 
                         }
@@ -444,6 +457,51 @@ public class CombatHelper : MonoBehaviour
                     gameloop.EventLoggingComponent.Log(Caster.charName + " taunts the enemies and prepares for combat!");
                     Caster.manaTotal -= Caster.charTrait.manaCost;
                     EndCurrentTurn();
+                    break;
+
+                case "perfectionist":
+                    //increase base stats
+                    Caster.defense += 1;
+                    Caster.maxHealth += 5;
+                    Caster.currentHealth += 5;
+                    Caster.baseDamageMin += 2;
+                    Caster.baseDamageMax += 2;
+                    Caster.luck += 3;
+                    Caster.speed += 2;
+                    gameloop.EventLoggingComponent.Log(Caster.charName + " strives for perfection and increases their stats!");
+                    Caster.manaTotal -= Caster.charTrait.manaCost;
+                    EndCurrentTurn();
+                    break;
+
+                case "nurturing"://so yeah this is where active traits go
+                    //heal target. allied target.
+                    if (activeTarget == null)
+                    {
+                        Debug.LogError("Target was null. Can't use caring.");
+                        return;
+                    }
+                    if (activeTarget.associatedCharacter == null)
+                    {
+                        Debug.LogError("Target's assoc char was null. Can't use caring.");
+                        return;
+                    }
+
+                    if (activeTarget.associatedCharacter.isPlayerPartyMember)
+                    {
+                        //heals for a percentage of max health
+                            int healing = MainData.MainLoop.TweakingComponent.nurtureActiveHealing;
+                            Debug.LogError("healing is " + healing.ToString());
+                            gameloop.EventLoggingComponent.Log(activeCharacterWorldspaceObject.associatedCharacter.charName + "'s inspiration helps " + activeTarget.associatedCharacter.charName + ", healing them for " + healing + " health!");
+                            activeTarget.associatedCharacter.GainHealth(healing);
+                            activeCharacterWorldspaceObject.associatedCharacter.GainHealth(healing);
+                            Caster.manaTotal -= Caster.charTrait.manaCost;
+                            EndCurrentTurn();
+                    }
+                    else
+                    {
+                        MainData.MainLoop.EventLoggingComponent.LogGray(Caster.charName + " can't inspire something without a mind.");
+                        return;
+                    }
                     break;
 
                 default:
@@ -498,7 +556,14 @@ public class CombatHelper : MonoBehaviour
     /// </summary>
     public void EndCurrentTurn()
     {
-        
+        if (activeCharacterWorldspaceObject.associatedCharacter.charTrait.identifier == "malicious")
+        {
+            for (int i = 0; i < MainData.livingEnemyParty.Count; i++)
+            {
+                MainData.livingEnemyParty[i].TakeDamageFromCharacter(activeCharacterWorldspaceObject.associatedCharacter, true);
+            }
+        }
+
         ReturnFromActiveSpot(); //we send the character back in this moment.
 
         foreach (Character item in MainData.allChars)
@@ -529,8 +594,6 @@ public class CombatHelper : MonoBehaviour
         {
 
         }
-
-
 
     }
     /// <summary>
@@ -606,7 +669,7 @@ public class CombatHelper : MonoBehaviour
         }
 
         //animation
-        Fool.TakeDamageFromCharacter(activeCharacterWorldspaceObject.associatedCharacter);//this also handles damage indicator
+        Fool.TakeDamageFromCharacter(activeCharacterWorldspaceObject.associatedCharacter, false);//this also handles damage indicator
 
         yield return new WaitForSeconds(0.05f);
 
@@ -823,7 +886,7 @@ public class CombatHelper : MonoBehaviour
         {
             if (chara.associatedCharacter != null)
             {
-                Fool.TakeDamageFromCharacter(chara.associatedCharacter);//this also handles the damage indicator 
+                Fool.TakeDamageFromCharacter(chara.associatedCharacter, false);//this also handles the damage indicator 
             }
 
 
