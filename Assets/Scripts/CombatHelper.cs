@@ -122,7 +122,7 @@ public class CombatHelper : MonoBehaviour
             EndCombat();
         }
 
-        for (int i = 0; i < combatants.Count - 1; i++)
+        for (int i = 0; i < combatants.Count; i++)
         {
             if (MainData.livingEnemyParty.Count != 1 && !MainData.livingEnemyParty[0].isDead)
             {
@@ -178,6 +178,14 @@ public class CombatHelper : MonoBehaviour
                 //}
                 if (combatants[i].isPlayerPartyMember)
                 {
+                    MainData.MainLoop.EventLoggingComponent.Log("It is currently the turn of "+ combatants[i].charName + " who has speed " + combatants[i].GetCompoundSpeed() + ". The queue is: ");
+                    int b = 0;
+                    foreach (Character item in combatants)
+                    {
+
+                        MainData.MainLoop.EventLoggingComponent.Log(b + "." + combatants[b].charName + " who has speed " + combatants[b].GetCompoundSpeed());
+                        b++;
+                    }
                     if (results.Count > 0)
                     {
                         DoPlayerCharacterTurn(combatants[i]);
@@ -318,11 +326,9 @@ public class CombatHelper : MonoBehaviour
     }
 
 
-
-
     public void ClickTraitAbility()
     {
-        Debug.LogError("the active target is " + activeTarget.associatedCharacter.charName);
+        //Debug.LogError("the active target is " + activeTarget.associatedCharacter.charName);
         GameManager gameloop = MainData.MainLoop;
         Character Caster = activeCharacterWorldspaceObject.associatedCharacter;
         if (!Caster.charTrait.forceCooldown) //Check if cooldown is forced
@@ -358,7 +364,9 @@ public class CombatHelper : MonoBehaviour
                         {
                             gameloop.EventLoggingComponent.Log(Caster.charName + "'s hugs " + activeTarget.associatedCharacter.charName + "! " + activeTarget.associatedCharacter.charName + " feels much better!");
                             activeTarget.associatedCharacter.GainHealth(0);
-                           EndCurrentTurn();
+                            ToggleCombatButtomVisibility(false);
+                            activeCharacterWorldspaceObject.AnimateCasting();
+                            //this also ends the turn. always put it at the end of a successful cast
 
                         }
                         else
@@ -366,9 +374,11 @@ public class CombatHelper : MonoBehaviour
                             int healing = (activeTarget.associatedCharacter.maxHealth / 100) * (MainData.MainLoop.TweakingComponent.caringActiveHealing);
                             Debug.LogError("healing is " + healing.ToString());
                             gameloop.EventLoggingComponent.Log(activeCharacterWorldspaceObject.associatedCharacter.charName + "'s caring nature mends " + activeTarget.associatedCharacter.charName + "'s wounds for " + healing + " health!");
+                            MainData.MainLoop.EventLoggingComponent.LogGray("caring healing is " + healing);
                             activeTarget.associatedCharacter.GainHealth(healing);
                             Caster.manaTotal -= Caster.charTrait.manaCost;
-                           EndCurrentTurn();
+                            ToggleCombatButtomVisibility(false);
+                            activeCharacterWorldspaceObject.AnimateCasting();
                         }
 
                     }
@@ -389,7 +399,8 @@ public class CombatHelper : MonoBehaviour
                         gameloop.Currency += MainData.MainLoop.TweakingComponent.greedActiveRevenue;
                         gameloop.UserInterfaceHelperComponent.UpdateCurrencyCounter();
                         Caster.manaTotal -= Caster.charTrait.manaCost;
-                       EndCurrentTurn();
+                        ToggleCombatButtomVisibility(false);
+                        activeCharacterWorldspaceObject.AnimateCasting();
                     }
                     else
                     {
@@ -408,7 +419,8 @@ public class CombatHelper : MonoBehaviour
                     gameloop.EventLoggingComponent.Log(Caster.charName + " lashes out! " + activeTarget.associatedCharacter.charName + " takes " + (gameloop.TweakingComponent.angryActivePowerDamage + (Caster.damageMax * 2)) + " damage!");
                     activeTarget.associatedCharacter.TakeDamage(gameloop.TweakingComponent.angryActivePowerDamage + (Caster.damageMax * 2));
                     Caster.manaTotal -= Caster.charTrait.manaCost;
-                    EndCurrentTurn();
+                    ToggleCombatButtomVisibility(false);
+                    activeCharacterWorldspaceObject.AnimateCasting();
 
                     break;
 
@@ -420,7 +432,8 @@ public class CombatHelper : MonoBehaviour
                     gameloop.EventLoggingComponent.Log(Caster.charName + " releases their power! " + activeTarget.associatedCharacter.charName + " takes " + (Caster.manaTotal / 5) + " damage!");
                     activeTarget.associatedCharacter.TakeDamage((Caster.manaTotal / 5));
                     Caster.manaTotal = 0;
-                    EndCurrentTurn();
+                    ToggleCombatButtomVisibility(false);
+                    activeCharacterWorldspaceObject.AnimateCasting();
 
                     break;
 
@@ -445,7 +458,8 @@ public class CombatHelper : MonoBehaviour
 
                     }
                     activeCharacterWorldspaceObject.associatedCharacter.manaTotal -= activeCharacterWorldspaceObject.associatedCharacter.charTrait.manaCost;
-                    EndCurrentTurn();
+                    ToggleCombatButtomVisibility(false);
+                    activeCharacterWorldspaceObject.AnimateCasting();
 
                     break;
 
@@ -456,7 +470,8 @@ public class CombatHelper : MonoBehaviour
                     Debug.Log(Caster.threatBonus + " THREAT BONUS");
                     gameloop.EventLoggingComponent.Log(Caster.charName + " taunts the enemies and prepares for combat!");
                     Caster.manaTotal -= Caster.charTrait.manaCost;
-                    EndCurrentTurn();
+                    ToggleCombatButtomVisibility(false);
+                    activeCharacterWorldspaceObject.AnimateCasting(); //this also ends the turn
                     break;
 
                 case "perfectionist":
@@ -470,7 +485,8 @@ public class CombatHelper : MonoBehaviour
                     Caster.speed += 2;
                     gameloop.EventLoggingComponent.Log(Caster.charName + " strives for perfection and increases their stats!");
                     Caster.manaTotal -= Caster.charTrait.manaCost;
-                    EndCurrentTurn();
+                    ToggleCombatButtomVisibility(false);
+                    activeCharacterWorldspaceObject.AnimateCasting(); //this also ends the turn
                     break;
 
                 case "nurturing"://so yeah this is where active traits go
@@ -495,19 +511,20 @@ public class CombatHelper : MonoBehaviour
                             activeTarget.associatedCharacter.GainHealth(healing);
                             activeCharacterWorldspaceObject.associatedCharacter.GainHealth(healing);
                             Caster.manaTotal -= Caster.charTrait.manaCost;
-                            EndCurrentTurn();
+                        ToggleCombatButtomVisibility(false);
+                        activeCharacterWorldspaceObject.AnimateCasting(); //this also ends the turn always put it at the end of a successful cast
                     }
                     else
                     {
                         MainData.MainLoop.EventLoggingComponent.LogGray(Caster.charName + " can't inspire something without a mind.");
-                        return;
+
                     }
                     break;
 
                 default:
                     break;
             }
-            //take the mana for the trait use.
+            
             MainData.MainLoop.UserInterfaceHelperComponent.RefreshCharacterTabs();
         }
         activeCharacterWorldspaceObject.associatedCharacter.manaTotal += 10;
@@ -515,10 +532,16 @@ public class CombatHelper : MonoBehaviour
         {
             activeCharacterWorldspaceObject.associatedCharacter.manaTotal = 100;
         }
-        EndCurrentTurn();
+        //EndCurrentTurn();
     }
     public void EndCombat()
     {
+        if (MainData.livingEnemyParty.Count > 0)
+        {
+            return;
+        }
+
+
         MainData.MainLoop.EventLoggingComponent.Log("Combat is over.");
         MainData.MainLoop.LevelHelperComponent.ButtonMoveOn.SetActive(true);
         List<Character> clone = new List<Character>(MainData.allChars);
@@ -556,13 +579,13 @@ public class CombatHelper : MonoBehaviour
     /// </summary>
     public void EndCurrentTurn()
     {
-        if (activeCharacterWorldspaceObject.associatedCharacter.charTrait.identifier == "malicious")
-        {
-            for (int i = 0; i < MainData.livingEnemyParty.Count; i++)
-            {
-                MainData.livingEnemyParty[i].TakeDamageFromCharacter(activeCharacterWorldspaceObject.associatedCharacter, true);
-            }
-        }
+        //if (activeCharacterWorldspaceObject.associatedCharacter.charTrait.identifier == "malicious")
+        //{
+        //    for (int i = 0; i < MainData.livingEnemyParty.Count; i++)
+        //    {
+        //        MainData.livingEnemyParty[i].TakeDamageFromCharacter(activeCharacterWorldspaceObject.associatedCharacter, true);
+        //    }
+        //} i commented this out coz it gave a null reference exception
 
         ReturnFromActiveSpot(); //we send the character back in this moment.
 
@@ -820,29 +843,12 @@ public class CombatHelper : MonoBehaviour
     { //this does not need an argument, since it always works with the currently active character
         if (activeCharacterWorldspaceObject == null)
         {
+            
             return;
         }
 
         activeCharacterWorldspaceObject.transform.position = activeCharacterWorldspaceObject.associatedCharacter.InitialPosition;//yaaaay
         //Debug.Log("Just returned from active spot to coordinates " + activeCharacterWorldspaceObject.associatedCharacter.InitialPosition.ToString());
-
-
-
-        //switch (activeCharsacterWorldspaceObject.associatedCharacter.charType)
-        //{
-        //    case "lion":
-        //        activeCharacterWorldspaceObject.spriteRenderer.sprite = MainData.MainLoop.EntityDefComponent.lionStanding;
-        //        break;
-        //    case "dorothy":
-        //        activeCharacterWorldspaceObject.spriteRenderer.sprite = MainData.MainLoop.EntityDefComponent.dorothyStanding;
-        //        break;
-        //    case "tin_man":
-        //        activeCharacterWorldspaceObject.spriteRenderer.sprite = MainData.MainLoop.EntityDefComponent.tinmanStanding;
-        //        break;
-        //    case "scarecrow":
-        //        activeCharacterWorldspaceObject.spriteRenderer.sprite = MainData.MainLoop.EntityDefComponent.scarecrowStanding;
-        //        break;
-        //}
         activeCharacterWorldspaceObject.ToggleIdle(true);
 
     }

@@ -451,10 +451,10 @@ public class VendorScript : MonoBehaviour
             }
             bought.amtInStock--;
             currentlySelectedShopItem.itemQuantity.text = bought.amtInStock.ToString();
-            Debug.LogError(bought.itemName + " in stock after purchase - " + bought.amtInStock);
+           //Debug.LogError(bought.itemName + " in stock after purchase - " + bought.amtInStock);
             if (bought.amtInStock == 0)
             {
-                Debug.LogError("reached here");
+                //Debug.LogError("reached here");
                 currentlySelectedShopItem.gameObject.SetActive(false);
             }
             RefreshShopItems();
