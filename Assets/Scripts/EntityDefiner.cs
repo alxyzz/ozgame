@@ -62,21 +62,25 @@ public class EntityDefiner : MonoBehaviour
     public Sprite[] scarecrowWalk_Sheet;
     public Sprite[] scarecrowHurtSheet;
     public Sprite[] scarecrowIdleSheet;
+    public Sprite[] scarecrowCastSheet;
 
     public Sprite[] lionAttackSheet;
     public Sprite[] lionWalkSheet;
     public Sprite[] lionHurtSheet;
     public Sprite[] lionIdleSheet;
+    public Sprite[] lionCastSheet;
 
     public Sprite[] dorothyAttackSheet;
     public Sprite[] dorothyWalkSheet;
     public Sprite[] dorothyHurtSheet;
     public Sprite[] dorothyIdleSheet;
+    public Sprite[] dorothyCastSheet;
 
     public Sprite[] tinmanAttackSheet;
     public Sprite[] tinmanWalkSheet;
     public Sprite[] tinmanHurtSheet;
     public Sprite[] tinmanIdleSheet;
+    public Sprite[] tinmanCastSheet;
 
     public Sprite lionsSprite;
     public GameObject ItemUseEffect;
@@ -402,7 +406,7 @@ public class EntityDefiner : MonoBehaviour
     /// <param name="attackAnimationSprites"></param>
     /// <param name="newCharAvatar"></param>
     /// <returns></returns>
-    public void MakeMobTemplate(string characterID, string charName, string charDesc, string attackVerb, bool isPlayer, int baseHP, int baseMinDMG, int baseMaxDMG, int baseSPD, int Defense, int Luck, int Mana, AudioClip newCharTurnSound, Sprite[] attackAnimationSprites, int bountyy, Sprite newCharAvatar, Sprite noAnimSprite, Sprite[] HurtSprites, Sprite[] WalkSprite, Sprite[] IdleSprites, int difCost)
+    public void MakeMobTemplate(string characterID, string charName, string charDesc, string attackVerb, bool isPlayer, int baseHP, int baseMinDMG, int baseMaxDMG, int baseSPD, int Defense, int Luck, int Mana, AudioClip newCharTurnSound, Sprite[] attackAnimationSprites, int bountyy, Sprite newCharAvatar, Sprite noAnimSprite, Sprite[] HurtSprites, Sprite[] WalkSprite, Sprite[] IdleSprites, int difCost, Sprite[] castSprite)
     {
         Character Chara = Character.CreateInstance<Character>();
         Chara.charType = characterID; //something like "goblin_spear", "tin_man" or "scarecrow" for the dictionary. 
@@ -416,6 +420,7 @@ public class EntityDefiner : MonoBehaviour
         Chara.WalkSprites = WalkSprite;
         Chara.turnSound = newCharTurnSound;
         Chara.attackAnimation = attackAnimationSprites;
+        Chara.castSprites = castSprite;
         if (noAnimSprite != null)
         {
             Chara.standingSprite = noAnimSprite;
@@ -469,7 +474,7 @@ public class EntityDefiner : MonoBehaviour
                        scarecrowHurtSheet, //hurt
                        scarecrowWalk_Sheet, //walk
                        scarecrowIdleSheet,
-                       0); //idle sprites
+                       0, scarecrowCastSheet); //idle sprites
 
         MakeMobTemplate("tin_man",
                        "Tin Man",
@@ -491,7 +496,7 @@ public class EntityDefiner : MonoBehaviour
                        tinmanHurtSheet,
                        tinmanWalkSheet,
                        tinmanIdleSheet,
-                       0);
+                       0, tinmanCastSheet);
 
         MakeMobTemplate("lion",
                        "Lion",
@@ -513,7 +518,7 @@ public class EntityDefiner : MonoBehaviour
                        lionHurtSheet,
                        lionWalkSheet,
                        lionIdleSheet,
-                       0);
+                       0, lionCastSheet);
 
         MakeMobTemplate("dorothy",
                        "Dorothy",
@@ -535,7 +540,7 @@ public class EntityDefiner : MonoBehaviour
                        dorothyHurtSheet,
                        dorothyWalkSheet,
                        dorothyIdleSheet,
-                       0);
+                       0, dorothyCastSheet);
 
 
     }
@@ -561,7 +566,7 @@ public class EntityDefiner : MonoBehaviour
                        null, //sound for when it is this character's turn to act
                        monkeyAttackSheet, //character's attack animation sprite 
                        2, monkeyAvatar, monkeyAttackSheet[0], monkeyHurtSheet, scarecrowWalk_Sheet, monkeyIdleSheet,
-                       0);
+                       0, null);
 
         MakeMobTemplate("flyingmonkey", //characterID
                        "Flying Monkey", // charName
@@ -578,7 +583,7 @@ public class EntityDefiner : MonoBehaviour
                        null, //sound for when it is this character's turn to act
                        monkeyAttackSheet, //character's attack animation sprite 
                        2, monkeyAvatar, monkeyAttackSheet[0], monkeyHurtSheet, scarecrowWalk_Sheet, monkeyIdleSheet,
-                       1);
+                       1, null);
 
         MakeMobTemplate("strongflyingmonkey", //characterID
                        "Strong Flying Monkey", // charName
@@ -595,7 +600,7 @@ public class EntityDefiner : MonoBehaviour
                        null, //sound for when it is this character's turn to act
                        monkeyAttackSheet, //character's attack animation sprite 
                        2, monkeyAvatar, monkeyAttackSheet[0], monkeyHurtSheet, scarecrowWalk_Sheet, monkeyIdleSheet,
-                       2);
+                       2, null);
 
         MakeMobTemplate("hellflyingmonkey", //characterID
                        "Hellbent Flying Monkey", // charName
@@ -612,7 +617,7 @@ public class EntityDefiner : MonoBehaviour
                        null, //sound for when it is this character's turn to act
                        monkeyAttackSheet, //character's attack animation sprite 
                        2, monkeyAvatar, monkeyAttackSheet[0], monkeyHurtSheet, scarecrowWalk_Sheet, monkeyIdleSheet,
-                       3);
+                       3, null);
 
         MakeMobTemplate("corrupted", //characterID
                        "Corrupt Citizen", // charName
@@ -629,7 +634,7 @@ public class EntityDefiner : MonoBehaviour
                        null, //sound for when it is this character's turn to act
                        emeraldAttackSheet, //character's attack animation sprite 
                        2, monkeyAvatar, emeraldAttackSheet[0], emeraldHurtSheet, scarecrowWalk_Sheet, emeraldIdleSheet,
-                       3);
+                       3, null);
 
         MakeMobTemplate("weakcorrupted", //characterID
                "Weak Corrupt Citizen", // charName
@@ -646,7 +651,7 @@ public class EntityDefiner : MonoBehaviour
                null, //sound for when it is this character's turn to act
                emeraldAttackSheet, //character's attack animation sprite 
                2, monkeyAvatar, emeraldAttackSheet[0], emeraldHurtSheet, scarecrowWalk_Sheet, emeraldIdleSheet,
-               3);
+               3, null);
 
         MakeMobTemplate("toughcorrupted", //characterID
                "Tough Corrupt Citizen", // charName
@@ -663,7 +668,7 @@ public class EntityDefiner : MonoBehaviour
                null, //sound for when it is this character's turn to act
                emeraldAttackSheet, //character's attack animation sprite 
                2, monkeyAvatar, emeraldAttackSheet[0], emeraldHurtSheet, scarecrowWalk_Sheet, emeraldIdleSheet,
-               3);
+               3, null);
 
         MakeMobTemplate("legendarycorrupted", //characterID
                "Legendary Corrupt Citizen", // charName
@@ -680,7 +685,7 @@ public class EntityDefiner : MonoBehaviour
                null, //sound for when it is this character's turn to act
                emeraldAttackSheet, //character's attack animation sprite 
                2, monkeyAvatar, emeraldAttackSheet[0], emeraldHurtSheet, scarecrowWalk_Sheet, emeraldIdleSheet,
-               3);
+               3, null);
 
         MakeMobTemplate("wickedwitch", //characterID
                "Wicked Witch of the East", // charName
@@ -697,7 +702,7 @@ public class EntityDefiner : MonoBehaviour
                null, //sound for when it is this character's turn to act
                witchAttackSheet, //character's attack animation sprite 
                2, monkeyAvatar, emeraldAttackSheet[0], emeraldHurtSheet, scarecrowWalk_Sheet, emeraldIdleSheet,
-               3);
+               3, null);
 
 
 
@@ -2948,7 +2953,7 @@ true, //(true)beneficial or (false)harmful
 
         Trait t6 = new Trait("nurturing", //string ID
                            "Nurturing", //name
-                           "Nuturing", //adjective given to characters with this
+                           "Nurturing", //adjective given to characters with this
                            "nurturing stuff.", // blurb. wax poetic here as much as you want
                            "Passive: Slight increase to health, slight decrease in damage and speed.\nActive: <color=#55ff22>Inspire </color>you and an ally, healing you both for a small amount.", //functional description
                            null, //sprite
@@ -3218,6 +3223,7 @@ true, //(true)beneficial or (false)harmful
         public Sprite[] WalkSprites;
         public Sprite[] hurtSprites;
         public Sprite[] idleSprite;
+        public Sprite[] castSprites;
         public Sprite charAvatar;//head pic
 
         public List<StatusEffect> currentStatusEffects = new List<StatusEffect>(); //status effects are just 2 strings, 1 int and 1 image referenced from tweaker probably, so not even gonna define all that stuff above. just define it on creation because it's 4 arguments really and we want the turns remaining to vary anyways.
@@ -3635,12 +3641,15 @@ true, //(true)beneficial or (false)harmful
             {
                 defense = 0;
             }
-
-            if (charTrait.identifier == "perfectionist" && currentHealth != maxHealth)
+            if (charTrait != null)//gotta check if the mob has a trait because this also runs on attacking an enemy mob
             {
-                Debug.Log("HAPPENING");
-                damageRoll *= 2;
+                if (charTrait.identifier == "perfectionist" && currentHealth != maxHealth)
+                {
+                    Debug.Log("HAPPENING");
+                    damageRoll *= 2;
+                }
             }
+            
             //MainData.MainLoop.EventLoggingComponent.Log("damage without modifiers - " + (damageRoll - damagemod) + ", defense without modifiers " + (defense - defensemod));
 
 
@@ -3840,10 +3849,14 @@ true, //(true)beneficial or (false)harmful
 
         public void TakeDamage(int dmg)
         { //generic take damage function
-            if(charTrait.traitName == "perfectionist" && currentHealth != maxHealth)
+            if (charTrait != null)
             {
-                currentHealth -= dmg;
+                if (charTrait.traitName == "perfectionist" && currentHealth != maxHealth)
+                {
+                    currentHealth -= dmg;
+                }
             }
+            
             currentHealth -= dmg;
             MainData.MainLoop.EventLoggingComponent.Log(this.charName + " is hurt " + "for " + dmg + " damage!");
             MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(damage: dmg, target: this, heal: false);
@@ -3865,33 +3878,23 @@ true, //(true)beneficial or (false)harmful
 
         public void GainHealth(int hp)
         {
-
-            float b;
-            {
-
-            }
-
-            int healthAmp = 0;
+            float AmplificationSum = 0;
+            float healthFloat = 0;
+            //we take all the bonuses
             foreach (Item item in equipmentInventory)
             {
-                healthAmp += (int)item.healingAmp;
+                if (item.healingAmp != 0)
+                {
+                    AmplificationSum += item.healingAmp;
+                }
             }
-            //Debug.LogWarning(hp + " is the health value gained pre formula. hp is " + hp  + ". healthAmp is " + healthAmp);
-            if (healthAmp != 0)
+            if (AmplificationSum != 0)
             {
-                b = (hp / 100) * (100 + healthAmp);
-
+                healthFloat = (hp / 100) * (100 + AmplificationSum);
             }
-            else
-            {
-
-            }
-            b = hp;
-            //MainData.MainLoop.EventLoggingComponent.LogDanger("b in healing is " + b.ToString());
 
             //Debug.LogWarning(hp + " is the health value gained post formula.");
-            hp = Mathf.RoundToInt(b);
-            currentHealth += hp;
+            currentHealth += Mathf.RoundToInt(healthFloat);
             MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(target: this, damage: hp, heal: true);
             if (currentHealth >= this.maxHealth)
             {
