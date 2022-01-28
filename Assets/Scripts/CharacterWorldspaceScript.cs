@@ -52,7 +52,7 @@ public class CharacterWorldspaceScript : MonoBehaviour
         associatedCharacter.idleSprite = template.idleSprite;
         associatedCharacter.hurtSprites = template.hurtSprites;
         associatedCharacter.WalkSprites = template.WalkSprites;
-
+        associatedCharacter.castSprites = template.castSprites;
         associatedCharacter.charTrait = template.charTrait;
         associatedCharacter.charType = template.charType;
         associatedCharacter.selfScriptRef = this;
@@ -120,6 +120,39 @@ public class CharacterWorldspaceScript : MonoBehaviour
         idle = true;
         StartCoroutine(IdleAnimate());// THIS IS THE ONLY PLACE THIS COROUTINE SHOULD /EVER/ BE STARTED (excluding inside itself) lest we split the time continuum
     }
+
+
+    public void AnimateCasting()
+    {
+        StartCoroutine(CastAnimation());
+    }
+
+
+    IEnumerator CastAnimation()
+    {
+        idle = false;
+        MainData.MainLoop.EventLoggingComponent.Log("Now playing cast animation for " + associatedCharacter.charName);
+        for (int i = 0; i < associatedCharacter.castSprites.Length; i++)
+        {
+            spriteRenderer.sprite = associatedCharacter.castSprites[i];
+            yield return new WaitForSecondsRealtime(0.08f);
+        }
+        if (associatedCharacter.standingSprite != null)
+        {
+            spriteRenderer.sprite = associatedCharacter.standingSprite;
+        }
+        else
+        {
+            spriteRenderer.sprite = associatedCharacter.attackAnimation[0];
+        }
+        yield return new WaitForSecondsRealtime(1f);//small delay to make it more noticeable
+        MainData.MainLoop.CombatHelperComponent.ReturnFromActiveSpot();
+        MainData.MainLoop.CombatHelperComponent.EndCombat();
+        associatedCharacter.hasActedThisTurn = true;
+        idle = true;
+    }
+
+
 
 
 

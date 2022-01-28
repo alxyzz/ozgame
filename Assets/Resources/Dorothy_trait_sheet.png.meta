@@ -1,0 +1,394 @@
+fileFormatVersion: 2
+guid: f7a69ac23b10f6940834e0033f6a67c7
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 6981218825864562002
+    second: Dorothy_trait_sheet_0
+  - first:
+      213: -2292412456458131605
+    second: Dorothy_trait_sheet_1
+  - first:
+      213: 383756804840738963
+    second: Dorothy_trait_sheet_2
+  - first:
+      213: 8793925139301855614
+    second: Dorothy_trait_sheet_3
+  - first:
+      213: -4003227941402289457
+    second: Dorothy_trait_sheet_4
+  - first:
+      213: -6348088092532488959
+    second: Dorothy_trait_sheet_5
+  - first:
+      213: -7739102139286015674
+    second: Dorothy_trait_sheet_6
+  - first:
+      213: -7731729203486725844
+    second: Dorothy_trait_sheet_7
+  - first:
+      213: 4164269103869936802
+    second: Dorothy_trait_sheet_8
+  - first:
+      213: -7887325386202442364
+    second: Dorothy_trait_sheet_9
+  - first:
+      213: -3094609252280593571
+    second: Dorothy_trait_sheet_10
+  - first:
+      213: -4854818227681347367
+    second: Dorothy_trait_sheet_11
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: -1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 200
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 4096
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 2
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 4096
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 2
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Dorothy_trait_sheet_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2736
+        width: 1420
+        height: 1368
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2554de6b88542e060800000000000000
+      internalID: 6981218825864562002
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dorothy_trait_sheet_1
+      rect:
+        serializedVersion: 2
+        x: 1420
+        y: 2736
+        width: 1420
+        height: 1368
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b67e12e3407bf20e0800000000000000
+      internalID: -2292412456458131605
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dorothy_trait_sheet_2
+      rect:
+        serializedVersion: 2
+        x: 2840
+        y: 2736
+        width: 1420
+        height: 1368
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 390dba0e7c0635500800000000000000
+      internalID: 383756804840738963
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dorothy_trait_sheet_3
+      rect:
+        serializedVersion: 2
+        x: 4260
+        y: 2736
+        width: 1420
+        height: 1368
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e71f67d625c4a0a70800000000000000
+      internalID: 8793925139301855614
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dorothy_trait_sheet_4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1368
+        width: 1420
+        height: 1368
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fca5cc5b56da178c0800000000000000
+      internalID: -4003227941402289457
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dorothy_trait_sheet_5
+      rect:
+        serializedVersion: 2
+        x: 1420
+        y: 1368
+        width: 1420
+        height: 1368
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 105c6b1738f07e7a0800000000000000
+      internalID: -6348088092532488959
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dorothy_trait_sheet_6
+      rect:
+        serializedVersion: 2
+        x: 2840
+        y: 1368
+        width: 1420
+        height: 1368
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 641346b9b9f299490800000000000000
+      internalID: -7739102139286015674
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dorothy_trait_sheet_7
+      rect:
+        serializedVersion: 2
+        x: 4260
+        y: 1368
+        width: 1420
+        height: 1368
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c29e8aef04163b490800000000000000
+      internalID: -7731729203486725844
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dorothy_trait_sheet_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 1420
+        height: 1368
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2a44d4dcfa47ac930800000000000000
+      internalID: 4164269103869936802
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dorothy_trait_sheet_9
+      rect:
+        serializedVersion: 2
+        x: 1420
+        y: 0
+        width: 1420
+        height: 1368
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4859b7f99579a8290800000000000000
+      internalID: -7887325386202442364
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dorothy_trait_sheet_10
+      rect:
+        serializedVersion: 2
+        x: 2840
+        y: 0
+        width: 1420
+        height: 1368
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d539d2fe74dbd05d0800000000000000
+      internalID: -3094609252280593571
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dorothy_trait_sheet_11
+      rect:
+        serializedVersion: 2
+        x: 4260
+        y: 0
+        width: 1420
+        height: 1368
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9d836f93b8830acb0800000000000000
+      internalID: -4854818227681347367
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 95209b111802be040b2b8d63ab0456f0
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
