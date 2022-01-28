@@ -46,7 +46,7 @@ public class CharacterWorldspaceScript : MonoBehaviour
         associatedCharacter.baseSpeed = template.baseSpeed;
         associatedCharacter.charAvatar = template.charAvatar;
         associatedCharacter.charName = template.charName;
-        associatedCharacter.difficultyCost = template.difficultyCost;
+        associatedCharacter.SoundLibrary = template.SoundLibrary;
 
         associatedCharacter.attackAnimation = template.attackAnimation;
         associatedCharacter.idleSprite = template.idleSprite;

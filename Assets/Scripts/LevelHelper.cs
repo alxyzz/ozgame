@@ -7,6 +7,8 @@ public class LevelHelper : MonoBehaviour
     //set up level template assets here.
 
     public AudioClip testsound;
+    public AudioSource source;
+    public AudioSource sourceC;
     public AudioClip townSoundTrack;
     public AudioClip mushroomForestSoundTrack;
 
@@ -296,7 +298,15 @@ public class LevelHelper : MonoBehaviour
 
 
 
+    public void PlaySound(AudioClip soundToPlay)
+    {
+        source.PlayOneShot(soundToPlay);
+    }
 
+    public void PlaySoundCombat(AudioClip soundToPlay)
+    {
+        sourceC.PlayOneShot(soundToPlay);
+    }
 
 
     public class MapLevel

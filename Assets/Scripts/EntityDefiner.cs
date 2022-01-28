@@ -93,8 +93,46 @@ public class EntityDefiner : MonoBehaviour
     public Sprite[] witchHurtSheet;
     public Sprite[] witchIdleSheet;
 
+    AudioClip[] tinManSounds;
+    AudioClip[] lionSounds;
+    AudioClip[] scarecrowSounds;
+    AudioClip[] dorothySounds;
+    AudioClip[] monkeySounds;
+
     public int BaseCurrency;
     public int difficultyCurrency = 3;
+
+    private void Start()
+    {
+        tinManSounds = new AudioClip[5]; //initialize tinman sounds
+        tinManSounds[0] = Resources.Load<AudioClip>("SFX/TinMan/Hover");
+        tinManSounds[1] = Resources.Load<AudioClip>("SFX/TinMan/Hurt");
+        tinManSounds[2] = Resources.Load<AudioClip>("SFX/General/Attack");
+        tinManSounds[3] = Resources.Load<AudioClip>("SFX/General/Crit");
+
+        lionSounds = new AudioClip[5]; //initialize lion sounds
+        lionSounds[0] = Resources.Load<AudioClip>("SFX/Lion/Hover");
+        lionSounds[1] = Resources.Load<AudioClip>("SFX/Lion/Hurt");
+        lionSounds[2] = Resources.Load<AudioClip>("SFX/General/Attack");
+        lionSounds[3] = Resources.Load<AudioClip>("SFX/General/Crit");
+
+        scarecrowSounds = new AudioClip[5]; //initialize scarecrow sounds
+        scarecrowSounds[0] = Resources.Load<AudioClip>("SFX/Scarecrow/Hover");
+        scarecrowSounds[1] = Resources.Load<AudioClip>("SFX/Scarecrow/Hurt");
+        scarecrowSounds[2] = Resources.Load<AudioClip>("SFX/General/Attack");
+        scarecrowSounds[3] = Resources.Load<AudioClip>("SFX/General/Crit");
+
+        dorothySounds = new AudioClip[5]; //initialize dorothy sounds
+        dorothySounds[0] = Resources.Load<AudioClip>("SFX/Dorothy/Hover");
+        dorothySounds[1] = Resources.Load<AudioClip>("SFX/Dorothy/Hurt");
+        dorothySounds[2] = Resources.Load<AudioClip>("SFX/General/Attack");
+        dorothySounds[3] = Resources.Load<AudioClip>("SFX/General/Crit");
+
+        monkeySounds = new AudioClip[5]; //initialize Monkey sounds
+        monkeySounds[1] = Resources.Load<AudioClip>("SFX/Monkey/Hurt");
+        monkeySounds[2] = Resources.Load<AudioClip>("SFX/Monkey/Attack");
+        monkeySounds[3] = Resources.Load<AudioClip>("SFX/General/Crit");
+    }
 
     public void UseConsumable(Item consumable, Character target)
     {
@@ -393,7 +431,7 @@ public class EntityDefiner : MonoBehaviour
     /// <param name="baseHP">The base health maximum value, before to any modifiers.</param>
     /// <param name="baseMinDMG">The base damage value, before any modifiers.</param>
     /// <param name="baseSPD">The base speed value, before any modifiers.</param>
-    /// <param name= "DifficultyCost"></param>
+    /// <param name= "SoundLibrary"></param>
 
     /// <param name="Defense"></param>
     /// <param name="Luck"></param>
@@ -402,7 +440,7 @@ public class EntityDefiner : MonoBehaviour
     /// <param name="attackAnimationSprites"></param>
     /// <param name="newCharAvatar"></param>
     /// <returns></returns>
-    public void MakeMobTemplate(string characterID, string charName, string charDesc, string attackVerb, bool isPlayer, int baseHP, int baseMinDMG, int baseMaxDMG, int baseSPD, int Defense, int Luck, int Mana, AudioClip newCharTurnSound, Sprite[] attackAnimationSprites, int bountyy, Sprite newCharAvatar, Sprite noAnimSprite, Sprite[] HurtSprites, Sprite[] WalkSprite, Sprite[] IdleSprites, int difCost)
+    public void MakeMobTemplate(string characterID, string charName, string charDesc, string attackVerb, bool isPlayer, int baseHP, int baseMinDMG, int baseMaxDMG, int baseSPD, int Defense, int Luck, int Mana, AudioClip newCharTurnSound, Sprite[] attackAnimationSprites, int bountyy, Sprite newCharAvatar, Sprite noAnimSprite, Sprite[] HurtSprites, Sprite[] WalkSprite, Sprite[] IdleSprites, AudioClip[] SoundLibrary)
     {
         Character Chara = Character.CreateInstance<Character>();
         Chara.charType = characterID; //something like "goblin_spear", "tin_man" or "scarecrow" for the dictionary. 
@@ -411,7 +449,7 @@ public class EntityDefiner : MonoBehaviour
         Chara.attackverb = attackVerb;
         Chara.isPlayerPartyMember = isPlayer;
         Chara.hurtSprites = HurtSprites;
-        Chara.difficultyCost = difCost;
+        Chara.SoundLibrary = SoundLibrary;
         Chara.idleSprite = IdleSprites;
         Chara.WalkSprites = WalkSprite;
         Chara.turnSound = newCharTurnSound;
@@ -469,7 +507,7 @@ public class EntityDefiner : MonoBehaviour
                        scarecrowHurtSheet, //hurt
                        scarecrowWalk_Sheet, //walk
                        scarecrowIdleSheet,
-                       0); //idle sprites
+                       scarecrowSounds); //idle sprites
 
         MakeMobTemplate("tin_man",
                        "Tin Man",
@@ -491,7 +529,7 @@ public class EntityDefiner : MonoBehaviour
                        tinmanHurtSheet,
                        tinmanWalkSheet,
                        tinmanIdleSheet,
-                       0);
+                       tinManSounds);
 
         MakeMobTemplate("lion",
                        "Lion",
@@ -513,7 +551,7 @@ public class EntityDefiner : MonoBehaviour
                        lionHurtSheet,
                        lionWalkSheet,
                        lionIdleSheet,
-                       0);
+                       lionSounds);
 
         MakeMobTemplate("dorothy",
                        "Dorothy",
@@ -535,7 +573,7 @@ public class EntityDefiner : MonoBehaviour
                        dorothyHurtSheet,
                        dorothyWalkSheet,
                        dorothyIdleSheet,
-                       0);
+                       dorothySounds);
 
 
     }
@@ -561,7 +599,7 @@ public class EntityDefiner : MonoBehaviour
                        null, //sound for when it is this character's turn to act
                        monkeyAttackSheet, //character's attack animation sprite 
                        2, monkeyAvatar, monkeyAttackSheet[0], monkeyHurtSheet, scarecrowWalk_Sheet, monkeyIdleSheet,
-                       0);
+                       monkeySounds);
 
         MakeMobTemplate("flyingmonkey", //characterID
                        "Flying Monkey", // charName
@@ -578,7 +616,7 @@ public class EntityDefiner : MonoBehaviour
                        null, //sound for when it is this character's turn to act
                        monkeyAttackSheet, //character's attack animation sprite 
                        2, monkeyAvatar, monkeyAttackSheet[0], monkeyHurtSheet, scarecrowWalk_Sheet, monkeyIdleSheet,
-                       1);
+                       monkeySounds);
 
         MakeMobTemplate("strongflyingmonkey", //characterID
                        "Strong Flying Monkey", // charName
@@ -595,7 +633,7 @@ public class EntityDefiner : MonoBehaviour
                        null, //sound for when it is this character's turn to act
                        monkeyAttackSheet, //character's attack animation sprite 
                        2, monkeyAvatar, monkeyAttackSheet[0], monkeyHurtSheet, scarecrowWalk_Sheet, monkeyIdleSheet,
-                       2);
+                       monkeySounds);
 
         MakeMobTemplate("hellflyingmonkey", //characterID
                        "Hellbent Flying Monkey", // charName
@@ -612,7 +650,7 @@ public class EntityDefiner : MonoBehaviour
                        null, //sound for when it is this character's turn to act
                        monkeyAttackSheet, //character's attack animation sprite 
                        2, monkeyAvatar, monkeyAttackSheet[0], monkeyHurtSheet, scarecrowWalk_Sheet, monkeyIdleSheet,
-                       3);
+                       monkeySounds);
 
         MakeMobTemplate("corrupted", //characterID
                        "Corrupt Citizen", // charName
@@ -629,7 +667,7 @@ public class EntityDefiner : MonoBehaviour
                        null, //sound for when it is this character's turn to act
                        emeraldAttackSheet, //character's attack animation sprite 
                        2, monkeyAvatar, emeraldAttackSheet[0], emeraldHurtSheet, scarecrowWalk_Sheet, emeraldIdleSheet,
-                       3);
+                       tinManSounds);
 
         MakeMobTemplate("weakcorrupted", //characterID
                "Weak Corrupt Citizen", // charName
@@ -646,7 +684,7 @@ public class EntityDefiner : MonoBehaviour
                null, //sound for when it is this character's turn to act
                emeraldAttackSheet, //character's attack animation sprite 
                2, monkeyAvatar, emeraldAttackSheet[0], emeraldHurtSheet, scarecrowWalk_Sheet, emeraldIdleSheet,
-               3);
+               tinManSounds);
 
         MakeMobTemplate("toughcorrupted", //characterID
                "Tough Corrupt Citizen", // charName
@@ -663,7 +701,7 @@ public class EntityDefiner : MonoBehaviour
                null, //sound for when it is this character's turn to act
                emeraldAttackSheet, //character's attack animation sprite 
                2, monkeyAvatar, emeraldAttackSheet[0], emeraldHurtSheet, scarecrowWalk_Sheet, emeraldIdleSheet,
-               3);
+               tinManSounds);
 
         MakeMobTemplate("legendarycorrupted", //characterID
                "Legendary Corrupt Citizen", // charName
@@ -680,7 +718,7 @@ public class EntityDefiner : MonoBehaviour
                null, //sound for when it is this character's turn to act
                emeraldAttackSheet, //character's attack animation sprite 
                2, monkeyAvatar, emeraldAttackSheet[0], emeraldHurtSheet, scarecrowWalk_Sheet, emeraldIdleSheet,
-               3);
+               tinManSounds);
 
         MakeMobTemplate("wickedwitch", //characterID
                "Wicked Witch of the East", // charName
@@ -697,7 +735,7 @@ public class EntityDefiner : MonoBehaviour
                null, //sound for when it is this character's turn to act
                witchAttackSheet, //character's attack animation sprite 
                2, monkeyAvatar, emeraldAttackSheet[0], emeraldHurtSheet, scarecrowWalk_Sheet, emeraldIdleSheet,
-               3);
+               tinManSounds);
 
 
 
@@ -3218,6 +3256,7 @@ true, //(true)beneficial or (false)harmful
         public Sprite[] WalkSprites;
         public Sprite[] hurtSprites;
         public Sprite[] idleSprite;
+        public AudioClip[] SoundLibrary;
         public Sprite charAvatar;//head pic
 
         public List<StatusEffect> currentStatusEffects = new List<StatusEffect>(); //status effects are just 2 strings, 1 int and 1 image referenced from tweaker probably, so not even gonna define all that stuff above. just define it on creation because it's 4 arguments really and we want the turns remaining to vary anyways.
@@ -3579,6 +3618,9 @@ true, //(true)beneficial or (false)harmful
         public void TakeDamageFromCharacter(Character attacker, bool burn)
         {
 
+            MainData.MainLoop.LevelHelperComponent.PlaySound(SoundLibrary[1]);
+            Debug.Log("JEFJHSJHDNSKJDNSD");
+
             //here we deal with the generic damage modification
             int damagemod = 0;
             int defensemod = 0;
@@ -3597,6 +3639,9 @@ true, //(true)beneficial or (false)harmful
 
             }
 
+            int baseDamageRoll = UnityEngine.Random.Range(attacker.damageMin, attacker.damageMax + 1) + damagemod;
+            defense += defensemod;
+            int damageRoll = baseDamageRoll - defense;
 
             if (attacker.charTrait != null)
             {//here we deal with the attacker's traits.
@@ -3606,6 +3651,13 @@ true, //(true)beneficial or (false)harmful
                     case "angry":
                         damagemod += attacker.charTrait.GenericTraitValue; //adds the whole value to damage output
                         attacker.charTrait.GenericTraitValue = 0;//resets it upon use
+                        break;
+
+                    case "perfectionist":
+                        if  (currentHealth != maxHealth)
+                        {
+                            damageRoll *= 2;
+                        }
                         break;
 
                     case "malicious":
@@ -3623,9 +3675,6 @@ true, //(true)beneficial or (false)harmful
 
             }
 
-            defense += defensemod;
-            int baseDamageRoll = UnityEngine.Random.Range(attacker.damageMin, attacker.damageMax + 1) + damagemod;
-            int damageRoll = baseDamageRoll - defense;
             if (damageRoll <= 1)
             {
                 damageRoll = 1;
@@ -3636,11 +3685,6 @@ true, //(true)beneficial or (false)harmful
                 defense = 0;
             }
 
-            if (charTrait.identifier == "perfectionist" && currentHealth != maxHealth)
-            {
-                Debug.Log("HAPPENING");
-                damageRoll *= 2;
-            }
             //MainData.MainLoop.EventLoggingComponent.Log("damage without modifiers - " + (damageRoll - damagemod) + ", defense without modifiers " + (defense - defensemod));
 
 
@@ -3840,10 +3884,9 @@ true, //(true)beneficial or (false)harmful
 
         public void TakeDamage(int dmg)
         { //generic take damage function
-            if(charTrait.traitName == "perfectionist" && currentHealth != maxHealth)
-            {
-                currentHealth -= dmg;
-            }
+
+            MainData.MainLoop.LevelHelperComponent.PlaySoundCombat(SoundLibrary[3]);
+
             currentHealth -= dmg;
             MainData.MainLoop.EventLoggingComponent.Log(this.charName + " is hurt " + "for " + dmg + " damage!");
             MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(damage: dmg, target: this, heal: false);

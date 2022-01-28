@@ -631,7 +631,7 @@ public class CombatHelper : MonoBehaviour
                 }
                 ToggleCombatButtomVisibility(false);
                 StartCoroutine(AttackTargetedEnemy());
-
+                MainData.MainLoop.LevelHelperComponent.PlaySoundCombat(activeCharacterWorldspaceObject.associatedCharacter.SoundLibrary[2]);
             }
             else
             {
@@ -686,6 +686,10 @@ public class CombatHelper : MonoBehaviour
     {
         if (togg)
         {
+            if (activeCharacterWorldspaceObject.associatedCharacter.isPlayerPartyMember)
+            {
+                MainData.MainLoop.LevelHelperComponent.PlaySound(activeCharacterWorldspaceObject.associatedCharacter.SoundLibrary[0]);
+            }
             MainData.MainLoop.UserInterfaceHelperComponent.AbilityButton.SetActive(true);
             MainData.MainLoop.UserInterfaceHelperComponent.AttackButton.SetActive(true);
         }
@@ -852,7 +856,7 @@ public class CombatHelper : MonoBehaviour
         npc.selfScriptRef.transform.position = ActiveCharSpot.transform.position;
 
         StartCoroutine(AttackPlayerPartyBasedOnThreat(npc.selfScriptRef));
-
+        MainData.MainLoop.LevelHelperComponent.PlaySoundCombat(activeCharacterWorldspaceObject.associatedCharacter.SoundLibrary[2]);
 
     }
     public IEnumerator AttackPlayerPartyBasedOnThreat(CharacterWorldspaceScript chara)
