@@ -135,7 +135,7 @@ public class CharacterWorldspaceScript : MonoBehaviour
         for (int i = 0; i < associatedCharacter.castSprites.Length; i++)
         {
             spriteRenderer.sprite = associatedCharacter.castSprites[i];
-            yield return new WaitForSecondsRealtime(0.08f);
+            yield return new WaitForSecondsRealtime(0.06f);
         }
         if (associatedCharacter.standingSprite != null)
         {
@@ -145,7 +145,7 @@ public class CharacterWorldspaceScript : MonoBehaviour
         {
             spriteRenderer.sprite = associatedCharacter.attackAnimation[0];
         }
-        yield return new WaitForSecondsRealtime(1f);//small delay to make it more noticeable
+        //yield return new WaitForSecondsRealtime(1f);//small delay to make it more noticeable
         MainData.MainLoop.CombatHelperComponent.ReturnFromActiveSpot();
         MainData.MainLoop.CombatHelperComponent.EndCombat();
         associatedCharacter.hasActedThisTurn = true;

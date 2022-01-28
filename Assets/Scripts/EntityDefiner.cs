@@ -3878,23 +3878,23 @@ true, //(true)beneficial or (false)harmful
 
         public void GainHealth(int hp)
         {
-
-
-
-            int healthAmp = 0;
-            float amp = 0;
+            float AmplificationSum = 0;
+            float healthFloat = 0;
+            //we take all the bonuses
             foreach (Item item in equipmentInventory)
             {
-                amp += item.healingAmp;
+                if (item.healingAmp != 0)
+                {
+                    AmplificationSum += item.healingAmp;
+                }
             }
-            healthAmp = (int)amp;
-            if (healthAmp != 0)
+            if (AmplificationSum != 0)
             {
-                hp = (hp / 100) * (100 + healthAmp);
+                healthFloat = (hp / 100) * (100 + AmplificationSum);
             }
 
             //Debug.LogWarning(hp + " is the health value gained post formula.");
-            currentHealth += hp;
+            currentHealth += Mathf.RoundToInt(healthFloat);
             MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(target: this, damage: hp, heal: true);
             if (currentHealth >= this.maxHealth)
             {
