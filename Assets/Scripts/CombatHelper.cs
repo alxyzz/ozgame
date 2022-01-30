@@ -31,7 +31,7 @@ public class CombatHelper : MonoBehaviour
     public bool isTargetFriendly;
     public GameObject DamageIndicatorCanvas;
 
-
+    AudioClip[] sfx;
 
 
 
@@ -45,6 +45,13 @@ public class CombatHelper : MonoBehaviour
     /// <param name="message"> custom message for various things</param>
     /// <param name="damage"> damage if relevant</param>
     /// <param name="heal"> wether it's damage or healing. affects color</param>
+    /// 
+    private void Start()
+    {
+        sfx = new AudioClip[2];
+        sfx[0] = Resources.Load<AudioClip>("SFX/General/BigAttack");
+        sfx[1] = Resources.Load<AudioClip>("SFX/General/Boost");
+    }
     public void DisplayFloatingDamageNumbers(Character target, string message = null, int damage = 0, bool heal = false)
     {
 
@@ -367,7 +374,7 @@ public class CombatHelper : MonoBehaviour
                             ToggleCombatButtomVisibility(false);
                             activeCharacterWorldspaceObject.AnimateCasting();
                             //this also ends the turn. always put it at the end of a successful cast
-
+                            MainData.MainLoop.LevelHelperComponent.PlaySound(sfx[1]);
                         }
                         else
                         {//heals for a percentage of max health
@@ -379,6 +386,7 @@ public class CombatHelper : MonoBehaviour
                             Caster.manaTotal -= Caster.charTrait.manaCost;
                             ToggleCombatButtomVisibility(false);
                             activeCharacterWorldspaceObject.AnimateCasting();
+                            MainData.MainLoop.LevelHelperComponent.PlaySound(sfx[1]);
                         }
 
                     }
@@ -421,7 +429,7 @@ public class CombatHelper : MonoBehaviour
                     Caster.manaTotal -= Caster.charTrait.manaCost;
                     ToggleCombatButtomVisibility(false);
                     activeCharacterWorldspaceObject.AnimateCasting();
-
+                    MainData.MainLoop.LevelHelperComponent.PlaySound(sfx[1]);
                     break;
 
                 case "malicious":
@@ -460,7 +468,7 @@ public class CombatHelper : MonoBehaviour
                     activeCharacterWorldspaceObject.associatedCharacter.manaTotal -= activeCharacterWorldspaceObject.associatedCharacter.charTrait.manaCost;
                     ToggleCombatButtomVisibility(false);
                     activeCharacterWorldspaceObject.AnimateCasting();
-
+                    MainData.MainLoop.LevelHelperComponent.PlaySound(sfx[0]);
                     break;
 
                 case "bulwark":
@@ -472,6 +480,7 @@ public class CombatHelper : MonoBehaviour
                     Caster.manaTotal -= Caster.charTrait.manaCost;
                     ToggleCombatButtomVisibility(false);
                     activeCharacterWorldspaceObject.AnimateCasting(); //this also ends the turn
+                    MainData.MainLoop.LevelHelperComponent.PlaySound(sfx[1]);
                     break;
 
                 case "perfectionist":
@@ -487,6 +496,7 @@ public class CombatHelper : MonoBehaviour
                     Caster.manaTotal -= Caster.charTrait.manaCost;
                     ToggleCombatButtomVisibility(false);
                     activeCharacterWorldspaceObject.AnimateCasting(); //this also ends the turn
+                    MainData.MainLoop.LevelHelperComponent.PlaySound(sfx[1]);
                     break;
 
                 case "nurturing"://so yeah this is where active traits go

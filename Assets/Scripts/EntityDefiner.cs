@@ -731,19 +731,17 @@ public class EntityDefiner : MonoBehaviour
                "A former citizen of the Emerald Palace, now corrupted by its magic.", // charDesc
                "claws", //verb used when attacking
                false, //is it a player character(true), or is it an enemy(false)?
-               MainData.MainLoop.TweakingComponent.legendarycorruptedMaxHealth, //the base HP value
-               MainData.MainLoop.TweakingComponent.legendarycorruptedMinDamage, // the minimum damage value
-               MainData.MainLoop.TweakingComponent.legendarycorruptedMaxDamage, //the maximum damage value.
-               MainData.MainLoop.TweakingComponent.legendarycorruptedSpeed, //base speed, higher is better
-               MainData.MainLoop.TweakingComponent.legendarycorruptedDefense, //defense
-               MainData.MainLoop.TweakingComponent.legendarycorruptedLuck, //luck
+               MainData.MainLoop.TweakingComponent.witchMaxHealth, //the base HP value
+               MainData.MainLoop.TweakingComponent.witchMinDamage, // the minimum damage value
+               MainData.MainLoop.TweakingComponent.witchMaxDamage, //the maximum damage value.
+               MainData.MainLoop.TweakingComponent.witchSpeed, //base speed, higher is better
+               MainData.MainLoop.TweakingComponent.witchDefense, //defense
+               MainData.MainLoop.TweakingComponent.witchLuck, //luck
                0, //mana
                null, //sound for when it is this character's turn to act
                witchAttackSheet, //character's attack animation sprite 
-               2, monkeyAvatar, emeraldAttackSheet[0], emeraldHurtSheet, scarecrowWalk_Sheet, emeraldIdleSheet,
+               2, monkeyAvatar, witchAttackSheet[0], witchHurtSheet, scarecrowWalk_Sheet, witchIdleSheet,
                monkeySounds, null);
-
-
 
     }
 

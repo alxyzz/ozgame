@@ -12399,7 +12399,9 @@ MonoBehaviour:
   - flyingmonkey
   - strongflyingmonkey
   - hellflyingmonkey
+  - wickedwitch
   difCurrency: 3
+  level: 0
 --- !u!114 &462129122
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12499,6 +12501,12 @@ MonoBehaviour:
   legendarycorruptedSpeed: 3
   legendarycorruptedLuck: 33
   legendarycorruptedDefense: 5
+  witchMaxHealth: 1
+  witchMinDamage: 10
+  witchMaxDamage: 20
+  witchSpeed: 10
+  witchLuck: 10
+  witchDefense: 10
   CommonColor: {r: 0.735849, g: 0.735849, b: 0.735849, a: 1}
   UncommonColor: {r: 0.85844606, g: 0.9528302, b: 0.87069815, a: 1}
   RareColor: {r: 0.754717, g: 0.6775995, b: 0.3737985, a: 1}
