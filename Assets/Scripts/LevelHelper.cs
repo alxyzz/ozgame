@@ -252,7 +252,6 @@ public class LevelHelper : MonoBehaviour
         difCurrency = MainData.MainLoop.EntityDefComponent.difficultyCurrency + 3;
         List<string> teamrocket = new List<string>();
         level += 1;
-        Debug.Log(level + "SSSSSSSSSSSSSSSSS");
         if (level == 1000)
         {
             SceneManager.LoadScene("End");
@@ -261,12 +260,11 @@ public class LevelHelper : MonoBehaviour
         {
             List<string> boss = new List<string>();
             boss.Add(enemyNames[8]);
-            Debug.Log("SPAWN WITCH");
             level = 998;
             MainData.currentLevel.Encounters.Clear();
             MainData.currentLevel.Encounters = GenerateEncountersForLevel(1, //how many encounters
                                        boss,
-                                       50);//encounters start from this point
+                                     50);//encounters start from this point
         }
         if (level < 20)
         {
@@ -281,8 +279,8 @@ public class LevelHelper : MonoBehaviour
             MainData.currentLevel.Encounters = GenerateEncountersForLevel(1, //how many encounters
                                        teamrocket,
                                        50);//encounters start from this point
+
         }
-   
     }
 
 

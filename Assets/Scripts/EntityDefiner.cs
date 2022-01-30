@@ -13,6 +13,8 @@ public class EntityDefiner : MonoBehaviour
     public Sprite tinmanAvatar;
     public Sprite scarecrowAvatar;
     public Sprite monkeyAvatar;
+    public Sprite emeraldAvatar;
+    public Sprite witchAvatar;
     public Sprite lionAvatar;
     public Sprite dorothyAvatar;
     [Space(5)]
@@ -672,7 +674,7 @@ public class EntityDefiner : MonoBehaviour
                        0, //mana
                        null, //sound for when it is this character's turn to act
                        emeraldAttackSheet, //character's attack animation sprite 
-                       2, monkeyAvatar, emeraldAttackSheet[0], emeraldHurtSheet, scarecrowWalk_Sheet, emeraldIdleSheet,
+                       2, emeraldAvatar, emeraldAttackSheet[0], emeraldHurtSheet, scarecrowWalk_Sheet, emeraldIdleSheet,
                        monkeySounds, null);
 
         MakeMobTemplate("weakcorrupted", //characterID
@@ -689,7 +691,7 @@ public class EntityDefiner : MonoBehaviour
                0, //mana
                null, //sound for when it is this character's turn to act
                emeraldAttackSheet, //character's attack animation sprite 
-               2, monkeyAvatar, emeraldAttackSheet[0], emeraldHurtSheet, scarecrowWalk_Sheet, emeraldIdleSheet,
+               2, emeraldAvatar, emeraldAttackSheet[0], emeraldHurtSheet, scarecrowWalk_Sheet, emeraldIdleSheet,
                monkeySounds, null);
 
         MakeMobTemplate("toughcorrupted", //characterID
@@ -706,7 +708,7 @@ public class EntityDefiner : MonoBehaviour
                0, //mana
                null, //sound for when it is this character's turn to act
                emeraldAttackSheet, //character's attack animation sprite 
-               2, monkeyAvatar, emeraldAttackSheet[0], emeraldHurtSheet, scarecrowWalk_Sheet, emeraldIdleSheet,
+               2, emeraldAvatar, emeraldAttackSheet[0], emeraldHurtSheet, scarecrowWalk_Sheet, emeraldIdleSheet,
                monkeySounds, null);
 
         MakeMobTemplate("legendarycorrupted", //characterID
@@ -723,7 +725,7 @@ public class EntityDefiner : MonoBehaviour
                0, //mana
                null, //sound for when it is this character's turn to act
                emeraldAttackSheet, //character's attack animation sprite 
-               2, monkeyAvatar, emeraldAttackSheet[0], emeraldHurtSheet, scarecrowWalk_Sheet, emeraldIdleSheet,
+               2, emeraldAvatar, emeraldAttackSheet[0], emeraldHurtSheet, scarecrowWalk_Sheet, emeraldIdleSheet,
                monkeySounds, null);
 
         MakeMobTemplate("wickedwitch", //characterID
@@ -740,7 +742,7 @@ public class EntityDefiner : MonoBehaviour
                0, //mana
                null, //sound for when it is this character's turn to act
                witchAttackSheet, //character's attack animation sprite 
-               2, monkeyAvatar, witchAttackSheet[0], witchHurtSheet, scarecrowWalk_Sheet, witchIdleSheet,
+               2, witchAvatar, witchAttackSheet[0], witchHurtSheet, scarecrowWalk_Sheet, witchIdleSheet,
                monkeySounds, null);
 
     }

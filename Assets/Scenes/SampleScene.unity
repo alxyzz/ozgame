@@ -11940,6 +11940,8 @@ MonoBehaviour:
   tinmanAvatar: {fileID: 21300000, guid: 886c855126a87cf4f87dc81c604b9d8d, type: 3}
   scarecrowAvatar: {fileID: 21300000, guid: fb61c29d53e77b042bbd460a35ab7f3a, type: 3}
   monkeyAvatar: {fileID: 21300000, guid: 064f81b25eb5474428489de75a121f4a, type: 3}
+  emeraldAvatar: {fileID: 21300000, guid: 1da36e67b4c3d7e4d95a437c6217f238, type: 3}
+  witchAvatar: {fileID: 21300000, guid: 874fbbae27c8169439d993633afaaca8, type: 3}
   lionAvatar: {fileID: 21300000, guid: 2b5f3ae52ef97654e8c3880f9bde062f, type: 3}
   dorothyAvatar: {fileID: 21300000, guid: 60829e81689498a43abf56a607631e14, type: 3}
   scarecrowStanding: {fileID: 21300000, guid: 6c434a86223cd454da0225a93ef760e4, type: 3}
