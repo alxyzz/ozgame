@@ -12549,8 +12549,8 @@ MonoBehaviour:
   weakflyingMonkeyLuck: 0
   weakflyingMonkeyDefense: 1
   hellbentflyingMonkeyMaxHealth: 100
-  hellbentflyingMonkeyMinDamage: 15
-  hellbentflyingMonkeyMaxDamage: 23
+  hellbentflyingMonkeyMinDamage: 20
+  hellbentflyingMonkeyMaxDamage: 30
   hellbentflyingMonkeySpeed: 9
   hellbentflyingMonkeyLuck: 10
   hellbentflyingMonkeyDefense: 0

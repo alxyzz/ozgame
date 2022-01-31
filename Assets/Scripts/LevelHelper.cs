@@ -260,6 +260,12 @@ public class LevelHelper : MonoBehaviour
         {
             List<string> boss = new List<string>();
             boss.Add(enemyNames[8]);
+            boss.Add(enemyNames[7]);
+            boss.Add(enemyNames[7]);
+            boss.Add(enemyNames[7]);
+            boss.Add(enemyNames[7]);
+            boss.Add(enemyNames[7]);
+            boss.Add(enemyNames[7]);
             level = 998;
             MainData.currentLevel.Encounters.Clear();
             MainData.currentLevel.Encounters = GenerateEncountersForLevel(1, //how many encounters
