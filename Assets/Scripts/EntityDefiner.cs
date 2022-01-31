@@ -104,6 +104,8 @@ public class EntityDefiner : MonoBehaviour
     AudioClip[] scarecrowSounds;
     AudioClip[] dorothySounds;
     AudioClip[] monkeySounds;
+    AudioClip[] corruptedSounds;
+    AudioClip[] witchSounds;
 
     public int BaseCurrency;
     public int difficultyCurrency = 3;
@@ -115,29 +117,46 @@ public class EntityDefiner : MonoBehaviour
         tinManSounds[1] = Resources.Load<AudioClip>("SFX/TinMan/Hurt");
         tinManSounds[2] = Resources.Load<AudioClip>("SFX/General/Attack");
         tinManSounds[3] = Resources.Load<AudioClip>("SFX/General/Crit");
+        tinManSounds[4] = Resources.Load<AudioClip>("SFX/General/Attack2");
 
         lionSounds = new AudioClip[5]; //initialize lion sounds
         lionSounds[0] = Resources.Load<AudioClip>("SFX/Lion/Hover");
         lionSounds[1] = Resources.Load<AudioClip>("SFX/Lion/Hurt");
         lionSounds[2] = Resources.Load<AudioClip>("SFX/General/Attack");
         lionSounds[3] = Resources.Load<AudioClip>("SFX/General/Crit");
+        lionSounds[4] = Resources.Load<AudioClip>("SFX/General/Attack2");
 
         scarecrowSounds = new AudioClip[5]; //initialize scarecrow sounds
         scarecrowSounds[0] = Resources.Load<AudioClip>("SFX/Scarecrow/Hover");
         scarecrowSounds[1] = Resources.Load<AudioClip>("SFX/Scarecrow/Hurt");
         scarecrowSounds[2] = Resources.Load<AudioClip>("SFX/General/Attack");
         scarecrowSounds[3] = Resources.Load<AudioClip>("SFX/General/Crit");
+        scarecrowSounds[4] = Resources.Load<AudioClip>("SFX/General/Attack2");
 
         dorothySounds = new AudioClip[5]; //initialize dorothy sounds
         dorothySounds[0] = Resources.Load<AudioClip>("SFX/Dorothy/Hover");
         dorothySounds[1] = Resources.Load<AudioClip>("SFX/Dorothy/Hurt");
         dorothySounds[2] = Resources.Load<AudioClip>("SFX/General/Attack");
         dorothySounds[3] = Resources.Load<AudioClip>("SFX/General/Crit");
+        dorothySounds[4] = Resources.Load<AudioClip>("SFX/General/Attack2");
 
         monkeySounds = new AudioClip[5]; //initialize Monkey sounds
         monkeySounds[1] = Resources.Load<AudioClip>("SFX/Monkey/Hurt");
         monkeySounds[2] = Resources.Load<AudioClip>("SFX/Monkey/Attack");
         monkeySounds[3] = Resources.Load<AudioClip>("SFX/General/Crit");
+        monkeySounds[4] = Resources.Load<AudioClip>("SFX/General/Attack2");
+
+        corruptedSounds = new AudioClip[5]; //initialize corrupt sounds
+        corruptedSounds[1] = Resources.Load<AudioClip>("SFX/Corrupted/Hurt");
+        corruptedSounds[2] = Resources.Load<AudioClip>("SFX/Corrupted/Attack");
+        corruptedSounds[3] = Resources.Load<AudioClip>("SFX/General/Crit");
+        corruptedSounds[4] = Resources.Load<AudioClip>("SFX/General/Attack2");
+
+        witchSounds = new AudioClip[5]; //initialize corrupt sounds
+        witchSounds[1] = Resources.Load<AudioClip>("SFX/Witch/Hurt");
+        witchSounds[2] = Resources.Load<AudioClip>("SFX/Witch/Attack");
+        witchSounds[3] = Resources.Load<AudioClip>("SFX/General/Crit");
+        witchSounds[4] = Resources.Load<AudioClip>("SFX/Witch/Attack2");
     }
 
 
@@ -675,7 +694,7 @@ public class EntityDefiner : MonoBehaviour
                        null, //sound for when it is this character's turn to act
                        emeraldAttackSheet, //character's attack animation sprite 
                        2, emeraldAvatar, emeraldAttackSheet[0], emeraldHurtSheet, scarecrowWalk_Sheet, emeraldIdleSheet,
-                       monkeySounds, null);
+                       corruptedSounds, null);
 
         MakeMobTemplate("weakcorrupted", //characterID
                "Weak Corrupt Citizen", // charName
@@ -692,7 +711,7 @@ public class EntityDefiner : MonoBehaviour
                null, //sound for when it is this character's turn to act
                emeraldAttackSheet, //character's attack animation sprite 
                2, emeraldAvatar, emeraldAttackSheet[0], emeraldHurtSheet, scarecrowWalk_Sheet, emeraldIdleSheet,
-               monkeySounds, null);
+               corruptedSounds, null);
 
         MakeMobTemplate("toughcorrupted", //characterID
                "Tough Corrupt Citizen", // charName
@@ -709,7 +728,7 @@ public class EntityDefiner : MonoBehaviour
                null, //sound for when it is this character's turn to act
                emeraldAttackSheet, //character's attack animation sprite 
                2, emeraldAvatar, emeraldAttackSheet[0], emeraldHurtSheet, scarecrowWalk_Sheet, emeraldIdleSheet,
-               monkeySounds, null);
+               corruptedSounds, null);
 
         MakeMobTemplate("legendarycorrupted", //characterID
                "Legendary Corrupt Citizen", // charName
@@ -726,7 +745,7 @@ public class EntityDefiner : MonoBehaviour
                null, //sound for when it is this character's turn to act
                emeraldAttackSheet, //character's attack animation sprite 
                2, emeraldAvatar, emeraldAttackSheet[0], emeraldHurtSheet, scarecrowWalk_Sheet, emeraldIdleSheet,
-               monkeySounds, null);
+               corruptedSounds, null);
 
         MakeMobTemplate("wickedwitch", //characterID
                "Wicked Witch of the East", // charName
@@ -743,7 +762,7 @@ public class EntityDefiner : MonoBehaviour
                null, //sound for when it is this character's turn to act
                witchAttackSheet, //character's attack animation sprite 
                2, witchAvatar, witchAttackSheet[0], witchHurtSheet, scarecrowWalk_Sheet, witchIdleSheet,
-               monkeySounds, null);
+               witchSounds, null);
 
     }
 
@@ -3671,6 +3690,7 @@ true, //(true)beneficial or (false)harmful
             defense += defensemod;
             int baseDamageRoll = UnityEngine.Random.Range(attacker.damageMin, attacker.damageMax + 1) + damagemod;
             int damageRoll = baseDamageRoll - defense;
+            MainData.MainLoop.LevelHelperComponent.PlaySound(SoundLibrary[1]);
             if (damageRoll <= 1)
             {
                 damageRoll = 1;
