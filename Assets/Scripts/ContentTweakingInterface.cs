@@ -149,6 +149,16 @@ public class ContentTweakingInterface : MonoBehaviour
     //Weak monkey
     [Space(5)]
 
+    public int witchMaxHealth = 0;
+    public int witchMinDamage = 0;
+    public int witchMaxDamage = 0;
+
+    public int witchSpeed = 0;
+    public int witchLuck = 0;
+    public int witchDefense = 0;
+    //Weak monkey
+    [Space(5)]
+
     [Space(5)]
     [Header("ItemColors")]
     public Color CommonColor;

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using static EntityDefiner;
 using static LevelHelper;
 
@@ -246,6 +247,7 @@ public class GameManager : MonoBehaviour
 
     public void Travel(MapLevel ToThisLevel)
     {//im hungry
+
         if (MainData.currentLevel == null)
         {
             Debug.Log("currentLevel is Null.");

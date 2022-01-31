@@ -13,6 +13,8 @@ public class EntityDefiner : MonoBehaviour
     public Sprite tinmanAvatar;
     public Sprite scarecrowAvatar;
     public Sprite monkeyAvatar;
+    public Sprite emeraldAvatar;
+    public Sprite witchAvatar;
     public Sprite lionAvatar;
     public Sprite dorothyAvatar;
     [Space(5)]
@@ -97,8 +99,47 @@ public class EntityDefiner : MonoBehaviour
     public Sprite[] witchHurtSheet;
     public Sprite[] witchIdleSheet;
 
+    AudioClip[] tinManSounds;
+    AudioClip[] lionSounds;
+    AudioClip[] scarecrowSounds;
+    AudioClip[] dorothySounds;
+    AudioClip[] monkeySounds;
+
     public int BaseCurrency;
     public int difficultyCurrency = 3;
+
+    private void Start()
+    {
+        tinManSounds = new AudioClip[5]; //initialize tinman sounds
+        tinManSounds[0] = Resources.Load<AudioClip>("SFX/TinMan/Hover");
+        tinManSounds[1] = Resources.Load<AudioClip>("SFX/TinMan/Hurt");
+        tinManSounds[2] = Resources.Load<AudioClip>("SFX/General/Attack");
+        tinManSounds[3] = Resources.Load<AudioClip>("SFX/General/Crit");
+
+        lionSounds = new AudioClip[5]; //initialize lion sounds
+        lionSounds[0] = Resources.Load<AudioClip>("SFX/Lion/Hover");
+        lionSounds[1] = Resources.Load<AudioClip>("SFX/Lion/Hurt");
+        lionSounds[2] = Resources.Load<AudioClip>("SFX/General/Attack");
+        lionSounds[3] = Resources.Load<AudioClip>("SFX/General/Crit");
+
+        scarecrowSounds = new AudioClip[5]; //initialize scarecrow sounds
+        scarecrowSounds[0] = Resources.Load<AudioClip>("SFX/Scarecrow/Hover");
+        scarecrowSounds[1] = Resources.Load<AudioClip>("SFX/Scarecrow/Hurt");
+        scarecrowSounds[2] = Resources.Load<AudioClip>("SFX/General/Attack");
+        scarecrowSounds[3] = Resources.Load<AudioClip>("SFX/General/Crit");
+
+        dorothySounds = new AudioClip[5]; //initialize dorothy sounds
+        dorothySounds[0] = Resources.Load<AudioClip>("SFX/Dorothy/Hover");
+        dorothySounds[1] = Resources.Load<AudioClip>("SFX/Dorothy/Hurt");
+        dorothySounds[2] = Resources.Load<AudioClip>("SFX/General/Attack");
+        dorothySounds[3] = Resources.Load<AudioClip>("SFX/General/Crit");
+
+        monkeySounds = new AudioClip[5]; //initialize Monkey sounds
+        monkeySounds[1] = Resources.Load<AudioClip>("SFX/Monkey/Hurt");
+        monkeySounds[2] = Resources.Load<AudioClip>("SFX/Monkey/Attack");
+        monkeySounds[3] = Resources.Load<AudioClip>("SFX/General/Crit");
+    }
+
 
     public void UseConsumable(Item consumable, Character target)
     {
@@ -406,7 +447,7 @@ public class EntityDefiner : MonoBehaviour
     /// <param name="attackAnimationSprites"></param>
     /// <param name="newCharAvatar"></param>
     /// <returns></returns>
-    public void MakeMobTemplate(string characterID, string charName, string charDesc, string attackVerb, bool isPlayer, int baseHP, int baseMinDMG, int baseMaxDMG, int baseSPD, int Defense, int Luck, int Mana, AudioClip newCharTurnSound, Sprite[] attackAnimationSprites, int bountyy, Sprite newCharAvatar, Sprite noAnimSprite, Sprite[] HurtSprites, Sprite[] WalkSprite, Sprite[] IdleSprites, int difCost, Sprite[] castSprite)
+    public void MakeMobTemplate(string characterID, string charName, string charDesc, string attackVerb, bool isPlayer, int baseHP, int baseMinDMG, int baseMaxDMG, int baseSPD, int Defense, int Luck, int Mana, AudioClip newCharTurnSound, Sprite[] attackAnimationSprites, int bountyy, Sprite newCharAvatar, Sprite noAnimSprite, Sprite[] HurtSprites, Sprite[] WalkSprite, Sprite[] IdleSprites, AudioClip[] SoundLibrary, Sprite[] castSprite)
     {
         Character Chara = Character.CreateInstance<Character>();
         Chara.charType = characterID; //something like "goblin_spear", "tin_man" or "scarecrow" for the dictionary. 
@@ -415,7 +456,7 @@ public class EntityDefiner : MonoBehaviour
         Chara.attackverb = attackVerb;
         Chara.isPlayerPartyMember = isPlayer;
         Chara.hurtSprites = HurtSprites;
-        Chara.difficultyCost = difCost;
+        Chara.SoundLibrary = SoundLibrary;
         Chara.idleSprite = IdleSprites;
         Chara.WalkSprites = WalkSprite;
         Chara.turnSound = newCharTurnSound;
@@ -474,7 +515,7 @@ public class EntityDefiner : MonoBehaviour
                        scarecrowHurtSheet, //hurt
                        scarecrowWalk_Sheet, //walk
                        scarecrowIdleSheet,
-                       0, scarecrowCastSheet); //idle sprites
+                       scarecrowSounds, scarecrowCastSheet); //idle sprites
 
         MakeMobTemplate("tin_man",
                        "Tin Man",
@@ -496,7 +537,7 @@ public class EntityDefiner : MonoBehaviour
                        tinmanHurtSheet,
                        tinmanWalkSheet,
                        tinmanIdleSheet,
-                       0, tinmanCastSheet);
+                       tinManSounds, tinmanCastSheet);
 
         MakeMobTemplate("lion",
                        "Lion",
@@ -518,7 +559,7 @@ public class EntityDefiner : MonoBehaviour
                        lionHurtSheet,
                        lionWalkSheet,
                        lionIdleSheet,
-                       0, lionCastSheet);
+                       lionSounds, lionCastSheet);
 
         MakeMobTemplate("dorothy",
                        "Dorothy",
@@ -540,7 +581,7 @@ public class EntityDefiner : MonoBehaviour
                        dorothyHurtSheet,
                        dorothyWalkSheet,
                        dorothyIdleSheet,
-                       0, dorothyCastSheet);
+                       dorothySounds, dorothyCastSheet);
 
 
     }
@@ -566,7 +607,7 @@ public class EntityDefiner : MonoBehaviour
                        null, //sound for when it is this character's turn to act
                        monkeyAttackSheet, //character's attack animation sprite 
                        2, monkeyAvatar, monkeyAttackSheet[0], monkeyHurtSheet, scarecrowWalk_Sheet, monkeyIdleSheet,
-                       0, null);
+                       monkeySounds, null);
 
         MakeMobTemplate("flyingmonkey", //characterID
                        "Flying Monkey", // charName
@@ -583,7 +624,7 @@ public class EntityDefiner : MonoBehaviour
                        null, //sound for when it is this character's turn to act
                        monkeyAttackSheet, //character's attack animation sprite 
                        2, monkeyAvatar, monkeyAttackSheet[0], monkeyHurtSheet, scarecrowWalk_Sheet, monkeyIdleSheet,
-                       1, null);
+                       monkeySounds, null);
 
         MakeMobTemplate("strongflyingmonkey", //characterID
                        "Strong Flying Monkey", // charName
@@ -600,7 +641,7 @@ public class EntityDefiner : MonoBehaviour
                        null, //sound for when it is this character's turn to act
                        monkeyAttackSheet, //character's attack animation sprite 
                        2, monkeyAvatar, monkeyAttackSheet[0], monkeyHurtSheet, scarecrowWalk_Sheet, monkeyIdleSheet,
-                       2, null);
+                       monkeySounds, null);
 
         MakeMobTemplate("hellflyingmonkey", //characterID
                        "Hellbent Flying Monkey", // charName
@@ -617,7 +658,7 @@ public class EntityDefiner : MonoBehaviour
                        null, //sound for when it is this character's turn to act
                        monkeyAttackSheet, //character's attack animation sprite 
                        2, monkeyAvatar, monkeyAttackSheet[0], monkeyHurtSheet, scarecrowWalk_Sheet, monkeyIdleSheet,
-                       3, null);
+                       monkeySounds, null);
 
         MakeMobTemplate("corrupted", //characterID
                        "Corrupt Citizen", // charName
@@ -633,8 +674,8 @@ public class EntityDefiner : MonoBehaviour
                        0, //mana
                        null, //sound for when it is this character's turn to act
                        emeraldAttackSheet, //character's attack animation sprite 
-                       2, monkeyAvatar, emeraldAttackSheet[0], emeraldHurtSheet, scarecrowWalk_Sheet, emeraldIdleSheet,
-                       3, null);
+                       2, emeraldAvatar, emeraldAttackSheet[0], emeraldHurtSheet, scarecrowWalk_Sheet, emeraldIdleSheet,
+                       monkeySounds, null);
 
         MakeMobTemplate("weakcorrupted", //characterID
                "Weak Corrupt Citizen", // charName
@@ -650,8 +691,8 @@ public class EntityDefiner : MonoBehaviour
                0, //mana
                null, //sound for when it is this character's turn to act
                emeraldAttackSheet, //character's attack animation sprite 
-               2, monkeyAvatar, emeraldAttackSheet[0], emeraldHurtSheet, scarecrowWalk_Sheet, emeraldIdleSheet,
-               3, null);
+               2, emeraldAvatar, emeraldAttackSheet[0], emeraldHurtSheet, scarecrowWalk_Sheet, emeraldIdleSheet,
+               monkeySounds, null);
 
         MakeMobTemplate("toughcorrupted", //characterID
                "Tough Corrupt Citizen", // charName
@@ -667,8 +708,8 @@ public class EntityDefiner : MonoBehaviour
                0, //mana
                null, //sound for when it is this character's turn to act
                emeraldAttackSheet, //character's attack animation sprite 
-               2, monkeyAvatar, emeraldAttackSheet[0], emeraldHurtSheet, scarecrowWalk_Sheet, emeraldIdleSheet,
-               3, null);
+               2, emeraldAvatar, emeraldAttackSheet[0], emeraldHurtSheet, scarecrowWalk_Sheet, emeraldIdleSheet,
+               monkeySounds, null);
 
         MakeMobTemplate("legendarycorrupted", //characterID
                "Legendary Corrupt Citizen", // charName
@@ -684,27 +725,25 @@ public class EntityDefiner : MonoBehaviour
                0, //mana
                null, //sound for when it is this character's turn to act
                emeraldAttackSheet, //character's attack animation sprite 
-               2, monkeyAvatar, emeraldAttackSheet[0], emeraldHurtSheet, scarecrowWalk_Sheet, emeraldIdleSheet,
-               3, null);
+               2, emeraldAvatar, emeraldAttackSheet[0], emeraldHurtSheet, scarecrowWalk_Sheet, emeraldIdleSheet,
+               monkeySounds, null);
 
         MakeMobTemplate("wickedwitch", //characterID
                "Wicked Witch of the East", // charName
                "A former citizen of the Emerald Palace, now corrupted by its magic.", // charDesc
                "claws", //verb used when attacking
                false, //is it a player character(true), or is it an enemy(false)?
-               MainData.MainLoop.TweakingComponent.legendarycorruptedMaxHealth, //the base HP value
-               MainData.MainLoop.TweakingComponent.legendarycorruptedMinDamage, // the minimum damage value
-               MainData.MainLoop.TweakingComponent.legendarycorruptedMaxDamage, //the maximum damage value.
-               MainData.MainLoop.TweakingComponent.legendarycorruptedSpeed, //base speed, higher is better
-               MainData.MainLoop.TweakingComponent.legendarycorruptedDefense, //defense
-               MainData.MainLoop.TweakingComponent.legendarycorruptedLuck, //luck
+               MainData.MainLoop.TweakingComponent.witchMaxHealth, //the base HP value
+               MainData.MainLoop.TweakingComponent.witchMinDamage, // the minimum damage value
+               MainData.MainLoop.TweakingComponent.witchMaxDamage, //the maximum damage value.
+               MainData.MainLoop.TweakingComponent.witchSpeed, //base speed, higher is better
+               MainData.MainLoop.TweakingComponent.witchDefense, //defense
+               MainData.MainLoop.TweakingComponent.witchLuck, //luck
                0, //mana
                null, //sound for when it is this character's turn to act
                witchAttackSheet, //character's attack animation sprite 
-               2, monkeyAvatar, emeraldAttackSheet[0], emeraldHurtSheet, scarecrowWalk_Sheet, emeraldIdleSheet,
-               3, null);
-
-
+               2, witchAvatar, witchAttackSheet[0], witchHurtSheet, scarecrowWalk_Sheet, witchIdleSheet,
+               monkeySounds, null);
 
     }
 
@@ -3215,7 +3254,7 @@ true, //(true)beneficial or (false)harmful
         public Vector3 InitialPosition; //yeah screw having a single variable in CombatHelper.cs we're doing this. set in CharacterScript or template use
         public bool isPlayerPartyMember;
 
-
+        public AudioClip[] SoundLibrary;
         public AudioClip turnSound;
 
         public Sprite[] attackAnimation; //this contains the attack too. the first sprite is the standing sprite if one is not supplied.

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using static EntityDefiner;
 
 public class LevelHelper : MonoBehaviour
@@ -7,6 +8,8 @@ public class LevelHelper : MonoBehaviour
     //set up level template assets here.
 
     public AudioClip testsound;
+    public AudioSource source;
+    public AudioSource sourceC;
     public AudioClip townSoundTrack;
     public AudioClip mushroomForestSoundTrack;
 
@@ -28,8 +31,8 @@ public class LevelHelper : MonoBehaviour
     public string[] enemyNames;
 
     public int difCurrency;
-    int maxEnemies;
-    int loops;
+    public int level;
+
 
     public void Update()
     {
@@ -247,9 +250,24 @@ public class LevelHelper : MonoBehaviour
     public void GENERATE()
     {
         difCurrency = MainData.MainLoop.EntityDefComponent.difficultyCurrency + 3;
-        Debug.Log(difCurrency + "SSSSSSSSSSSSSS");
         List<string> teamrocket = new List<string>();
-
+        level += 1;
+        if (level == 1000)
+        {
+            SceneManager.LoadScene("End");
+        }
+        if (level == 20)
+        {
+            List<string> boss = new List<string>();
+            boss.Add(enemyNames[8]);
+            level = 998;
+            MainData.currentLevel.Encounters.Clear();
+            MainData.currentLevel.Encounters = GenerateEncountersForLevel(1, //how many encounters
+                                       boss,
+                                     50);//encounters start from this point
+        }
+        if (level < 20)
+        {
             for (int i = 0; i < difCurrency; i++)
             {
                 int r = Random.Range(0, Mathf.Clamp((difCurrency / 2) - 1, 0, 8));
@@ -257,11 +275,12 @@ public class LevelHelper : MonoBehaviour
                 Mathf.Clamp(r, 0, 8);
                 teamrocket.Add(enemyNames[r]);
             }
+            MainData.currentLevel.Encounters.Clear();
+            MainData.currentLevel.Encounters = GenerateEncountersForLevel(1, //how many encounters
+                                       teamrocket,
+                                       50);//encounters start from this point
 
-        MainData.currentLevel.Encounters.Clear();
-        MainData.currentLevel.Encounters = GenerateEncountersForLevel(1, //how many encounters
-                                   teamrocket,
-                                   50);//encounters start from this point
+        }
     }
 
 
@@ -296,7 +315,15 @@ public class LevelHelper : MonoBehaviour
 
 
 
+    public void PlaySound(AudioClip soundToPlay)
+    {
+        source.PlayOneShot(soundToPlay);
+    }
 
+    public void PlaySoundCombat(AudioClip soundToPlay)
+    {
+        sourceC.PlayOneShot(soundToPlay);
+    }
 
 
     public class MapLevel
