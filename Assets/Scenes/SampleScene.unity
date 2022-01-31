@@ -11793,7 +11793,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: b0b7e5c8821621d43a8e973add40bea5, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 8ad75fb7faa423846be636c086346cf8, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -12773,6 +12773,8 @@ MonoBehaviour:
   PassTurnButton: {fileID: 1967223598}
   AttackButton: {fileID: 451520053}
   AbilityButton: {fileID: 1223917841}
+  traitButtonSpriteNormal: {fileID: 21300000, guid: 14b0af719202ed542b09687577b642b4, type: 3}
+  traitButtonSpriteGray: {fileID: 21300000, guid: 8a24d968496b2534a9b1a168b846a1c4, type: 3}
   WorldMapCanvas: {fileID: 0}
   WorldCanvasLevelPrefab: {fileID: 0}
   SelectedChar: {fileID: 0}
@@ -30825,7 +30827,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 71.2, y: 179.3}
+  m_AnchoredPosition: {x: 87.1, y: 179.3}
   m_SizeDelta: {x: 35.45215, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1223917843
@@ -30903,7 +30905,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 2a4250db2a337814b99714ecc5bda05d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 14b0af719202ed542b09687577b642b4, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -43008,7 +43010,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 55d4c3c13b19f0f4c9974682869b3a7a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c3706b31c545b394c8ffda90e5762dcb, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -47535,7 +47537,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.8, y: 197.4}
+  m_AnchoredPosition: {x: 4, y: 197.4}
   m_SizeDelta: {x: 81.07504, y: 43.735107}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1967223600

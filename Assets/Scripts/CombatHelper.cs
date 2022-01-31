@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using static EntityDefiner;
 
 public class CombatHelper : MonoBehaviour
@@ -364,8 +365,8 @@ public class CombatHelper : MonoBehaviour
 
 
 
-                    if (activeTarget.associatedCharacter.isPlayerPartyMember)
-                    {
+                    if (activeTarget.associatedCharacter.isPlayerPartyMember) 
+                    {//allied targets only
 
                         if (activeTarget.associatedCharacter.currentHealth >= activeTarget.associatedCharacter.maxHealth)
                         {
@@ -378,11 +379,12 @@ public class CombatHelper : MonoBehaviour
                         }
                         else
                         {//heals for a percentage of max health
-                            int healing = (activeTarget.associatedCharacter.maxHealth / 100) * (MainData.MainLoop.TweakingComponent.caringActiveHealing);
-                            Debug.LogError("healing is " + healing.ToString());
+                            float healing = ((float)activeTarget.associatedCharacter.maxHealth / 100) * (MainData.MainLoop.TweakingComponent.caringActiveHealing);
+                            Debug.LogError(activeTarget.associatedCharacter.maxHealth + "/ 100 " + "* ("+ MainData.MainLoop.TweakingComponent.caringActiveHealing);
+                            Debug.LogError("caring - healing is " + healing.ToString());
                             gameloop.EventLoggingComponent.Log(activeCharacterWorldspaceObject.associatedCharacter.charName + "'s caring nature mends " + activeTarget.associatedCharacter.charName + "'s wounds for " + healing + " health!");
                             MainData.MainLoop.EventLoggingComponent.LogGray("caring healing is " + healing);
-                            activeTarget.associatedCharacter.GainHealth(healing);
+                            activeTarget.associatedCharacter.GainHealth(Mathf.RoundToInt(healing));
                             Caster.manaTotal -= Caster.charTrait.manaCost;
                             ToggleCombatButtomVisibility(false);
                             activeCharacterWorldspaceObject.AnimateCasting();
@@ -516,7 +518,7 @@ public class CombatHelper : MonoBehaviour
                     {
                         //heals for a percentage of max health
                             int healing = MainData.MainLoop.TweakingComponent.nurtureActiveHealing;
-                            Debug.LogError("healing is " + healing.ToString());
+                            Debug.LogError("nurturing - healing is " + healing.ToString());
                             gameloop.EventLoggingComponent.Log(activeCharacterWorldspaceObject.associatedCharacter.charName + "'s inspiration helps " + activeTarget.associatedCharacter.charName + ", healing them for " + healing + " health!");
                             activeTarget.associatedCharacter.GainHealth(healing);
                             activeCharacterWorldspaceObject.associatedCharacter.GainHealth(healing);
@@ -717,19 +719,33 @@ public class CombatHelper : MonoBehaviour
     }
     private void ToggleCombatButtomVisibility(bool togg)
     {
+
+        UserInterfaceHelper userint = MainData.MainLoop.UserInterfaceHelperComponent;
         if (togg)
-        {
+        {//show
             if (activeCharacterWorldspaceObject.associatedCharacter.isPlayerPartyMember)
             {
                 MainData.MainLoop.LevelHelperComponent.PlaySound(activeCharacterWorldspaceObject.associatedCharacter.SoundLibrary[0]);
             }
-            MainData.MainLoop.UserInterfaceHelperComponent.AbilityButton.SetActive(true);
-            MainData.MainLoop.UserInterfaceHelperComponent.AttackButton.SetActive(true);
+
+
+            if (MainData.MainLoop.CombatHelperComponent.activeCharacterWorldspaceObject.associatedCharacter.manaTotal < MainData.MainLoop.CombatHelperComponent.activeCharacterWorldspaceObject.associatedCharacter.charTrait.manaCost)
+            {
+                userint.AbilityButton.GetComponent<Image>().sprite = userint.traitButtonSpriteGray;
+            }
+            else
+            {
+                userint.AbilityButton.GetComponent<Image>().sprite = userint.traitButtonSpriteNormal;
+            }
+
+
+            userint.AbilityButton.SetActive(true);
+            userint.AttackButton.SetActive(true);
         }
         else
-        {
-            MainData.MainLoop.UserInterfaceHelperComponent.AbilityButton.SetActive(false);
-            MainData.MainLoop.UserInterfaceHelperComponent.AttackButton.SetActive(false);
+        {//hide
+            userint.AbilityButton.SetActive(false);
+            userint.AttackButton.SetActive(false);
         }
 
 

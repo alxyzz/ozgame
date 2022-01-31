@@ -447,7 +447,7 @@ public class EntityDefiner : MonoBehaviour
     /// <param name="attackAnimationSprites"></param>
     /// <param name="newCharAvatar"></param>
     /// <returns></returns>
-    public void MakeMobTemplate(string characterID, string charName, string charDesc, string attackVerb, bool isPlayer, int baseHP, int baseMinDMG, int baseMaxDMG, int baseSPD, int Defense, int Luck, int Mana, AudioClip newCharTurnSound, Sprite[] attackAnimationSprites, int bountyy, Sprite newCharAvatar, Sprite noAnimSprite, Sprite[] HurtSprites, Sprite[] WalkSprite, Sprite[] IdleSprites, AudioClip[] SoundLibrary, Sprite[] castSprite)
+    public void MakeMobTemplate(string characterID, string charName, string charDesc, string attackVerb, bool isPlayer, int baseHP, int baseMinDMG, int baseMaxDMG, int baseSPD, int Defense, int Luck, int Mana, AudioClip newCharTurnSound, Sprite[] attackAnimationSprites, int bountyy, Sprite newCharAvatar, Sprite noAnimSprite, Sprite[] HurtSprites, Sprite[] WalkSprite, Sprite[] IdleSprites, AudioClip[] SoundLibrary, Sprite[] castSprite, bool summoner = false, string summonedEntity = null)
     {
         Character Chara = Character.CreateInstance<Character>();
         Chara.charType = characterID; //something like "goblin_spear", "tin_man" or "scarecrow" for the dictionary. 
@@ -743,7 +743,7 @@ public class EntityDefiner : MonoBehaviour
                null, //sound for when it is this character's turn to act
                witchAttackSheet, //character's attack animation sprite 
                2, witchAvatar, witchAttackSheet[0], witchHurtSheet, scarecrowWalk_Sheet, witchIdleSheet,
-               monkeySounds, null);
+               monkeySounds, null, summoner: true, summonedEntity: "weakflyingmonkey");
 
     }
 
