@@ -521,7 +521,7 @@ public class UserInterfaceHelper : MonoBehaviour
             selectedEnemyCharName.text = "";
             selectedEnemyCharDescription.text = "";
             selectedCharAvatar.sprite = transparency;
-
+            selectedEnemyCharAvatar.sprite = transparency;
 
             return;
         }
