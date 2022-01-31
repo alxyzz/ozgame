@@ -3697,7 +3697,7 @@ true, //(true)beneficial or (false)harmful
             //Lifesteal
             if (attacker.equippedItems.FindIndex(f => f.Lifesteal > 0) != -1) //it returns -1 if none are found
             {
-                int lifestealmod = 1;
+                float lifestealmod = 1f;
                 int countyy = 1;
                 foreach (Item item in attacker.equippedItems)
                 {
@@ -3709,9 +3709,9 @@ true, //(true)beneficial or (false)harmful
 
                 }
                 lifestealmod /= countyy; //averages the lifesteal
-                int percentageheal = (damageRoll / 100) * lifestealmod; //could also add health amp here but seems overkill;
+                float percentageheal = (damageRoll / 100) * lifestealmod; //could also add health amp here but seems overkill;
                 lifestealText = percentageheal.ToString();
-                attacker.GainHealth(percentageheal);
+                attacker.GainHealth(Mathf.RoundToInt(percentageheal));
             }
 
 
@@ -3740,23 +3740,28 @@ true, //(true)beneficial or (false)harmful
 
             ///// BASIC DAMAGE AND DEFENSE MODIFIERS FROM ITEMS 
 
-
+            float damageMultFloat = 0; //we turn these into ints after
+            float damageResistFloat = 0;
             int damageMult = 0;
             int damageResist = 0;
             if (attacker.equippedItems.FindIndex(f => f.DamageBonusPercentage > 0) != -1) //it returns -1 if none are found
             {
                 foreach (Item item in attacker.equippedItems)
                 {
-                    damageMult += (int)item.DamageBonusPercentage; //typecast parsing, just removes digits beyond the .
+                    damageMultFloat += item.DamageBonusPercentage; //typecast parsing, just removes digits beyond the .
                 }
             }
             if (attacker.equippedItems.FindIndex(f => f.DamageResistancePercentage > 0) != -1) //it returns -1 if none are found
             {
                 foreach (Item item in equippedItems)
                 {
-                    damageResist += (int)item.DamageResistancePercentage;
+                    damageResistFloat += item.DamageResistancePercentage;
                 }
             }
+
+
+            damageMult = Mathf.RoundToInt(damageMultFloat); 
+            damageResist = Mathf.RoundToInt(damageResistFloat);
 
             if (damageMult != 0)
             {
