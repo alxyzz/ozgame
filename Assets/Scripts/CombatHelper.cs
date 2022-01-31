@@ -31,7 +31,7 @@ public class CombatHelper : MonoBehaviour
     [HideInInspector]
     public bool isTargetFriendly;
     public GameObject DamageIndicatorCanvas;
-
+    bool changeSound;
     AudioClip[] sfx;
 
 
@@ -49,9 +49,10 @@ public class CombatHelper : MonoBehaviour
     /// 
     private void Start()
     {
-        sfx = new AudioClip[2];
+        sfx = new AudioClip[5];
         sfx[0] = Resources.Load<AudioClip>("SFX/General/BigAttack");
         sfx[1] = Resources.Load<AudioClip>("SFX/General/Boost");
+        sfx[2] = Resources.Load<AudioClip>("SFX/General/Coin");
     }
     public void DisplayFloatingDamageNumbers(Character target, string message = null, int damage = 0, bool heal = false)
     {
@@ -411,6 +412,7 @@ public class CombatHelper : MonoBehaviour
                         Caster.manaTotal -= Caster.charTrait.manaCost;
                         ToggleCombatButtomVisibility(false);
                         activeCharacterWorldspaceObject.AnimateCasting();
+                        MainData.MainLoop.LevelHelperComponent.PlaySound(sfx[2]);
                     }
                     else
                     {
@@ -431,7 +433,7 @@ public class CombatHelper : MonoBehaviour
                     Caster.manaTotal -= Caster.charTrait.manaCost;
                     ToggleCombatButtomVisibility(false);
                     activeCharacterWorldspaceObject.AnimateCasting();
-                    MainData.MainLoop.LevelHelperComponent.PlaySound(sfx[1]);
+                    MainData.MainLoop.LevelHelperComponent.PlaySound(sfx[0]);
                     break;
 
                 case "malicious":
@@ -444,7 +446,7 @@ public class CombatHelper : MonoBehaviour
                     Caster.manaTotal = 0;
                     ToggleCombatButtomVisibility(false);
                     activeCharacterWorldspaceObject.AnimateCasting();
-
+                    MainData.MainLoop.LevelHelperComponent.PlaySound(sfx[0]);
                     break;
 
                 case "wrath":
@@ -525,6 +527,7 @@ public class CombatHelper : MonoBehaviour
                             Caster.manaTotal -= Caster.charTrait.manaCost;
                         ToggleCombatButtomVisibility(false);
                         activeCharacterWorldspaceObject.AnimateCasting(); //this also ends the turn always put it at the end of a successful cast
+                        MainData.MainLoop.LevelHelperComponent.PlaySound(sfx[1]);
                     }
                     else
                     {
@@ -666,7 +669,16 @@ public class CombatHelper : MonoBehaviour
                 }
                 ToggleCombatButtomVisibility(false);
                 StartCoroutine(AttackTargetedEnemy());
-                MainData.MainLoop.LevelHelperComponent.PlaySoundCombat(activeCharacterWorldspaceObject.associatedCharacter.SoundLibrary[2]);
+                if (changeSound)
+                {
+                    changeSound = false;
+                    MainData.MainLoop.LevelHelperComponent.PlaySoundCombat(activeCharacterWorldspaceObject.associatedCharacter.SoundLibrary[2]);
+                }
+                else
+                {
+                    changeSound = true;
+                    MainData.MainLoop.LevelHelperComponent.PlaySoundCombat(activeCharacterWorldspaceObject.associatedCharacter.SoundLibrary[4]);
+                }
             }
             else
             {
