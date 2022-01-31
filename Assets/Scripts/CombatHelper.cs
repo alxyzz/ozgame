@@ -186,14 +186,14 @@ public class CombatHelper : MonoBehaviour
                 //}
                 if (combatants[i].isPlayerPartyMember)
                 {
-                    MainData.MainLoop.EventLoggingComponent.Log("It is currently the turn of "+ combatants[i].charName + " who has speed " + combatants[i].GetCompoundSpeed() + ". The queue is: ");
-                    int b = 0;
-                    foreach (Character item in combatants)
-                    {
+                    //MainData.MainLoop.EventLoggingComponent.Log("It is currently the turn of "+ combatants[i].charName + " who has speed " + combatants[i].GetCompoundSpeed() + ". The queue is: ");
+                    //int b = 0;
+                    //foreach (Character item in combatants)
+                    //{
 
-                        MainData.MainLoop.EventLoggingComponent.Log(b + "." + combatants[b].charName + " who has speed " + combatants[b].GetCompoundSpeed());
-                        b++;
-                    }
+                    //    MainData.MainLoop.EventLoggingComponent.Log(b + "." + combatants[b].charName + " who has speed " + combatants[b].GetCompoundSpeed());
+                    //    b++;
+                    //}
                     if (results.Count > 0)
                     {
                         DoPlayerCharacterTurn(combatants[i]);
@@ -380,8 +380,8 @@ public class CombatHelper : MonoBehaviour
                         else
                         {//heals for a percentage of max health
                             float healing = ((float)activeTarget.associatedCharacter.maxHealth / 100) * (MainData.MainLoop.TweakingComponent.caringActiveHealing);
-                            Debug.LogError(activeTarget.associatedCharacter.maxHealth + "/ 100 " + "* ("+ MainData.MainLoop.TweakingComponent.caringActiveHealing);
-                            Debug.LogError("caring - healing is " + healing.ToString());
+                            //Debug.LogError(activeTarget.associatedCharacter.maxHealth + "/ 100 " + "* ("+ MainData.MainLoop.TweakingComponent.caringActiveHealing);
+                            //Debug.LogError("caring - healing is " + healing.ToString());
                             gameloop.EventLoggingComponent.Log(activeCharacterWorldspaceObject.associatedCharacter.charName + "'s caring nature mends " + activeTarget.associatedCharacter.charName + "'s wounds for " + healing + " health!");
                             MainData.MainLoop.EventLoggingComponent.LogGray("caring healing is " + healing);
                             activeTarget.associatedCharacter.GainHealth(Mathf.RoundToInt(healing));

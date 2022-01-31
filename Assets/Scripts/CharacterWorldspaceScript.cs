@@ -61,7 +61,7 @@ public class CharacterWorldspaceScript : MonoBehaviour
         associatedCharacter.defense = template.defense;
         associatedCharacter.entityDescription = template.entityDescription;
         associatedCharacter.isPlayerPartyMember = !isEnemyCharacter;
-        MainData.MainLoop.EventLoggingComponent.Log(associatedCharacter.charName + " has luck " + template.luck);
+        //MainData.MainLoop.EventLoggingComponent.Log(associatedCharacter.charName + " has luck " + template.luck);
         associatedCharacter.luck = template.luck;
         associatedCharacter.manaTotal = 100;
         associatedCharacter.manaRegeneration = template.manaRegeneration;
@@ -131,7 +131,7 @@ public class CharacterWorldspaceScript : MonoBehaviour
     IEnumerator CastAnimation()
     {
         idle = false;
-        MainData.MainLoop.EventLoggingComponent.Log("Now playing cast animation for " + associatedCharacter.charName);
+        //MainData.MainLoop.EventLoggingComponent.Log("Now playing cast animation for " + associatedCharacter.charName);
         for (int i = 0; i < associatedCharacter.castSprites.Length; i++)
         {
             spriteRenderer.sprite = associatedCharacter.castSprites[i];
