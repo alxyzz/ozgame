@@ -200,12 +200,12 @@ public class LevelHelper : MonoBehaviour
             b.enemies = monsters;
             b.distancePoint = distance;
             distance += encounterSpacing;
-            string descriptor = "";
-            foreach (string item in monsters)
-            {
-                descriptor = descriptor + item + ", ";
-            }
-            MainData.MainLoop.EventLoggingComponent.LogGray("Prepared a " + descriptor + " ambush at " + distance);
+            //string descriptor = "";
+            //foreach (string item in monsters)
+            //{
+            //    descriptor = descriptor + item + ", ";
+            //}
+            //MainData.MainLoop.EventLoggingComponent.LogGray("Prepared a " + descriptor + " ambush at " + distance);
             encounter.Add(b);
         }
 

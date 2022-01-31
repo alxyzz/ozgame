@@ -213,10 +213,11 @@ public class EntityDefiner : MonoBehaviour
                     switch (target.charTrait.identifier)
                     {
                         case "caring":
-                            int healthAfterCaringModifier = (MainData.MainLoop.TweakingComponent.HealthPotionHealthGiven / 100) * (100 - MainData.MainLoop.TweakingComponent.caringHealingPotionPercentageHealingTakenMalus);
-                            target.GainHealth(healthAfterCaringModifier);
+                            
+                            float healthAfterCaringModifier = ((float)MainData.MainLoop.TweakingComponent.HealthPotionHealthGiven / 100) * (100 - (float)MainData.MainLoop.TweakingComponent.caringHealingPotionPercentageHealingTakenMalus);
+                            target.GainHealth(Mathf.RoundToInt(healthAfterCaringModifier));
                             MainData.MainLoop.EventLoggingComponent.LogGray(target.charName + " feels sad knowing that the potion would be more effective for the others.");
-                            MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(target: target, heal: true, damage: healthAfterCaringModifier);
+                            MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(target: target, heal: true, damage: Mathf.RoundToInt(healthAfterCaringModifier));
                             break;
 
                         default:
@@ -466,7 +467,7 @@ public class EntityDefiner : MonoBehaviour
     /// <param name="attackAnimationSprites"></param>
     /// <param name="newCharAvatar"></param>
     /// <returns></returns>
-    public void MakeMobTemplate(string characterID, string charName, string charDesc, string attackVerb, bool isPlayer, int baseHP, int baseMinDMG, int baseMaxDMG, int baseSPD, int Defense, int Luck, int Mana, AudioClip newCharTurnSound, Sprite[] attackAnimationSprites, int bountyy, Sprite newCharAvatar, Sprite noAnimSprite, Sprite[] HurtSprites, Sprite[] WalkSprite, Sprite[] IdleSprites, AudioClip[] SoundLibrary, Sprite[] castSprite)
+    public void MakeMobTemplate(string characterID, string charName, string charDesc, string attackVerb, bool isPlayer, int baseHP, int baseMinDMG, int baseMaxDMG, int baseSPD, int Defense, int Luck, int Mana, AudioClip newCharTurnSound, Sprite[] attackAnimationSprites, int bountyy, Sprite newCharAvatar, Sprite noAnimSprite, Sprite[] HurtSprites, Sprite[] WalkSprite, Sprite[] IdleSprites, AudioClip[] SoundLibrary, Sprite[] castSprite, bool summoner = false, string summonedEntity = null)
     {
         Character Chara = Character.CreateInstance<Character>();
         Chara.charType = characterID; //something like "goblin_spear", "tin_man" or "scarecrow" for the dictionary. 
@@ -762,7 +763,7 @@ public class EntityDefiner : MonoBehaviour
                null, //sound for when it is this character's turn to act
                witchAttackSheet, //character's attack animation sprite 
                2, witchAvatar, witchAttackSheet[0], witchHurtSheet, scarecrowWalk_Sheet, witchIdleSheet,
-               witchSounds, null);
+               witchSounds, null, summoner: true, summonedEntity: "weakflyingmonkey");
 
     }
 
@@ -3803,7 +3804,7 @@ true, //(true)beneficial or (false)harmful
             //d100
             int luckAfterItems = attacker.GetCompoundLuck();
             int randomLuck = Random.Range(1, 101) + attacker.GetCompoundLuck(); //the character's luck is added on top of the random roll. Negative luck - more bad stuff happens
-            MainData.MainLoop.EventLoggingComponent.LogDanger("Random Luck Number was " + randomLuck + " including char luck - and the char luck was " + luck);
+            //MainData.MainLoop.EventLoggingComponent.LogDanger("Random Luck Number was " + randomLuck + " including char luck - and the char luck was " + luck);
             //relational switch cases are not available in this C# version so imma just use if 
 
             //BAD LUCK HERE =================================
@@ -3954,12 +3955,19 @@ true, //(true)beneficial or (false)harmful
             }
             if (AmplificationSum != 0)
             {
-                healthFloat = (hp / 100) * (100 + AmplificationSum);
+                healthFloat = ((float)hp / 100) * (100 + AmplificationSum);
+                currentHealth += Mathf.RoundToInt(healthFloat);
+                Debug.LogWarning(healthFloat + " is the health value gained post formula with health amplification.");
+                MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(target: this, damage: Mathf.RoundToInt(healthFloat), heal: true);
             }
-
-            //Debug.LogWarning(hp + " is the health value gained post formula.");
-            currentHealth += Mathf.RoundToInt(healthFloat);
-            MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(target: this, damage: hp, heal: true);
+            else
+            {
+                currentHealth += hp;
+                Debug.LogWarning(hp + " is the health value gained. no healthAmp.");
+                MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(target: this, damage: hp, heal: true);
+            }
+            
+           
             if (currentHealth >= this.maxHealth)
             {
                 currentHealth = maxHealth;

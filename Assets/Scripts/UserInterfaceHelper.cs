@@ -152,7 +152,8 @@ public class UserInterfaceHelper : MonoBehaviour
     public GameObject PassTurnButton;
     public GameObject AttackButton;
     public GameObject AbilityButton;
-
+    public Sprite traitButtonSpriteNormal; //enough mana
+    public Sprite traitButtonSpriteGray;//for when there's not enough mana
     [Space(15)]
     public GameObject WorldMapCanvas; //for activating it on click
     public GameObject WorldCanvasLevelPrefab; //prefab of a singular icon  on the overmap
@@ -178,6 +179,9 @@ public class UserInterfaceHelper : MonoBehaviour
     public TextMeshProUGUI ToolTipTraitName;
     public TextMeshProUGUI ToolTipTraitDescription;
     public Image ToolTipTraitImage;
+
+
+
     public void RefreshToolTip(Character c = null)
     {
         ToolTipTraitName.text = c.charName +" the "+ c.charTrait.adjective;
@@ -217,6 +221,7 @@ public class UserInterfaceHelper : MonoBehaviour
     }
     public void ToggleFightButtonVisiblity(bool boolin)
     {
+
         PassTurnButton.SetActive(boolin);
     }
     [HideInInspector]
