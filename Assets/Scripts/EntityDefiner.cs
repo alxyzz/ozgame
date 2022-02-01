@@ -3141,7 +3141,7 @@ true, //(true)beneficial or (false)harmful
         public float DamageBonusPercentage;//affects damage output. applied after ALL other bonuses.
 
         public float discountPercentage;//if positive, it's a discount yeah ,but if negative it increases price.
-        public int Lifesteal;
+        public float Lifesteal;
 
 
         /// <summary>
@@ -3179,7 +3179,7 @@ true, //(true)beneficial or (false)harmful
                     float multiplicativeDamageResistance = 1f,
                     float multiplicativeDamageBonus = 1f,
                     float discountPercentage = 0f,
-                    int multiplicativeLifestealBonus = 1) // so we don't have to define them for things that don't need them
+                    float multiplicativeLifestealBonus = 1) // so we don't have to define them for things that don't need them
         {
             this.identifier = identifier;
             this.description = description;
@@ -3670,7 +3670,9 @@ true, //(true)beneficial or (false)harmful
 
             string lifestealText = "";
             //Lifesteal
-            
+            List<Item> results = attacker.equippedItems.FindAll(x => x.Lifesteal > 0);
+            if (results.Count > 0)
+            {
                 float lifestealmod = 1f;
                 int countyy = 1;
                 foreach (Item item in attacker.equippedItems)
@@ -3680,15 +3682,14 @@ true, //(true)beneficial or (false)harmful
                         lifestealmod *= item.Lifesteal;
                         countyy++;
                     }
-
                 }
-            if (lifestealmod != 0 || lifestealmod != 1f)
-            {
-                lifestealmod /= countyy; //averages the lifesteal
-                float percentageheal = (damageRoll / 100) * lifestealmod; //could also add health amp here but seems overkill;
-                lifestealText = percentageheal.ToString();
-                attacker.GainHealth(Mathf.RoundToInt(percentageheal));
+                    lifestealmod /= countyy; //averages the lifesteal
+                    float percentageheal = ((float)damageRoll / 100) * lifestealmod; //could also add health amp here but seems overkill;
+                    lifestealText = percentageheal.ToString();
+                    attacker.GainHealth(Mathf.RoundToInt(percentageheal));
+                
             }
+            
                 
             
 
