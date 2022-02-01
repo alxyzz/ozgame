@@ -435,6 +435,7 @@ public class VendorScript : MonoBehaviour
                 }
                 MainData.equipmentInventory.Add(bought);
                 stock.Remove(bought);
+
             }
             else
             {
@@ -462,7 +463,7 @@ public class VendorScript : MonoBehaviour
                 currentlySelectedShopItem.gameObject.SetActive(false);
             }
             RefreshShopItems();
-            CurrentMoneyDisplay.text = MainData.MainLoop.Currency.ToString();
+            MainData.MainLoop.UserInterfaceHelperComponent.UpdateCurrencyCounter();
         }
 
 

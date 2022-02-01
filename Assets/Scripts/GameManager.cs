@@ -49,7 +49,7 @@ public class GameManager : MonoBehaviour
         PositionHolderComponent.PrepPartySpots();
 
         EntityDefComponent.GivePlayerTestConsumables();
-        EntityDefComponent.TestGivePlayerItems();
+        //EntityDefComponent.TestGivePlayerItems();
         EntityDefComponent.DistributeStartingTraits();
 
         VendorScriptComponent.LoadSpriteSheets();
