@@ -594,13 +594,14 @@ public class CombatHelper : MonoBehaviour
     /// </summary>
     public void EndCurrentTurn()
     {
-        //if (activeCharacterWorldspaceObject.associatedCharacter.charTrait.identifier == "malicious")
-        //{
-        //    for (int i = 0; i < MainData.livingEnemyParty.Count; i++)
-        //    {
-        //        MainData.livingEnemyParty[i].TakeDamageFromCharacter(activeCharacterWorldspaceObject.associatedCharacter, true);
-        //    }
-        //} i commented this out coz it gave a null reference exception
+        if (activeCharacterWorldspaceObject.associatedCharacter.charTrait.identifier == "malicious")
+        {
+            for (int i = 0; i < MainData.livingEnemyParty.Count; i++)
+            {
+                MainData.livingEnemyParty[i].TakeDamageFromCharacter(activeCharacterWorldspaceObject.associatedCharacter, true);
+            }
+        }
+       
 
         ReturnFromActiveSpot(); //we send the character back in this moment.
 
@@ -911,7 +912,8 @@ public class CombatHelper : MonoBehaviour
         Character Fool = results[0];
 
         //Debug.Log("attacking player at playerParty[" + b.ToString() + "]!");
-        chara.associatedCharacter.summoningCurrentDelay++;
+        if (chara.associatedCharacter.Summoner)
+            chara.associatedCharacter.summoningCurrentDelay++;
         if (chara.associatedCharacter.Summoner && chara.associatedCharacter.summoningCurrentDelay >= chara.associatedCharacter.summoningInterval && MainData.freeEnemyPartyMemberObjects.Count > 0)
         {
 

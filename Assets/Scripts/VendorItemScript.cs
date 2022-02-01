@@ -36,7 +36,7 @@ public class VendorItemScript : MonoBehaviour
         {
             itemQuantity.text = associatedItem.amtInStock.ToString();
         }
-        Debug.LogWarning("Refresh Item Data at VendorItemScript - itemQuantity.text = associatedItem.amtInStock.ToString(); - amt in stock is " + associatedItem.amtInStock.ToString());
+        //Debug.LogWarning("Refresh Item Data at VendorItemScript - itemQuantity.text = associatedItem.amtInStock.ToString(); - amt in stock is " + associatedItem.amtInStock.ToString());
         if (associatedItem.value != 0)
         {
             itemPrice.text = associatedItem.value.ToString();

@@ -295,6 +295,7 @@ public class CharacterWorldspaceScript : MonoBehaviour
     public bool isWalking = false;
     public void StartWalk()
     {
+
         if (associatedCharacter == null)
         {
             Debug.Log("Associated character null.");
