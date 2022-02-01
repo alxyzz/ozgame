@@ -366,7 +366,7 @@ public class CombatHelper : MonoBehaviour
 
 
 
-                    if (activeTarget.associatedCharacter.isPlayerPartyMember) 
+                    if (activeTarget.associatedCharacter.isPlayerPartyMember)
                     {//allied targets only
 
                         if (activeTarget.associatedCharacter.currentHealth >= activeTarget.associatedCharacter.maxHealth)
@@ -418,7 +418,7 @@ public class CombatHelper : MonoBehaviour
                     {
                         gameloop.EventLoggingComponent.Log("Too wounded! " + Caster.charName + " is still not ready to sell their soul completely.");
 
-                       EndCurrentTurn();
+                        EndCurrentTurn();
                     }
                     break;
 
@@ -519,12 +519,12 @@ public class CombatHelper : MonoBehaviour
                     if (activeTarget.associatedCharacter.isPlayerPartyMember)
                     {
                         //heals for a percentage of max health
-                            int healing = MainData.MainLoop.TweakingComponent.nurtureActiveHealing;
-                            //Debug.LogError("nurturing - healing is " + healing.ToString());
-                            gameloop.EventLoggingComponent.Log(activeCharacterWorldspaceObject.associatedCharacter.charName + "'s inspiration helps " + activeTarget.associatedCharacter.charName + ", healing them for " + healing + " health!");
-                            activeTarget.associatedCharacter.GainHealth(healing);
-                            activeCharacterWorldspaceObject.associatedCharacter.GainHealth(healing);
-                            Caster.manaTotal -= Caster.charTrait.manaCost;
+                        int healing = MainData.MainLoop.TweakingComponent.nurtureActiveHealing;
+                        //Debug.LogError("nurturing - healing is " + healing.ToString());
+                        gameloop.EventLoggingComponent.Log(activeCharacterWorldspaceObject.associatedCharacter.charName + "'s inspiration helps " + activeTarget.associatedCharacter.charName + ", healing them for " + healing + " health!");
+                        activeTarget.associatedCharacter.GainHealth(healing);
+                        activeCharacterWorldspaceObject.associatedCharacter.GainHealth(healing);
+                        Caster.manaTotal -= Caster.charTrait.manaCost;
                         ToggleCombatButtomVisibility(false);
                         activeCharacterWorldspaceObject.AnimateCasting(); //this also ends the turn always put it at the end of a successful cast
                         MainData.MainLoop.LevelHelperComponent.PlaySound(sfx[1]);
@@ -539,7 +539,7 @@ public class CombatHelper : MonoBehaviour
                 default:
                     break;
             }
-            
+
             MainData.MainLoop.UserInterfaceHelperComponent.RefreshCharacterTabs();
         }
         activeCharacterWorldspaceObject.associatedCharacter.manaTotal += 10;
@@ -594,19 +594,26 @@ public class CombatHelper : MonoBehaviour
     /// </summary>
     public void EndCurrentTurn()
     {
-        if (activeCharacterWorldspaceObject.associatedCharacter.charTrait != null)
+        if (activeCharacterWorldspaceObject != null)
         {
 
-        
-        if (activeCharacterWorldspaceObject.associatedCharacter.charTrait.identifier == "malicious")
-        {
-            for (int i = 0; i < MainData.livingEnemyParty.Count; i++)
+
+            if (activeCharacterWorldspaceObject.associatedCharacter != null)
             {
-                MainData.livingEnemyParty[i].TakeDamageFromCharacter(activeCharacterWorldspaceObject.associatedCharacter, true);
+                if (activeCharacterWorldspaceObject.associatedCharacter.charTrait != null)
+                {
+
+
+                    if (activeCharacterWorldspaceObject.associatedCharacter.charTrait.identifier == "malicious")
+                    {
+                        for (int i = 0; i < MainData.livingEnemyParty.Count; i++)
+                        {
+                            MainData.livingEnemyParty[i].TakeDamageFromCharacter(activeCharacterWorldspaceObject.associatedCharacter, true);
+                        }
+                    }
+                }
             }
         }
-        }
-
         ReturnFromActiveSpot(); //we send the character back in this moment.
 
         foreach (Character item in MainData.allChars)
@@ -886,7 +893,7 @@ public class CombatHelper : MonoBehaviour
     { //this does not need an argument, since it always works with the currently active character
         if (activeCharacterWorldspaceObject == null)
         {
-            
+
             return;
         }
 

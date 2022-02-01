@@ -1029,17 +1029,17 @@ public class EntityDefiner : MonoBehaviour
                           MainData.allEquipment["short_sword"].itemQuantity,
                           MainData.allEquipment["short_sword"].beneficial,
                           MainData.allEquipment["short_sword"].isEquipable,
-                          MainData.allEquipment["short_sword"].speedmodifier,
+                          25,
                           MainData.allEquipment["short_sword"].healthmodifier,
                           MainData.allEquipment["short_sword"].manamodifier,
                           MainData.allEquipment["short_sword"].dmgmodifier,
                           MainData.allEquipment["short_sword"].defensemodifier,
                           MainData.allEquipment["short_sword"].luckmodifier,
                           MainData.allEquipment["short_sword"].healingAmp,
-                          MainData.allEquipment["short_sword"].DamageResistancePercentage,
-                          MainData.allEquipment["short_sword"].DamageBonusPercentage,
+                          50,
+                          50,
                           MainData.allEquipment["short_sword"].discountPercentage,
-                          50);
+                          0);
 
         //MainData.equipmentInventory.Add(FetchEquipment());
         //MainData.equipmentInventory.Add(FetchEquipment());
@@ -3729,6 +3729,7 @@ true, //(true)beneficial or (false)harmful
                 foreach (Item item in damageMultiplicationList)
                 {
                     damageMultFloat += item.DamageBonusPercentage;
+                    //MainData.MainLoop.EventLoggingComponent.LogGray("added to damagemultfloat - " + item.DamageBonusPercentage);
                 }
             }
 
@@ -3739,17 +3740,20 @@ true, //(true)beneficial or (false)harmful
                 foreach (Item item in damageResistList)
                 {
                     damageResistFloat += item.DamageResistancePercentage;
+                    //MainData.MainLoop.EventLoggingComponent.LogGray("added to damageResistFloat - " + item.DamageResistancePercentage);
                 }
             }
 
 
             if (damageMultFloat != 0)
             {
+                //Debug.LogError(Mathf.RoundToInt((float)damageRoll / 100 * (100 + damageMultFloat)) + " is the damage roll after damageMultFloat, while " + damageRoll + " is the one before.");
                 damageRoll = Mathf.RoundToInt((float)damageRoll / 100 * (100 + damageMultFloat));
             }
 
             if (damageResistFloat != 0)
             {
+                //Debug.LogError(Mathf.RoundToInt((float)damageRoll / 100 * (100 - damageResistFloat)) + " is the damage roll  after damageResistFloat, while " + damageRoll + " is the one before.");
                 damageRoll = Mathf.RoundToInt((float)damageRoll / 100 * (100 - damageResistFloat));
             }
 
@@ -3818,7 +3822,7 @@ true, //(true)beneficial or (false)harmful
                // stunned = true;
                 luckmessage = attacker.charName + " slips through " + this.charName + "'s defense and lands an eviscerating hit! " + this.charName + " is disemboweled! [3x Damage]";
                 critical = true;
-                damageRoll = (damageRoll + defense) * 3; //triple damage and passed through armor
+                damageRoll = Mathf.RoundToInt(((float)damageRoll + defense) * 2.5f); //triple damage and passed through armor
                 temp = 0;
             }
             else if (randomLuck >= 95)
@@ -3831,7 +3835,7 @@ true, //(true)beneficial or (false)harmful
 
             else if (randomLuck >= 85)
             { //SOLID BLOW. improved damage
-                damageRoll = (int)(damageRoll * 1.5f);
+                damageRoll = Mathf.RoundToInt(((float)damageRoll * 1.5f));
                 luckmessage = " What a solid blow! [1.5X Damage]";
                 solidblow = true;
             }
