@@ -383,8 +383,8 @@ public class CombatHelper : MonoBehaviour
                             float healing = ((float)activeTarget.associatedCharacter.maxHealth / 100) * (MainData.MainLoop.TweakingComponent.caringActiveHealing);
                             //Debug.LogError(activeTarget.associatedCharacter.maxHealth + "/ 100 " + "* ("+ MainData.MainLoop.TweakingComponent.caringActiveHealing);
                             //Debug.LogError("caring - healing is " + healing.ToString());
-                            gameloop.EventLoggingComponent.Log(activeCharacterWorldspaceObject.associatedCharacter.charName + "'s caring nature mends " + activeTarget.associatedCharacter.charName + "'s wounds for " + healing + " health!");
-                            MainData.MainLoop.EventLoggingComponent.LogGray("caring healing is " + healing);
+                            gameloop.EventLoggingComponent.Log(activeCharacterWorldspaceObject.associatedCharacter.charName + "'s caring nature mends " + activeTarget.associatedCharacter.charName + "'s wounds for " + Mathf.RoundToInt(healing) + " health!");
+                            //MainData.MainLoop.EventLoggingComponent.LogGray("caring healing is " + healing);
                             activeTarget.associatedCharacter.GainHealth(Mathf.RoundToInt(healing));
                             Caster.manaTotal -= Caster.charTrait.manaCost;
                             ToggleCombatButtomVisibility(false);
@@ -520,7 +520,7 @@ public class CombatHelper : MonoBehaviour
                     {
                         //heals for a percentage of max health
                             int healing = MainData.MainLoop.TweakingComponent.nurtureActiveHealing;
-                            Debug.LogError("nurturing - healing is " + healing.ToString());
+                            //Debug.LogError("nurturing - healing is " + healing.ToString());
                             gameloop.EventLoggingComponent.Log(activeCharacterWorldspaceObject.associatedCharacter.charName + "'s inspiration helps " + activeTarget.associatedCharacter.charName + ", healing them for " + healing + " health!");
                             activeTarget.associatedCharacter.GainHealth(healing);
                             activeCharacterWorldspaceObject.associatedCharacter.GainHealth(healing);
@@ -594,6 +594,10 @@ public class CombatHelper : MonoBehaviour
     /// </summary>
     public void EndCurrentTurn()
     {
+        if (activeCharacterWorldspaceObject.associatedCharacter.charTrait != null)
+        {
+
+        
         if (activeCharacterWorldspaceObject.associatedCharacter.charTrait.identifier == "malicious")
         {
             for (int i = 0; i < MainData.livingEnemyParty.Count; i++)
@@ -601,7 +605,7 @@ public class CombatHelper : MonoBehaviour
                 MainData.livingEnemyParty[i].TakeDamageFromCharacter(activeCharacterWorldspaceObject.associatedCharacter, true);
             }
         }
-       
+        }
 
         ReturnFromActiveSpot(); //we send the character back in this moment.
 

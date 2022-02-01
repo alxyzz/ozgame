@@ -3745,12 +3745,12 @@ true, //(true)beneficial or (false)harmful
 
             if (damageMultFloat != 0)
             {
-                damageRoll = Mathf.RoundToInt(damageRoll / 100 * (100 + damageMultFloat));
+                damageRoll = Mathf.RoundToInt((float)damageRoll / 100 * (100 + damageMultFloat));
             }
 
             if (damageResistFloat != 0)
             {
-                damageRoll = Mathf.RoundToInt(damageRoll / 100 * (100 - damageResistFloat));
+                damageRoll = Mathf.RoundToInt((float)damageRoll / 100 * (100 - damageResistFloat));
             }
 
             int temp = defense;//temporary value so we can show that the hit passed through armor
