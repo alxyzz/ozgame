@@ -1039,60 +1039,14 @@ public class EntityDefiner : MonoBehaviour
                           MainData.allEquipment["short_sword"].DamageResistancePercentage,
                           MainData.allEquipment["short_sword"].DamageBonusPercentage,
                           MainData.allEquipment["short_sword"].discountPercentage,
-                          MainData.allEquipment["short_sword"].Lifesteal);
-
-        Item d = new Item(MainData.allEquipment["short_sword"].identifier,
-                          MainData.allEquipment["short_sword"].description,
-                          MainData.allEquipment["short_sword"].itemBlurb,
-                          MainData.allEquipment["short_sword"].itemName,
-                          MainData.allEquipment["short_sword"].itemSprite,
-                          MainData.allEquipment["short_sword"].rarity,
-                          MainData.allEquipment["short_sword"].value,
-                          MainData.allEquipment["short_sword"].amtInStock,
-                          MainData.allEquipment["short_sword"].itemQuantity,
-                          MainData.allEquipment["short_sword"].beneficial,
-                          MainData.allEquipment["short_sword"].isEquipable,
-                          MainData.allEquipment["short_sword"].speedmodifier,
-                          MainData.allEquipment["short_sword"].healthmodifier,
-                          MainData.allEquipment["short_sword"].manamodifier,
-                          MainData.allEquipment["short_sword"].dmgmodifier,
-                          MainData.allEquipment["short_sword"].defensemodifier,
-                          MainData.allEquipment["short_sword"].luckmodifier,
-                          MainData.allEquipment["short_sword"].healingAmp,
-                          MainData.allEquipment["short_sword"].DamageResistancePercentage,
-                          MainData.allEquipment["short_sword"].DamageBonusPercentage,
-                          MainData.allEquipment["short_sword"].discountPercentage,
-                          MainData.allEquipment["short_sword"].Lifesteal);
-
-        Item c = new Item(MainData.allEquipment["short_sword"].identifier,
-                          MainData.allEquipment["short_sword"].description,
-                          MainData.allEquipment["short_sword"].itemBlurb,
-                          MainData.allEquipment["short_sword"].itemName,
-                          MainData.allEquipment["short_sword"].itemSprite,
-                          MainData.allEquipment["short_sword"].rarity,
-                          MainData.allEquipment["short_sword"].value,
-                          MainData.allEquipment["short_sword"].amtInStock,
-                          MainData.allEquipment["short_sword"].itemQuantity,
-                          MainData.allEquipment["short_sword"].beneficial,
-                          MainData.allEquipment["short_sword"].isEquipable,
-                          MainData.allEquipment["short_sword"].speedmodifier,
-                          MainData.allEquipment["short_sword"].healthmodifier,
-                          MainData.allEquipment["short_sword"].manamodifier,
-                          MainData.allEquipment["short_sword"].dmgmodifier,
-                          MainData.allEquipment["short_sword"].defensemodifier,
-                          MainData.allEquipment["short_sword"].luckmodifier,
-                          MainData.allEquipment["short_sword"].healingAmp,
-                          MainData.allEquipment["short_sword"].DamageResistancePercentage,
-                          MainData.allEquipment["short_sword"].DamageBonusPercentage,
-                          MainData.allEquipment["short_sword"].discountPercentage,
-                          MainData.allEquipment["short_sword"].Lifesteal);
+                          50);
 
         //MainData.equipmentInventory.Add(FetchEquipment());
         //MainData.equipmentInventory.Add(FetchEquipment());
         //MainData.equipmentInventory.Add(FetchEquipment());
         //MainData.equipmentInventory.Add(FetchEquipment());
         //MainData.equipmentInventory.Add(FetchEquipment());
-        //MainData.equipmentInventory.Add(b);
+        MainData.equipmentInventory.Add(b);
         //MainData.equipmentInventory.Add(d);
         //MainData.equipmentInventory.Add(c);
 
@@ -3716,8 +3670,7 @@ true, //(true)beneficial or (false)harmful
 
             string lifestealText = "";
             //Lifesteal
-            if (attacker.equippedItems.FindIndex(f => f.Lifesteal > 0) != -1) //it returns -1 if none are found
-            {
+            
                 float lifestealmod = 1f;
                 int countyy = 1;
                 foreach (Item item in attacker.equippedItems)
@@ -3729,11 +3682,15 @@ true, //(true)beneficial or (false)harmful
                     }
 
                 }
+            if (lifestealmod != 0 || lifestealmod != 1f)
+            {
                 lifestealmod /= countyy; //averages the lifesteal
                 float percentageheal = (damageRoll / 100) * lifestealmod; //could also add health amp here but seems overkill;
                 lifestealText = percentageheal.ToString();
                 attacker.GainHealth(Mathf.RoundToInt(percentageheal));
             }
+                
+            
 
 
             //This is where we deal with traits deal with incoming damage
