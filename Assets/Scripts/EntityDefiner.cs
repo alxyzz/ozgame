@@ -1039,60 +1039,14 @@ public class EntityDefiner : MonoBehaviour
                           MainData.allEquipment["short_sword"].DamageResistancePercentage,
                           MainData.allEquipment["short_sword"].DamageBonusPercentage,
                           MainData.allEquipment["short_sword"].discountPercentage,
-                          MainData.allEquipment["short_sword"].Lifesteal);
-
-        Item d = new Item(MainData.allEquipment["short_sword"].identifier,
-                          MainData.allEquipment["short_sword"].description,
-                          MainData.allEquipment["short_sword"].itemBlurb,
-                          MainData.allEquipment["short_sword"].itemName,
-                          MainData.allEquipment["short_sword"].itemSprite,
-                          MainData.allEquipment["short_sword"].rarity,
-                          MainData.allEquipment["short_sword"].value,
-                          MainData.allEquipment["short_sword"].amtInStock,
-                          MainData.allEquipment["short_sword"].itemQuantity,
-                          MainData.allEquipment["short_sword"].beneficial,
-                          MainData.allEquipment["short_sword"].isEquipable,
-                          MainData.allEquipment["short_sword"].speedmodifier,
-                          MainData.allEquipment["short_sword"].healthmodifier,
-                          MainData.allEquipment["short_sword"].manamodifier,
-                          MainData.allEquipment["short_sword"].dmgmodifier,
-                          MainData.allEquipment["short_sword"].defensemodifier,
-                          MainData.allEquipment["short_sword"].luckmodifier,
-                          MainData.allEquipment["short_sword"].healingAmp,
-                          MainData.allEquipment["short_sword"].DamageResistancePercentage,
-                          MainData.allEquipment["short_sword"].DamageBonusPercentage,
-                          MainData.allEquipment["short_sword"].discountPercentage,
-                          MainData.allEquipment["short_sword"].Lifesteal);
-
-        Item c = new Item(MainData.allEquipment["short_sword"].identifier,
-                          MainData.allEquipment["short_sword"].description,
-                          MainData.allEquipment["short_sword"].itemBlurb,
-                          MainData.allEquipment["short_sword"].itemName,
-                          MainData.allEquipment["short_sword"].itemSprite,
-                          MainData.allEquipment["short_sword"].rarity,
-                          MainData.allEquipment["short_sword"].value,
-                          MainData.allEquipment["short_sword"].amtInStock,
-                          MainData.allEquipment["short_sword"].itemQuantity,
-                          MainData.allEquipment["short_sword"].beneficial,
-                          MainData.allEquipment["short_sword"].isEquipable,
-                          MainData.allEquipment["short_sword"].speedmodifier,
-                          MainData.allEquipment["short_sword"].healthmodifier,
-                          MainData.allEquipment["short_sword"].manamodifier,
-                          MainData.allEquipment["short_sword"].dmgmodifier,
-                          MainData.allEquipment["short_sword"].defensemodifier,
-                          MainData.allEquipment["short_sword"].luckmodifier,
-                          MainData.allEquipment["short_sword"].healingAmp,
-                          MainData.allEquipment["short_sword"].DamageResistancePercentage,
-                          MainData.allEquipment["short_sword"].DamageBonusPercentage,
-                          MainData.allEquipment["short_sword"].discountPercentage,
-                          MainData.allEquipment["short_sword"].Lifesteal);
+                          50);
 
         //MainData.equipmentInventory.Add(FetchEquipment());
         //MainData.equipmentInventory.Add(FetchEquipment());
         //MainData.equipmentInventory.Add(FetchEquipment());
         //MainData.equipmentInventory.Add(FetchEquipment());
         //MainData.equipmentInventory.Add(FetchEquipment());
-        //MainData.equipmentInventory.Add(b);
+        MainData.equipmentInventory.Add(b);
         //MainData.equipmentInventory.Add(d);
         //MainData.equipmentInventory.Add(c);
 
@@ -3187,7 +3141,7 @@ true, //(true)beneficial or (false)harmful
         public float DamageBonusPercentage;//affects damage output. applied after ALL other bonuses.
 
         public float discountPercentage;//if positive, it's a discount yeah ,but if negative it increases price.
-        public int Lifesteal;
+        public float Lifesteal;
 
 
         /// <summary>
@@ -3225,7 +3179,7 @@ true, //(true)beneficial or (false)harmful
                     float multiplicativeDamageResistance = 1f,
                     float multiplicativeDamageBonus = 1f,
                     float discountPercentage = 0f,
-                    int multiplicativeLifestealBonus = 1) // so we don't have to define them for things that don't need them
+                    float multiplicativeLifestealBonus = 1) // so we don't have to define them for things that don't need them
         {
             this.identifier = identifier;
             this.description = description;
@@ -3716,7 +3670,8 @@ true, //(true)beneficial or (false)harmful
 
             string lifestealText = "";
             //Lifesteal
-            if (attacker.equippedItems.FindIndex(f => f.Lifesteal > 0) != -1) //it returns -1 if none are found
+            List<Item> results = attacker.equippedItems.FindAll(x => x.Lifesteal > 0);
+            if (results.Count > 0)
             {
                 float lifestealmod = 1f;
                 int countyy = 1;
@@ -3727,13 +3682,16 @@ true, //(true)beneficial or (false)harmful
                         lifestealmod *= item.Lifesteal;
                         countyy++;
                     }
-
                 }
-                lifestealmod /= countyy; //averages the lifesteal
-                float percentageheal = (damageRoll / 100) * lifestealmod; //could also add health amp here but seems overkill;
-                lifestealText = percentageheal.ToString();
-                attacker.GainHealth(Mathf.RoundToInt(percentageheal));
+                    lifestealmod /= countyy; //averages the lifesteal
+                    float percentageheal = ((float)damageRoll / 100) * lifestealmod; //could also add health amp here but seems overkill;
+                    lifestealText = percentageheal.ToString();
+                    attacker.GainHealth(Mathf.RoundToInt(percentageheal));
+                
             }
+            
+                
+            
 
 
             //This is where we deal with traits deal with incoming damage
@@ -3761,37 +3719,38 @@ true, //(true)beneficial or (false)harmful
 
             ///// BASIC DAMAGE AND DEFENSE MODIFIERS FROM ITEMS 
 
-            float damageMultFloat = 0; //we turn these into ints after
-            float damageResistFloat = 0;
-            int damageMult = 0;
-            int damageResist = 0;
-            if (attacker.equippedItems.FindIndex(f => f.DamageBonusPercentage > 0) != -1) //it returns -1 if none are found
+            float damageMultFloat = 0; //defense muultiplication of the attacker
+            float damageResistFloat = 0; //defense resist of the attacked
+
+
+            List<Item> damageMultiplicationList = attacker.equippedItems.FindAll(x => x.DamageBonusPercentage > 0);
+            if (damageMultiplicationList.Count > 0)
             {
-                foreach (Item item in attacker.equippedItems)
+                foreach (Item item in damageMultiplicationList)
                 {
-                    damageMultFloat += item.DamageBonusPercentage; //typecast parsing, just removes digits beyond the .
+                    damageMultFloat += item.DamageBonusPercentage;
                 }
             }
-            if (attacker.equippedItems.FindIndex(f => f.DamageResistancePercentage > 0) != -1) //it returns -1 if none are found
+
+
+            List<Item> damageResistList = equippedItems.FindAll(x => x.DamageResistancePercentage > 0);
+            if (damageResistList.Count > 0)
             {
-                foreach (Item item in equippedItems)
+                foreach (Item item in damageResistList)
                 {
                     damageResistFloat += item.DamageResistancePercentage;
                 }
             }
 
 
-            damageMult = Mathf.RoundToInt(damageMultFloat); 
-            damageResist = Mathf.RoundToInt(damageResistFloat);
-
-            if (damageMult != 0)
+            if (damageMultFloat != 0)
             {
-                damageRoll = (damageRoll / 100) * (100 + damageMult);
+                damageRoll = Mathf.RoundToInt(damageRoll / 100 * (100 + damageMultFloat));
             }
 
-            if (damageResist != 0)
+            if (damageResistFloat != 0)
             {
-                damageRoll = damageRoll / 100 * (100 - damageResist);
+                damageRoll = Mathf.RoundToInt(damageRoll / 100 * (100 - damageResistFloat));
             }
 
             int temp = defense;//temporary value so we can show that the hit passed through armor
@@ -3799,7 +3758,6 @@ true, //(true)beneficial or (false)harmful
             //LUCK
             bool critical = false;
             bool solidblow = false;
-            bool stunned = false;
             string luckmessage = "";
             //d100
             int luckAfterItems = attacker.GetCompoundLuck();
@@ -3810,10 +3768,29 @@ true, //(true)beneficial or (false)harmful
             //BAD LUCK HERE =================================
             if (randomLuck <= 1)
             { //CRITICAL FAILURE - TRIP
-                attacker.currentStatusEffects.Add(new StatusEffect("stun", "This character is stunned.", 1));
+                //attacker.currentStatusEffects.Add(new StatusEffect("stun", "This character is stunned.", 1));
 
-                luckmessage = attacker.charName + " tries to attack " + charName + ", but through a twist of fate slips and bumps their head on a rock!";
-                MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(message: "Stunned!", target: attacker, heal: false);
+                luckmessage = attacker.charName + " tries to attack " + charName + ", but through a twist of fate slips and bumps their head on a rock, skipping their turn and getting hurt!";
+
+
+                currentHealth -= 5; 
+                MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(damage: 5, target: attacker, heal: false, message: "Clumsy!");
+                selfScriptRef.GotHurt();
+                if (!isPlayerPartyMember)
+                {//this updates the health bar so we don't run the whole big total refresh method
+                    MainData.MainLoop.UserInterfaceHelperComponent.RefreshViewEnemy();
+                    MainData.MainLoop.UserInterfaceHelperComponent.RefreshHealthBarEnemy();
+                }
+                else
+                {
+                    MainData.MainLoop.UserInterfaceHelperComponent.RefreshHealthManaBarsPlayer();
+                }
+                if (currentHealth <= 0)
+                {
+                    GotKilled(attacker);
+                }
+
+                //MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(message: "Stunned!", target: attacker, heal: false);
                 return;
             }
             else if (randomLuck <= 5)
@@ -3836,16 +3813,17 @@ true, //(true)beneficial or (false)harmful
 
             //GOOD LUCK HERE ========================================
             else if (randomLuck >= 100)
-            { //CRITICAL SUCCESS - DOUBLE DAMAGE + STUN
+            { //CRITICAL SUCCESS - TRIPLE DAMAGE + Ignore armor
                 //this.currentStatusEffects.Add(new StatusEffect("stun", "This character is stunned.", 1));
                // stunned = true;
-                luckmessage = attacker.charName + " slips through " + this.charName + "'s defense and lands an eviscerating hit! " + this.charName + " is stunned! (2x Damage, Stun)";
-                damageRoll = (damageRoll + defense) * 2; //double damage and passed through armor, stuns
+                luckmessage = attacker.charName + " slips through " + this.charName + "'s defense and lands an eviscerating hit! " + this.charName + " is disemboweled! [3x Damage]";
+                critical = true;
+                damageRoll = (damageRoll + defense) * 3; //triple damage and passed through armor
                 temp = 0;
             }
             else if (randomLuck >= 95)
             {//CRITICAL HIT - DOUBLE DAMAGE and IGNORES ARMOR
-                luckmessage = attacker.charName + " slips through " + this.charName + "'s defense and lands an eviscerating hit! (2x Damage)";
+                luckmessage = attacker.charName + " slips through " + this.charName + "'s defense and lands an eviscerating hit! [2x Damage]";
                 damageRoll = (damageRoll + defense) * 2; //double damage and passed through armor
                 critical = true;
                 temp = 0;
@@ -3854,7 +3832,7 @@ true, //(true)beneficial or (false)harmful
             else if (randomLuck >= 85)
             { //SOLID BLOW. improved damage
                 damageRoll = (int)(damageRoll * 1.5f);
-                luckmessage = " What a solid blow! (1.5X Damage)";
+                luckmessage = " What a solid blow! [1.5X Damage]";
                 solidblow = true;
             }
 
@@ -3866,7 +3844,7 @@ true, //(true)beneficial or (false)harmful
             //
             //(2 / 10) * 100
 
-            currentHealth -= damageRoll; //INCORPORATED ARMOR CALCULATION HERE 
+            currentHealth -= damageRoll; // DAMAGE DEALT HERE
             if (solidblow)
             {
                 MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(damage: damageRoll, target: this, heal: false, message: "Solid Blow!");
@@ -3874,10 +3852,6 @@ true, //(true)beneficial or (false)harmful
             else if (critical)
             {
                 MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(damage: damageRoll, target: this, heal: false, message: "Critical!");
-            }
-            else if (stunned)
-            {
-                MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(damage: damageRoll, target: this, heal: false, message: "Stunned!");
             }
             else
             {

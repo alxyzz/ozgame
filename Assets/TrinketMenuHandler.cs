@@ -311,7 +311,7 @@ public class TrinketMenuHandler : MonoBehaviour
         float multiplicativeDamageResistance = 0;
         float multiplicativeDamageBonus = 0;
         float discountPercentage = 0;
-        int multiplicativeLifestealBonus = 0;
+        float multiplicativeLifestealBonus = 0;
 
 
         foreach (Item item in current.equippedItems)
