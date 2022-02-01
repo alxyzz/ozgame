@@ -3726,7 +3726,7 @@ true, //(true)beneficial or (false)harmful
             List<Item> damageMultiplicationList = attacker.equippedItems.FindAll(x => x.DamageBonusPercentage > 0);
             if (damageMultiplicationList.Count > 0)
             {
-                foreach (Item item in attacker.equippedItems)
+                foreach (Item item in damageMultiplicationList)
                 {
                     damageMultFloat += item.DamageBonusPercentage;
                 }
@@ -3736,7 +3736,7 @@ true, //(true)beneficial or (false)harmful
             List<Item> damageResistList = equippedItems.FindAll(x => x.DamageResistancePercentage > 0);
             if (damageResistList.Count > 0)
             {
-                foreach (Item item in equippedItems)
+                foreach (Item item in damageResistList)
                 {
                     damageResistFloat += item.DamageResistancePercentage;
                 }
