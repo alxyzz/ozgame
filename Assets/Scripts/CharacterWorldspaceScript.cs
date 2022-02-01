@@ -51,6 +51,8 @@ public class CharacterWorldspaceScript : MonoBehaviour
         {
             associatedCharacter.Summoner = template.Summoner;
             associatedCharacter.summonedEnemy = template.summonedEnemy;
+            //change to boss environment
+            MainData.MainLoop.LevelHelperComponent.SetupBossEnvironment();
         }
        
         associatedCharacter.attackAnimation = template.attackAnimation;

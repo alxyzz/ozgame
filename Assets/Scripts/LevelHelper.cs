@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using static EntityDefiner;
 
 public class LevelHelper : MonoBehaviour
@@ -12,6 +13,100 @@ public class LevelHelper : MonoBehaviour
     public AudioSource sourceC;
     public AudioClip townSoundTrack;
     public AudioClip mushroomForestSoundTrack;
+    //THE IMAGES OF DIFFERENT LEVELS
+    //BOSS LEVEL
+    [Header("The first four layers which lay UNDER the chars")]
+    public Sprite BossEnvLayer1Left;
+    public Sprite BossEnvLayer1Mid;
+    public Sprite BossEnvLayer1Right;
+    [Space(5)]
+    public Sprite BossEnvLayer2Left;
+    public Sprite BossEnvLayer2Mid;
+    public Sprite BossEnvLayer2Right;
+    [Space(5)]
+    public Sprite BossEnvLayer3Left;
+    public Sprite BossEnvLayer3Mid;
+    public Sprite BossEnvLayer3Right;
+    [Space(5)]
+    public Sprite BossEnvLayer4Left;
+    public Sprite BossEnvLayer4Mid;
+    public Sprite BossEnvLayer4Right;
+
+
+
+    [Header("The last two layers which rest ABOVE the chars")]
+    public Sprite BossEnvLayer5Left;
+    public Sprite BossEnvLayer5Mid;
+    public Sprite BossEnvLayer5Right;
+    [Space(5)]
+    public Sprite BossEnvLayer6Left;
+    public Sprite BossEnvLayer6Mid;
+    public Sprite BossEnvLayer6Right;
+
+    //NORMAL, FOREST LEVEL
+    [Header("The first four layers which lay UNDER the chars")]
+    public Sprite EnvLayer1Left;
+    public Sprite EnvLayer1Mid;
+    public Sprite EnvLayer1Right;
+    [Space(5)]
+    public Sprite EnvLayer2Left;
+    public Sprite EnvLayer2Mid;
+    public Sprite EnvLayer2Right;
+    [Space(5)]
+    public Sprite EnvLayer3Left;
+    public Sprite EnvLayer3Mid;
+    public Sprite EnvLayer3Right;
+    [Space(5)]
+    public Sprite EnvLayer4Left;
+    public Sprite EnvLayer4Mid;
+    public Sprite EnvLayer4Right;
+
+
+
+    [Header("The last two layers which rest ABOVE the chars")]
+    public Sprite EnvLayer5Left;
+    public Sprite EnvLayer5Mid;
+    public Sprite EnvLayer5Right;
+    [Space(5)]
+    public Sprite EnvLayer6Left;
+    public Sprite EnvLayer6Mid;
+    public Sprite EnvLayer6Right;
+
+
+
+    //THE OBJECTS WE ASSIGN THE IMAGE TO
+    [Space(15)]
+    [Header("The first four OBJECTS which lay UNDER the chars")]
+    public Image ObjectEnvLayer1Left;
+    public Image ObjectEnvLayer1Mid;
+    public Image ObjectEnvLayer1Right;
+    [Space(5)]
+    public Image ObjectEnvLayer2Left;
+    public Image ObjectEnvLayer2Mid;
+    public Image ObjectEnvLayer2Right;
+    [Space(5)]
+    public Image ObjectEnvLayer3Left;
+    public Image ObjectEnvLayer3Mid;
+    public Image ObjectEnvLayer3Right;
+    [Space(5)]
+    public Image ObjectEnvLayer4Left;
+    public Image ObjectEnvLayer4Mid;
+    public Image ObjectEnvLayer4Right;
+
+
+
+    [Header("The last two layers which rest ABOVE the chars")]
+    public Image ObjectEnvLayer5Left;
+    public Image ObjectEnvLayer5Mid;
+    public Image ObjectEnvLayer5Right;
+    [Space(5)]
+    public Image ObjectEnvLayer6Left;
+    public Image ObjectEnvLayer6Mid;
+    public Image ObjectEnvLayer6Right;
+
+
+
+
 
     [Header("all background parallax object scripts are stored here.")]
     [Header("If you have any issue drag and dropping the script itself,")]
@@ -32,6 +127,88 @@ public class LevelHelper : MonoBehaviour
 
     public int difCurrency;
     public int level;
+
+
+
+
+
+    public GameObject BossCanvas;
+    public GameObject NormalCanvas1;
+    public GameObject NormalCanvas2; // dirty fix to show custom level on boss spawn
+
+
+
+    public void SetupBossEnvironment()
+    {
+
+
+        BossCanvas.SetActive(true);
+        NormalCanvas1.SetActive(false);
+        NormalCanvas2.SetActive(false);
+
+        //ObjectEnvLayer1Left.sprite = BossEnvLayer1Left;
+        //ObjectEnvLayer1Mid.sprite = BossEnvLayer1Mid;
+        //ObjectEnvLayer1Right.sprite = BossEnvLayer1Right;
+
+        //ObjectEnvLayer2Left.sprite = BossEnvLayer2Left;
+        //ObjectEnvLayer2Mid.sprite = BossEnvLayer2Mid;
+        //ObjectEnvLayer2Right.sprite = BossEnvLayer2Right;
+
+        //ObjectEnvLayer3Left.sprite = BossEnvLayer3Left;
+        //ObjectEnvLayer3Mid.sprite = BossEnvLayer3Mid;
+        //ObjectEnvLayer3Right.sprite = BossEnvLayer3Right;
+
+        //ObjectEnvLayer4Left.sprite = BossEnvLayer4Left;
+        //ObjectEnvLayer4Mid.sprite = BossEnvLayer4Mid;
+        //ObjectEnvLayer4Right.sprite = BossEnvLayer4Right;
+
+        //ObjectEnvLayer5Left.sprite = BossEnvLayer5Left;
+        //ObjectEnvLayer5Mid.sprite = BossEnvLayer5Mid;
+        //ObjectEnvLayer5Right.sprite = BossEnvLayer5Right;
+
+        //ObjectEnvLayer6Left.sprite = BossEnvLayer6Left;
+        //ObjectEnvLayer6Mid.sprite = BossEnvLayer6Mid;
+        //ObjectEnvLayer6Right.sprite = BossEnvLayer6Right;
+    }
+
+
+    public void SetupRegularEnvironment()
+    {
+
+        BossCanvas.SetActive(false);
+        NormalCanvas1.SetActive(true);
+        NormalCanvas2.SetActive(true);
+
+
+        //ObjectEnvLayer1Left.sprite = EnvLayer1Left;
+        //ObjectEnvLayer1Mid.sprite = EnvLayer1Mid;
+        //ObjectEnvLayer1Right.sprite = EnvLayer1Right;
+
+        //ObjectEnvLayer2Left.sprite = EnvLayer2Left;
+        //ObjectEnvLayer2Mid.sprite = EnvLayer2Mid;
+        //ObjectEnvLayer2Right.sprite = EnvLayer2Right;
+
+        //ObjectEnvLayer3Left.sprite = EnvLayer3Left;
+        //ObjectEnvLayer3Mid.sprite = EnvLayer3Mid;
+        //ObjectEnvLayer3Right.sprite = EnvLayer3Right;
+
+        //ObjectEnvLayer4Left.sprite = EnvLayer4Left;
+        //ObjectEnvLayer4Mid.sprite = EnvLayer4Mid;
+        //ObjectEnvLayer4Right.sprite = EnvLayer4Right;
+
+
+
+        //ObjectEnvLayer5Left.sprite = EnvLayer5Left;
+        //ObjectEnvLayer5Mid.sprite = EnvLayer5Mid;
+        //ObjectEnvLayer5Right.sprite = EnvLayer5Right;
+
+        //ObjectEnvLayer6Left.sprite = EnvLayer6Left;
+        //ObjectEnvLayer6Mid.sprite = EnvLayer6Mid;
+        //ObjectEnvLayer6Right.sprite = EnvLayer6Right;
+    }
+
+
+
 
 
     public void Update()
@@ -121,7 +298,7 @@ public class LevelHelper : MonoBehaviour
         {
             return;
         }
-
+        SetupRegularEnvironment();
         Debug.Log("Getting player objects for walking anim");
         foreach (Character item in MainData.livingPlayerParty)
         {

@@ -4082,6 +4082,7 @@ true, //(true)beneficial or (false)harmful
                     MainData.MainLoop.LostTheGame();
                 }
             }
+           
             MainData.recentDeadEnemies.Add(this);
             selfScriptRef.Die();
         }
