@@ -3818,7 +3818,7 @@ true, //(true)beneficial or (false)harmful
             }
             else if (randomLuck <= 5)
             {//MISS
-                MainData.MainLoop.EventLoggingComponent.Log(attacker.charName + " attempts to attack " + charName + ", but ill luck strikes and + " + attacker.charName + " misses!");
+                MainData.MainLoop.EventLoggingComponent.Log(attacker.charName + " attempts to attack " + charName + ", but ill luck strikes and " + attacker.charName + " misses!");
                 MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(message: "Miss!", target: attacker, heal: false);
                 return;
             }
