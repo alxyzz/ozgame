@@ -3686,6 +3686,10 @@ true, //(true)beneficial or (false)harmful
                     lifestealmod /= countyy; //averages the lifesteal
                     float percentageheal = ((float)damageRoll / 100) * lifestealmod; //could also add health amp here but seems overkill;
                     lifestealText = percentageheal.ToString();
+                if (percentageheal < 1 && percentageheal > 0)
+                {
+                    Debug.Log("lifesteal percentage too small to give any HP. get higher damage or higher lifesteal...");
+                }
                     attacker.GainHealth(Mathf.RoundToInt(percentageheal));
                 
             }
@@ -4025,11 +4029,11 @@ true, //(true)beneficial or (false)harmful
         {
             if (killer != null)
             {
-                MainData.MainLoop.EventLoggingComponent.Log(charName + " has been vanquished by " + killer.charName + ".");
+                MainData.MainLoop.EventLoggingComponent.LogDanger(charName + " has been vanquished by " + killer.charName + ".");
             }
             else
             {
-                MainData.MainLoop.EventLoggingComponent.Log(charName + " was killed in action.");
+                MainData.MainLoop.EventLoggingComponent.LogDanger(charName + " was killed in action.");
             }
             canAct = false;
             isDead = true;
