@@ -213,7 +213,7 @@ public class EntityDefiner : MonoBehaviour
                     switch (target.charTrait.identifier)
                     {
                         case "caring":
-                            
+
                             float healthAfterCaringModifier = ((float)MainData.MainLoop.TweakingComponent.HealthPotionHealthGiven / 100) * (100 - (float)MainData.MainLoop.TweakingComponent.caringHealingPotionPercentageHealingTakenMalus);
                             target.GainHealth(Mathf.RoundToInt(healthAfterCaringModifier));
                             MainData.MainLoop.EventLoggingComponent.LogGray(target.charName + " feels sad knowing that the potion would be more effective for the others.");
@@ -2975,7 +2975,7 @@ true, //(true)beneficial or (false)harmful
         //gets automatically sent to the desired trait list upon generation, in the constructor
         Debug.Log("Added new trait - [" + t6.identifier + "].");
         MainData.traitList.Add(t6.identifier, t6);
-        
+
         Trait t7 = new Trait("malicious", //string ID
                    "Malicious", //name
                    "Malicious", //adjective given to characters with this
@@ -3506,11 +3506,11 @@ true, //(true)beneficial or (false)harmful
 
                     case "bulwark":
 
-                            damageMax -= MainData.MainLoop.TweakingComponent.bulwarkDamageIncrease;
-                            damageMin -= MainData.MainLoop.TweakingComponent.bulwarkDamageIncrease;
-                            defense -= MainData.MainLoop.TweakingComponent.bulwarkDefenseIncrease;
-                            speed += Mathf.Clamp(MainData.MainLoop.TweakingComponent.bulwarkSpeedDecrease, 0, 999);
-                            charTrait = null;
+                        damageMax -= MainData.MainLoop.TweakingComponent.bulwarkDamageIncrease;
+                        damageMin -= MainData.MainLoop.TweakingComponent.bulwarkDamageIncrease;
+                        defense -= MainData.MainLoop.TweakingComponent.bulwarkDefenseIncrease;
+                        speed += Mathf.Clamp(MainData.MainLoop.TweakingComponent.bulwarkSpeedDecrease, 0, 999);
+                        charTrait = null;
 
                         break;
 
@@ -3539,12 +3539,12 @@ true, //(true)beneficial or (false)harmful
 
                     case "nurturing":
 
-                            damageMax += MainData.MainLoop.TweakingComponent.nurturePassiveDamageMalus;
-                            damageMin += MainData.MainLoop.TweakingComponent.nurturePassiveDamageMalus;
-                            maxHealth -= MainData.MainLoop.TweakingComponent.nurturePassiveHealthBonus;
-                            currentHealth -= MainData.MainLoop.TweakingComponent.nurturePassiveHealthBonus;
-                            speed += MainData.MainLoop.TweakingComponent.nurturePassiveSpeedMalus;
-                            charTrait = null;
+                        damageMax += MainData.MainLoop.TweakingComponent.nurturePassiveDamageMalus;
+                        damageMin += MainData.MainLoop.TweakingComponent.nurturePassiveDamageMalus;
+                        maxHealth -= MainData.MainLoop.TweakingComponent.nurturePassiveHealthBonus;
+                        currentHealth -= MainData.MainLoop.TweakingComponent.nurturePassiveHealthBonus;
+                        speed += MainData.MainLoop.TweakingComponent.nurturePassiveSpeedMalus;
+                        charTrait = null;
                         break;
 
                     case "angry":
@@ -3663,7 +3663,7 @@ true, //(true)beneficial or (false)harmful
                     damageRoll *= 2;
                 }
             }
-            
+
             //MainData.MainLoop.EventLoggingComponent.Log("damage without modifiers - " + (damageRoll - damagemod) + ", defense without modifiers " + (defense - defensemod));
 
 
@@ -3683,15 +3683,20 @@ true, //(true)beneficial or (false)harmful
                         countyy++;
                     }
                 }
-                    lifestealmod /= countyy; //averages the lifesteal
-                    float percentageheal = ((float)damageRoll / 100) * lifestealmod; //could also add health amp here but seems overkill;
-                    lifestealText = percentageheal.ToString();
-                    attacker.GainHealth(Mathf.RoundToInt(percentageheal));
-                
+                lifestealmod /= countyy; //averages the lifesteal
+                float percentageheal = ((float)damageRoll / 100) * lifestealmod; //could also add health amp here but seems overkill;
+                lifestealText = percentageheal.ToString();
+                if (percentageheal < 1 && percentageheal > 0)
+                {
+                    Debug.Log("lifesteal percentage too small to give any HP. get higher damage or higher lifesteal...");
+                    MainData.MainLoop.EventLoggingComponent.LogGray(attacker.charName + "almost managed to steal some vitality. [More Damage or Lifesteal required for any discernible lifesteal]");
+                }
+                attacker.GainHealth(Mathf.RoundToInt(percentageheal));
+
             }
-            
-                
-            
+
+
+
 
 
             //This is where we deal with traits deal with incoming damage
@@ -3708,7 +3713,7 @@ true, //(true)beneficial or (false)harmful
                     case "bulwark":            //Bulwark HP increase
 
                         maxHealth += 1;
-                        
+
                         break;
 
                     default:
@@ -3777,7 +3782,7 @@ true, //(true)beneficial or (false)harmful
                 luckmessage = attacker.charName + " tries to attack " + charName + ", but through a twist of fate slips and bumps their head on a rock, skipping their turn and getting hurt!";
 
 
-                currentHealth -= 5; 
+                currentHealth -= 5;
                 MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(damage: 5, target: attacker, heal: false, message: "Clumsy!");
                 selfScriptRef.GotHurt();
                 if (!isPlayerPartyMember)
@@ -3818,8 +3823,8 @@ true, //(true)beneficial or (false)harmful
             //GOOD LUCK HERE ========================================
             else if (randomLuck >= 100)
             { //CRITICAL SUCCESS - TRIPLE DAMAGE + Ignore armor
-                //this.currentStatusEffects.Add(new StatusEffect("stun", "This character is stunned.", 1));
-               // stunned = true;
+              //this.currentStatusEffects.Add(new StatusEffect("stun", "This character is stunned.", 1));
+              // stunned = true;
                 luckmessage = attacker.charName + " slips through " + this.charName + "'s defense and lands an eviscerating hit! " + this.charName + " is disemboweled! [3x Damage]";
                 critical = true;
                 damageRoll = Mathf.RoundToInt(((float)damageRoll + defense) * 2.5f); //triple damage and passed through armor
@@ -3899,7 +3904,7 @@ true, //(true)beneficial or (false)harmful
                     currentHealth -= dmg;
                 }
             }
-            
+
             currentHealth -= dmg;
             MainData.MainLoop.EventLoggingComponent.Log(this.charName + " is hurt " + "for " + dmg + " damage!");
             MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(damage: dmg, target: this, heal: false);
@@ -3944,8 +3949,8 @@ true, //(true)beneficial or (false)harmful
                 Debug.LogWarning(hp + " is the health value gained. no healthAmp.");
                 MainData.MainLoop.CombatHelperComponent.DisplayFloatingDamageNumbers(target: this, damage: hp, heal: true);
             }
-            
-           
+
+
             if (currentHealth >= this.maxHealth)
             {
                 currentHealth = maxHealth;
@@ -4025,11 +4030,11 @@ true, //(true)beneficial or (false)harmful
         {
             if (killer != null)
             {
-                MainData.MainLoop.EventLoggingComponent.Log(charName + " has been vanquished by " + killer.charName + ".");
+                MainData.MainLoop.EventLoggingComponent.LogDanger(charName + " has been vanquished by " + killer.charName + ".");
             }
             else
             {
-                MainData.MainLoop.EventLoggingComponent.Log(charName + " was killed in action.");
+                MainData.MainLoop.EventLoggingComponent.LogDanger(charName + " was killed in action.");
             }
             canAct = false;
             isDead = true;
@@ -4060,7 +4065,7 @@ true, //(true)beneficial or (false)harmful
                     MainData.MainLoop.LostTheGame();
                 }
             }
-           
+
             MainData.recentDeadEnemies.Add(this);
             selfScriptRef.Die();
         }
