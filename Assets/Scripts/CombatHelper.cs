@@ -606,10 +606,15 @@ public class CombatHelper : MonoBehaviour
 
                     if (activeCharacterWorldspaceObject.associatedCharacter.charTrait.identifier == "malicious")
                     {
-                        for (int i = 0; i < MainData.livingEnemyParty.Count; i++)
+                        if (MainData.livingEnemyParty.Count > 0)
                         {
-                            MainData.livingEnemyParty[i].TakeDamageFromCharacter(activeCharacterWorldspaceObject.associatedCharacter, true);
+                            for (int i = 0; i < MainData.livingEnemyParty.Count; i++)
+                            {
+                                MainData.livingEnemyParty[i].TakeDamageFromCharacter(activeCharacterWorldspaceObject.associatedCharacter, true);
+                            }
+                            MainData.MainLoop.EventLoggingComponent.LogDanger(activeCharacterWorldspaceObject.associatedCharacter.charName + " seethes with evil intent. All enemies cower.");
                         }
+
                     }
                 }
             }
@@ -732,7 +737,7 @@ public class CombatHelper : MonoBehaviour
 
         yield return new WaitForSeconds(0.05f);
 
-        ReturnFromActiveSpot();
+        //ReturnFromActiveSpot();
         MainData.MainLoop.UserInterfaceHelperComponent.RefreshHealthManaBarsPlayer();
         activeCharacterWorldspaceObject.associatedCharacter.hasActedThisTurn = true;
         EndCurrentTurn();
