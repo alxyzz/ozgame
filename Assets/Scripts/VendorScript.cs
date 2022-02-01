@@ -326,8 +326,12 @@ public class VendorScript : MonoBehaviour
     {
         if (order == true)
         {
+
+            MainData.MainLoop.LevelHelperComponent.SetupRegularEnvironment();
+
             MainData.MainLoop.EventLoggingComponent.Log("You've stumbled across a merchant.");
             StartCoroutine(ArrivalAnimation());
+
             return;
         }
         else if (order == false)
@@ -451,7 +455,7 @@ public class VendorScript : MonoBehaviour
             }
             bought.amtInStock--;
             currentlySelectedShopItem.itemQuantity.text = bought.amtInStock.ToString();
-           //Debug.LogError(bought.itemName + " in stock after purchase - " + bought.amtInStock);
+            //Debug.LogError(bought.itemName + " in stock after purchase - " + bought.amtInStock);
             if (bought.amtInStock == 0)
             {
                 //Debug.LogError("reached here");
