@@ -114,7 +114,7 @@ public class UserInterfaceHelper : MonoBehaviour
     public TextMeshProUGUI PC3nmbrMana;
     public TextMeshProUGUI PC4nmbrMana;
 
-
+    bool playSound;
 
 
     [Space(15)]
@@ -212,13 +212,29 @@ public class UserInterfaceHelper : MonoBehaviour
     public void Update()
     {
         if (Input.GetMouseButton(0))
+        {
             Cursor.SetCursor(cursorpressed, new Vector2(0, 0), CursorMode.Auto);
+            playClickSound();
+        }
         else
+        {
             Cursor.SetCursor(cursornormal, new Vector2(0, 0), CursorMode.Auto);
+            playSound = true;
+        }
 
         Cursor.lockState = UnityEngine.CursorLockMode.None;
         //Screen.lockCursor = false;
     }
+
+    void playClickSound()
+    {
+        if (playSound)
+        {
+            MainData.MainLoop.LevelHelperComponent.PlaySoundClick();
+            playSound = false;
+        }
+    }
+
     public void ToggleFightButtonVisiblity(bool boolin)
     {
 

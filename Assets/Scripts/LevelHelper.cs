@@ -11,6 +11,8 @@ public class LevelHelper : MonoBehaviour
     public AudioClip testsound;
     public AudioSource source;
     public AudioSource sourceC;
+    public AudioSource walkingSound;
+    public AudioSource mouseClick;
     public AudioClip townSoundTrack;
     public AudioClip mushroomForestSoundTrack;
     //THE IMAGES OF DIFFERENT LEVELS
@@ -506,6 +508,16 @@ public class LevelHelper : MonoBehaviour
     public void PlaySoundCombat(AudioClip soundToPlay)
     {
         sourceC.PlayOneShot(soundToPlay);
+    }
+
+    public void PlaySoundClick()
+    {
+        mouseClick.Play();
+    }
+
+    public void setWalkingVolume(float volume)
+    {
+        walkingSound.volume = volume;
     }
 
 

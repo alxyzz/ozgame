@@ -312,6 +312,7 @@ public class CharacterWorldspaceScript : MonoBehaviour
 
 
         Debug.Log("Starting to walk.");
+        MainData.MainLoop.LevelHelperComponent.setWalkingVolume(1);
         isWalking = true;
         co = StartCoroutine(WalkAnim());
     }
@@ -356,6 +357,7 @@ public class CharacterWorldspaceScript : MonoBehaviour
 
     public void StopWalk()
     {
+        MainData.MainLoop.LevelHelperComponent.setWalkingVolume(0);
         isWalking = false;
         StopCoroutine(co);
         ToggleIdle(true);
