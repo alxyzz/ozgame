@@ -47,7 +47,11 @@ public class CharacterWorldspaceScript : MonoBehaviour
         associatedCharacter.charAvatar = template.charAvatar;
         associatedCharacter.charName = template.charName;
         associatedCharacter.SoundLibrary = template.SoundLibrary;
-
+        if (template.summonedEnemy != null && template.Summoner != false)
+        {
+            associatedCharacter.summonedEnemy = template.summonedEnemy;
+        }
+       
         associatedCharacter.attackAnimation = template.attackAnimation;
         associatedCharacter.idleSprite = template.idleSprite;
         associatedCharacter.hurtSprites = template.hurtSprites;
