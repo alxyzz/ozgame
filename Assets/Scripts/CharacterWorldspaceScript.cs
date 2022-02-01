@@ -49,6 +49,7 @@ public class CharacterWorldspaceScript : MonoBehaviour
         associatedCharacter.SoundLibrary = template.SoundLibrary;
         if (template.summonedEnemy != null && template.Summoner != false)
         {
+            associatedCharacter.Summoner = template.Summoner;
             associatedCharacter.summonedEnemy = template.summonedEnemy;
         }
        
