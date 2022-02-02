@@ -855,8 +855,6 @@ public class EntityDefiner : MonoBehaviour
             item.associatedCharacter.currentHealth += (int)baseScaleAmnt;
             item.associatedCharacter.InitializeHealthBar();
             item.associatedCharacter.baseSpeed += (int)((int)baseScaleAmnt * 0.7);
-
-            Debug.Log("DIFFICULTY = " + baseScaleAmnt);
         }
 
         //MainData.MainLoop.EventLoggingComponent.LogDisplayGradualText("You get a bad feeling.");
