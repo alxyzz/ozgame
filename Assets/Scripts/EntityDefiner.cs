@@ -3223,7 +3223,7 @@ true, //(true)beneficial or (false)harmful
         public string attackverb;
         public string entityDescription;
         public CharacterWorldspaceScript selfScriptRef;
-        public Vector3 InitialPosition; //yeah screw having a single variable in CombatHelper.cs we're doing this. set in CharacterScript or template use
+        public Vector3 InitialPosition;
         public bool isPlayerPartyMember;
 
         public AudioClip[] SoundLibrary;
@@ -3237,10 +3237,10 @@ true, //(true)beneficial or (false)harmful
         public Sprite[] castSprites;
         public Sprite charAvatar;//head pic
 
-        public List<StatusEffect> currentStatusEffects = new List<StatusEffect>(); //status effects are just 2 strings, 1 int and 1 image referenced from tweaker probably, so not even gonna define all that stuff above. just define it on creation because it's 4 arguments really and we want the turns remaining to vary anyways.
+        public List<StatusEffect> currentStatusEffects = new List<StatusEffect>();
 
         public int currentHealth;
-        public float valueBounty = 2f; //eyes given for kill
+        public float valueBounty = 2f;
         public int maxHealth;
         public int baseDamageMin;
         public int baseDamageMax; //NOTE - damage is taken into calculation directly in the attack method.
