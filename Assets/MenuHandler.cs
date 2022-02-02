@@ -27,6 +27,7 @@ public class MenuHandler : MonoBehaviour
     {
         start = camHolder.transform;
         journeyLength = Vector3.Distance(start.position, end[camSpot].position);
+        camHolder.transform.position = new Vector3(9.28f, 3.12f, -3.45f);
         initialized = true;
     }
 
@@ -37,6 +38,9 @@ public class MenuHandler : MonoBehaviour
             float distanceMoved = (Time.time - startTime) * speed;
 
             float fracOfJourney = distanceMoved / journeyLength;
+
+            start.position = camHolder.transform.position;
+            start.rotation = camHolder.transform.rotation;
 
             camHolder.transform.position = Vector3.Lerp(start.position, end[camSpot].position, fracOfJourney);
             camHolder.transform.rotation = Quaternion.Lerp(start.rotation, end[camSpot].rotation, fracOfJourney);
